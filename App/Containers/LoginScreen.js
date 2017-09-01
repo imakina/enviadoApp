@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView, StatusBar, View, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { ScrollView, Text, KeyboardAvoidingView, StatusBar, View, Image, TextInput, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -117,7 +117,7 @@ class LoginScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({value: state})
+  //console.tron.display({value: state})
   return {
     fetching: state.login.fetching
   }

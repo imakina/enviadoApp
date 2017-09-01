@@ -5,6 +5,9 @@ import { is } from 'ramda'
 // exported to make available for tests
 // export const selectAvatar = (state) => state.github.avatar
 
+//it is safe to store here
+//export const selectToken = (state) => state.login.payload.token
+
 // process STARTUP actions
 export function * startup (action) {
   if (__DEV__ && console.tron) {
@@ -33,6 +36,9 @@ export function * startup (action) {
     // })
     console.tron.display({preview:'🔥 IGNITE 🔥'})
   }
+
+  //const token = yield select(selectToken)
+
   // const avatar = yield select(selectAvatar)
   // // only get if we don't have it yet
   // if (!is(String, avatar)) {

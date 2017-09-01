@@ -8,12 +8,14 @@ import DebugConfig from '../Config/DebugConfig'
 import { StartupTypes } from '../Redux/StartupRedux'
 //import { GithubTypes } from '../Redux/GithubRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
+import { RemitosTypes } from '../Redux/RemitosRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 //import { getUserAvatar } from './GithubSagas'
 import { login } from './LoginSagas'
+import { getRemitos } from './RemitosSagas'
 
 /* ------------- API ------------- */
 
@@ -32,6 +34,9 @@ export default function * root () {
     //takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)
 
     // some sagas about login
-    takeLatest(LoginTypes.LOGIN_REQUEST, login, api)
+    takeLatest(LoginTypes.LOGIN_REQUEST, login, api),
+
+    // some sagas about remitos
+    takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api)
   ])
 }

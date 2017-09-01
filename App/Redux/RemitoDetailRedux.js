@@ -4,12 +4,12 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  loginRequest: ['username','password'],
-  loginSuccess: ['payload'],
-  loginFailure: null
+  remitoDetailRequest: ['data'],
+  remitoDetailSuccess: ['payload'],
+  remitoDetailFailure: null
 })
 
-export const LoginTypes = Types
+export const RemitoDetailTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -24,8 +24,8 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, { username, password }) =>
-  state.merge({ fetching: true, payload: null })
+export const request = (state, { data }) =>
+  state.merge({ fetching: true, data, payload: null })
 
 // successful api lookup
 export const success = (state, action) => {
@@ -40,12 +40,7 @@ export const failure = state =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.LOGIN_REQUEST]: request,
-  [Types.LOGIN_SUCCESS]: success,
-  [Types.LOGIN_FAILURE]: failure
+  [Types.REMITO_DETAIL_REQUEST]: request,
+  [Types.REMITO_DETAIL_SUCCESS]: success,
+  [Types.REMITO_DETAIL_FAILURE]: failure
 })
-
-/* ------------- Selectors ------------- */
-
-// Is the current user logged in?
-export const getToken = (state) => state.payload

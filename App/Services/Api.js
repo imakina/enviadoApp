@@ -39,6 +39,7 @@ const create = (baseURL = 'http://enviado.com/') => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
   const postLogin = (u,p) => api.post('api/authentication/login', {username: u, password: p })
+  const getRemitos = (token) => api.get('api/remitos/ListadoRemitoRuteo', { token: token })
 
 
   // ------
@@ -58,7 +59,8 @@ const create = (baseURL = 'http://enviado.com/') => {
     getRoot,
     getRate,
     getUser,
-    postLogin
+    postLogin,
+    getRemitos
   }
 }
 
