@@ -51,7 +51,7 @@ export default StyleSheet.create({
     borderColor: Colors.frost
   },
   info: {
-   maxWidth: 310
+   maxWidth: 360
  },
   level1: {
     ...Fonts.style.h2,
@@ -59,14 +59,14 @@ export default StyleSheet.create({
   },
   level2: {
     ...Fonts.style.h1,
-    fontSize: 14,
+    fontSize: 15,
   },
   level3: {
     ...Fonts.style.h1,
-    fontSize: 14,
+    fontSize: 13,
   },
   spinnerContainer: {
-    // flex:1,
-    alignItems: 'center'
+    flex:1,
+    alignItems: 'center',
   },
 })

@@ -1,6 +1,8 @@
 import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, TouchableHighlight, Alert, SearchBar } from 'react-native'
 import { connect } from 'react-redux'
+import { ListItem, Header } from 'react-native-elements'
+import { StackNavigator } from 'react-navigation'
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 import RemitosActions from '../Redux/RemitosRedux'
@@ -8,9 +10,15 @@ import RemitosActions from '../Redux/RemitosRedux'
 // Styles
 import styles from './Styles/RemitosListScreenStyle'
 
+
 var Spinner = require('react-native-spinkit')
 
 class RemitosListScreen extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    this.renderRow = this.renderRow.bind(this);
+  }
 
   /* ***********************************************************
   * STEP 1
@@ -31,6 +39,28 @@ class RemitosListScreen extends React.PureComponent {
     // ]
   }
 
+  renderPerson(item) {
+
+    const badge = {
+      value: `☆ ${item.nroRemito}`,
+      badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
+      badgeTextStyle: { fontSize: 12 },
+    };
+
+    return (
+
+      <ListItem
+        hideChevron
+        title={`${item.nombreDestinatario.toLowerCase()}`}
+        subtitle={`${item.domicilioDestinatario.toLowerCase()}`}
+        badge={badge}
+        containerStyle={{ backgroundColor: 'white' }}
+        onPress={() => this.onPress(item)}
+      />
+    )
+
+  }
+
   /* ***********************************************************
   * STEP 2
   * `renderRow` function. How each cell/row should be rendered
@@ -40,32 +70,43 @@ class RemitosListScreen extends React.PureComponent {
     return <MyCustomCell title={item.title} description={item.description} />
   *************************************************************/
   renderRow ({item}) {
-    // if (this.state.display) {
-       //console.tron.display({name: 'renderrow', value: item})
-    //   setState(display:false)
-    // }
+
+    // return (
+    //
+    //   <TouchableHighlight
+  	// 		onPress={() => this.goToNextScreen(item)}
+  	// 		underlayColor='black'
+  	// 	>
+    //
+    //   <View style={styles.row} >
+    //     <View style={styles.info} >
+    //       <Text style={styles.level1}>{item.nroRemito}</Text>
+    //       <Text style={styles.level2}>{item.nombreDestinatario.toLowerCase()}</Text>
+    //       <Text style={styles.level3}>{item.domicilioDestinatario.toLowerCase()}</Text>
+    //     </View>
+    //   </View>
+    //
+    //   </TouchableHighlight>
+    // )
+
+    const badge = {
+      value: `☆ ${item.nroRemito}`,
+      badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
+      badgeTextStyle: { fontSize: 12 },
+    };
+
     return (
-      <View style={styles.row}>
-        <View style={styles.info} >
-          <Text style={styles.level1}>{item.nroRemito}</Text>
-          <Text style={styles.level2}>{item.nombreDestinatario.toLowerCase()}</Text>
-          <Text style={styles.level3}>{item.domicilioDestinatario.toLowerCase()}</Text>
-        </View>
-      </View>
-      //   <Text style={styles.boldLabel}>{item.title}</Text>
-      //   <Text style={styles.label}>{item.description}</Text>
-      // </View>
-      // <View style={styles.row}>
-      //   <View style={styles.info} >
-      //     <Text style={styles.level1}>Remito: {item.nroRemito}</Text>
-      //     <Text style={styles.level2}>{item.nombreDestinatario.toLowerCase()}</Text>
-      //     <Text style={styles.level3}>{item.domicilioDestinatario.toLowerCase()}</Text>
-      //   </View>
-      //   // <View style={styles.actions}>
-      //   //   <Image style={styles.image} source={Images.selectRoute} />
-      //   // </View>
-      // </View>
+
+      <ListItem
+        hideChevron
+        title={`${item.nombreDestinatario.toLowerCase()}`}
+        subtitle={`${item.domicilioDestinatario.toLowerCase()}`}
+        badge={badge}
+        containerStyle={{ backgroundColor: 'white' }}
+        onPress={() => this.onPressSingleItem(item)}
+      />
     )
+
   }
 
   /* ***********************************************************
@@ -75,7 +116,8 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   // Render a header?
   renderHeader = () =>
-    <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+    <SearchBar placeholder="Type Here..." lightTheme round />;
+    // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
 
   // Render a footer?
   renderFooter = () =>
@@ -110,7 +152,7 @@ class RemitosListScreen extends React.PureComponent {
   //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
   // )}
 
-  fetching = false
+  // fetching = false
 
   componentWillReceiveProps (newProps) {
     //console.tron.display({name: 'props', value: newProps})
@@ -121,6 +163,12 @@ class RemitosListScreen extends React.PureComponent {
   componentDidMount () {
     this.setState({ fetching: true })
     this.props.requestRemitos()
+  }
+
+  onPressSingleItem = (item) => {
+    console.tron.log({item:'item', value:item})
+    //Alert.alert(item.nroRemito)
+    this.props.navigation.navigate('RemitoDetailScreen', { item : item })
   }
 
   render () {
@@ -145,6 +193,7 @@ class RemitosListScreen extends React.PureComponent {
           ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}
         />
+
 
         <View style={styles.spinnerContainer}>
         { fetching && (

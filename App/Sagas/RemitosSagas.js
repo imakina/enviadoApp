@@ -35,7 +35,7 @@ export function * getRemitos (api, action) {
   } else {
     // todo put the messages in a unified place
     // network error
-    const { problem } = response.data
+    const { problem } = response
     if (problem == null)
       problem = response.data.message
 

@@ -25,8 +25,8 @@ class LoginScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      username: '0001',
-      password: 'password',
+      username: '0',
+      password: '239',
       fetching: false
     }
     // this.isAttempting = false
@@ -93,7 +93,8 @@ class LoginScreen extends Component {
             autoCorrect={false}
             onChangeText={this.handleChangeUsername}
             onSubmitEditing={()=> this.passwordInput.focus()}
-            placeholderTextColor='rgba(255,255,255,0.5)'/>
+            placeholderTextColor='rgba(255,255,255,0.5)'
+            value='0'/>
 
           <TextInput
             placeholder='contraseña'
@@ -102,7 +103,8 @@ class LoginScreen extends Component {
             secureTextEntry
             onChangeText={this.handleChangePassword}
             ref={(input)=> this.passwordInput = input}
-            placeholderTextColor='rgba(255,255,255,0.5)'/>
+            placeholderTextColor='rgba(255,255,255,0.5)'
+            />
 
             <TouchableOpacity style={styles.buttonContainer} onPress={this.handlePressLogin}>
               <Text style={styles.buttonText}>LOGIN</Text>
