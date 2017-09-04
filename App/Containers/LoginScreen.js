@@ -93,8 +93,7 @@ class LoginScreen extends Component {
             autoCorrect={false}
             onChangeText={this.handleChangeUsername}
             onSubmitEditing={()=> this.passwordInput.focus()}
-            placeholderTextColor='rgba(255,255,255,0.5)'
-            value='0'/>
+            placeholderTextColor='rgba(255,255,255,0.5)'/>
 
           <TextInput
             placeholder='contraseña'

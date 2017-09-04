@@ -69,4 +69,9 @@ export default StyleSheet.create({
     flex:1,
     alignItems: 'center',
   },
+  fullfill: {
+    flex:1,
+    backgroundColor: Colors.snow,
+    opacity: 0.2
+  }
 })

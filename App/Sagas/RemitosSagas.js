@@ -25,7 +25,7 @@ export function * getRemitos (api, action) {
 
   // make the call to the api
   const response = yield call(api.getRemitos, token)
-  console.tron.log({status:'REMITOS_REQUEST',response: response})
+  // console.tron.log({status:'REMITOS_REQUEST',response: response})
 
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',

@@ -9,17 +9,19 @@ export default StyleSheet.create({
   },
   header: {
     marginTop: 20,
-    padding: 20,
+    // padding: 20,
     backgroundColor: Colors.backgroundColor,
     borderColor: Colors.frost,
     borderBottomWidth: 1,
-    // flexDirection:'row'
+    flexDirection:'row'
   },
   title: {
     ...Fonts.style.h2,
     color: Colors.snow,
     fontSize: 18,
     textAlign: 'center',
+    padding: 20,
+    marginLeft: 20
   },
   row: {
     // flex: 1,
@@ -28,7 +30,7 @@ export default StyleSheet.create({
     padding:10,
     // flexDirection:'row',
     justifyContent: 'space-between',
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 0.2,
     borderColor: Colors.frost
   },
   item : {

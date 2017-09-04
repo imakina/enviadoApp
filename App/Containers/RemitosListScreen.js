@@ -89,21 +89,43 @@ class RemitosListScreen extends React.PureComponent {
     //   </TouchableHighlight>
     // )
 
+    function transform(uncapitalized) {
+      return uncapitalized
+      .toLowerCase()
+      .trim()
+      .split(' ')
+      .reduce((nombre, item, index) => {    
+        //console.tron.log({nombre,item,index})
+        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
+      })
+    };
+
+    const nombre = item.nombreDestinatario
+      .toLowerCase()
+      .trim()
+      .split(' ')
+      .reduce((nombre, item, index) => {    
+        //console.tron.log({nombre,item,index})
+        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
+      })
+
     const badge = {
       value: `☆ ${item.nroRemito}`,
       badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
       badgeTextStyle: { fontSize: 12 },
     };
 
-    return (
+    //const nombre = transform(item.nombreDestinatario) 
 
-      <ListItem
+    return (
+    
+    <ListItem
         hideChevron
-        title={`${item.nombreDestinatario.toLowerCase()}`}
-        subtitle={`${item.domicilioDestinatario.toLowerCase()}`}
+        title={nombre}
+        subtitle={item.domicilioDestinatario}
         badge={badge}
         containerStyle={{ backgroundColor: 'white' }}
-        onPress={() => this.onPressSingleItem(item)}
+        onPress={() => this.onPressSingleItem(item)}  
       />
     )
 
@@ -116,8 +138,8 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   // Render a header?
   renderHeader = () =>
-    <SearchBar placeholder="Type Here..." lightTheme round />;
-    // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+    //<SearchBar placeholder="Type Here..." lightTheme round />
+    //<Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
 
   // Render a footer?
   renderFooter = () =>
@@ -188,12 +210,11 @@ class RemitosListScreen extends React.PureComponent {
           renderItem={this.renderRow}
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
-          // ListHeaderComponent={this.renderHeader}
+          //ListHeaderComponent={this.renderHeader}
           // ListFooterComponent={this.renderFooter}
           ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}
         />
-
 
         <View style={styles.spinnerContainer}>
         { fetching && (
@@ -206,8 +227,12 @@ class RemitosListScreen extends React.PureComponent {
         )}
         </View>
 
+        <View style={styles.fullfit}>
+        </View>
+
       </View>
-    )
+        
+      )
   }
 }
 

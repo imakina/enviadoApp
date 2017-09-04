@@ -35,7 +35,8 @@ export function * login (api, action) {
   } else {
     // todo put the messages in a unified place
     // network error
-    const { problem } = response.data
+    console.tron.log({status:'LOGIN_FAIL', response: response})
+    const { problem } = response
     if (problem == null)
       problem = response.data.message
 
