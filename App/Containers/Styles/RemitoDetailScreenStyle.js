@@ -5,24 +5,24 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: Colors.background
+    backgroundColor: Colors.snow
   },
-  header: {
-    marginTop: 20,
-    // padding: 20,
-    backgroundColor: Colors.backgroundColor,
-    borderColor: Colors.frost,
-    borderBottomWidth: 1,
-    flexDirection:'row'
-  },
-  title: {
-    ...Fonts.style.h2,
-    color: Colors.snow,
-    fontSize: 18,
-    textAlign: 'center',
-    padding: 20,
-    marginLeft: 20
-  },
+  // header: {
+  //   marginTop: 20,
+  //   // padding: 20,
+  //   backgroundColor: Colors.backgroundColor,
+  //   borderColor: Colors.frost,
+  //   borderBottomWidth: 1,
+  //   flexDirection:'row'
+  // },
+  // title: {
+  //   ...Fonts.style.h2,
+  //   color: Colors.snow,
+  //   fontSize: 18,
+  //   textAlign: 'center',
+  //   padding: 20,
+  //   marginLeft: 20
+  // },
   row: {
     // flex: 1,
     flexGrow: 1,
@@ -41,13 +41,16 @@ export default StyleSheet.create({
   separator :{
     backgroundColor: Colors.backgroundColor
   },
-  buttonGroup :{
-    // flex:1,
-    paddingBottom: 5,
-    backgroundColor: Colors.snow
-  },
+  // buttonGroup :{
+  //   // flex:1,
+  //   paddingBottom: 5,
+  //   backgroundColor: Colors.snow
+  // },
   footer:{
     flex:1,
     backgroundColor: Colors.snow
+  },
+  informationReverse: {
+    marginBottom: 10,
   }
 })

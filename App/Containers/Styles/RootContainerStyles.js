@@ -21,4 +21,5 @@ export default StyleSheet.create({
     height: 200,
     alignSelf: 'center'
   }
+
 })

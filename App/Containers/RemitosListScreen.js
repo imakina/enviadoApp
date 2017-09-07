@@ -7,9 +7,11 @@ import { StackNavigator } from 'react-navigation'
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 import RemitosActions from '../Redux/RemitosRedux'
 
+import NavigationBar from 'react-native-navbar';
+import I18n from 'react-native-i18n'
+
 // Styles
 import styles from './Styles/RemitosListScreenStyle'
-
 
 var Spinner = require('react-native-spinkit')
 
@@ -193,16 +195,31 @@ class RemitosListScreen extends React.PureComponent {
     this.props.navigation.navigate('RemitoDetailScreen', { item : item })
   }
 
+//   <View style={styles.header}>
+//   <Text style={styles.title}> Remitos </Text>
+// </View>
+
   render () {
 
     const { fetching } = this.state;
 
+    const leftButtonConfig = {
+      title: I18n.t('back'),
+      handler: () => this.props.navigation.navigate('HomeScreen'),
+    }
+
+    const titleConfig = {
+      title: 'Remitos',
+    }
+
     return (
       <View style={styles.container}>
 
-        <View style={styles.header}>
-          <Text style={styles.title}> Remitos </Text>
-        </View>
+        <NavigationBar
+          style={styles.navigation}
+          title={titleConfig}
+          leftButton={leftButtonConfig}
+        />
 
         <FlatList
           contentContainerStyle={styles.listContent}

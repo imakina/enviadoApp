@@ -44,6 +44,27 @@ const ApplicationStyles = {
       ...Fonts.style.h2,
       fontSize: 14,
       color: Colors.text
+    },
+    /// navigation bar
+    navigation: {
+      borderBottomColor: Colors.drawer,
+      borderBottomWidth: 0.5
+    },
+    information :{
+      paddingBottom: 2,
+      fontSize: Fonts.size.medium,
+    },
+    /// bottom bar
+    bottomBar: {
+      flexDirection: 'row',
+      padding: 20,
+      backgroundColor: 'black',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    bottomBarText: {
+      color: 'white',
+      alignItems: 'center',
     }
   },
   darkLabelContainer: {
@@ -74,7 +95,8 @@ const ApplicationStyles = {
     borderColor: Colors.ember,
     alignItems: 'center',
     textAlign: 'center'
-  }
+  },
+
 }
 
 export default ApplicationStyles

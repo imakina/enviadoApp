@@ -31,7 +31,7 @@ export function * login (api, action) {
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     const { userName, token, grupoID } = response.data.data
     yield put(LoginActions.loginSuccess({userName, token, grupoID}))
-    yield put(NavigationActions.navigate({routeName: 'RemitosListScreen'}))
+    yield put(NavigationActions.navigate({routeName: 'HomeScreen'}))
   } else {
     // todo put the messages in a unified place
     // network error
