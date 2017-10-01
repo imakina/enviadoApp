@@ -6,7 +6,7 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   loginRequest: ['username','password'],
   loginSuccess: ['payload'],
-  loginFailure: null
+  loginFailure: ['message']
 })
 
 export const LoginTypes = Types
@@ -34,8 +34,11 @@ export const success = (state, action) => {
 }
 
 // Something went wrong somewhere.
-export const failure = state =>
-  state.merge({ fetching: false, error: true, payload: null })
+export const failure = (state, action) => {
+  console.tron.log(action)
+  const { message } = action
+  return state.merge({ fetching: false, error: true, payload: null, message: message })
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 

@@ -3,7 +3,8 @@ import apisauce from 'apisauce'
 
 // our "constructor"
 // const create = (baseURL = 'https://api.github.com/') => {
-const create = (baseURL = 'http://enviado.com/') => {
+//const create = (baseURL = 'http://enviado.com/') => {
+const create = (baseURL = 'http://desa.enviado.softsencillo.com/') => {
   // ------
   // STEP 1
   // ------
@@ -38,9 +39,14 @@ const create = (baseURL = 'http://enviado.com/') => {
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
-  const postLogin = (u,p) => api.post('api/authentication/login', {username: u, password: p })
-  const getRemitos = (token) => api.get('api/remitos/ListadoRemitoRuteo', { token: token })
-
+  //no fletero
+  //const postLogin = (u,p) => api.post('api/authentication/login', {username: u, password: p })
+  const postLogin = (u,p) => api.post('api/authentication/loginfletero', {username: u, password: p })
+  //remitos por hoja de ruta
+  //const getRemitos = (token) => api.get('api/remitos/ListadoRemitoRuteo', { token: token })
+  const getRemitos = (hojaruta,token) => api.get('api/remitos/ListadoRemitosHojaRuta', { hojaruta: hojaruta, token: token })
+  const getHojaRuta = (car_id, estado) => api.get('api/remitos/ListadoHojasRuta', { car_id: car_id, estado: estado })
+  
 
   // ------
   // STEP 3
@@ -60,7 +66,8 @@ const create = (baseURL = 'http://enviado.com/') => {
     getRate,
     getUser,
     postLogin,
-    getRemitos
+    getRemitos,
+    getHojaRuta
   }
 }
 

@@ -26,16 +26,20 @@ class HomeScreen extends Component {
   onPressingRemitos = () => {
     this.props.navigation.navigate('RemitosListScreen')
   }
+  onPressingMapaDeRuta = () => {
+    this.props.navigation.navigate('HojaRutaScreen')
+  }
 
   componentWillReceiveProps (newProps) {
-    console.tron.display({name: 'props', value: newProps})
+    console.tron.log('component')
+    console.tron.log({name: 'propspayload', value: newProps })
     //this.setState({ fetching: newProps.fetching, })
   }
 
 
   render () {
 
-    const { userName, token, grupoID } = this.props.payload
+    const { car_id, token, mail } = this.props.payload
 
     const rightButtonConfig = {
       title: I18n.t('logOut'),
@@ -60,14 +64,40 @@ class HomeScreen extends Component {
         />
         
         <View style={{ flexGrow: 1, padding: 10 }}>
-
           <Text style={styles.titleWelcome}>{I18n.t('welcome')}</Text>
-
           <Text style={styles.information}>Idioma:{I18n.defaultLocale}</Text>
-          <Text style={styles.information}>Name: {userName}</Text>
+          <Text style={styles.information}>CarID: {car_id}</Text>
           <Text style={styles.information}>Token: {token}</Text>
-          <Text style={styles.information}>Grupo:{grupoID}</Text>
+          <Text style={styles.information}>Grupo:{mail}</Text>
         </View>
+
+        <View style={{ padding: 10 }}>
+            <FullButton text="Remitos" onPress={this.onPressingRemitos}></FullButton>
+        </View> 
+
+        <View style={{ padding: 10 }}>
+            <FullButton text="Mapa de Ruta" onPress={this.onPressingMapaDeRuta}></FullButton>
+        </View> 
+
+        <View style={{ flexGrow: 1, padding: 10 }}>
+          <TouchableOpacity>
+            <Text style={styles.bottomBarText}>Hojas de Ruta</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.bottomBarText}>Salir</Text>
+          </TouchableOpacity>
+        </View>
+
+ 
+
+      </View>
+    )
+  }
+}
+
+{/* <View style={{ padding: 10 }}>
+<FullButton text="Remitos" onPress={this.onPressingRemitos}></FullButton>
+</View> 
 
         <View style={styles.bottomBar}>
           <TouchableOpacity>
@@ -77,15 +107,7 @@ class HomeScreen extends Component {
             <Text style={styles.bottomBarText}>REMITOS</Text>
           </TouchableOpacity>
         </View>
-
-      </View>
-    )
-  }
-}
-
-{/* <View style={{ padding: 10 }}>
-<FullButton text="Remitos" onPress={this.onPressingRemitos}></FullButton>
-</View> */}
+*/}
 
 const mapStateToProps = (state) => {
   console.tron.display({screen: "home", value: state})

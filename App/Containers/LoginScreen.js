@@ -9,16 +9,11 @@ import LoginActions from '../Redux/LoginRedux'
 // Styles
 import styles from './Styles/LoginScreenStyle'
 import { Images } from '../Themes'
+import { Alert } from 'react-native'
 
 var Spinner = require('react-native-spinkit')
 
 class LoginScreen extends Component {
-
-  // static propTypes = {
-  //   // dispatch: PropTypes.func,
-  //   fetching: PropTypes.bool,
-  //   attemptLogin: PropTypes.func
-  // }
 
   // isAttempting = false
 
@@ -26,17 +21,18 @@ class LoginScreen extends Component {
     super(props)
     this.state = {
       username: '0',
-      password: '239',
-      fetching: false
+      password: '',
+      fetching: false,
+      message: '',
+      error: false
     }
-    // this.isAttempting = false
+    //this.isAttempting = false
   }
 
   handlePressLogin = () => {
     const { username, password } = this.state
-    // this.isAttempting = true
+    //this.isAttempting = true
     this.state.fetching = true
-    // console.tron.log({login:username,password:password})
     // attempt a login - a saga is listening to pick it up from here.
     this.props.attemptLogin(username, password)
   }
@@ -50,8 +46,29 @@ class LoginScreen extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    // console.tron.display({name: 'props', value: newProps})
-    this.setState({ fetching: newProps.fetching, })
+
+    this.setState({ 
+      fetching: newProps.fetching ,
+      error: newProps.error,
+      message: newProps.message 
+    })
+    //console.tron.display(this.state)
+
+    if (newProps.error) {
+      Alert.alert(
+        'Autenticación',
+        newProps.message,
+        // [
+        //   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        //   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        //   {text: 'OK', onPress: () => console.log('OK Pressed')},
+        // ],
+        // { cancelable: false }
+      )
+    }
+    // } else if (this.isAttemping) {
+    //   this.props.navigation.navigate('HomeScreen')      
+    // }
   }
 
   render () {
@@ -118,9 +135,12 @@ class LoginScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  //console.tron.display({value: state})
+  // console.tron.log('loginScreen')
+  // console.tron.display({value: state})
   return {
-    fetching: state.login.fetching
+    fetching: state.login.fetching,
+    error: state.login.error,
+    message: state.login.message
   }
 }
 

@@ -9,6 +9,7 @@ import { StartupTypes } from '../Redux/StartupRedux'
 //import { GithubTypes } from '../Redux/GithubRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
 import { RemitosTypes } from '../Redux/RemitosRedux'
+import { HojaRutaTypes } from '../Redux/HojaRutaRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -16,6 +17,7 @@ import { startup } from './StartupSagas'
 //import { getUserAvatar } from './GithubSagas'
 import { login } from './LoginSagas'
 import { getRemitos } from './RemitosSagas'
+import { getHojaRuta } from './HojaRutaSagas'
 
 /* ------------- API ------------- */
 
@@ -37,6 +39,9 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_REQUEST, login, api),
 
     // some sagas about remitos
-    takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api)
+    takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
+
+    // some sagas about mapaderuta
+    takeLatest(HojaRutaTypes.HOJA_RUTA_REQUEST, getHojaRuta, api)
   ])
 }

@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation'
+import HojaRutaScreen from '../Containers/HojaRutaScreen'
 import HomeScreen from '../Containers/HomeScreen'
 import CameraScreen from '../Containers/CameraScreen'
 import RemitoDetailScreen from '../Containers/RemitoDetailScreen'
@@ -10,6 +11,7 @@ import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
+  HojaRutaScreen: { screen: HojaRutaScreen },
   HomeScreen: { screen: HomeScreen },
   CameraScreen: { screen: CameraScreen },
   RemitoDetailScreen: { screen: RemitoDetailScreen },

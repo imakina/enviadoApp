@@ -15,63 +15,28 @@ import LoginActions from '../Redux/LoginRedux'
 
 import { NavigationActions } from 'react-navigation'
 
-//todo
-//remove
-import { Alert } from 'react-native'
-
 export function * login (api, action) {
   const { username, password } = action
   // make the call to the api
-  // console.tron.log({d:'login_request',a:api, ac:action})
   const response = yield call(api.postLogin, username, password)
-  // console.tron.log({status:'LOGIN_REQUEST',response: response})
+  //console.tron.log({status:'LOGIN_REQUEST',response: response})
   // success?
   if (response.ok && response.data.success) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    const { userName, token, grupoID } = response.data.data
-    yield put(LoginActions.loginSuccess({userName, token, grupoID}))
+    const { car_id, token, mail } = response.data.data
+    yield put(LoginActions.loginSuccess({car_id, token, mail}))
     yield put(NavigationActions.navigate({routeName: 'HomeScreen'}))
   } else {
     // todo put the messages in a unified place
     // network error
-    console.tron.log({status:'LOGIN_FAIL', response: response})
+    // console.tron.log({status:'LOGIN_FAIL', response: response}) 
     const { problem } = response
     if (problem == null)
       problem = response.data.message
 
-    yield call(Alert.alert, problem)
-    yield put(LoginActions.loginFailure({fething: false}))
+    // yield call(Alert.alert, problem)
+    // yield put(LoginActions.loginFailure({fething: false, payload: problem}))
+    yield put(LoginActions.loginFailure( problem ))
   }
 }
-
-
-// attempts to login
-// export function * loginOld ({ username, password }) {
-//
-//   if (password === '') {
-//     // dispatch failure
-//     yield put(LoginActions.loginFailure('WRONG'))
-//   } else {
-//     let api = DebugConfig.useFixtures ? FixtureAPI : Api.create()
-//     let responseLogin = yield call(api.postLogin, username, password)
-//
-//     console.tron.log({status:'LOGIN_REQUEST', data: responseLogin})
-//
-//     switch (responseLogin.data.success) {
-//       case true:
-//         console.tron.log({status:'SUCCESS_LOGIN',message: responseLogin})
-//         // dispatch successful logins
-//         yield put(LoginActions.loginSuccess(responseLogin.data.data.userName,responseLogin.data.data.token))
-//         //todo agregar el token al store
-//         yield put(NavigationActions.navigate({ routeName: 'RoutesScreen' }))
-//         break
-//       default:
-//         console.tron.log({status:'ERROR_LOGIN',message: responseLogin})
-//         yield call(Alert.alert, responseLogin.data.message)
-//         yield put(LoginActions.loginFailure('WRONG'))
-//         break
-//     }
-//
-//   }
-// }
