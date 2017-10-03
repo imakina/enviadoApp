@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 // import YourActions from '../Redux/YourRedux'
 import NavigationBar from 'react-native-navbar';
 import I18n from 'react-native-i18n'
+// import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Charmander from '../Components/Charmander';
 import FullButton from '../Components/FullButton';
@@ -26,7 +28,7 @@ class HomeScreen extends Component {
   onPressingRemitos = () => {
     this.props.navigation.navigate('RemitosListScreen')
   }
-  onPressingMapaDeRuta = () => {
+  onPressingHojaDeRuta = () => {
     this.props.navigation.navigate('HojaRutaScreen')
   }
 
@@ -63,51 +65,73 @@ class HomeScreen extends Component {
               onPress={() => alert('Charmandeeeer!')}/>}
         />
         
-        <View style={{ flexGrow: 1, padding: 10 }}>
-          <Text style={styles.titleWelcome}>{I18n.t('welcome')}</Text>
-          <Text style={styles.information}>Idioma:{I18n.defaultLocale}</Text>
-          <Text style={styles.information}>CarID: {car_id}</Text>
-          <Text style={styles.information}>Token: {token}</Text>
-          <Text style={styles.information}>Grupo:{mail}</Text>
+        <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
+          {/* <Icon name="user-circle" size={90} /> 
+          
+          ios-contact
+          
+          */}
+
+            <Icon
+             reverse
+             name='ios-contact'
+             type='ionicon'
+             color='#27ae60'
+             size={160}
+           />
+          
+          <View style={{ padding: 10, alignItems: 'center' }}>
+            <Text style={styles.information}>Gonzalo Urtiberea</Text>
+            <Text style={styles.information}>{mail}</Text>
+            <Text style={styles.information}>CarID {car_id}</Text>
+          </View>
+
         </View>
 
-        <View style={{ padding: 10 }}>
-            <FullButton text="Remitos" onPress={this.onPressingRemitos}></FullButton>
-        </View> 
 
-        <View style={{ padding: 10 }}>
-            <FullButton text="Mapa de Ruta" onPress={this.onPressingMapaDeRuta}></FullButton>
-        </View> 
+        <View style={styles.formContainer}>
 
-        <View style={{ flexGrow: 1, padding: 10 }}>
-          <TouchableOpacity>
-            <Text style={styles.bottomBarText}>Hojas de Ruta</Text>
+          {/* <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 5 }}>
+              <FullButton text="Datos personales"></FullButton>
+          </View> 
+          <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10 }}>
+              <FullButton text="Hoja de Ruta" onPress={this.onPressingHojaDeRuta}>
+
+              </FullButton>
+          </View> */}
+
+          {/* <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressingHojaDeRuta}>
+            <View style={styles.buttonIcon}>
+              <Icon
+                reverse
+                name='md-happy'
+                type='ionicon'
+                color='#FFF'
+                size={60}
+              />
+              <Text style={styles.buttonText}> DATOS PERSONALES </Text>
+            </View>
+          </TouchableOpacity> */}
+
+          <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressingHojaDeRuta}>
+            <View style={styles.buttonIcon}>
+              <Icon
+                reverse
+                name='md-car'
+                type='ionicon'
+                color='#FFF'
+                size={60}
+              />
+              <Text style={styles.buttonText}> HOJAS DE RUTA</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.bottomBarText}>Salir</Text>
-          </TouchableOpacity>
-        </View>
 
- 
+        </View> 
 
       </View>
     )
   }
 }
-
-{/* <View style={{ padding: 10 }}>
-<FullButton text="Remitos" onPress={this.onPressingRemitos}></FullButton>
-</View> 
-
-        <View style={styles.bottomBar}>
-          <TouchableOpacity>
-            <Text style={styles.bottomBarText}>USUARIO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressingRemitos}>
-            <Text style={styles.bottomBarText}>REMITOS</Text>
-          </TouchableOpacity>
-        </View>
-*/}
 
 const mapStateToProps = (state) => {
   console.tron.display({screen: "home", value: state})
