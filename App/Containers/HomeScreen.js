@@ -29,7 +29,7 @@ class HomeScreen extends Component {
     this.props.navigation.navigate('RemitosListScreen')
   }
   onPressingHojaDeRuta = () => {
-    this.props.navigation.navigate('HojaRutaScreen')
+    this.props.navigation.navigate('HojaRutaScreen', { car_id : this.props.payload.car_id })
   }
 
   componentWillReceiveProps (newProps) {
@@ -41,7 +41,7 @@ class HomeScreen extends Component {
 
   render () {
 
-    const { car_id, token, mail } = this.props.payload
+    const { car_id, token, car_first_nm, car_last_nm, mail } = this.props.payload
 
     const rightButtonConfig = {
       title: I18n.t('logOut'),
@@ -81,7 +81,7 @@ class HomeScreen extends Component {
            />
           
           <View style={{ padding: 10, alignItems: 'center' }}>
-            <Text style={styles.information}>Gonzalo Urtiberea</Text>
+            <Text style={styles.information}>{car_first_nm } { car_last_nm}</Text>
             <Text style={styles.information}>{mail}</Text>
             <Text style={styles.information}>CarID {car_id}</Text>
           </View>

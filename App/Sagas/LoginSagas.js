@@ -24,8 +24,8 @@ export function * login (api, action) {
   if (response.ok && response.data.success) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    const { car_id, token, mail } = response.data.data
-    yield put(LoginActions.loginSuccess({car_id, token, mail}))
+    const { car_id, token,car_first_nm,car_last_nm, mail } = response.data.data
+    yield put(LoginActions.loginSuccess({car_id, token, car_first_nm, car_last_nm, mail}))
     yield put(NavigationActions.navigate({routeName: 'HomeScreen'}))
   } else {
     // todo put the messages in a unified place

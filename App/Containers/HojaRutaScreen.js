@@ -14,6 +14,15 @@ import I18n from 'react-native-i18n'
 
 class HojaRutaScreen extends Component {
   
+  constructor(props) {
+    super(props)
+    this.renderRow = this.renderRow.bind(this);
+    this.state = {
+      car_id : props.navigation.state.params.car_id
+    }
+    //this.onPressingRemitosPorHojaRuta = this.onPressingRemitosPorHojaRuta.bind(this);
+  }
+
   state = {
     fetching:false,
     dataObjects: []
@@ -21,7 +30,7 @@ class HojaRutaScreen extends Component {
 
   componentDidMount () {
     this.setState({ fetching: true })
-    this.props.requestHojaRuta('31914','0')
+    this.props.requestHojaRuta(this.state.car_id,'0')
   }
 
   componentWillReceiveProps (newProps) {
@@ -29,6 +38,15 @@ class HojaRutaScreen extends Component {
     this.setState({ dataObjects: newProps.payload })
     this.setState({ fetching: newProps.fetching })
   }
+
+  onPressingRemitosPorHojaRuta = (item) => {
+    this.props.navigation.navigate('RemitosListScreen', { hoja : item.numeroHojaRuta })
+  }
+
+  // The default function if no Key is provided is index
+  // an identifiable key is important if you plan on
+  // item reordering.  Otherwise index is fine
+  keyExtractor = (item, index) => index
 
   renderRow ({item}) {
 
@@ -41,7 +59,7 @@ class HojaRutaScreen extends Component {
         subtitle={item.car_id}
         //badge={badge} 
         containerStyle={{ backgroundColor: 'white' }}
-        //onPress={() => this.onPressSingleItem(item)} 
+        onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
       />
     )
 
@@ -72,7 +90,7 @@ class HojaRutaScreen extends Component {
           contentContainerStyle={styles.listContent}
           data={this.state.dataObjects}
           renderItem={this.renderRow}
-          //keyExtractor={this.keyExtractor}
+          keyExtractor={this.keyExtractor}
           //initialNumToRender={this.oneScreensWorth}
           //ListHeaderComponent={this.renderHeader}
           // ListFooterComponent={this.renderFooter}

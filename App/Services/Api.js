@@ -19,7 +19,7 @@ const create = (baseURL = 'http://desa.enviado.softsencillo.com/') => {
       'Cache-Control': 'no-cache'
     },
     // 10 second timeout...
-    timeout: 10000
+    timeout: 10000  
   })
 
   // ------
