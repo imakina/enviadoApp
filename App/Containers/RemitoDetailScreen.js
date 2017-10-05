@@ -44,21 +44,30 @@ class RemitoDetailScreen extends Component {
     // longitud: '-58.5585783'
     // }
 
-    const { idRemito, car_id } = this.state
-    console.tron.log(idRemito)
+    const { idRemito } = this.state.item
+    const { car_id } = this.state
+    // console.tron.log(idRemito)
+    // var body = new FormData();
+    // body.append('idRemito', idRemito);
+    // body.append('estado', 0);
+    // body.append('fechaHora', '2017-09-27 11:36:37.243');
+    // body.append('latitud', '-34.5585783');
+    // body.append('longitud', '-58.5585783');
+    // body.append('car_id', car_id);
+
     let data = { 
-      idRemito: '48846', 
+      idRemito: idRemito, 
       estado : 0, 
       fechaHora:'2017-09-27 11:36:37.243', 
       latitud : '-34.5585783',
       longitud: '-58.5585783',
-      car_id: '48846' 
+      car_id: car_id 
     }
     this.props.requestRemitoEstado(data)
   }
 
   componentWillReceiveProps (newProps) {
-    console.tron.display({name: 'props', value: newProps})
+    //console.tron.display({name: 'props', value: newProps})
     this.setState({ motivos: newProps.payload })
     //this.setState({ fetching: newProps.fetching })
   }
@@ -150,7 +159,7 @@ class RemitoDetailScreen extends Component {
           </Picker>
 
 
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.onPresssingConfirm()}>
+          <TouchableOpacity style={styles.buttonContainer} onPress={this.onPresssingConfirm}>
             <View style={styles.buttonIcon}>
               <Icon
                 reverse
@@ -214,7 +223,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     requestMotivos: () => dispatch(MotivosActions.motivosRequest()) ,   
-    requestRemitoEstado: () => dispatch(RemitosActions.remitoEstadoRequest())    
+    requestRemitoEstado: (body) => dispatch(RemitosActions.remitoEstadoRequest(body))    
   }
 }
 

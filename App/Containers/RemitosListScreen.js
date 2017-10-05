@@ -258,7 +258,7 @@ class RemitosListScreen extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({value: state})
+  //console.tron.display({value: state})
   return {
     payload: state.remitos.payload,
     fetching: state.remitos.fetching

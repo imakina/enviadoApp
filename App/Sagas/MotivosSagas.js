@@ -19,7 +19,7 @@ export function * getMotivos (api, action) {
   // make the call to the api
   const response = yield call(api.getMotivos, token)
 
-  console.tron.log(response)
+  //console.tron.log(response)
 
   // success?
   if (response.ok) {

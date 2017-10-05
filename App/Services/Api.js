@@ -23,10 +23,10 @@ const create = (baseURL = 'http://desa.enviado.softsencillo.com/') => {
   })
 
 
-  if (__DEV__ && console.tron) {
-    console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
-    api.addMonitor(console.tron.apisauce)
-  }
+  // if (__DEV__ && console.tron) {
+  //   console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
+  //   api.addMonitor(console.tron.apisauce)
+  // }
   
   // ------
   // STEP 2

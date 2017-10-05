@@ -33,8 +33,8 @@ class HomeScreen extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    console.tron.log('component')
-    console.tron.log({name: 'propspayload', value: newProps })
+    //console.tron.log('component')
+    //console.tron.log({name: 'propspayload', value: newProps })
     //this.setState({ fetching: newProps.fetching, })
   }
 
@@ -121,7 +121,7 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({screen: "home", value: state})
+  //console.tron.display({screen: "home", value: state})
   return {
     payload: state.login.payload,
     fetching: state.login.fetching

@@ -52,11 +52,12 @@ export function * postRemitoEstado (api, action) {
   //const { token } = yield select(login)
   const { body } = action
 
-  //console.tron.log({status:'STATE_LOGIN', value: token})
+  console.tron.log(action)
+
   let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
   // make the call to the api
   const response = yield call(api.postRemitoEstado, token, body)
-  console.tron.log({status:'REMITO_ESTADO_REQUEST',response: response})
+  console.tron.log(response)
 
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
