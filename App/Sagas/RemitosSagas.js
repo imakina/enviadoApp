@@ -21,14 +21,42 @@ export const login = (state) => state.login.payload
 
 export function * getRemitos (api, action) {
   //const { token } = action
-  const { token } = yield select(login)
+  //const { token } = yield select(login)
   const { hoja } = action
 
-  console.tron.log({status:'STATE_LOGIN', value: token})
-
+  //console.tron.log({status:'STATE_LOGIN', value: token})
+  let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
   // make the call to the api
   const response = yield call(api.getRemitos, hoja, token)
-  console.tron.log({status:'REMITOS_REQUEST',response: response})
+  //console.tron.log({status:'REMITOS_REQUEST',response: response})
+
+  if (response.ok) {
+    // You might need to change the response here - do this with a 'transform',
+    // located in ../Transforms/. Otherwise, just pass the data back from the api.
+    const { data } = response
+    yield put(RemitosActions.remitosSuccess(data))
+  } else {
+    // todo put the messages in a unified place
+    // network error
+    const { problem } = response
+    if (problem == null)
+      problem = response.data.message
+
+    //yield call(Alert.alert, problem)
+    yield put(RemitosActions.remitosFailure({fething: false}))
+  }
+}
+
+export function * postRemitoEstado (api, action) {
+  //const { token } = action
+  //const { token } = yield select(login)
+  const { body } = action
+
+  //console.tron.log({status:'STATE_LOGIN', value: token})
+  let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
+  // make the call to the api
+  const response = yield call(api.postRemitoEstado, token, body)
+  console.tron.log({status:'REMITO_ESTADO_REQUEST',response: response})
 
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',

@@ -12,6 +12,8 @@ import NavigationBar from 'react-native-navbar';
 import styles from './Styles/HojaRutaScreenStyle'
 import I18n from 'react-native-i18n'
 
+var Spinner = require('react-native-spinkit')
+
 class HojaRutaScreen extends Component {
   
   constructor(props) {
@@ -40,7 +42,8 @@ class HojaRutaScreen extends Component {
   }
 
   onPressingRemitosPorHojaRuta = (item) => {
-    this.props.navigation.navigate('RemitosListScreen', { hoja : item.numeroHojaRuta })
+    const { car_id } = this.state
+    this.props.navigation.navigate('RemitosListScreen', { hoja : item.numeroHojaRuta, car_id : car_id })
   }
 
   // The default function if no Key is provided is index
@@ -53,8 +56,8 @@ class HojaRutaScreen extends Component {
     return (
     //{"numeroHojaRuta":"00000045","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
     //{"numeroHojaRuta":"00000161","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
+    // hideChevron
     <ListItem
-        hideChevron
         title={item.numeroHojaRuta}
         subtitle={item.car_id}
         //badge={badge} 
@@ -66,15 +69,24 @@ class HojaRutaScreen extends Component {
   }
 
   render () {
-    
+
+    const { fetching } = this.state;
+
     const leftButtonConfig = {
       title: I18n.t('back'),
       handler: () => this.props.navigation.navigate('HomeScreen'),
     }
 
     const titleConfig = {
-      title: 'Hoja de Ruta',
+      title: 'Hojas de Ruta',
+      style: {color:'#FFF'}
     }
+
+    const statusBarConfig = {
+      style: 'light-content', 
+      hidden: false, 
+      tintColor: '#2ecc71'
+  }
   
     return (
 
@@ -84,6 +96,7 @@ class HojaRutaScreen extends Component {
           style={styles.navigation}
           title={titleConfig}
           leftButton={leftButtonConfig}
+          statusBar={statusBarConfig}
         />
 
         <FlatList
@@ -97,6 +110,17 @@ class HojaRutaScreen extends Component {
           //ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}
         />
+
+        <View style={styles.spinnerContainer}>
+        { fetching && (
+          <Spinner
+            style={styles.spinner}
+            isVisible={true}
+            size={100}
+            type={'9CubeGrid'}
+            color={'#2ecc71'}/>
+        )}
+        </View>
 
       </View>
     )

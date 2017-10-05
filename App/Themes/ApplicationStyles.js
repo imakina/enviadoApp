@@ -47,25 +47,31 @@ const ApplicationStyles = {
     },
     /// navigation bar
     navigation: {
-      borderBottomColor: Colors.drawer,
-      borderBottomWidth: 0.5
+      borderBottomColor: 'rgba(255,255,255,0.2)',
+      borderBottomWidth: 0.5,
+      backgroundColor: Colors.background
     },
     information :{
       paddingBottom: 2,
       fontSize: Fonts.size.medium,
     },
+    // navigationStatusBar: {
+    //   style: 'light-content', 
+    //   hidden: false, 
+    //   tintColor: Colors.backgroundVariant
+    // }
     /// bottom bar
-    bottomBar: {
-      flexDirection: 'row',
-      padding: 20,
-      backgroundColor: 'black',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    bottomBarText: {
-      color: 'white',
-      alignItems: 'center',
-    }
+    // bottomBar: {
+    //   flexDirection: 'row',
+    //   padding: 20,
+    //   backgroundColor: 'black',
+    //   alignItems: 'center',
+    //   justifyContent: 'space-between',
+    // },
+    // bottomBarText: {
+    //   color: 'white',
+    //   alignItems: 'center',
+    // }
   },
   darkLabelContainer: {
     padding: Metrics.smallMargin,

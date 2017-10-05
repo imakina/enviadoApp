@@ -22,6 +22,12 @@ const create = (baseURL = 'http://desa.enviado.softsencillo.com/') => {
     timeout: 10000  
   })
 
+
+  if (__DEV__ && console.tron) {
+    console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
+    api.addMonitor(console.tron.apisauce)
+  }
+  
   // ------
   // STEP 2
   // ------
@@ -46,6 +52,8 @@ const create = (baseURL = 'http://desa.enviado.softsencillo.com/') => {
   //const getRemitos = (token) => api.get('api/remitos/ListadoRemitoRuteo', { token: token })
   const getRemitos = (hojaruta,token) => api.get('api/remitos/ListadoRemitosHojaRuta', { hojaruta: hojaruta, token: token })
   const getHojaRuta = (car_id, estado) => api.get('api/remitos/ListadoHojasRuta', { car_id: car_id, estado: estado })
+  const getMotivos = (token) => api.get('api/remitos/motivos', { token: token })
+  const postRemitoEstado = (token, body) => api.post('api/remitos/actualizaestado/?token=' + token, body )
   
 
   // ------
@@ -67,7 +75,9 @@ const create = (baseURL = 'http://desa.enviado.softsencillo.com/') => {
     getUser,
     postLogin,
     getRemitos,
-    getHojaRuta
+    getHojaRuta,
+    getMotivos,
+    postRemitoEstado
   }
 }
 

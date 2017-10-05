@@ -10,6 +10,7 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
 import { RemitosTypes } from '../Redux/RemitosRedux'
 import { HojaRutaTypes } from '../Redux/HojaRutaRedux'
+import { MotivosTypes } from '../Redux/MotivosRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -17,7 +18,9 @@ import { startup } from './StartupSagas'
 //import { getUserAvatar } from './GithubSagas'
 import { login } from './LoginSagas'
 import { getRemitos } from './RemitosSagas'
+import { postRemitoEstado } from './RemitosSagas'
 import { getHojaRuta } from './HojaRutaSagas'
+import { getMotivos } from './MotivosSagas'
 
 /* ------------- API ------------- */
 
@@ -40,8 +43,12 @@ export default function * root () {
 
     // some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
+    takeLatest(RemitosTypes.REMITO_ESTADO_REQUEST, postRemitoEstado, api),
 
     // some sagas about mapaderuta
-    takeLatest(HojaRutaTypes.HOJA_RUTA_REQUEST, getHojaRuta, api)
+    takeLatest(HojaRutaTypes.HOJA_RUTA_REQUEST, getHojaRuta, api),
+
+    // some saga about motivos of delivered remitos
+    takeLatest(MotivosTypes.MOTIVOS_REQUEST, getMotivos, api)
   ])
 }

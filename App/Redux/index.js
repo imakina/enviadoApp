@@ -10,7 +10,8 @@ export default () => {
     search: require('./SearchRedux').reducer,
     login: require('./LoginRedux').reducer,
     remitos: require('./RemitosRedux').reducer,
-    hojaruta: require('./HojaRutaRedux').reducer
+    hojaruta: require('./HojaRutaRedux').reducer,
+    motivos: require('./MotivosRedux').reducer
   })
 
   return configureStore(rootReducer, rootSaga)

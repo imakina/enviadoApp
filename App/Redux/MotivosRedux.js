@@ -4,13 +4,12 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  remitosRequest: ['hoja'],
-  remitoEstadoRequest: ['body'],
-  remitosSuccess: ['payload'],
-  remitosFailure: null,
+  motivosRequest: null,
+  motivosSuccess: ['payload'],
+  motivosFailure: null
 })
 
-export const RemitosTypes = Types
+export const MotivosTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -25,13 +24,8 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, action) =>
+export const request = (state) =>
   state.merge({ fetching: true, payload: null })
-
-// request the data from an api
-export const request_estado = (state, action) =>
-state.merge({ fetching: true, payload: null })
-
 
 // successful api lookup
 export const success = (state, action) => {
@@ -46,8 +40,7 @@ export const failure = state =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.REMITOS_REQUEST]: request,
-  [Types.REMITOS_SUCCESS]: success,
-  [Types.REMITOS_FAILURE]: failure,
-  [Types.REMITO_ESTADO_REQUEST]: request_estado,
+  [Types.MOTIVOS_REQUEST]: request,
+  [Types.MOTIVOS_SUCCESS]: success,
+  [Types.MOTIVOS_FAILURE]: failure
 })

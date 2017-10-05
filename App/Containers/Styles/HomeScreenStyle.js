@@ -5,7 +5,6 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    // backgroundColor : '#27ae60'
     backgroundColor : 'rgba(255,255,255,0.2)'
   },
   formContainer: {
@@ -45,7 +44,7 @@ export default StyleSheet.create({
     borderBottomColor: Colors.background,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    backgroundColor: Colors.backgroundVariant
+    backgroundColor: Colors.background
   },
 
   buttonIcon: {

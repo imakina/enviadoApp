@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, KeyboardAvoidingView, Image, TouchableOpacity } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Image, StatusBar, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -41,7 +41,13 @@ class HomeScreen extends Component {
 
   render () {
 
-    const { car_id, token, car_first_nm, car_last_nm, mail } = this.props.payload
+    const { 
+      car_id, 
+      token, 
+      car_first_nm, 
+      car_last_nm, 
+      mail 
+    } = this.props.payload
 
     const rightButtonConfig = {
       title: I18n.t('logOut'),
@@ -50,35 +56,39 @@ class HomeScreen extends Component {
 
     const titleConfig = {
       title: I18n.t('appName'),
+      style: {color:'#FFF'}
+    }
+
+    // leftButton={
+    //   <Charmander
+    //     style={{ marginLeft: 8 }}
+    //     onPress={() => alert('Charmandeeeer!')}/>}
+
+    const statusBarConfig = {
+        style: 'light-content', 
+        hidden: false, 
+        tintColor: '#2ecc71'
     }
 
     return (
       <View style={styles.container}>
-        
+
         <NavigationBar
           style={styles.navigation}
           title={titleConfig}
           rightButton={rightButtonConfig}
-          leftButton={
-            <Charmander
-              style={{ marginLeft: 8 }}
-              onPress={() => alert('Charmandeeeer!')}/>}
+          statusBar={statusBarConfig}
         />
         
         <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
-          {/* <Icon name="user-circle" size={90} /> 
-          
-          ios-contact
-          
-          */}
 
-            <Icon
+          <Icon
              reverse
              name='ios-contact'
              type='ionicon'
              color='#27ae60'
              size={160}
-           />
+          />
           
           <View style={{ padding: 10, alignItems: 'center' }}>
             <Text style={styles.information}>{car_first_nm } { car_last_nm}</Text>
@@ -88,30 +98,7 @@ class HomeScreen extends Component {
 
         </View>
 
-
         <View style={styles.formContainer}>
-
-          {/* <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 5 }}>
-              <FullButton text="Datos personales"></FullButton>
-          </View> 
-          <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 10 }}>
-              <FullButton text="Hoja de Ruta" onPress={this.onPressingHojaDeRuta}>
-
-              </FullButton>
-          </View> */}
-
-          {/* <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressingHojaDeRuta}>
-            <View style={styles.buttonIcon}>
-              <Icon
-                reverse
-                name='md-happy'
-                type='ionicon'
-                color='#FFF'
-                size={60}
-              />
-              <Text style={styles.buttonText}> DATOS PERSONALES </Text>
-            </View>
-          </TouchableOpacity> */}
 
           <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressingHojaDeRuta}>
             <View style={styles.buttonIcon}>

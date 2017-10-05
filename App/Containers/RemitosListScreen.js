@@ -21,9 +21,10 @@ class RemitosListScreen extends React.PureComponent {
     super(props);
     this.renderRow = this.renderRow.bind(this);
     this.state = {
-      hoja : props.navigation.state.params.hoja
+      hoja : props.navigation.state.params.hoja,
+      car_id : props.navigation.state.params.car_id
     }
-    console.tron.log({screen:'CameraScreen', value: this.state.hoja})
+    //console.tron.log({screen:'CameraScreen', value: this.state.hoja})
   }
 
   /* ***********************************************************
@@ -195,14 +196,10 @@ class RemitosListScreen extends React.PureComponent {
   }
 
   onPressSingleItem = (item) => {
-    console.tron.log({item:'item', value:item})
-    //Alert.alert(item.nroRemito)
-    this.props.navigation.navigate('RemitoDetailScreen', { item : item })
+    //console.tron.log({item:'item', value:item})
+    const { hoja, car_id } = this.state
+    this.props.navigation.navigate('RemitoDetailScreen', { item : item, hoja : hoja, car_id : car_id })
   }
-
-//   <View style={styles.header}>
-//   <Text style={styles.title}> Remitos </Text>
-// </View>
 
   render () {
 
@@ -214,7 +211,8 @@ class RemitosListScreen extends React.PureComponent {
     }
 
     const titleConfig = {
-      title: 'Remitos',
+      title: 'Remitos ',
+      style: {color:'#FFF'}
     }
 
     return (
@@ -224,6 +222,7 @@ class RemitosListScreen extends React.PureComponent {
           style={styles.navigation}
           title={titleConfig}
           leftButton={leftButtonConfig}
+          statusBar={{style: 'light-content', hidden: false, tintColor: '#2ecc71'}}
         />
 
         <FlatList
@@ -245,7 +244,7 @@ class RemitosListScreen extends React.PureComponent {
             isVisible={true}
             size={100}
             type={'9CubeGrid'}
-            color={'white'}/>
+            color={'#2ecc71'}/>
         )}
         </View>
 
@@ -262,7 +261,7 @@ const mapStateToProps = (state) => {
   console.tron.display({value: state})
   return {
     payload: state.remitos.payload,
-    fetching: state.login.fetching
+    fetching: state.remitos.fetching
   }
 }
 

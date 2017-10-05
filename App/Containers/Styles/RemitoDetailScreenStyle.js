@@ -5,52 +5,41 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: Colors.snow
+    backgroundColor : Colors.ricePaper
   },
-  // header: {
-  //   marginTop: 20,
-  //   // padding: 20,
-  //   backgroundColor: Colors.backgroundColor,
-  //   borderColor: Colors.frost,
-  //   borderBottomWidth: 1,
-  //   flexDirection:'row'
-  // },
-  // title: {
-  //   ...Fonts.style.h2,
-  //   color: Colors.snow,
-  //   fontSize: 18,
-  //   textAlign: 'center',
-  //   padding: 20,
-  //   marginLeft: 20
-  // },
-  row: {
+  formContainer: {
     // flex: 1,
-    flexGrow: 1,
-    backgroundColor: Colors.snow,
-    padding:10,
-    // flexDirection:'row',
-    justifyContent: 'space-between',
-    borderBottomWidth: 0.2,
-    borderColor: Colors.frost
+    padding: 20
   },
-  item : {
-    paddingBottom: 5,
-    paddingTop: 5,
-    paddingLeft: 20
+  
+  buttonText: {
+    textAlign: 'center',
+    paddingLeft: 40,
+    paddingRight: 10,
+    color: Colors.snow,
+    fontSize: Fonts.size.medium,
+    fontFamily: Fonts.type.bold
   },
-  separator :{
-    backgroundColor: Colors.backgroundColor
+
+  buttonContainer: {
+    // backgroundColor: '#27ae60',
+    // borderColor: '#27ae60',
+    // borderWidth: 2,
+    borderRadius: 6,
+    marginVertical: 5,
+    borderTopColor: Colors.background,
+    borderBottomColor: Colors.background,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    backgroundColor: Colors.background
   },
-  // buttonGroup :{
-  //   // flex:1,
-  //   paddingBottom: 5,
-  //   backgroundColor: Colors.snow
-  // },
-  footer:{
-    flex:1,
-    backgroundColor: Colors.snow
-  },
-  informationReverse: {
-    marginBottom: 10,
+
+  buttonIcon: {
+    flexGrow: 1, 
+    flexDirection: 'row', 
+    justifyContent:'center', 
+    alignItems: 'center', 
+    padding: 8
   }
+
 })
