@@ -22,7 +22,7 @@ class RemitosListScreen extends React.PureComponent {
     this.renderRow = this.renderRow.bind(this);
     this.state = {
       hoja : props.navigation.state.params.hoja,
-      car_id : props.navigation.state.params.car_id
+      //car_id : props.navigation.state.params.car_id
     }
     //console.tron.log({screen:'CameraScreen', value: this.state.hoja})
   }
@@ -197,7 +197,8 @@ class RemitosListScreen extends React.PureComponent {
 
   onPressSingleItem = (item) => {
     //console.tron.log({item:'item', value:item})
-    const { hoja, car_id } = this.state
+    const { hoja } = this.state
+    const { car_id } = this.props.user
     this.props.navigation.navigate('RemitoDetailScreen', { item : item, hoja : hoja, car_id : car_id })
   }
 
@@ -261,7 +262,8 @@ const mapStateToProps = (state) => {
   //console.tron.display({value: state})
   return {
     payload: state.remitos.payload,
-    fetching: state.remitos.fetching
+    fetching: state.remitos.fetching,
+    user: state.login.payload,
   }
 }
 

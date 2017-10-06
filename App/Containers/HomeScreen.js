@@ -3,13 +3,13 @@ import { View, Text, KeyboardAvoidingView, Image, StatusBar, TouchableOpacity } 
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
+
 import NavigationBar from 'react-native-navbar';
-import I18n from 'react-native-i18n'
+import I18n from 'react-native-i18n';
+// import NavigationBarBizarre from '../Components/NavigationBarBizarre';
+
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import Charmander from '../Components/Charmander';
-import FullButton from '../Components/FullButton';
 
 // Styles
 import styles from './Styles/HomeScreenStyle'
@@ -19,25 +19,13 @@ class HomeScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      payload : {},
-      fetching : false,
-      selectedTab: 'profile',
+      user : {}
     }
   }
 
-  onPressingRemitos = () => {
-    this.props.navigation.navigate('RemitosListScreen')
-  }
   onPressingHojaDeRuta = () => {
-    this.props.navigation.navigate('HojaRutaScreen', { car_id : this.props.payload.car_id })
+    this.props.navigation.navigate('HojaRutaScreen', { car_id : this.props.user.car_id })
   }
-
-  componentWillReceiveProps (newProps) {
-    //console.tron.log('component')
-    //console.tron.log({name: 'propspayload', value: newProps })
-    //this.setState({ fetching: newProps.fetching, })
-  }
-
 
   render () {
 
@@ -47,8 +35,10 @@ class HomeScreen extends Component {
       car_first_nm, 
       car_last_nm, 
       mail 
-    } = this.props.payload
+    } = this.props.user
 
+    // ===========================
+    // NavigationBar
     const rightButtonConfig = {
       title: I18n.t('logOut'),
       handler: () => this.props.navigation.navigate('LoginScreen'),
@@ -59,27 +49,23 @@ class HomeScreen extends Component {
       style: {color:'#FFF'}
     }
 
-    // leftButton={
-    //   <Charmander
-    //     style={{ marginLeft: 8 }}
-    //     onPress={() => alert('Charmandeeeer!')}/>}
-
     const statusBarConfig = {
         style: 'light-content', 
         hidden: false, 
         tintColor: '#2ecc71'
     }
+    // ===========================
 
     return (
       <View style={styles.container}>
 
-        <NavigationBar
-          style={styles.navigation}
-          title={titleConfig}
-          rightButton={rightButtonConfig}
-          statusBar={statusBarConfig}
-        />
-        
+         <NavigationBar
+            style={styles.navigation}
+            title={titleConfig}
+            rightButton={rightButtonConfig}
+            statusBar={statusBarConfig}
+        /> 
+
         <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
 
           <Icon
@@ -123,7 +109,7 @@ class HomeScreen extends Component {
 const mapStateToProps = (state) => {
   //console.tron.display({screen: "home", value: state})
   return {
-    payload: state.login.payload,
+    user: state.login.payload,
     fetching: state.login.fetching
   }
 }

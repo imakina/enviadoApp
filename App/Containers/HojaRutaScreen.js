@@ -32,7 +32,8 @@ class HojaRutaScreen extends Component {
 
   componentDidMount () {
     this.setState({ fetching: true })
-    this.props.requestHojaRuta(this.state.car_id,'0')
+    // this.props.requestHojaRuta(this.state.car_id,'0')
+    this.props.requestHojaRuta(this.props.user.car_id,'0')
   }
 
   componentWillReceiveProps (newProps) {
@@ -42,8 +43,9 @@ class HojaRutaScreen extends Component {
   }
 
   onPressingRemitosPorHojaRuta = (item) => {
-    const { car_id } = this.state
-    this.props.navigation.navigate('RemitosListScreen', { hoja : item.numeroHojaRuta, car_id : car_id })
+    // const { car_id } = this.state
+    const { car_id } = this.props.user
+    this.props.navigation.navigate('RemitosListScreen', { hoja : item.numeroHojaRuta })
   }
 
   // The default function if no Key is provided is index
@@ -78,7 +80,7 @@ class HojaRutaScreen extends Component {
     }
 
     const titleConfig = {
-      title: 'Hojas de Ruta',
+      title: 'Hojas de Ruta ' + this.props.user.car_id,
       style: {color:'#FFF'}
     }
 
@@ -130,7 +132,8 @@ class HojaRutaScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     payload: state.hojaruta.payload,
-    fetching: state.hojaruta.fetching
+    fetching: state.hojaruta.fetching,
+    user: state.login.payload,
   }
 }
 

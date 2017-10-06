@@ -19,21 +19,15 @@ class RemitoDetailScreen extends Component {
 
   constructor(props) {
     super(props);
-    //console.tron.log({screen:'detail', value: props})
     this.state = {
       item : props.navigation.state.params.item,
       car_id : props.navigation.state.params.car_id,
       hoja : props.navigation.state.params.hoja,
-      // onPressingNotDelivered : this.onPressingNotDelivered.bind(this),
       latitude : 0,
       longitude : 0,
       motivos : [],
       motivo: 'NO ENTREGADO'
     }
-  }
-
-  onPressingNotDelivered(item) {
-    // this.props.navigation.navigate('CameraScreen', { detail : item })
   }
 
   onPresssingConfirm = () => {
@@ -46,14 +40,6 @@ class RemitoDetailScreen extends Component {
 
     const { idRemito } = this.state.item
     const { car_id } = this.state
-    // console.tron.log(idRemito)
-    // var body = new FormData();
-    // body.append('idRemito', idRemito);
-    // body.append('estado', 0);
-    // body.append('fechaHora', '2017-09-27 11:36:37.243');
-    // body.append('latitud', '-34.5585783');
-    // body.append('longitud', '-58.5585783');
-    // body.append('car_id', car_id);
 
     let data = { 
       idRemito: idRemito, 
@@ -67,9 +53,9 @@ class RemitoDetailScreen extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    //console.tron.display({name: 'props', value: newProps})
+    console.tron.display(newProps)
     this.setState({ motivos: newProps.payload })
-    //this.setState({ fetching: newProps.fetching })
+    this.setState({ fetching: newProps.fetching })
   }
   
   componentDidMount() {
@@ -97,7 +83,9 @@ class RemitoDetailScreen extends Component {
       item,
       hoja,
       latitude, 
-      longitude 
+      longitude,
+      fetching,
+      motivos
     } = this.state
 
     const leftButtonConfig = {
@@ -153,13 +141,19 @@ class RemitoDetailScreen extends Component {
             selectedValue={this.state.motivo}
             onValueChange={(itemValue, itemIndex) => this.setState({motivo: itemValue})}>
             {
-              this.state.motivos.map((l, i) => {
-                return <Picker.Item value={l.id} label={l.descripcion} key={l.id}  /> })
+              motivos && 
+                motivos.map((l, i) => {
+                  return <Picker.Item value={l.id} label={l.descripcion} key={l.id}  /> })
+              
             }
           </Picker>
 
 
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.onPresssingConfirm}>
+          <TouchableOpacity
+            disabled={fetching}
+            style={styles.buttonContainer} 
+            onPress={this.onPresssingConfirm}>
+
             <View style={styles.buttonIcon}>
               <Icon
                 reverse
@@ -170,43 +164,11 @@ class RemitoDetailScreen extends Component {
               />
               <Text style={styles.buttonText}> CONFIRMAR </Text>
             </View>
+
           </TouchableOpacity>
 
         </View> 
 
-          {/* <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" /> */}
-
-        {/* <NavigationBar
-          style={styles.navigation}
-          title={titleConfig}
-          leftButton={leftButtonConfig}
-          statusBar={{style: 'light-content', hidden: false, tintColor: '#2ecc71'}}
-        />
-
-        <View style={{ flexGrow: 1, padding: 10 }}>
-          <Text style={styles.information}>REMITO</Text>
-          <Text style={styles.informationReverse}>{detail.nroRemito}</Text>
-          <Text style={styles.information}>RAZON SOCIAL</Text>
-          <Text style={styles.informationReverse}>{detail.razonSocial}</Text>
-          <Text style={styles.information}>DOMICILIO DESTINATARIO</Text>
-          <Text style={styles.informationReverse}>{detail.domicilioDestinatario}</Text>
-          <Text style={styles.information}>NOMBRE DESTINATARIO</Text>
-          <Text style={styles.informationReverse}>{detail.nombreDestinatario}</Text>
-          <Text style={styles.information}>LATITUDE</Text>
-          <Text style={styles.informationReverse}>{detail.latitude}</Text>
-          <Text style={styles.information}>LONGITUD</Text>
-          <Text style={styles.informationReverse}>{detail.longitude}</Text>
-        </View>
-
-        <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => alert('Lo entregaste en lt:' + latitude + ' ln:' + longitude )}>
-            <Text style={styles.bottomBarText}>ENTREGADO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => onPressingNotDelivered(detail)}>
-            <Text style={styles.bottomBarText}>NO ENTREGADO</Text>
-          </TouchableOpacity>
-        </View> */}
 
       </View>
     )
@@ -216,7 +178,8 @@ class RemitoDetailScreen extends Component {
 const mapStateToProps = (state) => {
   // console.tron.display({screen:'detail', value: state})
   return {
-    payload: state.motivos.payload
+    payload: state.motivos.payload,
+    fetching: state.motivos.fetching
   }
 }
 
