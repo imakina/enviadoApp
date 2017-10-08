@@ -28,34 +28,57 @@ class RemitoDetailScreen extends Component {
       motivos : [],
       motivo: 'NO ENTREGADO'
     }
+    this.isRequesting = false
   }
 
+  // idRemito: '48846',
+  // estado: '3',
+  // fechaHora: '2017-09-27 11:36:37.243',
+  // latitud: '-34.5585783',
+  // longitud: '-58.5585783'
+  // }
+
   onPresssingConfirm = () => {
-    // idRemito: '48846',
-    // estado: '3',
-    // fechaHora: '2017-09-27 11:36:37.243',
-    // latitud: '-34.5585783',
-    // longitud: '-58.5585783'
-    // }
 
     const { idRemito } = this.state.item
-    const { car_id } = this.state
+    const { car_id, motivo } = this.state
 
     let data = { 
       idRemito: idRemito, 
-      estado : 0, 
+      estado : motivo,  
       fechaHora:'2017-09-27 11:36:37.243', 
       latitud : '-34.5585783',
       longitud: '-58.5585783',
       car_id: car_id 
     }
-    this.props.requestRemitoEstado(data)
+    
+    this.isRequesting = true
+    this.props.updateRemito(data)
+
   }
 
   componentWillReceiveProps (newProps) {
-    console.tron.display(newProps)
-    this.setState({ motivos: newProps.payload })
+    //console.tron.display({name:"receiveProps", value:newProps})
+    this.setState({ motivos: newProps.payload })  
     this.setState({ fetching: newProps.fetching })
+    //console.tron.log(this.isRequesting)
+    if (this.isRequesting && !newProps.fetching) {
+      Alert.alert(
+        'Remito',
+        newProps.message,
+        [
+          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+          // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {
+            text: 'OK', 
+            onPress: () => this.onPressingBack()
+          },
+        ],
+        { cancelable: false }
+      )
+      //
+    }
+
   }
   
   componentDidMount() {
@@ -77,6 +100,12 @@ class RemitoDetailScreen extends Component {
     // );
   }
 
+  onPressingBack = () => {
+    console.tron.display({name:'pressingback',value:this.state})
+    const { hoja } = this.state
+    this.props.navigation.navigate('RemitosListScreen', { hoja : hoja })
+  }
+
   render () {
 
     const { 
@@ -90,7 +119,8 @@ class RemitoDetailScreen extends Component {
 
     const leftButtonConfig = {
       title: I18n.t('back'),
-      handler: () => this.props.navigation.navigate('RemitosListScreen', { hoja : hoja }),
+      //handler: () => this.props.navigation.navigate('RemitosListScreen', { hoja : hoja }),
+      handler: () => this.onPressingBack(),
     }
 
     const titleConfig = {
@@ -148,9 +178,9 @@ class RemitoDetailScreen extends Component {
             }
           </Picker>
 
+            {/* disabled={fetching} */}
 
           <TouchableOpacity
-            disabled={fetching}
             style={styles.buttonContainer} 
             onPress={this.onPresssingConfirm}>
 
@@ -176,17 +206,18 @@ class RemitoDetailScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.tron.display({screen:'detail', value: state})
+  //console.tron.display({name:'stateToProps', value:state})
   return {
     payload: state.motivos.payload,
-    fetching: state.motivos.fetching
+    fetching: state.motivos.fetching,
+    message : state.remitos.message
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     requestMotivos: () => dispatch(MotivosActions.motivosRequest()) ,   
-    requestRemitoEstado: (body) => dispatch(RemitosActions.remitoEstadoRequest(body))    
+    updateRemito: (body) => dispatch(RemitosActions.remitoUpdate(body))    
   }
 }
 

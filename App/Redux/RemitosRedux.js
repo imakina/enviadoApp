@@ -5,9 +5,10 @@ import Immutable from 'seamless-immutable'
 
 const { Types, Creators } = createActions({
   remitosRequest: ['hoja'],
-  remitoEstadoRequest: ['body'],
+  remitoUpdate: ['body'],
   remitosSuccess: ['payload'],
   remitosFailure: null,
+  remitoUpdateSuccess: null
 })
 
 export const RemitosTypes = Types
@@ -16,10 +17,11 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  data: null,
+  // data: null,
   fetching: null,
   payload: null,
-  error: null
+  error: null,
+  message: ""
 })
 
 /* ------------- Reducers ------------- */
@@ -29,14 +31,19 @@ export const request = (state, action) =>
   state.merge({ fetching: true, payload: null })
 
 // request the data from an api
-export const request_estado = (state, action) =>
-state.merge({ fetching: true, payload: null })
-
+export const update = (state, action) =>
+  state.merge({ fetching: true, payload: null })
 
 // successful api lookup
 export const success = (state, action) => {
   const { payload } = action
   return state.merge({ fetching: false, error: null, payload })
+}
+
+// request the data from an api
+export const update_success = (state, action) => {
+  console.tron.log("updateSucessRedux")
+  return state.merge({ fetching: false, error : null, message: "Remito actualizado" })
 }
 
 // Something went wrong somewhere.
@@ -49,5 +56,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.REMITOS_REQUEST]: request,
   [Types.REMITOS_SUCCESS]: success,
   [Types.REMITOS_FAILURE]: failure,
-  [Types.REMITO_ESTADO_REQUEST]: request_estado,
+  [Types.REMITO_UPDATE]: update,
+  [Types.REMITO_UPDATE_SUCCESS]: update_success,
 })

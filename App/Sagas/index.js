@@ -18,7 +18,7 @@ import { startup } from './StartupSagas'
 //import { getUserAvatar } from './GithubSagas'
 import { login } from './LoginSagas'
 import { getRemitos } from './RemitosSagas'
-import { postRemitoEstado } from './RemitosSagas'
+import { postRemito } from './RemitosSagas'
 import { getHojaRuta } from './HojaRutaSagas'
 import { getMotivos } from './MotivosSagas'
 
@@ -43,7 +43,7 @@ export default function * root () {
 
     // some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
-    takeLatest(RemitosTypes.REMITO_ESTADO_REQUEST, postRemitoEstado, api),
+    takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
 
     // some sagas about mapaderuta
     takeLatest(HojaRutaTypes.HOJA_RUTA_REQUEST, getHojaRuta, api),

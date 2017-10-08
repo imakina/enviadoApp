@@ -43,27 +43,26 @@ export function * getRemitos (api, action) {
       problem = response.data.message
 
     //yield call(Alert.alert, problem)
-    yield put(RemitosActions.remitosFailure({fething: false}))
+    yield put(RemitosActions.remitosFailure({fetching: false}))
   }
 }
 
-export function * postRemitoEstado (api, action) {
+export function * postRemito (api, action) {
   //const { token } = action
   //const { token } = yield select(login)
   const { body } = action
-
-  console.tron.log(action)
-
   let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
+
   // make the call to the api
   const response = yield call(api.postRemitoEstado, token, body)
-  console.tron.log(response)
+  //console.tron.log(response)
 
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    const { data } = response
-    yield put(RemitosActions.remitosSuccess(data))
+    //const { data } = response
+    //const { data } = "Estado modificado correctamente"
+    yield put(RemitosActions.remitoUpdateSuccess())
   } else {
     // todo put the messages in a unified place
     // network error
@@ -72,6 +71,6 @@ export function * postRemitoEstado (api, action) {
       problem = response.data.message
 
     //yield call(Alert.alert, problem)
-    yield put(RemitosActions.remitosFailure({fething: false}))
+    yield put(RemitosActions.remitosFailure({fetching: false}))
   }
 }
