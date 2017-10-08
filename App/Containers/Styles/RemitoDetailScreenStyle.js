@@ -40,6 +40,16 @@ export default StyleSheet.create({
     justifyContent:'center', 
     alignItems: 'center', 
     padding: 8
-  }
+  },
+
+  spinnerContainer: {
+    //flex:1,
+    alignItems: 'center'
+  },
+
+  spinner: {
+    //flex:1,
+    alignItems: 'center'
+  },
 
 })
