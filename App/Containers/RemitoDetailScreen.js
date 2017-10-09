@@ -28,7 +28,8 @@ class RemitoDetailScreen extends Component {
       latitude : 0,
       longitude : 0,
       motivos : [{id:0, descripcion:'CARGANDO'}],
-      motivo: ''
+      motivo: '',
+      gpserror: ''
     }
     this.isRequesting = false
   }
@@ -46,7 +47,7 @@ class RemitoDetailScreen extends Component {
     const { 
       car_id, 
       motivo,
-      longitud,
+      longitude,
       latitude,
       item
     } = this.state
@@ -57,7 +58,7 @@ class RemitoDetailScreen extends Component {
       // fechaHora:'2017-09-27 11:36:37.243', 
       fechaHora: this.formatDateTime(), 
       latitud : latitude,
-      longitud: longitud,
+      longitud: longitude,
       car_id: car_id 
     }
     
@@ -70,15 +71,15 @@ class RemitoDetailScreen extends Component {
     let d = new Date();
     let result = d.getFullYear()
     result += "-"
-    result += d.getFullYear()
+    result += ((d.getMonth() + 1) > 9? '':'0') + (d.getMonth()+1)
     result += "-"
-    result += d.getFullYear()
+    result += (d.getDate() > 9? '':'0') + d.getDate()
     result += " "
-    result += (d.getHours() > 9? '':0) + d.getHours + ":"
-    result += (d.getMinutes() > 9? '':0) + d.getMinutes + ":"
-    result += (d.getSeconds() > 9? '':0) + d.getSeconds + "."
+    result += (d.getHours() > 9? '':'0') + d.getHours() + ":"
+    result += (d.getMinutes() > 9? '':'0') + d.getMinutes() + ":"
+    result += (d.getSeconds() > 9? '':'0') + d.getSeconds() + "."
     result += d.getMilliseconds()
-    console.tron.log(result)
+    console.tron.log(result,true)
     return result
   }
 
@@ -122,9 +123,9 @@ class RemitoDetailScreen extends Component {
           longitude: position.coords.longitude,
           error: null,
         });
-        //console.tron.display({name:'position', value: position},true)
+        console.tron.display({name:'position', value: position})
       },
-      (error) => this.setState({ error: error.message }),
+      (error) => this.setState({ gpserror: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   }
@@ -144,11 +145,12 @@ class RemitoDetailScreen extends Component {
       longitude,
       fetching,
       updating,
-      motivos
+      motivos,
+      gpserror
     } = this.state
 
     const leftButtonConfig = {
-      title: I18n.t('back'),
+      title: "< Remitos", //I18n.t('back'),
       //handler: () => this.props.navigation.navigate('RemitosListScreen', { hoja : hoja }),
       handler: () => this.onPressingBack(),
     }
@@ -194,6 +196,7 @@ class RemitoDetailScreen extends Component {
             <Text style={styles.information}>{item.nombreDestinatario.trim()}</Text>
             <Text style={styles.information}>Latitud : {latitude}</Text>
             <Text style={styles.information}>Longitud : {longitude}</Text>
+            <Text style={styles.information}>{gpserror}</Text>
           </View>
 
           <Spinner

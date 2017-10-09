@@ -195,11 +195,23 @@ class RemitosListScreen extends React.PureComponent {
     this.props.requestRemitos(hoja)
   }
 
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    console.tron.log({name:info, value:error})
+  }
+
   onPressSingleItem = (item) => {
     //console.tron.log({item:'item', value:item})
-    const { hoja } = this.state
-    const { car_id } = this.props.user
-    this.props.navigation.navigate('RemitoDetailScreen', { item : item, hoja : hoja, car_id : car_id })
+    try {
+      const { hoja } = this.state
+      const { car_id } = this.props.user
+      this.props.navigation.navigate('RemitoDetailScreen', { item : item, hoja : hoja, car_id : car_id })
+    }
+    catch(err) {
+      console.tron.display({name:'RemitoPressItem',value:err})
+    }
   }
 
   render () {
@@ -207,7 +219,7 @@ class RemitosListScreen extends React.PureComponent {
     const { fetching } = this.state;
 
     const leftButtonConfig = {
-      title: I18n.t('back'),
+      title: "< Hoja de Ruta", //I18n.t('back'),
       handler: () => this.props.navigation.navigate('HomeScreen'),
     }
 
