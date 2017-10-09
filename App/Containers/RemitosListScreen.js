@@ -154,7 +154,7 @@ class RemitosListScreen extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () =>
-    <Text style={styles.label}></Text>
+    <Text style={{padding:20, textAlign:'center'}}>SIN REMITOS</Text>
 
   renderSeparator = () =>
     <Text style={styles.label}> - ~~~~~ - </Text>
@@ -220,11 +220,11 @@ class RemitosListScreen extends React.PureComponent {
 
     const leftButtonConfig = {
       title: "< Hoja de Ruta", //I18n.t('back'),
-      handler: () => this.props.navigation.navigate('HomeScreen'),
+      handler: () => this.props.navigation.navigate('HojaRutaScreen'),
     }
 
     const titleConfig = {
-      title: 'Remitos ',
+      title: 'Remitos',
       style: {color:'#FFF'}
     }
 
@@ -271,7 +271,7 @@ class RemitosListScreen extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  //console.tron.display({value: state})
+  console.tron.display({name:'statepropsremitoslist',value: state})
   return {
     payload: state.remitos.payload,
     fetching: state.remitos.fetching,

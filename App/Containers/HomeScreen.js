@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, KeyboardAvoidingView, Image, StatusBar, TouchableOpacity } from 'react-native'
+import { Button } from 'react-native-elements'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -84,27 +85,37 @@ class HomeScreen extends Component {
 
         </View>
 
-        <View style={styles.formContainer}>
+        {/* <View style={styles.buttonContainer}> */}
 
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressingHojaDeRuta}>
-            <View style={styles.buttonIcon}>
-              <Icon
-                reverse
-                name='md-car'
-                type='ionicon'
-                color='#FFF'
-                size={60}
-              />
-              <Text style={styles.buttonText}> HOJAS DE RUTA</Text>
-            </View>
-          </TouchableOpacity>
+          <Button
+            raised
+            large
+            icon={{name: 'directions-car', size: 40}}
+            buttonStyle={styles.buttonElement}
+            textStyle={{textAlign: 'center'}}
+            title={'HOJAS DE RUTA'}
+            onPress={() => this.onPressingHojaDeRuta()} 
+          />
 
-        </View> 
+        {/* </View>  */}
 
       </View>
     )
   }
 }
+
+{/* <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressingHojaDeRuta}>
+<View style={styles.buttonIcon}>
+  <Icon
+    reverse
+    name='md-car'
+    type='ionicon'
+    color='#FFF'
+    size={60}
+  />
+  <Text style={styles.buttonText}> HOJAS DE RUTA</Text>
+</View>
+</TouchableOpacity> */}
 
 const mapStateToProps = (state) => {
   //console.tron.display({screen: "home", value: state})

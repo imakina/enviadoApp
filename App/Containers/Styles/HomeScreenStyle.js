@@ -5,25 +5,29 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor : 'rgba(255,255,255,0.2)'
+    backgroundColor : '#FFF'
   },
   formContainer: {
     // flex: 1,
     padding: 20
   },
-  // buttonContainer: {
-  //   backgroundColor: '#27ae60',
-  //   // paddingVertical: 7,
-  //   padding: 10,
-  //   flexDirection: 'row',
-  //   alignItems: 'center'
-  // },
-  // buttonText: {
-  //   textAlign: 'center',
-  //   color: '#FFF',
-  //   fontWeight: '700'
-  // },
 
+  buttonContainer: {
+    paddingBottom:20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 20,
+    paddingTop: 20,
+    backgroundColor: '#FFF',
+  },
+
+  buttonElement: {
+    backgroundColor: Colors.backgroundVariant, 
+    borderRadius: 10, 
+    paddingRight: 70,
+    paddingLeft: 70,
+    marginBottom: 20
+  },
 
   buttonText: {
     textAlign: 'center',
@@ -32,19 +36,6 @@ export default StyleSheet.create({
     color: Colors.snow,
     fontSize: Fonts.size.medium,
     fontFamily: Fonts.type.bold
-  },
-
-  buttonContainer: {
-    // backgroundColor: '#27ae60',
-    // borderColor: '#27ae60',
-    // borderWidth: 2,
-    borderRadius: 6,
-    marginVertical: 5,
-    borderTopColor: Colors.background,
-    borderBottomColor: Colors.background,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    backgroundColor: Colors.background
   },
 
   buttonIcon: {

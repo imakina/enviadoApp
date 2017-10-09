@@ -30,6 +30,8 @@ class LoginScreen extends Component {
   }
 
   handlePressLogin = () => {
+    //DEV
+    //this.setState({username:'31911',password:'31911'})
     const { username, password } = this.state
     //this.isAttempting = true
     this.state.fetching = true
@@ -110,7 +112,9 @@ class LoginScreen extends Component {
             autoCorrect={false}
             onChangeText={this.handleChangeUsername}
             onSubmitEditing={()=> this.passwordInput.focus()}
-            placeholderTextColor='rgba(255,255,255,0.5)'/>
+            placeholderTextColor='rgba(255,255,255,0.5)'
+            underlineColorAndroid='rgba(255,255,255,0.2)'
+          />
 
           <TextInput
             placeholder='contraseña'
@@ -120,11 +124,12 @@ class LoginScreen extends Component {
             onChangeText={this.handleChangePassword}
             ref={(input)=> this.passwordInput = input}
             placeholderTextColor='rgba(255,255,255,0.5)'
-            />
+            underlineColorAndroid='rgba(255,255,255,0.2)'
+          />
 
-            <TouchableOpacity style={styles.buttonContainer} onPress={this.handlePressLogin}>
-              <Text style={styles.buttonText}>LOGIN</Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonContainer} onPress={this.handlePressLogin}>
+            <Text style={styles.buttonText}>LOGIN</Text>
+          </TouchableOpacity>
 
         </View>
 

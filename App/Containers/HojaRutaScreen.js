@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
-import { ListItem, Header } from 'react-native-elements'
+import { ListItem, Button } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import HojaRutaActions from '../Redux/HojaRutaRedux'
@@ -20,7 +20,8 @@ class HojaRutaScreen extends Component {
     super(props)
     this.renderRow = this.renderRow.bind(this);
     this.state = {
-      car_id : props.navigation.state.params.car_id
+      //get car_id from statetoprops/login
+      //car_id : props.navigation.state.params.car_id
     }
     //this.onPressingRemitosPorHojaRuta = this.onPressingRemitosPorHojaRuta.bind(this);
   }
@@ -59,13 +60,23 @@ class HojaRutaScreen extends Component {
     //{"numeroHojaRuta":"00000045","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
     //{"numeroHojaRuta":"00000161","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
     // hideChevron
-    <ListItem
+    // <ListItem
+    //     title={item.numeroHojaRuta}
+    //     subtitle={item.car_id}
+    //     //badge={badge} 
+    //     containerStyle={{ backgroundColor: 'white' }}
+    //     onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
+    //   />
+
+      <Button
+        raised
+        icon={{name: 'map', size: 40}}
+        buttonStyle={{backgroundColor: '#ff4f00', borderRadius: 10, padding: 20, marginTop: 10}}
+        textStyle={{textAlign: 'center'}}
         title={item.numeroHojaRuta}
-        subtitle={item.car_id}
-        //badge={badge} 
-        containerStyle={{ backgroundColor: 'white' }}
         onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
       />
+
     )
 
   }
@@ -75,7 +86,7 @@ class HojaRutaScreen extends Component {
     const { fetching } = this.state;
 
     const leftButtonConfig = {
-      title: I18n.t('back'),
+      title: '< Inicio', // I18n.t('back'),
       handler: () => this.props.navigation.navigate('HomeScreen'),
     }
 
@@ -130,6 +141,7 @@ class HojaRutaScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.tron.display({name:'statepropsremitoslist',value: state})  
   return {
     payload: state.hojaruta.payload,
     fetching: state.hojaruta.fetching,
