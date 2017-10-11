@@ -146,7 +146,7 @@ class RemitosListScreen extends React.PureComponent {
   // Render a header?
   renderHeader = () =>
     //<SearchBar placeholder="Type Here..." lightTheme round />
-    //<Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+    <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
 
   // Render a footer?
   renderFooter = () =>
