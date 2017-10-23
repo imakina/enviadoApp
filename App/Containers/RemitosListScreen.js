@@ -49,15 +49,15 @@ class RemitosListScreen extends React.PureComponent {
   renderPerson(item) {
 
     const badge = {
-      value: `☆ ${item.nroRemito}`,
+      // value: `☆ ${item.nroRemito}`,
+      value: `${item.nroRemito}`,
       badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
-      badgeTextStyle: { fontSize: 12 },
+      badgeTextStyle: { fontSize: 12, padding: 3 },
     };
+    // hideChevron
 
     return (
-
       <ListItem
-        hideChevron
         title={`${item.nombreDestinatario.toLowerCase()}`}
         subtitle={`${item.domicilioDestinatario.toLowerCase()}`}
         badge={badge}
@@ -117,17 +117,18 @@ class RemitosListScreen extends React.PureComponent {
       })
 
     const badge = {
-      value: `☆ ${item.nroRemito}`,
+      // value: `☆ ${item.nroRemito}`,
+      value: `${item.nroRemito}`,
       badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
-      badgeTextStyle: { fontSize: 12 },
+      badgeTextStyle: { fontSize: 12, padding: 3 },
     };
 
     //const nombre = transform(item.nombreDestinatario) 
 
     return (
+      // hideChevron
     
     <ListItem
-        hideChevron
         title={nombre}
         subtitle={item.domicilioDestinatario}
         badge={badge}
@@ -271,7 +272,7 @@ class RemitosListScreen extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({name:'statepropsremitoslist',value: state})
+  //console.tron.display({name:'statepropsremitoslist',value: state})
   return {
     payload: state.remitos.payload,
     fetching: state.remitos.fetching,

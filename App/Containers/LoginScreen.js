@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView, StatusBar, View, Image, TextInput, TouchableOpacity } from 'react-native'
+import { Text, KeyboardAvoidingView, StatusBar, View, Image, TextInput, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Button } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
@@ -20,20 +21,20 @@ class LoginScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      username: '0',
+      username: '',
       password: '',
       fetching: false,
       message: '',
       error: false
     }
-    //this.isAttempting = false
+    this.isAttempting = false
   }
 
   handlePressLogin = () => {
     //DEV
-    //this.setState({username:'31911',password:'31911'})
+    //this.setState({username:'31922',password:'31922'})
     const { username, password } = this.state
-    //this.isAttempting = true
+    this.isAttempting = true
     this.state.fetching = true
     // attempt a login - a saga is listening to pick it up from here.
     this.props.attemptLogin(username, password)
@@ -54,9 +55,8 @@ class LoginScreen extends Component {
       error: newProps.error,
       message: newProps.message 
     })
-    //console.tron.display(this.state)
 
-    if (newProps.error) {
+    if (newProps.error && this.isAttempting) {
       Alert.alert(
         'Autenticación',
         newProps.message,
@@ -67,10 +67,9 @@ class LoginScreen extends Component {
         // ],
         // { cancelable: false }
       )
+      this.isAttempting = false
     }
-    // } else if (this.isAttemping) {
-    //   this.props.navigation.navigate('HomeScreen')      
-    // }
+
   }
 
   render () {
@@ -127,11 +126,20 @@ class LoginScreen extends Component {
             underlineColorAndroid='rgba(255,255,255,0.2)'
           />
 
-          <TouchableOpacity style={styles.buttonContainer} onPress={this.handlePressLogin}>
+          {/* <TouchableOpacity style={styles.buttonContainer} onPress={this.handlePressLogin}>
             <Text style={styles.buttonText}>LOGIN</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         </View>
+
+        <Button
+          raised
+          icon={{ name: 'login', type: 'entypo' }}
+          buttonStyle={styles.button}
+          textStyle={{ textAlign: 'center' }}
+          title="INGRESAR"
+          onPress={() => this.handlePressLogin()} 
+        />
 
       </KeyboardAvoidingView>
 

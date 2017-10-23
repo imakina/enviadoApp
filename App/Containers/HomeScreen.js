@@ -25,7 +25,8 @@ class HomeScreen extends Component {
   }
 
   onPressingHojaDeRuta = () => {
-    this.props.navigation.navigate('HojaRutaScreen', { car_id : this.props.user.car_id })
+    // this.props.navigation.navigate('HojaRutaScreen', { car_id : this.props.user.car_id })
+    this.props.navigation.navigate('HojaRutaScreen')
   }
 
   render () {

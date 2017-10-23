@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles } from '../../Themes/'
+import { Metrics, ApplicationStyles } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -26,10 +26,11 @@ title: {
   opacity: 0.9
 },
 //
-  //
 formContainer: {
   // flex: 1,
-  padding: 20
+  paddingLeft: 20,
+  paddingRight: 20,
+  paddingTop: 20,
 },
 input: {
   backgroundColor: 'rgba(255,255,255,0.2)',
@@ -38,23 +39,29 @@ input: {
   color: '#FFF',
   paddingHorizontal: 10
 },
-buttonContainer: {
-  backgroundColor: '#27ae60',
-  paddingVertical: 15
-},
-buttonText: {
-  textAlign: 'center',
-  color: '#FFF',
-  fontWeight: '700'
-},
+
+// buttonContainer: {
+//   backgroundColor: '#27ae60',
+//   paddingVertical: 15
+// },
+// buttonText: {
+//   textAlign: 'center',
+//   color: '#FFF',
+//   fontWeight: '700'
+// },
+
 spinnerContainer: {
   flex:1,
   alignItems: 'center'
 },
-spinner: {
-  // paddingVertical: 160
+
+button: {
+  backgroundColor: '#27ae60', 
+  borderRadius: 5,
+  marginBottom: 20,
+  marginLeft: 5,
+  marginRight: 5
 }
+
 })
-//
-//
-//
+

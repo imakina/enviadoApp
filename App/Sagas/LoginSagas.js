@@ -28,15 +28,12 @@ export function * login (api, action) {
     yield put(LoginActions.loginSuccess({car_id, token, car_first_nm, car_last_nm, mail}))
     yield put(NavigationActions.navigate({routeName: 'HomeScreen'}))
   } else {
-    // todo put the messages in a unified place
     // network error
     // console.tron.log({status:'LOGIN_FAIL', response: response}) 
     const { problem } = response
     if (problem == null)
       problem = response.data.message
 
-    // yield call(Alert.alert, problem)
-    // yield put(LoginActions.loginFailure({fething: false, payload: problem}))
     yield put(LoginActions.loginFailure( problem ))
   }
 }

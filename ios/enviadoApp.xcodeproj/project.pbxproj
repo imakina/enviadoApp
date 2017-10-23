@@ -54,7 +54,7 @@
 		E73468A862E24E36BF09ED7F /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFB982F74BAA42DE939980BA /* libRNDeviceInfo.a */; };
 		F9357FF5EF4A47BBA7A2BC3D /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E791E3B95644C186AFC69F /* libRCTCamera.a */; };
 		FFE7C32BAC6D48BBB686CA13 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 807FDA1874884627A53F9A6F /* Octicons.ttf */; };
-		1CF8611719544A26AFC6A0B1 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 699827065890412BA8CBB2E7 /* libAirMaps.a */; };
+		8C677D7A955C41439A8F463F /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5010B2FBD6E34B25963CD36F /* libAirMaps.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,8 +383,8 @@
 		C9E791E3B95644C186AFC69F /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
 		F56CC7883EC74154AE3F41DB /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		FB9417B03F004EF38DE30EAC /* libjschelpers.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libjschelpers.a; sourceTree = "<group>"; };
-		3DEACDA2580446A788A6BFDB /* AirMaps.xcodeproj */ = {isa = PBXFileReference; name = "AirMaps.xcodeproj"; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		699827065890412BA8CBB2E7 /* libAirMaps.a */ = {isa = PBXFileReference; name = "libAirMaps.a"; path = "libAirMaps.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		05A795F26CDE42A69AF0010D /* AirMaps.xcodeproj */ = {isa = PBXFileReference; name = "AirMaps.xcodeproj"; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		5010B2FBD6E34B25963CD36F /* libAirMaps.a */ = {isa = PBXFileReference; name = "libAirMaps.a"; path = "libAirMaps.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,7 +420,7 @@
 				79A0E2B100DF4F6F94170BA7 /* libRNSpinkit.a in Frameworks */,
 				4B2878DC8462472C9C32F817 /* libRNVectorIcons.a in Frameworks */,
 				F9357FF5EF4A47BBA7A2BC3D /* libRCTCamera.a in Frameworks */,
-				1CF8611719544A26AFC6A0B1 /* libAirMaps.a in Frameworks */,
+				8C677D7A955C41439A8F463F /* libAirMaps.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,7 +597,7 @@
 				B0C6C1544C354CA7A6A4DFAC /* RNSpinkit.xcodeproj */,
 				8C448F606C734A3AA2346E4F /* RNVectorIcons.xcodeproj */,
 				6560DF1F76C1445F84600E00 /* RCTCamera.xcodeproj */,
-				3DEACDA2580446A788A6BFDB /* AirMaps.xcodeproj */,
+				05A795F26CDE42A69AF0010D /* AirMaps.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";

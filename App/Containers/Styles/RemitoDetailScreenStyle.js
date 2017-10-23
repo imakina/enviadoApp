@@ -9,7 +9,10 @@ export default StyleSheet.create({
   },
   formContainer: {
     // flex: 1,
-    padding: 20
+    // padding: 20,
+    backgroundColor: Colors.ricePaper,
+    paddingLeft: 5,
+    paddingRight: 5
   },
   
   buttonText: {
@@ -50,6 +53,16 @@ export default StyleSheet.create({
   spinner: {
     //flex:1,
     alignItems: 'center'
+  },
+
+
+  // 
+  buttonElement: {
+    backgroundColor: Colors.backgroundVariant, 
+    borderRadius: 10, 
+    paddingRight: 70,
+    paddingLeft: 70,
+    marginBottom: 20
   },
 
 })

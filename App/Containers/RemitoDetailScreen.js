@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Alert, Picker} from 'react-native'
+import { View, Text, TouchableOpacity, Picker} from 'react-native'
 import { connect } from 'react-redux'
+import { Button, Divider } from 'react-native-elements'
+import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import MotivosActions from '../Redux/MotivosRedux'
 import RemitosActions from '../Redux/RemitosRedux'
 
-// import { Button, FormLabel } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 // Styles
 import styles from './Styles/RemitoDetailScreenStyle'
 
-import NavigationBar from 'react-native-navbar';
-import I18n from 'react-native-i18n'
+// import I18n from 'react-native-i18n'
 
 var Spinner = require('react-native-spinkit')
 
@@ -131,9 +131,12 @@ class RemitoDetailScreen extends Component {
   }
 
   onPressingBack = () => {
-    //console.tron.display({name:'pressingback',value:this.state})
     const { hoja } = this.state
     this.props.navigation.navigate('RemitosListScreen', { hoja : hoja })
+  }
+
+  onPressingRoute= () => {
+    this.props.navigation.navigate('RouteScreen')
   }
 
   render () {
@@ -167,7 +170,7 @@ class RemitoDetailScreen extends Component {
     }
 
     // { updating && (
-    // )}
+    // )} isVisible={updating || fetching}
 
     return (
 
@@ -180,33 +183,48 @@ class RemitoDetailScreen extends Component {
           statusBar={statusBarConfig}
         />
         
-        <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
+        <View style={{ alignItems: 'center', paddingTop: 5, flexGrow: 1, flexDirection: 'row' }}>
 
-          <Icon
-             name='md-paper'
-             type='ionicon'
-             color='#27ae60'
-             size={100}
-          />
-          
-          <View style={{ padding: 10, alignItems: 'center' }}>
-            <Text style={styles.information}>Remito : {item.nroRemito}</Text>
-            <Text style={styles.information}>Razon Social : {item.razonSocial}</Text>
-            <Text style={styles.information}>{item.domicilioDestinatario.trim()}</Text>
-            <Text style={styles.information}>{item.nombreDestinatario.trim()}</Text>
-            <Text style={styles.information}>Latitud : {latitude}</Text>
-            <Text style={styles.information}>Longitud : {longitude}</Text>
-            <Text style={styles.information}>{gpserror}</Text>
+          <View style={{ flexDirection: 'row', padding: 10 }}>
+
+            <View style={{ padding: 15 }}> 
+
+              <Icon
+                name='md-paper'
+                type='ionicon'
+                color='#27ae60'
+                size={100}
+              />
+            
+            </View>
+        
+            <View style={{ padding: 10 }}>
+              
+              <View style={{ padding: 10, alignItems: 'center' }}>
+                <Text style={styles.information}>Remito : {item.nroRemito}</Text>
+                <Text style={styles.information}>Razon Social : {item.razonSocial}</Text>
+                <Text style={styles.information}>{item.domicilioDestinatario.trim()}</Text>
+                <Text style={styles.information}>{item.nombreDestinatario.trim()}</Text>
+                <Text style={styles.information}>Latitud : {latitude}</Text>
+                <Text style={styles.information}>Longitud : {longitude}</Text>
+                <Text style={styles.information}>{gpserror}</Text>
+              </View>
+
+              { updating || fetching && (
+              <Spinner
+                style={styles.spinner}
+                size={100}
+                type={'Pulse'}
+                color={'#27ae60'}/>
+              )}
+
+            </View>
+
           </View>
-
-          <Spinner
-            style={styles.spinner}
-            isVisible={updating || fetching}
-            size={100}
-            type={'Pulse'}
-            color={'#27ae60'}/>
-
+        
         </View>
+
+        <Divider style={{ backgroundColor: '#2ecc71' }} />
 
         <View style={styles.formContainer}>
 
@@ -220,31 +238,51 @@ class RemitoDetailScreen extends Component {
               
             }
           </Picker>
-
-          <TouchableOpacity
-            disabled={updating}
-            style={styles.buttonContainer} 
-            onPress={this.onPresssingConfirm}>
-
-            <View style={styles.buttonIcon}>
-              <Icon
-                reverse
-                name='md-thumbs-up'
-                type='ionicon'
-                color='#FFF'
-                size={40}
-              />
-              <Text style={styles.buttonText}> CONFIRMAR </Text>
-            </View>
-
-          </TouchableOpacity>
-
+        
         </View> 
+
+        <Button
+          raised
+          large
+          icon={{name: 'thumbs-up', type: 'entypo' }}
+          buttonStyle={styles.buttonElement}
+          textStyle={{textAlign: 'center'}}
+          title={'CONFIRMAR'}
+          onPress={() => this.onPresssingConfirm()} 
+        />
+
+        <Button
+          raised
+          large
+          icon={{name: 'place' }}
+          buttonStyle={styles.buttonElement}
+          textStyle={{textAlign: 'center'}}
+          title={'RUTA'}
+          onPress={() => this.onPressingRoute()} 
+        />
 
       </View>
     )
   }
 }
+
+{/* <TouchableOpacity
+disabled={updating}
+style={styles.buttonContainer} 
+onPress={this.onPresssingConfirm}>
+
+<View style={styles.buttonIcon}>
+  <Icon
+    reverse
+    name='md-thumbs-up'
+    type='ionicon'
+    color='#FFF'
+    size={40}
+  />
+  <Text style={styles.buttonText}> CONFIRMAR </Text>
+</View>
+
+</TouchableOpacity> */}
 
 const mapStateToProps = (state) => {
   //console.tron.display({name:'stateToProps', value:state})

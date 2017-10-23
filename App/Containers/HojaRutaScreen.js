@@ -141,7 +141,7 @@ class HojaRutaScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({name:'statepropsremitoslist',value: state})  
+  // console.tron.display({name:'statepropsremitoslist',value: state})  
   return {
     payload: state.hojaruta.payload,
     fetching: state.hojaruta.fetching,
