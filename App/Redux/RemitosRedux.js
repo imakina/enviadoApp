@@ -8,7 +8,8 @@ const { Types, Creators } = createActions({
   remitoUpdate: ['body'],
   remitosSuccess: ['payload'],
   remitosFailure: null,
-  remitoUpdateSuccess: null
+  remitoUpdateSuccess: null,
+  remitoSelected: ['remito']
 })
 
 export const RemitosTypes = Types
@@ -21,7 +22,8 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   payload: null,
   error: null,
-  message: ""
+  message: "",
+  remito: {}
 })
 
 /* ------------- Reducers ------------- */
@@ -43,7 +45,13 @@ export const success = (state, action) => {
 // request the data from an api
 export const update_success = (state, action) => {
   console.tron.log("updateSucessRedux")
-  return state.merge({ fetching: false, error : null, message: "Remito actualizado" })
+  return state.merge({ fetching: false, error : null })
+}
+
+// when a remito is selected from the list
+export const selected = (state, action) => {
+  const { remito } = action
+  return state.merge({ fetching: false, error: null, selected: remito })
 }
 
 // Something went wrong somewhere.
@@ -58,4 +66,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.REMITOS_FAILURE]: failure,
   [Types.REMITO_UPDATE]: update,
   [Types.REMITO_UPDATE_SUCCESS]: update_success,
+  [Types.REMITO_SELECTED]: selected,
 })

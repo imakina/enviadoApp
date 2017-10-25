@@ -6,7 +6,8 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   hojaRutaRequest: ['car_id','estado'],
   hojaRutaSuccess: ['payload'],
-  hojaRutaFailure: null
+  hojaRutaFailure: null,
+  hojaRutaSelected: ['hojaruta']
 })
 
 export const HojaRutaTypes = Types
@@ -18,7 +19,8 @@ export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
   payload: null,
-  error: null
+  error: null,
+  selected: null
 })
 
 /* ------------- Reducers ------------- */
@@ -35,12 +37,17 @@ export const success = (state, action) => {
 
 // Something went wrong somewhere.
 export const failure = state =>
-  state.merge({ fetching: false, error: true, payload: null })
+state.merge({ fetching: false, error: true, payload: null })
+
+// select a hoja ruta
+export const selected = (state, action) =>
+state.merge({ fetching: false, error: false, selected: action.hojaruta })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.HOJA_RUTA_REQUEST]: request,
   [Types.HOJA_RUTA_SUCCESS]: success,
-  [Types.HOJA_RUTA_FAILURE]: failure
+  [Types.HOJA_RUTA_FAILURE]: failure,
+  [Types.HOJA_RUTA_SELECTED]: selected
 })

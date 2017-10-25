@@ -14,39 +14,37 @@ import I18n from 'react-native-i18n'
 
 var Spinner = require('react-native-spinkit')
 
+const PENDING_STATE = '0'
+
 class HojaRutaScreen extends Component {
   
   constructor(props) {
     super(props)
     this.renderRow = this.renderRow.bind(this);
     this.state = {
-      //get car_id from statetoprops/login
-      //car_id : props.navigation.state.params.car_id
+      fetching:false,
+      dataObjects: []
     }
-    //this.onPressingRemitosPorHojaRuta = this.onPressingRemitosPorHojaRuta.bind(this);
-  }
-
-  state = {
-    fetching:false,
-    dataObjects: []
   }
 
   componentDidMount () {
     this.setState({ fetching: true })
-    // this.props.requestHojaRuta(this.state.car_id,'0')
-    this.props.requestHojaRuta(this.props.user.car_id,'0')
+    this.props.requestHojaRuta(this.props.user.car_id, PENDING_STATE)
+    this.setState({ user : this.props.user })
   }
 
   componentWillReceiveProps (newProps) {
     //console.tron.display({name: 'props', value: newProps})
-    this.setState({ dataObjects: newProps.payload })
-    this.setState({ fetching: newProps.fetching })
+    this.setState({ 
+      dataObjects: newProps.payload,
+      fetching: newProps.fetching 
+    })
   }
 
   onPressingRemitosPorHojaRuta = (item) => {
-    // const { car_id } = this.state
-    const { car_id } = this.props.user
-    this.props.navigation.navigate('RemitosListScreen', { hoja : item.numeroHojaRuta })
+    //hojarutaselected
+    this.props.selectedHojaRuta(item)
+    this.props.navigation.navigate('RemitosListScreen')
   }
 
   // The default function if no Key is provided is index
@@ -83,15 +81,18 @@ class HojaRutaScreen extends Component {
 
   render () {
 
-    const { fetching } = this.state;
+    const { 
+      fetching,
+      user
+    } = this.state;
 
     const leftButtonConfig = {
-      title: '< Inicio', // I18n.t('back'),
+      title: '< Inicio', 
       handler: () => this.props.navigation.navigate('HomeScreen'),
     }
 
     const titleConfig = {
-      title: 'Hojas de Ruta ' + this.props.user.car_id,
+      title: 'Hojas de Ruta ',
       style: {color:'#FFF'}
     }
 
@@ -151,7 +152,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestHojaRuta: (car_id,estado) => dispatch(HojaRutaActions.hojaRutaRequest(car_id,estado))
+    requestHojaRuta: (car_id,estado) => dispatch(HojaRutaActions.hojaRutaRequest(car_id,estado)),
+    selectedHojaRuta: (hojaruta) => dispatch(HojaRutaActions.hojaRutaSelected(hojaruta))
   }
 }
 

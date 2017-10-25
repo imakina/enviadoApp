@@ -6,6 +6,7 @@ import { Button } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
+import AlertActions from '../Redux/AlertRedux'
 
 // Styles
 import styles from './Styles/LoginScreenStyle'
@@ -25,16 +26,17 @@ class LoginScreen extends Component {
       password: '',
       fetching: false,
       message: '',
-      error: false
+      error: false,
+      authenticated : false
     }
-    this.isAttempting = false
+    // this.isAttempting = false
   }
 
   handlePressLogin = () => {
     //DEV
     //this.setState({username:'31922',password:'31922'})
     const { username, password } = this.state
-    this.isAttempting = true
+    // this.isAttempting = true
     this.state.fetching = true
     // attempt a login - a saga is listening to pick it up from here.
     this.props.attemptLogin(username, password)
@@ -48,33 +50,58 @@ class LoginScreen extends Component {
     this.setState({ password: text })
   }
 
+  componentDidMount() {
+    this.setState({ authenticated : false })
+  }
+
   componentWillReceiveProps (newProps) {
 
     this.setState({ 
       fetching: newProps.fetching ,
       error: newProps.error,
-      message: newProps.message 
+      message: newProps.message,
+      logged: newProps.logged
     })
 
-    if (newProps.error && this.isAttempting) {
-      Alert.alert(
-        'Autenticación',
-        newProps.message,
-        // [
-        //   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-        //   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        //   {text: 'OK', onPress: () => console.log('OK Pressed')},
-        // ],
-        // { cancelable: false }
-      )
-      this.isAttempting = false
-    }
+    // console.tron.log({name:'crp_login_props', value:newProps})
+    // console.tron.log({name:'crp_login_state', value:this.state})
 
+    // moving to home if everything is ok
+    if (!this.state.authenticated)
+      if (newProps.logged)
+          if (!newProps.error) {
+            // flag to prevent navigate to homescreen many times as vars changed
+            this.state.authenticated = true
+            this.props.navigation.navigate('HomeScreen')
+          }
+
+    //TODO
+    //Recuperar el alert en esta func revisando que cambia
+
+    // if (newProps.error && this.isAttempting) {
+      // Alert.alert(
+      //   'Autenticación',
+      //   newProps.message,
+      //   // [
+      //   //   {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+      //   //   {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+      //   //   {text: 'OK', onPress: () => console.log('OK Pressed')},
+      //   // ],
+      //   // { cancelable: false }
+      // )
+    //   this.isAttempting = false
+    // }
+
+  }
+
+  componentDidMount() {
+    
   }
 
   render () {
 
-    const { fetching } = this.state;
+    const { alert } = this.props
+    const { fetching } = this.state
 
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.container}>
@@ -87,6 +114,7 @@ class LoginScreen extends Component {
             source={Images.logo}
             />
         </View>
+
 
         <View style={styles.spinnerContainer}>
         { fetching && (
@@ -126,15 +154,23 @@ class LoginScreen extends Component {
             underlineColorAndroid='rgba(255,255,255,0.2)'
           />
 
-          {/* <TouchableOpacity style={styles.buttonContainer} onPress={this.handlePressLogin}>
-            <Text style={styles.buttonText}>LOGIN</Text>
-          </TouchableOpacity> */}
-
         </View>
+        
+        {
+          alert.type === 'alert-danger' &&
+            Alert.alert(
+              'Error en autenticación',
+              alert.message,
+              [
+                {text: 'OK', onPress: () => this.props.clearAlert()},
+              ],
+              { cancelable: false }
+            )
+        }
 
         <Button
           raised
-          icon={{ name: 'login', type: 'entypo' }}
+          icon={{ name: 'sign-in', type: 'font-awesome' }}
           buttonStyle={styles.button}
           textStyle={{ textAlign: 'center' }}
           title="INGRESAR"
@@ -143,23 +179,24 @@ class LoginScreen extends Component {
 
       </KeyboardAvoidingView>
 
-    )
+    ) 
   }
 }
 
 const mapStateToProps = (state) => {
-  // console.tron.log('loginScreen')
-  // console.tron.display({value: state})
+  //console.tron.display({name:'stop_login',value: state}) 
   return {
     fetching: state.login.fetching,
     error: state.login.error,
-    message: state.login.message
+    logged : state.login.payload,
+    alert: state.alert
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password))
+    attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password)),
+    clearAlert: () => dispatch(AlertActions.alertClear())
   }
 }
 

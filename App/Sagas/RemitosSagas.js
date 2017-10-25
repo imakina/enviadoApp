@@ -12,6 +12,7 @@
 
 import { call, put, select } from 'redux-saga/effects'
 import RemitosActions from '../Redux/RemitosRedux'
+import AlertActions from '../Redux/AlertRedux'
 
 export const login = (state) => state.login.payload
 
@@ -24,7 +25,7 @@ export function * getRemitos (api, action) {
   //const { token } = yield select(login)
   const { hoja } = action
 
-  //console.tron.log({status:'STATE_LOGIN', value: token})
+  console.tron.log({status:'SAGA_REMITO', value: action})
   let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
   // make the call to the api
   const response = yield call(api.getRemitos, hoja, token)
@@ -63,6 +64,7 @@ export function * postRemito (api, action) {
     //const { data } = response
     //const { data } = "Estado modificado correctamente"
     yield put(RemitosActions.remitoUpdateSuccess())
+    yield put(AlertActions.alertSuccess("Remito actualizado"))
   } else {
     // todo put the messages in a unified place
     // network error

@@ -6,7 +6,8 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   loginRequest: ['username','password'],
   loginSuccess: ['payload'],
-  loginFailure: ['message']
+  loginFailure: ['message'],
+  logoutRequest: null
 })
 
 export const LoginTypes = Types
@@ -15,7 +16,6 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  data: null,
   fetching: null,
   payload: null,
   error: null
@@ -35,17 +35,22 @@ export const success = (state, action) => {
 
 // Something went wrong somewhere.
 export const failure = (state, action) => {
-  console.tron.log(action)
-  const { message } = action
-  return state.merge({ fetching: false, error: true, payload: null, message: message })
+  // console.tron.log(action)
+  // const { message } = action
+  return state.merge({ fetching: false, error: true, payload: null })
 }
+
+// Logout cleaning
+export const logout = (state, action) =>
+  state.merge({payload : null})
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_REQUEST]: request,
   [Types.LOGIN_SUCCESS]: success,
-  [Types.LOGIN_FAILURE]: failure
+  [Types.LOGIN_FAILURE]: failure,
+  [Types.LOGOUT_REQUEST]: logout,
 })
 
 /* ------------- Selectors ------------- */

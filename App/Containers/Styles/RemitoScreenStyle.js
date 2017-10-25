@@ -55,6 +55,9 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
 
+  information : {
+    maxWidth: 230
+  },
 
   // 
   buttonElement: {

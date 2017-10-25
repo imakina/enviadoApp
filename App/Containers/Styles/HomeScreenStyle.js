@@ -5,7 +5,8 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor : '#FFF'
+    backgroundColor : '#FFF',
+    // paddingTop:50, 
   },
   formContainer: {
     // flex: 1,

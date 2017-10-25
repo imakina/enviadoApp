@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, Picker} from 'react-native'
+import { View, Text, TouchableOpacity, Picker, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { Button, Divider } from 'react-native-elements'
 import NavigationBar from 'react-native-navbar';
@@ -7,24 +7,22 @@ import NavigationBar from 'react-native-navbar';
 // import YourActions from '../Redux/YourRedux'
 import MotivosActions from '../Redux/MotivosRedux'
 import RemitosActions from '../Redux/RemitosRedux'
+import AlertActions from '../Redux/AlertRedux'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 
 // Styles
-import styles from './Styles/RemitoDetailScreenStyle'
-
-// import I18n from 'react-native-i18n'
-
+import styles from './Styles/RemitoScreenStyle'
 var Spinner = require('react-native-spinkit')
 
-class RemitoDetailScreen extends Component {
+class RemitoScreen extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      item : props.navigation.state.params.item,
-      car_id : props.navigation.state.params.car_id,
-      hoja : props.navigation.state.params.hoja,
+      // item : props.navigation.state.params.item,
+      // hoja : props.navigation.state.params.hoja,
+      // car_id : props.navigation.state.params.car_id,
       latitude : 0,
       longitude : 0,
       motivos : [{id:0, descripcion:'CARGANDO'}],
@@ -43,7 +41,8 @@ class RemitoDetailScreen extends Component {
 
   onPresssingConfirm = () => {
 
-    //const { idRemito } = this.state.item
+    this.setState({updating : true})
+
     const { 
       car_id, 
       motivo,
@@ -52,19 +51,22 @@ class RemitoDetailScreen extends Component {
       item
     } = this.state
 
+    const {
+      remito,
+      hojaruta
+    } = this.props
+
     let data = { 
-      idRemito: item.idRemito, 
+      idRemito: remito.idRemito, 
       estado : motivo,  
-      // fechaHora:'2017-09-27 11:36:37.243', 
       fechaHora: this.formatDateTime(), 
       latitud : latitude,
       longitud: longitude,
-      car_id: car_id 
+      car_id: hojaruta.car_id 
     }
     
-    this.isRequesting = true
+    // this.isRequesting = true
     this.props.updateRemito(data)
-
   }
 
   formatDateTime() {
@@ -84,36 +86,38 @@ class RemitoDetailScreen extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    //console.tron.display({name:"receiveProps", value:newProps})
+    console.tron.display({name:"rp_remito", value:newProps})
     this.setState({ 
-      motivos: newProps.payload, 
+      motivos: newProps.motivos, 
       fetching: newProps.fetching,
-      updating: newProps.updating
+      updating: newProps.updating,
+      // car_id: newProps.user.car_id
     })
-    //console.tron.log(this.isRequesting)
-    if (this.isRequesting && !newProps.updating) {
 
-      this.isRequesting = false
-      Alert.alert(
-        'Motivo',
-        newProps.message,
-        [
-          // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-          // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          {
-            text: 'OK', 
-            onPress: () => this.onPressingBack()
-          },
-        ],
-        { cancelable: false }
-      )
-      //
-    }
+    // console.tron.log({name:"rp_remito2", value:this.isRequesting})
+    // if (this.isRequesting && !newProps.updating) {
+    //   console.tron.log({name:"rp_remito3", value:newProps.updating})
+    //   this.isRequesting = false
+    //   Alert.alert(
+    //     'Motivo',
+    //     newProps.message,
+    //     [
+    //       // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+    //       // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+    //       {
+    //         text: 'OK', 
+    //         onPress: () => this.onPressingBack()
+    //       },
+    //     ],
+    //     { cancelable: false }
+    //   )
+    //   //
+    // }
 
   }
   
   componentDidMount() {
-    this.setState({ fetching: true })
+    this.setState({ fetching: true, gpsfetching : true })
     this.props.requestMotivos()
     // get the position
     navigator.geolocation.getCurrentPosition(
@@ -122,17 +126,20 @@ class RemitoDetailScreen extends Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           error: null,
+          gpsfetching : false
         });
         console.tron.display({name:'position', value: position})
       },
-      (error) => this.setState({ gpserror: error.message }),
+      (error) => this.setState({ gpserror: error.message, gpsfetching: false }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   }
 
   onPressingBack = () => {
-    const { hoja } = this.state
-    this.props.navigation.navigate('RemitosListScreen', { hoja : hoja })
+    // const { hoja } = this.state
+    // this.props.navigation.navigate('RemitosListScreen', { hoja : hoja })
+    this.props.clearAlert()
+    this.props.navigation.navigate('RemitosListScreen')
   }
 
   onPressingRoute= () => {
@@ -142,19 +149,21 @@ class RemitoDetailScreen extends Component {
   render () {
 
     const { 
-      item,
-      hoja,
+      // item,
+      // hoja,
       latitude, 
       longitude,
       fetching,
       updating,
-      motivos,
-      gpserror
+      // motivos,
+      gpserror,
+      gpsfetching
     } = this.state
 
+    const { remito, motivos, alert } = this.props
+
     const leftButtonConfig = {
-      title: "< Remitos", //I18n.t('back'),
-      //handler: () => this.props.navigation.navigate('RemitosListScreen', { hoja : hoja }),
+      title: "< Remitos", 
       handler: () => this.onPressingBack(),
     }
 
@@ -168,9 +177,6 @@ class RemitoDetailScreen extends Component {
       hidden: false, 
       tintColor: '#2ecc71'
     }
-
-    // { updating && (
-    // )} isVisible={updating || fetching}
 
     return (
 
@@ -193,32 +199,46 @@ class RemitoDetailScreen extends Component {
                 name='md-paper'
                 type='ionicon'
                 color='#27ae60'
-                size={100}
+                size={80}
               />
             
             </View>
         
             <View style={{ padding: 10 }}>
               
-              <View style={{ padding: 10, alignItems: 'center' }}>
-                <Text style={styles.information}>Remito : {item.nroRemito}</Text>
-                <Text style={styles.information}>Razon Social : {item.razonSocial}</Text>
-                <Text style={styles.information}>{item.domicilioDestinatario.trim()}</Text>
-                <Text style={styles.information}>{item.nombreDestinatario.trim()}</Text>
-                <Text style={styles.information}>Latitud : {latitude}</Text>
-                <Text style={styles.information}>Longitud : {longitude}</Text>
-                <Text style={styles.information}>{gpserror}</Text>
+              <View style={{ padding: 10 }}>
+                <Text style={styles.information}>{remito.nroRemito}</Text>
+                <Text style={styles.information}>{remito.nombreDestinatario.trim()}</Text>
+                <Text style={styles.information}>{remito.razonSocial}</Text>
+                <Text style={styles.information}>{remito.domicilioDestinatario.trim()}</Text>
+                {/* <Text style={styles.information}>Latitud : {remito.latitud}</Text>
+                <Text style={styles.information}>Longitud : {remito.longitud}</Text>*/}
               </View>
 
-              { updating || fetching && (
-              <Spinner
-                style={styles.spinner}
-                size={100}
-                type={'Pulse'}
-                color={'#27ae60'}/>
+              { updating || fetching  && (
+                  <Spinner
+                    style={styles.spinner}
+                    size={100}
+                    type={'Pulse'}
+                    color={'#27ae60'}/>
               )}
 
             </View>
+
+            {
+              alert.type === 'alert-success' &&
+                Alert.alert(
+                  'Informacion',
+                  alert.message,
+                  [
+                    {
+                      text: 'OK', 
+                      onPress: () => this.onPressingBack()
+                    },
+                  ],
+                  { cancelable: false }
+                )
+            }
 
           </View>
         
@@ -241,6 +261,8 @@ class RemitoDetailScreen extends Component {
         
         </View> 
 
+        <Text>{gpserror}</Text> 
+
         <Button
           raised
           large
@@ -251,7 +273,8 @@ class RemitoDetailScreen extends Component {
           onPress={() => this.onPresssingConfirm()} 
         />
 
-        <Button
+
+        {/* <Button
           raised
           large
           icon={{name: 'place' }}
@@ -259,7 +282,7 @@ class RemitoDetailScreen extends Component {
           textStyle={{textAlign: 'center'}}
           title={'RUTA'}
           onPress={() => this.onPressingRoute()} 
-        />
+        /> */}
 
       </View>
     )
@@ -285,20 +308,25 @@ onPress={this.onPresssingConfirm}>
 </TouchableOpacity> */}
 
 const mapStateToProps = (state) => {
-  //console.tron.display({name:'stateToProps', value:state})
+  //console.tron.display({name:'remito_sp', value:state})
   return {
     fetching: state.motivos.fetching,
-    payload: state.motivos.payload,
+    motivos: state.motivos.payload,
+    // user: state.login.payload,
     updating : state.remitos.fetching,
-    message : state.remitos.message
+    remito : state.remitos.selected,
+    hojaruta : state.hojaruta.selected,
+    // message : state.remitos.message,
+    alert: state.alert
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     requestMotivos: () => dispatch(MotivosActions.motivosRequest()) ,   
-    updateRemito: (body) => dispatch(RemitosActions.remitoUpdate(body))    
+    updateRemito: (body) => dispatch(RemitosActions.remitoUpdate(body)),
+    clearAlert: () => dispatch(AlertActions.alertClear())
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemitoDetailScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(RemitoScreen)

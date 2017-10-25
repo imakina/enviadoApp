@@ -28,24 +28,23 @@ class RouteScreen extends Component {
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
-      },
-      remito : []
+      }
     };
   }
 
-  componentWillReceiveProps (newProps) {
-    console.tron.display({name:"rp_maps", value:newProps})
-    this.setState({ 
-      region: [{latitude: newProps.remito.latitude, longitude: newProps.remito.longitud}]
-    })
-
+  componentDidMount () {
+    // console.tron.display({name:"cp_route", value:this.props.remito})
+    this.setState({ region : {
+      latitude: parseFloat(this.props.remito.latitud), 
+      longitude: parseFloat(this.props.remito.longitud),
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    } })
   }
-
-  // style={{ width: 250, height: 250 }}
 
   onPressingBack = () => {
     const { hoja } = this.state
-    this.props.navigation.navigate('RemitoDetailScreen')
+    this.props.navigation.navigate('RemitoScreen')
   }
 
   render () {
@@ -87,8 +86,8 @@ class RouteScreen extends Component {
           initialRegion={this.state.region}
         >
           <MapView.Marker
-            title="This is a title"
-            description="This is a description"
+            title={this.props.remito.nroRemito}
+            description={this.props.remito.domicilioDestinatario}
             coordinate={this.state.region}
           />
 
@@ -102,8 +101,7 @@ class RouteScreen extends Component {
 const mapStateToProps = (state) => {
   console.tron.display({name:'r_stop',value: state})
   return {
-    // provider: MapView.ProviderPropType
-    remito : state.remitos.payload
+    remito : state.remitos.selected
   }
 }
 

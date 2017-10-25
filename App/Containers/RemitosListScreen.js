@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, FlatList, TouchableHighlight, Alert, SearchBar } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { ListItem, Header } from 'react-native-elements'
+import { ListItem, Header, Icon } from 'react-native-elements'
 import { StackNavigator } from 'react-navigation'
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
@@ -20,10 +20,10 @@ class RemitosListScreen extends React.PureComponent {
   constructor(props) {
     super(props);
     this.renderRow = this.renderRow.bind(this);
-    this.state = {
-      hoja : props.navigation.state.params.hoja,
-      //car_id : props.navigation.state.params.car_id
-    }
+    // this.state = {
+    //   hoja : props.navigation.state.params.hoja,
+    //   //car_id : props.navigation.state.params.car_id
+    // }
     //console.tron.log({screen:'CameraScreen', value: this.state.hoja})
   }
 
@@ -46,28 +46,6 @@ class RemitosListScreen extends React.PureComponent {
     // ]
   }
 
-  renderPerson(item) {
-
-    const badge = {
-      // value: `☆ ${item.nroRemito}`,
-      value: `${item.nroRemito}`,
-      badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
-      badgeTextStyle: { fontSize: 12, padding: 3 },
-    };
-    // hideChevron
-
-    return (
-      <ListItem
-        title={`${item.nombreDestinatario.toLowerCase()}`}
-        subtitle={`${item.domicilioDestinatario.toLowerCase()}`}
-        badge={badge}
-        containerStyle={{ backgroundColor: 'white' }}
-        onPress={() => this.onPress(item)}
-      />
-    )
-
-  }
-
   /* ***********************************************************
   * STEP 2
   * `renderRow` function. How each cell/row should be rendered
@@ -77,24 +55,6 @@ class RemitosListScreen extends React.PureComponent {
     return <MyCustomCell title={item.title} description={item.description} />
   *************************************************************/
   renderRow ({item}) {
-
-    // return (
-    //
-    //   <TouchableHighlight
-  	// 		onPress={() => this.goToNextScreen(item)}
-  	// 		underlayColor='black'
-  	// 	>
-    //
-    //   <View style={styles.row} >
-    //     <View style={styles.info} >
-    //       <Text style={styles.level1}>{item.nroRemito}</Text>
-    //       <Text style={styles.level2}>{item.nombreDestinatario.toLowerCase()}</Text>
-    //       <Text style={styles.level3}>{item.domicilioDestinatario.toLowerCase()}</Text>
-    //     </View>
-    //   </View>
-    //
-    //   </TouchableHighlight>
-    // )
 
     function transform(uncapitalized) {
       return uncapitalized
@@ -125,16 +85,43 @@ class RemitosListScreen extends React.PureComponent {
 
     //const nombre = transform(item.nombreDestinatario) 
 
-    return (
+    // return (
       // hideChevron
-    
-    <ListItem
-        title={nombre}
-        subtitle={item.domicilioDestinatario}
-        badge={badge}
-        containerStyle={{ backgroundColor: 'white' }}
-        onPress={() => this.onPressSingleItem(item)}  
-      />
+      // <ListItem
+      //     title={nombre}
+      //     title='dos'
+      //     subtitle={item.domicilioDestinatario}
+      //     badge={badge}
+      //     containerStyle={{ backgroundColor: 'white' }}
+      //     onPress={() => this.onPressSingleItem(item)}  
+      //   />
+    return (
+
+      
+      <View style={styles.greatbox} >
+      
+          <View style={styles.imagem} >
+            <Icon
+              name='globe'
+              type='font-awesome'
+              color={item.latitud.trim()===''?'#BFBFBF':'red'}
+              size={40}
+              onPress={() => this.onPressMap(item)} 
+            />
+          </View>
+
+          <TouchableOpacity onPress={() => this.onPressSingleItem(item)}>
+            <View style={styles.box} >
+              <Text style={styles.title}>{item.nroRemito} - (${item.importe})</Text>
+              <Text style={styles.subtitle}>{nombre}</Text>
+              <Text style={styles.direction} numberOfLines={3}>{item.domicilioDestinatario}</Text>
+              <Text style={styles.description}>El Tipo de Pago es : {item.tipoPago.trim()===''?'no aplica':item.tipoPago}</Text>
+              <Text style={styles.description} numberOfLines={3}>{item.observaciones}</Text>
+            </View>
+          </TouchableOpacity>
+        
+      </View>
+
     )
 
   }
@@ -155,7 +142,7 @@ class RemitosListScreen extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () =>
-    <Text style={{padding:20, textAlign:'center'}}>SIN REMITOS</Text>
+    <Text style={{padding:20, textAlign:'center', marginTop:30}}> Buscando ... </Text>
 
   renderSeparator = () =>
     <Text style={styles.label}> - ~~~~~ - </Text>
@@ -186,34 +173,40 @@ class RemitosListScreen extends React.PureComponent {
 
   componentWillReceiveProps (newProps) {
     //console.tron.display({name: 'props', value: newProps})
-    this.setState({ dataObjects: newProps.payload })
-    this.setState({ fetching: newProps.fetching })
+    this.setState({ 
+      dataObjects: newProps.payload,
+      fetching: newProps.fetching 
+    })
   }
 
   componentDidMount () {
     this.setState({ fetching: true })
-    const { hoja } = this.state
-    this.props.requestRemitos(hoja)
+    //const { hoja } = this.state
+    const numero = this.props.hojaruta.numeroHojaRuta
+    //console.tron.log({name:'hoja', value:numero})
+    this.props.requestRemitos(numero)
   }
 
   componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true });
     // You can also log the error to an error reporting service
-    console.tron.log({name:info, value:error})
+    //console.tron.log({name:info, value:error})
   }
 
   onPressSingleItem = (item) => {
-    //console.tron.log({item:'item', value:item})
-    try {
-      const { hoja } = this.state
-      const { car_id } = this.props.user
-      this.props.navigation.navigate('RemitoDetailScreen', { item : item, hoja : hoja, car_id : car_id })
-    }
-    catch(err) {
-      console.tron.display({name:'RemitoPressItem',value:err})
-    }
+    console.tron.log({item:'item', value:item})
+    this.props.selectedRemitos(item)
+    //navigation
+    this.props.navigation.navigate('RemitoScreen')
   }
+
+  onPressMap = (item) => {
+    console.tron.log({name:'map', value:item})
+    //navigation
+    this.props.navigation.navigate('MapScreen')
+  }
+
 
   render () {
 
@@ -239,6 +232,7 @@ class RemitosListScreen extends React.PureComponent {
           statusBar={{style: 'light-content', hidden: false, tintColor: '#2ecc71'}}
         />
 
+
         <FlatList
           contentContainerStyle={styles.listContent}
           data={this.state.dataObjects}
@@ -262,9 +256,6 @@ class RemitosListScreen extends React.PureComponent {
         )}
         </View>
 
-        <View style={styles.fullfit}>
-        </View>
-
       </View>
         
       )
@@ -277,12 +268,14 @@ const mapStateToProps = (state) => {
     payload: state.remitos.payload,
     fetching: state.remitos.fetching,
     user: state.login.payload,
+    hojaruta : state.hojaruta.selected
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestRemitos: (hoja) => dispatch(RemitosActions.remitosRequest(hoja))
+    requestRemitos: (hoja) => dispatch(RemitosActions.remitosRequest(hoja)),
+    selectedRemitos: (remito) => dispatch(RemitosActions.remitoSelected(remito))
   }
 }
 

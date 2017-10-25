@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { View, Text, KeyboardAvoidingView, Image, StatusBar, TouchableOpacity } from 'react-native'
-import { Button } from 'react-native-elements'
+import { Header, Button, Avatar } from 'react-native-elements'
 import { connect } from 'react-redux'
+import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
-
-import NavigationBar from 'react-native-navbar';
-import I18n from 'react-native-i18n';
-// import NavigationBarBizarre from '../Components/NavigationBarBizarre';
+import LoginActions from '../Redux/LoginRedux'
 
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -25,8 +23,18 @@ class HomeScreen extends Component {
   }
 
   onPressingHojaDeRuta = () => {
-    // this.props.navigation.navigate('HojaRutaScreen', { car_id : this.props.user.car_id })
     this.props.navigation.navigate('HojaRutaScreen')
+  }
+
+  onPressingLogout = () => {
+    this.props.navigation.navigate('LoginScreen')
+    //TODO
+    //logout 
+    //this.props.attemptLogout()
+  }
+
+  componentDidMount() {
+    this.setState({ user : this.props.user })
   }
 
   render () {
@@ -37,17 +45,19 @@ class HomeScreen extends Component {
       car_first_nm, 
       car_last_nm, 
       mail 
-    } = this.props.user
+    } = this.state.user
+
+    // const initials = this.state.user.car_first_nm.substring(0,1).toUpperCase() + this.state.user.car_last_nm.substring(0,1).toUpperCase()
 
     // ===========================
     // NavigationBar
     const rightButtonConfig = {
-      title: I18n.t('logOut'),
-      handler: () => this.props.navigation.navigate('LoginScreen'),
+      title: 'Salir',
+      handler: () => this.onPressingLogout(),
     }
 
     const titleConfig = {
-      title: I18n.t('appName'),
+      title: 'enviadoApp',
       style: {color:'#FFF'}
     }
 
@@ -57,6 +67,14 @@ class HomeScreen extends Component {
         tintColor: '#2ecc71'
     }
     // ===========================
+
+        // <Avatar
+        //   xlarge
+        //   rounded
+        //   title={initials}
+        //   onPress={() => console.log("Works!")}
+        //   activeOpacity={0.7}
+        // />
 
     return (
       <View style={styles.container}>
@@ -68,7 +86,20 @@ class HomeScreen extends Component {
             statusBar={statusBarConfig}
         /> 
 
+        {/* <Header
+          statusBarProps={{ barStyle: 'light-content' }}
+          leftComponent={{ icon: 'menu', color: '#27ae60' }}
+          centerComponent={{ text: 'ENVIADO.COM', style: { color: '#27ae60' } }} 
+          rightComponent={{ 
+            icon: 'sign-out', 
+            type: 'font-awesome', 
+            color: '#27ae60',
+            onPress: () => this.onPressingLogout()
+          }}
+        /> */}
+
         <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
+
 
           <Icon
              reverse
@@ -86,40 +117,23 @@ class HomeScreen extends Component {
 
         </View>
 
-        {/* <View style={styles.buttonContainer}> */}
-
-          <Button
-            raised
-            large
-            icon={{name: 'directions-car', size: 40}}
-            buttonStyle={styles.buttonElement}
-            textStyle={{textAlign: 'center'}}
-            title={'HOJAS DE RUTA'}
-            onPress={() => this.onPressingHojaDeRuta()} 
-          />
-
-        {/* </View>  */}
+        <Button
+          raised
+          medium
+          icon={{name: 'road', type:'font-awesome', size: 40}}
+          buttonStyle={styles.buttonElement}
+          textStyle={{textAlign: 'center'}}
+          title={'HOJAS DE RUTA'}
+          onPress={() => this.onPressingHojaDeRuta()} 
+        />
 
       </View>
     )
   }
 }
 
-{/* <TouchableOpacity style={styles.buttonContainer} onPress={this.onPressingHojaDeRuta}>
-<View style={styles.buttonIcon}>
-  <Icon
-    reverse
-    name='md-car'
-    type='ionicon'
-    color='#FFF'
-    size={60}
-  />
-  <Text style={styles.buttonText}> HOJAS DE RUTA</Text>
-</View>
-</TouchableOpacity> */}
-
 const mapStateToProps = (state) => {
-  //console.tron.display({screen: "home", value: state})
+  //console.tron.display({name:'stop_home',value: state}) 
   return {
     user: state.login.payload,
     fetching: state.login.fetching
@@ -128,6 +142,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    attemptLogout: () => dispatch(LoginActions.logoutRequest())
   }
 }
 
