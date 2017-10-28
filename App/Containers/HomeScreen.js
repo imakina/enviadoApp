@@ -51,21 +51,21 @@ class HomeScreen extends Component {
 
     // ===========================
     // NavigationBar
-    const rightButtonConfig = {
-      title: 'Salir',
-      handler: () => this.onPressingLogout(),
-    }
+    // const rightButtonConfig = {
+    //   title: 'Salir',
+    //   handler: () => this.onPressingLogout(),
+    // }
 
-    const titleConfig = {
-      title: 'enviadoApp',
-      style: {color:'#FFF'}
-    }
+    // const titleConfig = {
+    //   title: 'enviadoApp',
+    //   style: {color:'#FFF'}
+    // }
 
-    const statusBarConfig = {
-        style: 'light-content', 
-        hidden: false, 
-        tintColor: '#2ecc71'
-    }
+    // const statusBarConfig = {
+    //     style: 'light-content', 
+    //     hidden: false, 
+    //     tintColor: '#2ecc71'
+    // }
     // ===========================
 
         // <Avatar
@@ -79,14 +79,14 @@ class HomeScreen extends Component {
     return (
       <View style={styles.container}>
 
-         <NavigationBar
+         {/* <NavigationBar
             style={styles.navigation}
             title={titleConfig}
             rightButton={rightButtonConfig}
             statusBar={statusBarConfig}
-        /> 
+        />  */}
 
-        {/* <Header
+        <Header
           statusBarProps={{ barStyle: 'light-content' }}
           leftComponent={{ icon: 'menu', color: '#27ae60' }}
           centerComponent={{ text: 'ENVIADO.COM', style: { color: '#27ae60' } }} 
@@ -96,7 +96,7 @@ class HomeScreen extends Component {
             color: '#27ae60',
             onPress: () => this.onPressingLogout()
           }}
-        /> */}
+        />
 
         <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
 
@@ -110,9 +110,9 @@ class HomeScreen extends Component {
           />
           
           <View style={{ padding: 10, alignItems: 'center' }}>
-            <Text style={styles.information}>{car_first_nm } { car_last_nm}</Text>
-            <Text style={styles.information}>{mail}</Text>
-            <Text style={styles.information}>CarID {car_id}</Text>
+            <Text style={styles.nombre}>{car_first_nm } { car_last_nm}</Text>
+            <Text style={styles.hoja}>CarID{car_id}</Text>
+            <Text style={styles.mail}>{mail}</Text>
           </View>
 
         </View>

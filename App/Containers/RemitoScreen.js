@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, Picker, Alert } from 'react-native'
 import { connect } from 'react-redux'
-import { Button, Divider } from 'react-native-elements'
+import { Button, Divider, Header } from 'react-native-elements'
 import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -21,6 +21,7 @@ class RemitoScreen extends Component {
     super(props);
     this.state = {
       // item : props.navigation.state.params.item,
+      
       // hoja : props.navigation.state.params.hoja,
       // car_id : props.navigation.state.params.car_id,
       latitude : 0,
@@ -81,7 +82,7 @@ class RemitoScreen extends Component {
     result += (d.getMinutes() > 9? '':'0') + d.getMinutes() + ":"
     result += (d.getSeconds() > 9? '':'0') + d.getSeconds() + "."
     result += d.getMilliseconds()
-    console.tron.log(result,true)
+    // console.tron.log(result,true)
     return result
   }
 
@@ -155,45 +156,57 @@ class RemitoScreen extends Component {
       longitude,
       fetching,
       updating,
-      // motivos,
       gpserror,
       gpsfetching
     } = this.state
 
     const { remito, motivos, alert } = this.props
 
-    const leftButtonConfig = {
-      title: "< Remitos", 
-      handler: () => this.onPressingBack(),
-    }
+    // const leftButtonConfig = {
+    //   title: "< Remitos", 
+    //   handler: () => this.onPressingBack(),
+    // }
 
-    const titleConfig = {
-      title: 'Detalle',
-      style: {color:'#FFF'}
-    }
+    // const titleConfig = {
+    //   title: 'Detalle',
+    //   style: {color:'#FFF'}
+    // }
     
-    const statusBarConfig = {
-      style: 'light-content', 
-      hidden: false, 
-      tintColor: '#2ecc71'
-    }
+    // const statusBarConfig = {
+    //   style: 'light-content', 
+    //   hidden: false, 
+    //   tintColor: '#2ecc71'
+    // }
 
     return (
 
       <View style={styles.container}>
 
-        <NavigationBar
+        {/* <NavigationBar
           style={styles.navigation}
           title={titleConfig}
           leftButton={leftButtonConfig}
+          rightComponent={{ icon: 'menu', color: '#27ae60' }}
           statusBar={statusBarConfig}
+          <Text>{gpserror}</Text> 
+        /> */}
+
+        <Header
+          statusBarProps={{ barStyle: 'light-content' }}
+          centerComponent={{ text: 'REMITO', style: { color: '#27ae60' } }} 
+          leftComponent={{ 
+            icon: 'chevron-left',
+            type: 'font-awesome',
+            color: '#27ae60',
+            onPress: () => this.onPressingBack()
+          }}
         />
         
-        <View style={{ alignItems: 'center', paddingTop: 5, flexGrow: 1, flexDirection: 'row' }}>
+        <View style={{ alignItems: 'center', flexGrow: 1  }}>
 
-          <View style={{ flexDirection: 'row', padding: 10 }}>
+          <View style={{ flexDirection: 'row', padding: 5 }}>
 
-            <View style={{ padding: 15 }}> 
+            <View style={{ padding: 5 }}> 
 
               <Icon
                 name='md-paper'
@@ -204,26 +217,52 @@ class RemitoScreen extends Component {
             
             </View>
         
-            <View style={{ padding: 10 }}>
+            <View style={{ padding: 5 }}>
               
-              <View style={{ padding: 10 }}>
-                <Text style={styles.information}>{remito.nroRemito}</Text>
-                <Text style={styles.information}>{remito.nombreDestinatario.trim()}</Text>
-                <Text style={styles.information}>{remito.razonSocial}</Text>
-                <Text style={styles.information}>{remito.domicilioDestinatario.trim()}</Text>
-                {/* <Text style={styles.information}>Latitud : {remito.latitud}</Text>
-                <Text style={styles.information}>Longitud : {remito.longitud}</Text>*/}
+              <View style={{ paddingRight: 5, paddingLeft: 5 }}>
+                <Text style={styles.title}>{remito.nroRemito} - (${remito.importe})</Text>
+                <Text style={styles.subtitle}>{remito.nombreDestinatario.trim()}</Text>
+                <Text style={styles.subtitle} >{remito.razonSocial}</Text>
+                <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
+                <Text style={styles.description}>El Tipo de Pago es : {remito.tipoPago.trim()===''?'no aplica':remito.tipoPago}</Text>
+                <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
+                {/* <Text style={styles.information}>Longitud : {remito.longitud}</Text>*/} 
+                { gpsfetching &&
+                  <Text style={styles.description}>Buscando GPS ... </Text>
+                }
               </View>
-
-              { updating || fetching  && (
-                  <Spinner
-                    style={styles.spinner}
-                    size={100}
-                    type={'Pulse'}
-                    color={'#27ae60'}/>
-              )}
-
+            
             </View>
+
+          </View>
+
+          <View>
+
+            { fetching  && (
+                <Spinner
+                  style={styles.spinner}
+                  size={100}
+                  type={'Pulse'}
+                  color={'#27ae60'}/>
+            )}
+
+            { updating && (
+                <Spinner
+                  style={styles.spinner}
+                  size={100}
+                  type={'Pulse'}
+                  color={'#27ae60'}/>
+            )}
+
+          { gpsfetching && (
+                <Spinner
+                  style={styles.spinner}
+                  size={100}
+                  type={'Pulse'}
+                  color={'#27ae60'}/>
+            )}
+
+          </View>
 
             {
               alert.type === 'alert-success' &&
@@ -239,16 +278,15 @@ class RemitoScreen extends Component {
                   { cancelable: false }
                 )
             }
-
-          </View>
         
         </View>
 
-        <Divider style={{ backgroundColor: '#2ecc71' }} />
 
         <View style={styles.formContainer}>
+          <Divider style={{ backgroundColor: '#2ecc71' }} />
 
           <Picker
+            enabled={!gpsfetching}
             selectedValue={this.state.motivo}
             onValueChange={(itemValue, itemIndex) => this.setState({motivo: itemValue})}>
             {
@@ -261,17 +299,20 @@ class RemitoScreen extends Component {
         
         </View> 
 
-        <Text>{gpserror}</Text> 
+        <View style={{ paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+        
+          <Button
+            disabled={gpsfetching || updating }
+            raised
+            large
+            icon={{name: 'thumbs-up', type: 'entypo' }}
+            buttonStyle={styles.buttonElement}
+            textStyle={{textAlign: 'center'}}
+            title={'CONFIRMAR'}
+            onPress={() => this.onPresssingConfirm()} 
+          />
 
-        <Button
-          raised
-          large
-          icon={{name: 'thumbs-up', type: 'entypo' }}
-          buttonStyle={styles.buttonElement}
-          textStyle={{textAlign: 'center'}}
-          title={'CONFIRMAR'}
-          onPress={() => this.onPresssingConfirm()} 
-        />
+        </View>
 
 
         {/* <Button

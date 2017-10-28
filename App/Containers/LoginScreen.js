@@ -167,15 +167,16 @@ class LoginScreen extends Component {
               { cancelable: false }
             )
         }
-
-        <Button
-          raised
-          icon={{ name: 'sign-in', type: 'font-awesome' }}
-          buttonStyle={styles.button}
-          textStyle={{ textAlign: 'center' }}
-          title="INGRESAR"
-          onPress={() => this.handlePressLogin()} 
-        />
+        <View style={{ paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
+          <Button
+            raised
+            icon={{ name: 'sign-in', type: 'font-awesome' }}
+            buttonStyle={styles.button}
+            textStyle={{ textAlign: 'center' }}
+            title="INGRESAR"
+            onPress={() => this.handlePressLogin()} 
+          />
+        </View>
 
       </KeyboardAvoidingView>
 

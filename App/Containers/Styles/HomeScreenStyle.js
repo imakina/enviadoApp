@@ -5,8 +5,9 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor : '#FFF',
-    // paddingTop:50, 
+    backgroundColor : Colors.snow,
+    //new header
+    paddingTop:50, 
   },
   formContainer: {
     // flex: 1,
@@ -24,11 +25,19 @@ export default StyleSheet.create({
 
   buttonElement: {
     backgroundColor: Colors.backgroundVariant, 
-    borderRadius: 10, 
+    borderRadius: 5, 
     paddingRight: 70,
     paddingLeft: 70,
     marginBottom: 20
   },
+
+  // buttonElement: {
+  //   backgroundColor: '#ECECEC', 
+  //   // borderRadius: 5, 
+  //   // paddingRight: 70,
+  //   // paddingLeft: 70,
+  //   // marginBottom: 20
+  // },
 
   buttonText: {
     textAlign: 'center',
@@ -45,12 +54,19 @@ export default StyleSheet.create({
     justifyContent:'center', 
     alignItems: 'center', 
     padding: 8
+  },
+
+  nombre : {
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+
+  hoja : {
+
+  },
+
+  mail: {
+
   }
-
-  // nestedButtonView: {
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  // },
-
 
 })

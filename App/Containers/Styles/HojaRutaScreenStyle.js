@@ -5,7 +5,8 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: Colors.ricePaper
+    backgroundColor: Colors.ricePaper,
+    paddingTop:70, 
   },
   spinnerContainer: {
     flex:1,

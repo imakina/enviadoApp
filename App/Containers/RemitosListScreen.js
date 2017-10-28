@@ -212,26 +212,37 @@ class RemitosListScreen extends React.PureComponent {
 
     const { fetching } = this.state;
 
-    const leftButtonConfig = {
-      title: "< Hoja de Ruta", //I18n.t('back'),
-      handler: () => this.props.navigation.navigate('HojaRutaScreen'),
-    }
+    // const leftButtonConfig = {
+    //   title: "< Hoja de Ruta", //I18n.t('back'),
+    //   handler: () => this.props.navigation.navigate('HojaRutaScreen'),
+    // }
 
-    const titleConfig = {
-      title: 'Remitos',
-      style: {color:'#FFF'}
-    }
+    // const titleConfig = {
+    //   title: 'Remitos',
+    //   style: {color:'#FFF'}
+    // }
 
     return (
       <View style={styles.container}>
 
-        <NavigationBar
+        {/* <NavigationBar
           style={styles.navigation}
           title={titleConfig}
           leftButton={leftButtonConfig}
           statusBar={{style: 'light-content', hidden: false, tintColor: '#2ecc71'}}
-        />
+          rightComponent={{ icon: 'menu', color: '#27ae60' }}
+        /> */}
 
+        <Header
+          statusBarProps={{ barStyle: 'light-content' }}
+          centerComponent={{ text: 'LISTA REMITOS', style: { color: '#27ae60' } }} 
+          leftComponent={{ 
+            icon: 'chevron-left',
+            type: 'font-awesome',
+            color: '#27ae60',
+            onPress: () => this.props.navigation.navigate('HojaRutaScreen')
+          }}
+        />
 
         <FlatList
           contentContainerStyle={styles.listContent}
