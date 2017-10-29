@@ -26,9 +26,11 @@ class RemitoScreen extends Component {
       // car_id : props.navigation.state.params.car_id,
       latitude : 0,
       longitude : 0,
-      motivos : [{id:0, descripcion:'CARGANDO'}],
+      motivos : [],
       motivo: '',
-      gpserror: ''
+      gpserror: '',
+      fetching: false,
+      alert : {}
     }
     this.isRequesting = false
   }
@@ -87,13 +89,21 @@ class RemitoScreen extends Component {
   }
 
   componentWillReceiveProps (newProps) {
+
+    try {
+
     console.tron.display({name:"rp_remito", value:newProps})
     this.setState({ 
       motivos: newProps.motivos, 
       fetching: newProps.fetching,
       updating: newProps.updating,
-      // car_id: newProps.user.car_id
+      alert: newProps.alert
     })
+  }
+  catch(e)
+  {
+    console.tron.log(e)
+  }
 
     // console.tron.log({name:"rp_remito2", value:this.isRequesting})
     // if (this.isRequesting && !newProps.updating) {
@@ -118,9 +128,15 @@ class RemitoScreen extends Component {
   }
   
   componentDidMount() {
-    this.setState({ fetching: true, gpsfetching : true })
-    this.props.requestMotivos()
+
+    if (!this.props.motivos) {
+      console.tron.log("rcm_motivos")
+      this.setState({ fetching: true })
+      this.props.requestMotivos()
+    }
+
     // get the position
+    this.setState({ gpsfetching : true })
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -152,6 +168,7 @@ class RemitoScreen extends Component {
     const { 
       // item,
       // hoja,
+      alert,
       latitude, 
       longitude,
       fetching,
@@ -160,7 +177,7 @@ class RemitoScreen extends Component {
       gpsfetching
     } = this.state
 
-    const { remito, motivos, alert } = this.props
+    const { remito, motivos } = this.props
 
     // const leftButtonConfig = {
     //   title: "< Remitos", 
@@ -206,7 +223,7 @@ class RemitoScreen extends Component {
 
           <View style={{ flexDirection: 'row', padding: 5 }}>
 
-            <View style={{ padding: 5 }}> 
+            <View style={{ padding: 5, minWidth: '20%' }}> 
 
               <Icon
                 name='md-paper'
@@ -217,14 +234,14 @@ class RemitoScreen extends Component {
             
             </View>
         
-            <View style={{ padding: 5 }}>
+            <View style={{ padding: 5, minWidth: '80%' }}>
               
               <View style={{ paddingRight: 5, paddingLeft: 5 }}>
-                <Text style={styles.title}>{remito.nroRemito} - (${remito.importe})</Text>
+                <Text style={styles.title}>{remito.nroRemito} - (${remito.importe} {remito.tipoPago.trim()})</Text>
                 <Text style={styles.subtitle}>{remito.nombreDestinatario.trim()}</Text>
                 <Text style={styles.subtitle} >{remito.razonSocial}</Text>
                 <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
-                <Text style={styles.description}>El Tipo de Pago es : {remito.tipoPago.trim()===''?'no aplica':remito.tipoPago}</Text>
+                {/* <Text style={styles.description}>El Tipo de Pago es : {remito.tipoPago.trim()===''?'no aplica':remito.tipoPago}</Text> */}
                 <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
                 {/* <Text style={styles.information}>Longitud : {remito.longitud}</Text>*/} 
                 { gpsfetching &&
@@ -236,7 +253,7 @@ class RemitoScreen extends Component {
 
           </View>
 
-          <View>
+          <View style={{ flexDirection: 'row'}}>
 
             { fetching  && (
                 <Spinner
@@ -265,6 +282,7 @@ class RemitoScreen extends Component {
           </View>
 
             {
+              alert &&
               alert.type === 'alert-success' &&
                 Alert.alert(
                   'Informacion',

@@ -118,6 +118,15 @@ export default StyleSheet.create({
   },
   description : {
     fontSize: 11,
-  }
-
+  },
+  //ListItem
+  subtitleView: {
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingTop: 5
+  },
+  ratingText: {
+    paddingLeft: 10,
+    color: 'grey'
+  },
 })

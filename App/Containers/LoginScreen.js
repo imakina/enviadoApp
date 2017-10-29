@@ -34,7 +34,7 @@ class LoginScreen extends Component {
 
   handlePressLogin = () => {
     //DEV
-    //this.setState({username:'31922',password:'31922'})
+    this.setState({username:'31922',password:'31922'})
     const { username, password } = this.state
     // this.isAttempting = true
     this.state.fetching = true

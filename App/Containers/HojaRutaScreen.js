@@ -66,14 +66,19 @@ class HojaRutaScreen extends Component {
     //     onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
     //   />
 
+
+    <View style={{ paddingBottom: 5, paddingLeft: 5, paddingRight: 5}}>
+    
       <Button
         raised
         icon={{name: 'map', size: 40}}
-        buttonStyle={{backgroundColor: '#ff4f00', borderRadius: 10, padding: 20, marginTop: 10}}
+        buttonStyle={{backgroundColor: '#ff4f00', borderRadius: 10}}
         textStyle={{textAlign: 'center'}}
         title={item.numeroHojaRuta}
         onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
       />
+
+    </View>
 
     )
 

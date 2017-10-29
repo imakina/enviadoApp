@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { ListItem, Header, Icon } from 'react-native-elements'
+import { ListItem, List, Header, Icon, SearchBar } from 'react-native-elements'
 import { StackNavigator } from 'react-navigation'
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
@@ -56,17 +56,6 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   renderRow ({item}) {
 
-    function transform(uncapitalized) {
-      return uncapitalized
-      .toLowerCase()
-      .trim()
-      .split(' ')
-      .reduce((nombre, item, index) => {    
-        //console.tron.log({nombre,item,index})
-        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
-      })
-    };
-
     const nombre = item.nombreDestinatario
       .toLowerCase()
       .trim()
@@ -76,12 +65,33 @@ class RemitosListScreen extends React.PureComponent {
         return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
       })
 
+    const domicilio = item.domicilioDestinatario
+      .toLowerCase()
+      .trim()
+      .split(' ')
+      .reduce((nombre, item, index) => {    
+        //console.tron.log({nombre,item,index})
+        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
+      })
+
     const badge = {
-      // value: `☆ ${item.nroRemito}`,
-      value: `${item.nroRemito}`,
+      value: `$ ${item.importe} ${item.tipoPago.trim()}` ,
       badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
       badgeTextStyle: { fontSize: 12, padding: 3 },
     };
+
+
+    const customIconName = (item.domicilioDestinatario.indexOf("|TpoProp: CASA")===-1)?"building-o":"home"
+    // {item.nombreDestinatario.indexOf("tpoProp:casa")>0:'#BFBFBF':'red'}
+
+    const customIcon = { 
+      name: customIconName,
+      color: `${item.latitud.trim()===''?'#BFBFBF':'#27ae60'}`,
+      size:30,
+      type:'font-awesome'
+    }
+
+    const customDomicilio = domicilio.replace('|tpoprop: Casa','')
 
     //const nombre = transform(item.nombreDestinatario) 
 
@@ -94,33 +104,52 @@ class RemitosListScreen extends React.PureComponent {
       //     badge={badge}
       //     containerStyle={{ backgroundColor: 'white' }}
       //     onPress={() => this.onPressSingleItem(item)}  
+      // <Text style={styles.description}>El Tipo de Pago es : {item.tipoPago.trim()===''?'no aplica':item.tipoPago}</Text>
+      // <Text style={styles.description}>El Tipo de Pago es : {item.tipoPago.trim()===''?'no aplica':item.tipoPago}</Text>
       //   />
+
+      // <View style={styles.greatbox} >
+      
+      //     <View style={styles.imagem} >
+      //       <Icon
+      //         name='globe'
+      //         type='font-awesome'
+      //         color={item.latitud.trim()===''?'#BFBFBF':'red'}
+      //         size={40}
+      //         onPress={() => this.onPressMap(item)} 
+      //       />
+      //     </View>
+
+      //     <TouchableOpacity onPress={() => this.onPressSingleItem(item)}>
+      //       <View style={styles.box} >
+      //         <Text style={styles.title}>{item.nroRemito} - (${item.importe} {item.tipoPago.trim()})</Text>
+      //         <Text style={styles.subtitle}>{nombre}</Text>
+      //         <Text style={styles.direction} numberOfLines={3}>{item.domicilioDestinatario}</Text>
+      //         <Text style={styles.description} numberOfLines={3}>{item.observaciones}</Text>
+      //       </View>
+      //     </TouchableOpacity>
+        
+      // </View>
+
+      // subtitle={
+      //   <View style={styles.subtitleView}>
+      //     <Text style={styles.ratingText}>{nombre}</Text>
+      //     <Text style={styles.ratingText}>{item.domicilioDestinatario}</Text>
+      //   </View>
+      // }
+
     return (
 
-      
-      <View style={styles.greatbox} >
-      
-          <View style={styles.imagem} >
-            <Icon
-              name='globe'
-              type='font-awesome'
-              color={item.latitud.trim()===''?'#BFBFBF':'red'}
-              size={40}
-              onPress={() => this.onPressMap(item)} 
-            />
-          </View>
-
-          <TouchableOpacity onPress={() => this.onPressSingleItem(item)}>
-            <View style={styles.box} >
-              <Text style={styles.title}>{item.nroRemito} - (${item.importe})</Text>
-              <Text style={styles.subtitle}>{nombre}</Text>
-              <Text style={styles.direction} numberOfLines={3}>{item.domicilioDestinatario}</Text>
-              <Text style={styles.description}>El Tipo de Pago es : {item.tipoPago.trim()===''?'no aplica':item.tipoPago}</Text>
-              <Text style={styles.description} numberOfLines={3}>{item.observaciones}</Text>
-            </View>
-          </TouchableOpacity>
-        
-      </View>
+      <ListItem
+          hideChevron
+          title={item.nroRemito}
+          subtitle={customDomicilio}
+          badge={badge}
+          containerStyle={{ backgroundColor: 'white' }}
+          onPress={() => this.onPressSingleItem(item)}
+          leftIcon={customIcon}
+          leftIconOnPress={() => this.onPressMap(item)} 
+        />
 
     )
 
@@ -133,8 +162,8 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   // Render a header?
   renderHeader = () =>
-    //<SearchBar placeholder="Type Here..." lightTheme round />
-    <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+    <SearchBar placeholder="Type Here..." lightTheme round />
+    // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
 
   // Render a footer?
   renderFooter = () =>
@@ -180,11 +209,13 @@ class RemitosListScreen extends React.PureComponent {
   }
 
   componentDidMount () {
+    // get remitos list
+    this.onRequestingRemitos()
+  }
+  
+  onRequestingRemitos = () => {
     this.setState({ fetching: true })
-    //const { hoja } = this.state
-    const numero = this.props.hojaruta.numeroHojaRuta
-    //console.tron.log({name:'hoja', value:numero})
-    this.props.requestRemitos(numero)
+    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta.numero)
   }
 
   componentDidCatch(error, info) {
@@ -195,7 +226,7 @@ class RemitosListScreen extends React.PureComponent {
   }
 
   onPressSingleItem = (item) => {
-    console.tron.log({item:'item', value:item})
+    // console.tron.log({item:'item', value:item})
     this.props.selectedRemitos(item)
     //navigation
     this.props.navigation.navigate('RemitoScreen')
@@ -203,6 +234,7 @@ class RemitosListScreen extends React.PureComponent {
 
   onPressMap = (item) => {
     console.tron.log({name:'map', value:item})
+    this.props.selectedRemitos(item)
     //navigation
     this.props.navigation.navigate('MapScreen')
   }
@@ -238,23 +270,26 @@ class RemitosListScreen extends React.PureComponent {
           centerComponent={{ text: 'LISTA REMITOS', style: { color: '#27ae60' } }} 
           leftComponent={{ 
             icon: 'chevron-left',
-            type: 'font-awesome',
             color: '#27ae60',
             onPress: () => this.props.navigation.navigate('HojaRutaScreen')
           }}
+          rightComponent={{ 
+            icon: 'refresh', 
+            color: '#27ae60',
+            onPress: () => this.onRequestingRemitos()
+          }}
         />
-
-        <FlatList
-          contentContainerStyle={styles.listContent}
-          data={this.state.dataObjects}
-          renderItem={this.renderRow}
-          keyExtractor={this.keyExtractor}
-          initialNumToRender={this.oneScreensWorth}
-          //ListHeaderComponent={this.renderHeader}
-          // ListFooterComponent={this.renderFooter}
-          ListEmptyComponent={this.renderEmpty}
-          // ItemSeparatorComponent={this.renderSeparator}
-        />
+          <FlatList
+            contentContainerStyle={styles.listContent}
+            data={this.state.dataObjects}
+            renderItem={this.renderRow}
+            keyExtractor={this.keyExtractor}
+            initialNumToRender={this.oneScreensWorth}
+            ListHeaderComponent={this.renderHeader}
+            // ListFooterComponent={this.renderFooter}
+            ListEmptyComponent={this.renderEmpty}
+            // ItemSeparatorComponent={this.renderSeparator}
+          />
 
         <View style={styles.spinnerContainer}>
         { fetching && (

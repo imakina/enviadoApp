@@ -26,7 +26,7 @@ export function * login (api, action) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     //yield put(LoginActions.loginSuccess(response.data.data))
-    yield put.resolve(LoginActions.loginSuccess(response.data.data))
+    yield put(LoginActions.loginSuccess(response.data.data))
     //TODO
     //remove navigate from saga
     //yield put(NavigationActions.navigate({routeName: 'HomeScreen'}))

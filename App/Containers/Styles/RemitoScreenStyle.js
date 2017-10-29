@@ -75,11 +75,11 @@ export default StyleSheet.create({
   },
   subtitle : {
     fontSize: 14,
-    maxWidth: 230
+    maxWidth: 210
   },
   direction: {
     fontSize: 13,
-    maxWidth: 230
+    maxWidth: 210
   },
   description : {
     fontSize: 11,

@@ -117,15 +117,19 @@ class HomeScreen extends Component {
 
         </View>
 
-        <Button
-          raised
-          medium
-          icon={{name: 'road', type:'font-awesome', size: 40}}
-          buttonStyle={styles.buttonElement}
-          textStyle={{textAlign: 'center'}}
-          title={'HOJAS DE RUTA'}
-          onPress={() => this.onPressingHojaDeRuta()} 
-        />
+        <View style={{ paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+        
+          <Button
+            raised
+            medium
+            icon={{name: 'road', type:'font-awesome', size: 40}}
+            buttonStyle={styles.buttonElement}
+            textStyle={{textAlign: 'center'}}
+            title={'HOJAS DE RUTA'}
+            onPress={() => this.onPressingHojaDeRuta()} 
+          />
+
+        </View>
 
       </View>
     )

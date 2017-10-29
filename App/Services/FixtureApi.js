@@ -20,5 +20,29 @@ export default {
       ok: true,
       data: username.toLowerCase() === 'gantman' ? gantmanData : skellockData
     }
+  },
+  getRemitos: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/remitos.json')
+    }
+  },
+  getHojaRuta: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/hojaruta.json')
+    }
+  },
+  postLogin: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/user.json')
+    }
+  },
+  getMotivos: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/motivos.json')
+    }
   }
 }
