@@ -204,7 +204,7 @@ class RemitosListScreen extends React.PureComponent {
   onPressMap = (item) => {
     console.tron.log({name:'map', value:item})
     //navigation
-    this.props.navigation.navigate('MapScreen')
+    //this.props.navigation.navigate('MapScreen')
   }
 
 
