@@ -57,10 +57,10 @@ spinnerContainer: {
 
 button: {
   backgroundColor: '#27ae60', 
-  borderRadius: 5,
-  marginBottom: 20,
-  marginLeft: 5,
-  marginRight: 5
+  // borderRadius: 5,
+  // marginBottom: 20,
+  // marginLeft: 5,
+  // marginRight: 5
 }
 
 })

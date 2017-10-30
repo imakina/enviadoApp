@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
-import { ListItem, Button } from 'react-native-elements'
+import { ListItem, Button, Header } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import HojaRutaActions from '../Redux/HojaRutaRedux'
@@ -66,14 +66,19 @@ class HojaRutaScreen extends Component {
     //     onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
     //   />
 
+
+    <View style={{ paddingBottom: 5, paddingLeft: 5, paddingRight: 5}}>
+    
       <Button
         raised
         icon={{name: 'map', size: 40}}
-        buttonStyle={{backgroundColor: '#ff4f00', borderRadius: 10, padding: 20, marginTop: 10}}
+        buttonStyle={{backgroundColor: '#ff4f00', borderRadius: 10}}
         textStyle={{textAlign: 'center'}}
         title={item.numeroHojaRuta}
         onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
       />
+
+    </View>
 
     )
 
@@ -86,31 +91,42 @@ class HojaRutaScreen extends Component {
       user
     } = this.state;
 
-    const leftButtonConfig = {
-      title: '< Inicio', 
-      handler: () => this.props.navigation.navigate('HomeScreen'),
-    }
+  //   const leftButtonConfig = {
+  //     title: '< Inicio', 
+  //     handler: () => this.props.navigation.navigate('HomeScreen'),
+  //   }
 
-    const titleConfig = {
-      title: 'Hojas de Ruta ',
-      style: {color:'#FFF'}
-    }
+  //   const titleConfig = {
+  //     title: 'Hojas de Ruta ',
+  //     style: {color:'#FFF'}
+  //   }
 
-    const statusBarConfig = {
-      style: 'light-content', 
-      hidden: false, 
-      tintColor: '#2ecc71'
-  }
+  //   const statusBarConfig = {
+  //     style: 'light-content', 
+  //     hidden: false, 
+  //     tintColor: '#2ecc71'
+  // }
   
     return (
 
       <View style={styles.container}>
 
-        <NavigationBar
+        {/* <NavigationBar
           style={styles.navigation}
           title={titleConfig}
           leftButton={leftButtonConfig}
           statusBar={statusBarConfig}
+          rightComponent={{ icon: 'menu', color: '#27ae60' }}
+        /> */}
+
+        <Header
+          statusBarProps={{ barStyle: 'light-content' }}
+          centerComponent={{ text: 'HOJAS DE RUTA', style: { color: '#27ae60' } }} 
+          leftComponent={{ 
+            icon: 'chevron-left', 
+            color: '#27ae60',
+            onPress: () => this.props.navigation.navigate('HomeScreen')
+          }}
         />
 
         <FlatList

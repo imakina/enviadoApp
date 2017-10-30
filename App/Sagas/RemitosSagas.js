@@ -25,7 +25,7 @@ export function * getRemitos (api, action) {
   //const { token } = yield select(login)
   const { hoja } = action
 
-  console.tron.log({status:'SAGA_REMITO', value: action})
+  // console.tron.log({status:'SAGA_REMITO', value: action})
   let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
   // make the call to the api
   const response = yield call(api.getRemitos, hoja, token)

@@ -5,7 +5,8 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: Colors.ricePaper
+    backgroundColor: Colors.ricePaper,
+    paddingTop:70, 
   },
   // row: {
   //   flex: 1,
@@ -117,6 +118,15 @@ export default StyleSheet.create({
   },
   description : {
     fontSize: 11,
-  }
-
+  },
+  //ListItem
+  subtitleView: {
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingTop: 5
+  },
+  ratingText: {
+    paddingLeft: 10,
+    color: 'grey'
+  },
 })

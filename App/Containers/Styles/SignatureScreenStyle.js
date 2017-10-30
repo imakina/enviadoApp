@@ -5,11 +5,8 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: Colors.ricePaper,
+    backgroundColor : Colors.snow,
+    //new header
     paddingTop:70, 
-  },
-  spinnerContainer: {
-    flex:1,
-    alignItems: 'center',
   },
 })
