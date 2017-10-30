@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, Picker, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { Button, Divider, Header } from 'react-native-elements'
-import NavigationBar from 'react-native-navbar';
+// import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import MotivosActions from '../Redux/MotivosRedux'
@@ -213,7 +213,6 @@ class RemitoScreen extends Component {
           centerComponent={{ text: 'REMITO', style: { color: '#27ae60' } }} 
           leftComponent={{ 
             icon: 'chevron-left',
-            type: 'font-awesome',
             color: '#27ae60',
             onPress: () => this.onPressingBack()
           }}
@@ -223,7 +222,7 @@ class RemitoScreen extends Component {
 
           <View style={{ flexDirection: 'row', padding: 5 }}>
 
-            <View style={{ padding: 5, minWidth: '20%' }}> 
+            <View style={{ alignItems: 'center', minWidth: '30%' }}> 
 
               <Icon
                 name='md-paper'
@@ -234,7 +233,7 @@ class RemitoScreen extends Component {
             
             </View>
         
-            <View style={{ padding: 5, minWidth: '80%' }}>
+            <View style={{ padding: 5, minWidth: '70%' }}>
               
               <View style={{ paddingRight: 5, paddingLeft: 5 }}>
                 <Text style={styles.title}>{remito.nroRemito} - (${remito.importe} {remito.tipoPago.trim()})</Text>
@@ -322,7 +321,6 @@ class RemitoScreen extends Component {
           <Button
             disabled={gpsfetching || updating }
             raised
-            large
             icon={{name: 'thumbs-up', type: 'entypo' }}
             buttonStyle={styles.buttonElement}
             textStyle={{textAlign: 'center'}}

@@ -13,6 +13,8 @@ import styles from './Styles/LoginScreenStyle'
 import { Images } from '../Themes'
 import { Alert } from 'react-native'
 
+import DebugConfig from '../Config/DebugConfig'
+
 var Spinner = require('react-native-spinkit')
 
 class LoginScreen extends Component {
@@ -33,8 +35,6 @@ class LoginScreen extends Component {
   }
 
   handlePressLogin = () => {
-    //DEV
-    this.setState({username:'31922',password:'31922'})
     const { username, password } = this.state
     // this.isAttempting = true
     this.state.fetching = true
@@ -51,6 +51,11 @@ class LoginScreen extends Component {
   }
 
   componentDidMount() {
+
+    //DEV
+    //if (DebugConfig.useFixtures)
+      this.setState({username:'31922',password:'31922'})
+
     this.setState({ authenticated : false })
   }
 
@@ -92,10 +97,6 @@ class LoginScreen extends Component {
     //   this.isAttempting = false
     // }
 
-  }
-
-  componentDidMount() {
-    
   }
 
   render () {

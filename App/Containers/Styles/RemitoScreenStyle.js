@@ -63,7 +63,7 @@ export default StyleSheet.create({
   // 
   buttonElement: {
     backgroundColor: Colors.backgroundVariant, 
-    borderRadius: 10, 
+    // borderRadius: 10, 
     // paddingRight: 70,
     // paddingLeft: 70,
     // marginBottom: 20
@@ -75,11 +75,11 @@ export default StyleSheet.create({
   },
   subtitle : {
     fontSize: 14,
-    maxWidth: 210
+    maxWidth: 200
   },
   direction: {
     fontSize: 13,
-    maxWidth: 210
+    maxWidth: 200
   },
   description : {
     fontSize: 11,

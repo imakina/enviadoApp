@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation'
+import SignatureScreen from '../Containers/SignatureScreen'
 import MapScreen from '../Containers/MapScreen'
 import RouteScreen from '../Containers/RouteScreen'
 import HojaRutaScreen from '../Containers/HojaRutaScreen'
@@ -13,6 +14,7 @@ import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
+  SignatureScreen: { screen: SignatureScreen },
   MapScreen: { screen: MapScreen },
   RouteScreen: { screen: RouteScreen },
   HojaRutaScreen: { screen: HojaRutaScreen },

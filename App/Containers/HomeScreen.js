@@ -121,8 +121,7 @@ class HomeScreen extends Component {
         
           <Button
             raised
-            medium
-            icon={{name: 'road', type:'font-awesome', size: 40}}
+            icon={{name: 'road', type:'font-awesome', size: 25}}
             buttonStyle={styles.buttonElement}
             textStyle={{textAlign: 'center'}}
             title={'HOJAS DE RUTA'}

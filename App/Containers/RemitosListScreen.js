@@ -91,6 +91,11 @@ class RemitosListScreen extends React.PureComponent {
       type:'font-awesome'
     }
 
+    const customChevron = { 
+      name: 'pencil',
+      type:'font-awesome'
+    }
+
     const customDomicilio = domicilio.replace('|tpoprop: Casa','')
 
     //const nombre = transform(item.nombreDestinatario) 
@@ -141,14 +146,16 @@ class RemitosListScreen extends React.PureComponent {
     return (
 
       <ListItem
-          hideChevron
+          
           title={item.nroRemito}
           subtitle={customDomicilio}
           badge={badge}
           containerStyle={{ backgroundColor: 'white' }}
           onPress={() => this.onPressSingleItem(item)}
           leftIcon={customIcon}
-          leftIconOnPress={() => this.onPressMap(item)} 
+          leftIconOnPress={() => this.onPressMap(item)}
+          rightIcon={customChevron}
+          onPressRightIcon={() => this.onPressSignature(item)}
         />
 
     )
@@ -215,7 +222,7 @@ class RemitosListScreen extends React.PureComponent {
   
   onRequestingRemitos = () => {
     this.setState({ fetching: true })
-    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta.numero)
+    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta)
   }
 
   componentDidCatch(error, info) {
@@ -237,6 +244,13 @@ class RemitosListScreen extends React.PureComponent {
     this.props.selectedRemitos(item)
     //navigation
     this.props.navigation.navigate('MapScreen')
+  }
+
+  onPressSignature = (item) => {
+    console.tron.log({name:'map', value:item})
+    this.props.selectedRemitos(item)
+    //navigation
+    this.props.navigation.navigate('SignatureScreen')
   }
 
 

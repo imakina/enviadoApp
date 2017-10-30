@@ -25,7 +25,7 @@ export default StyleSheet.create({
 
   buttonElement: {
     backgroundColor: Colors.backgroundVariant, 
-    borderRadius: 5, 
+    // borderRadius: 5, 
     // paddingRight: 70,
     // paddingLeft: 70,
     // marginBottom: 20
