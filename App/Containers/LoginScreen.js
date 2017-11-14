@@ -135,7 +135,7 @@ class LoginScreen extends Component {
             placeholder='usuario'
             style={styles.input}
             returnKeyType="next"
-            keyboardType="email-address"
+            keyboardType="number-pad"
             autoCapitalize="none"
             autoCorrect={false}
             onChangeText={this.handleChangeUsername}
@@ -147,6 +147,7 @@ class LoginScreen extends Component {
           <TextInput
             placeholder='contraseña'
             style={styles.input}
+            keyboardType="numeric"
             returnKeyType="done"
             secureTextEntry
             onChangeText={this.handleChangePassword}

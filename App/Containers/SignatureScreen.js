@@ -25,11 +25,12 @@ class SignatureScreen extends Component {
   }
 
   onSigned = () => {
-    console.tron.log(this.state.data)
+    //console.tron.log(this.state.data)
     let dataplus={...this.state.data};
-    console.tron.log(dataplus)
+    //console.tron.log(dataplus)
     dataplus.firma  = this.state.signature
-    console.tron.log(dataplus)
+    dataplus.firma = dataplus.firma.replace('data:image/png;base64,','')
+    //console.tron.log(dataplus)
     this.props.navigation.navigate('RemitoScreen', {signature:dataplus} )
   }
 
