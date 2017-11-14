@@ -135,8 +135,7 @@ class LoginScreen extends Component {
             placeholder='usuario'
             style={styles.input}
             returnKeyType="next"
-            keyboardType="number-pad"
-            autoCapitalize="none"
+            keyboardType="numeric"
             autoCorrect={false}
             onChangeText={this.handleChangeUsername}
             onSubmitEditing={()=> this.passwordInput.focus()}
