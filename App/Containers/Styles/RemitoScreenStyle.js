@@ -13,7 +13,8 @@ export default StyleSheet.create({
     // padding: 20,
     backgroundColor: Colors.ricePaper,
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
+    justifyContent: 'center'
   },
   
   // buttonText: {
@@ -74,8 +75,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   price: {
-    ...Fonts.style.normal,
-    color: 'red'
+    ...Fonts.style.precio,
   },
   subtitle : {
     fontSize: 14,

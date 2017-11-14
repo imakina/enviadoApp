@@ -54,7 +54,7 @@ class LoginScreen extends Component {
 
     //DEV
     //if (DebugConfig.useFixtures)
-      this.setState({username:'31922',password:'31922'})
+    //  this.setState({username:'31922',password:'31922'})
 
     this.setState({ authenticated : false })
   }

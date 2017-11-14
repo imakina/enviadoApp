@@ -50,6 +50,11 @@ const style = {
   description: {
     fontFamily: type.base,
     fontSize: size.medium
+  },
+  precio: {
+    fontFamily: type.base,
+    fontSize: size.h1,
+    color: 'red'
   }
 }
 

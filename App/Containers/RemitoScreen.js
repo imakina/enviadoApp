@@ -91,6 +91,7 @@ class RemitoScreen extends Component {
   }
 
   onUpdate = (data) => {
+    console.tron.log("updating")
     this.setState({updating : true})
     this.props.updateRemito(data)
   }
@@ -115,7 +116,7 @@ class RemitoScreen extends Component {
 
     try {
 
-      console.tron.display({name:"rp_remito", value:newProps})
+      // console.tron.display({name:"rp_remito", value:newProps})
       this.setState({ 
         motivos: newProps.motivos, 
         fetching: newProps.fetching,
@@ -260,11 +261,11 @@ class RemitoScreen extends Component {
               
               <View style={{ paddingRight: 5, paddingLeft: 5 }}>
                 <Text style={styles.title}>{remito.nroRemito}</Text>
-                <Text style={styles.price}>${remito.importe} {remito.tipoPago.trim()}</Text>
                 <Text style={styles.subtitle}>{remito.nombreDestinatario.trim()}</Text>
                 <Text style={styles.subtitle} >{remito.razonSocial}</Text>
                 <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
                 <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
+                <Text style={styles.price}>${remito.importe} {remito.tipoPago.trim()}</Text>
                 { gpsfetching &&
                   <Text style={styles.description}>Buscando GPS ... </Text>
                 }
@@ -280,7 +281,7 @@ class RemitoScreen extends Component {
 
         { ( gpsfetching || fetching || updating ) ?
         
-          <View style={{ backgroundColor: 'red', alignContent: 'center' }}>
+          <View style={{ alignContent: 'center', padding: 20 }}>
 
             <Spinner
               style={styles.spinner}
