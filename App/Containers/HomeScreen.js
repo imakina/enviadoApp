@@ -117,7 +117,7 @@ class HomeScreen extends Component {
 
         </View>
 
-        <View style={{ paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+        <View style={{ paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
         
           <Button
             raised

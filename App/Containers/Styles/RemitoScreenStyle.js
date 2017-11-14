@@ -70,8 +70,12 @@ export default StyleSheet.create({
   },
 
   title: {
+    ...Fonts.style.normal,
     fontWeight: 'bold',
-    fontSize: 15,
+  },
+  price: {
+    ...Fonts.style.normal,
+    color: 'red'
   },
   subtitle : {
     fontSize: 14,

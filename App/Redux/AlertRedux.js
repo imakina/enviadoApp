@@ -20,22 +20,23 @@ export const INITIAL_STATE = Immutable({
   // payload: null,
   // error: null,
   type : '',
-  message: ''
+  message: '',
+  show : false
 })
 
 /* ------------- Reducers ------------- */
 
 // error message
 export const error = (state, action) =>
-  state.merge({ type: 'alert-danger', message : action.message  })
+  state.merge({ type: 'alert-danger', message : action.message , show : true })
 
 // sucess message
 export const success = (state, action) =>
-state.merge({ type: 'alert-success', message : action.message  })
+state.merge({ type: 'alert-success', message : action.message, show : true  })
 
 // Something went wrong somewhere.
 export const clear = state =>
-  state.merge({ type : '', message : ''})
+  state.merge({ type : '', message : '', show : false})
 
 /* ------------- Hookup Reducers To Types ------------- */
 

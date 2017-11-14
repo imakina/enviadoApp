@@ -9,4 +9,12 @@ export default StyleSheet.create({
     //new header
     paddingTop:70, 
   },
+  buttonElementOK: {
+    marginBottom: 10,
+    backgroundColor: Colors.background
+  },
+  buttonElementKO: {
+    marginBottom: 10,
+    backgroundColor: Colors.bloodOrange
+  }
 })

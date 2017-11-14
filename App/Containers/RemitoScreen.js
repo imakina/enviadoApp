@@ -10,6 +10,8 @@ import RemitosActions from '../Redux/RemitosRedux'
 import AlertActions from '../Redux/AlertRedux'
 
 import Icon from 'react-native-vector-icons/Ionicons'
+import { Colors } from '../Themes/'
+
 
 // Styles
 import styles from './Styles/RemitoScreenStyle'
@@ -21,7 +23,6 @@ class RemitoScreen extends Component {
     super(props);
     this.state = {
       // item : props.navigation.state.params.item,
-      
       // hoja : props.navigation.state.params.hoja,
       // car_id : props.navigation.state.params.car_id,
       latitude : 0,
@@ -30,9 +31,16 @@ class RemitoScreen extends Component {
       motivo: '',
       gpserror: '',
       fetching: false,
-      alert : {}
+      alert : false,
+      showAlert : false,
+      updating : false
     }
     this.isRequesting = false
+
+    //si tiene la firma
+    if (props.navigation.state.params)
+      this.onUpdate(props.navigation.state.params.signature)
+
   }
 
   // idRemito: '48846',
@@ -42,9 +50,7 @@ class RemitoScreen extends Component {
   // longitud: '-58.5585783'
   // }
 
-  onPresssingConfirm = () => {
-
-    this.setState({updating : true})
+  onPressingConfirm = () => {
 
     const { 
       car_id, 
@@ -65,10 +71,27 @@ class RemitoScreen extends Component {
       fechaHora: this.formatDateTime(), 
       latitud : latitude,
       longitud: longitude,
-      car_id: hojaruta.car_id 
+      car_id: hojaruta.car_id
     }
-    
-    // this.isRequesting = true
+
+    //listo para mostrar un mensaje
+    this.showAlert = true
+
+    //me voy a firma
+    if (this.state.motivo == 0)
+      this.onSign(data)
+    else
+      this.onUpdate(data)
+
+  }
+
+  onSign = (data) => {
+    // console.tron.log({name:'gotosigning', value:data})
+    this.props.navigation.navigate('SignatureScreen', data)
+  }
+
+  onUpdate = (data) => {
+    this.setState({updating : true})
     this.props.updateRemito(data)
   }
 
@@ -92,38 +115,34 @@ class RemitoScreen extends Component {
 
     try {
 
-    console.tron.display({name:"rp_remito", value:newProps})
-    this.setState({ 
-      motivos: newProps.motivos, 
-      fetching: newProps.fetching,
-      updating: newProps.updating,
-      alert: newProps.alert
-    })
-  }
-  catch(e)
-  {
-    console.tron.log(e)
-  }
+      console.tron.display({name:"rp_remito", value:newProps})
+      this.setState({ 
+        motivos: newProps.motivos, 
+        fetching: newProps.fetching,
+        updating: newProps.updating,
+        alert: newProps.alert
+      })
 
-    // console.tron.log({name:"rp_remito2", value:this.isRequesting})
-    // if (this.isRequesting && !newProps.updating) {
-    //   console.tron.log({name:"rp_remito3", value:newProps.updating})
-    //   this.isRequesting = false
-    //   Alert.alert(
-    //     'Motivo',
-    //     newProps.message,
-    //     [
-    //       // {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-    //       // {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-    //       {
-    //         text: 'OK', 
-    //         onPress: () => this.onPressingBack()
-    //       },
-    //     ],
-    //     { cancelable: false }
-    //   )
-    //   //
-    // }
+      if (newProps.alert.show && 
+        this.showAlert ) {
+        this.showAlert = false
+        
+        Alert.alert(
+          'Informacion',
+          newProps.alert.message,
+          [{
+              text: 'OK', onPress: () => this.onPressingBack()
+          }],
+          { cancelable: false }
+        )
+
+      }
+    
+    }
+    catch(e)
+    {
+      console.tron.log(e)
+    }
 
   }
   
@@ -155,20 +174,17 @@ class RemitoScreen extends Component {
   onPressingBack = () => {
     // const { hoja } = this.state
     // this.props.navigation.navigate('RemitosListScreen', { hoja : hoja })
-    this.props.clearAlert()
     this.props.navigation.navigate('RemitosListScreen')
+    this.props.clearAlert()
   }
 
-  onPressingRoute= () => {
+  onPressingRoute = () => {
     this.props.navigation.navigate('RouteScreen')
   }
 
   render () {
 
     const { 
-      // item,
-      // hoja,
-      alert,
       latitude, 
       longitude,
       fetching,
@@ -195,18 +211,25 @@ class RemitoScreen extends Component {
     //   tintColor: '#2ecc71'
     // }
 
+  //   { fetching  && (
+  //     <Spinner
+  //       style={styles.spinner}
+  //       size={100}
+  //       type={'Pulse'}
+  //       color={'#27ae60'}/>
+  // )}
+
+//   { updating && (
+//     <Spinner
+//       style={styles.spinner}
+//       size={100}
+//       type={'Pulse'}
+//       color={'#27ae60'}/>
+// )}
+
     return (
 
       <View style={styles.container}>
-
-        {/* <NavigationBar
-          style={styles.navigation}
-          title={titleConfig}
-          leftButton={leftButtonConfig}
-          rightComponent={{ icon: 'menu', color: '#27ae60' }}
-          statusBar={statusBarConfig}
-          <Text>{gpserror}</Text> 
-        /> */}
 
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
@@ -222,7 +245,7 @@ class RemitoScreen extends Component {
 
           <View style={{ flexDirection: 'row', padding: 5 }}>
 
-            <View style={{ alignItems: 'center', minWidth: '30%' }}> 
+            <View style={{ alignItems: 'center', minWidth: '25%' }}> 
 
               <Icon
                 name='md-paper'
@@ -233,16 +256,15 @@ class RemitoScreen extends Component {
             
             </View>
         
-            <View style={{ padding: 5, minWidth: '70%' }}>
+            <View style={{ padding: 5, minWidth: '75%' }}>
               
               <View style={{ paddingRight: 5, paddingLeft: 5 }}>
-                <Text style={styles.title}>{remito.nroRemito} - (${remito.importe} {remito.tipoPago.trim()})</Text>
+                <Text style={styles.title}>{remito.nroRemito}</Text>
+                <Text style={styles.price}>${remito.importe} {remito.tipoPago.trim()}</Text>
                 <Text style={styles.subtitle}>{remito.nombreDestinatario.trim()}</Text>
                 <Text style={styles.subtitle} >{remito.razonSocial}</Text>
                 <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
-                {/* <Text style={styles.description}>El Tipo de Pago es : {remito.tipoPago.trim()===''?'no aplica':remito.tipoPago}</Text> */}
                 <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
-                {/* <Text style={styles.information}>Longitud : {remito.longitud}</Text>*/} 
                 { gpsfetching &&
                   <Text style={styles.description}>Buscando GPS ... </Text>
                 }
@@ -251,129 +273,75 @@ class RemitoScreen extends Component {
             </View>
 
           </View>
+        
+        </View>
 
-          <View style={{ flexDirection: 'row'}}>
+        <View style={styles.formContainer}>
 
-            { fetching  && (
-                <Spinner
-                  style={styles.spinner}
-                  size={100}
-                  type={'Pulse'}
-                  color={'#27ae60'}/>
-            )}
+        { ( gpsfetching || fetching || updating ) ?
+        
+          <View style={{ backgroundColor: 'red', alignContent: 'center' }}>
 
-            { updating && (
-                <Spinner
-                  style={styles.spinner}
-                  size={100}
-                  type={'Pulse'}
-                  color={'#27ae60'}/>
-            )}
+            <Spinner
+              style={styles.spinner}
+              size={130}
+              type={'Pulse'}
+              color={'#27ae60'}/>
 
-          { gpsfetching && (
-                <Spinner
-                  style={styles.spinner}
-                  size={100}
-                  type={'Pulse'}
-                  color={'#27ae60'}/>
-            )}
+          </View>
+          
+        :
+
+          <View>
+
+            <Divider style={{ backgroundColor: '#2ecc71' }} />
+
+            <Picker
+              selectedValue={this.state.motivo}
+              onValueChange={(itemValue, itemIndex) => this.setState({motivo: itemValue})}>
+              {
+                motivos &&  
+                  motivos.map((l, i) => {
+                    return <Picker.Item value={l.id} label={l.descripcion} key={l.id}  /> })
+                
+              }
+            </Picker>
+            
+            <View style={{ paddingBottom: 15 }}>
+            
+              <Button
+                raised
+                icon={{name: 'thumbs-up', type: 'entypo' }}
+                buttonStyle={styles.buttonElement}
+                textStyle={{textAlign: 'center'}}
+                title={'CONFIRMAR'}
+                onPress={() => this.onPressingConfirm()} 
+              />
+
+            </View>
 
           </View>
 
-            {
-              alert &&
-              alert.type === 'alert-success' &&
-                Alert.alert(
-                  'Informacion',
-                  alert.message,
-                  [
-                    {
-                      text: 'OK', 
-                      onPress: () => this.onPressingBack()
-                    },
-                  ],
-                  { cancelable: false }
-                )
-            }
-        
-        </View>
+          }
 
-
-        <View style={styles.formContainer}>
-          <Divider style={{ backgroundColor: '#2ecc71' }} />
-
-          <Picker
-            enabled={!gpsfetching}
-            selectedValue={this.state.motivo}
-            onValueChange={(itemValue, itemIndex) => this.setState({motivo: itemValue})}>
-            {
-              motivos &&  
-                motivos.map((l, i) => {
-                  return <Picker.Item value={l.id} label={l.descripcion} key={l.id}  /> })
-              
-            }
-          </Picker>
-        
-        </View> 
-
-        <View style={{ paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
-        
-          <Button
-            disabled={gpsfetching || updating }
-            raised
-            icon={{name: 'thumbs-up', type: 'entypo' }}
-            buttonStyle={styles.buttonElement}
-            textStyle={{textAlign: 'center'}}
-            title={'CONFIRMAR'}
-            onPress={() => this.onPresssingConfirm()} 
-          />
-
-        </View>
-
-
-        {/* <Button
-          raised
-          large
-          icon={{name: 'place' }}
-          buttonStyle={styles.buttonElement}
-          textStyle={{textAlign: 'center'}}
-          title={'RUTA'}
-          onPress={() => this.onPressingRoute()} 
-        /> */}
+          </View>
 
       </View>
     )
   }
 }
 
-{/* <TouchableOpacity
-disabled={updating}
-style={styles.buttonContainer} 
-onPress={this.onPresssingConfirm}>
-
-<View style={styles.buttonIcon}>
-  <Icon
-    reverse
-    name='md-thumbs-up'
-    type='ionicon'
-    color='#FFF'
-    size={40}
-  />
-  <Text style={styles.buttonText}> CONFIRMAR </Text>
-</View>
-
-</TouchableOpacity> */}
+// disabled={gpsfetching || updating }
+// enabled={!gpsfetching}
 
 const mapStateToProps = (state) => {
   //console.tron.display({name:'remito_sp', value:state})
   return {
     fetching: state.motivos.fetching,
     motivos: state.motivos.payload,
-    // user: state.login.payload,
     updating : state.remitos.fetching,
     remito : state.remitos.selected,
     hojaruta : state.hojaruta.selected,
-    // message : state.remitos.message,
     alert: state.alert
   }
 }

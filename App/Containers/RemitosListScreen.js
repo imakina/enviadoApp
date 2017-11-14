@@ -77,7 +77,7 @@ class RemitosListScreen extends React.PureComponent {
     const badge = {
       value: `$ ${item.importe} ${item.tipoPago.trim()}` ,
       badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
-      badgeTextStyle: { fontSize: 12, padding: 3 },
+      badgeTextStyle: { fontSize: 14, padding: 2 },
     };
 
 
@@ -154,13 +154,13 @@ class RemitosListScreen extends React.PureComponent {
           onPress={() => this.onPressSingleItem(item)}
           leftIcon={customIcon}
           leftIconOnPress={() => this.onPressMap(item)}
-          rightIcon={customChevron}
-          onPressRightIcon={() => this.onPressSignature(item)}
         />
 
-    )
+)
 
-  }
+}
+// rightIcon={customChevron}
+// onPressRightIcon={() => this.onPressSignature(item)}
 
   /* ***********************************************************
   * STEP 3
@@ -246,12 +246,12 @@ class RemitosListScreen extends React.PureComponent {
     //this.props.navigation.navigate('MapScreen')
   }
 
-  onPressSignature = (item) => {
-    console.tron.log({name:'map', value:item})
-    this.props.selectedRemitos(item)
-    //navigation
-    this.props.navigation.navigate('SignatureScreen')
-  }
+  // onPressSignature = (item) => {
+  //   console.tron.log({name:'map', value:item})
+  //   this.props.selectedRemitos(item)
+  //   //navigation
+  //   this.props.navigation.navigate('SignatureScreen')
+  // }
 
 
   render () {
