@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, Picker, Alert } from 'react-native'
 import { connect } from 'react-redux'
-import { Button, Divider, Header } from 'react-native-elements'
+import { Button, Divider, Header, Icon } from 'react-native-elements'
+var Spinner = require('react-native-spinkit')
 // import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -9,13 +10,11 @@ import MotivosActions from '../Redux/MotivosRedux'
 import RemitosActions from '../Redux/RemitosRedux'
 import AlertActions from '../Redux/AlertRedux'
 
-import Icon from 'react-native-vector-icons/Ionicons'
-import { Colors } from '../Themes/'
-
 
 // Styles
 import styles from './Styles/RemitoScreenStyle'
-var Spinner = require('react-native-spinkit')
+import { Colors } from '../Themes/'
+
 
 class RemitoScreen extends Component {
 
@@ -235,14 +234,13 @@ class RemitoScreen extends Component {
 
           <View style={{ flexDirection: 'row', padding: 10 }}>
 
-            <View style={{ alignItems: 'center', minWidth: '25%' }}> 
+            <View style={{ alignItems: 'flex-end', padding: 5, minWidth: '25%' }}> 
 
               <Icon
-                name='md-paper'
-                type='ionicon'
-                color='#27ae60'
-                size={80}
-              />
+                name='open-book'
+                type='entypo'
+                size={70}
+                color= '#27ae60' />
             
             </View>
         
@@ -254,7 +252,7 @@ class RemitoScreen extends Component {
                 <Text style={styles.subtitle} >{remito.razonSocial}</Text>
                 <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
                 <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
-                <Text style={styles.price}>${remito.importe} {remito.tipoPago.trim()}</Text>
+                <Text style={styles.price}>$ {remito.importe} {remito.tipoPago.trim()}</Text>
                 { gpsfetching &&
                   <Text style={styles.description}>Buscando GPS ... </Text>
                 }

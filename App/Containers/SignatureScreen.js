@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { Button, Header } from 'react-native-elements'
+import { Button, Icon, Header } from 'react-native-elements'
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 var SignaturePad = require('react-native-signature-pad');
@@ -41,7 +42,7 @@ class SignatureScreen extends Component {
 
   onClean = () => {
     this.setState({ show: false }); 
-    setTimeout( () => { this.setState({ show: true }); }, 100);
+    setTimeout( () => { this.setState({ show: true }); }, 130);
   }
 
   _signaturePadError = (error) => {
@@ -77,6 +78,7 @@ class SignatureScreen extends Component {
           backgroundColor: '#F5F5F5'
           }}> 
 
+
          { this.state.show ? 
 
             <SignaturePad 
@@ -88,14 +90,13 @@ class SignatureScreen extends Component {
 
           :
 
-            <View style={{backgroundColor: 'white', flex: 1, alignContent: 'center'}}> 
+            <View style={{backgroundColor: 'white', flex: 1, alignContent: 'center', padding: 90}}> 
               
               <Icon
-                name='paint-brush'
-                type='font-awesome'
-                color='#C3C3C3'
-                size={180}
-              /> 
+                name='round-brush'
+                type='entypo'
+                size={120}
+                color= '#ff4f00' />
 
             </View> 
 
@@ -117,7 +118,7 @@ class SignatureScreen extends Component {
 
           <Button
             raised
-            icon={{name: 'paint-brush', type: 'font-awesome' }}
+            icon={{name: 'round-brush', type: 'entypo' }}
             buttonStyle={styles.buttonElementKO}
             textStyle={{textAlign: 'center'}}
             title={'Limpiar'}
