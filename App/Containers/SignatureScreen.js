@@ -21,17 +21,22 @@ class SignatureScreen extends Component {
   }
 
   onPressingBack = () => {
-    this.props.navigation.navigate('RemitoScreen')
+    this.props.navigation.goBack()
   }
 
   onSigned = () => {
-    //console.tron.log(this.state.data)
-    let dataplus={...this.state.data};
-    //console.tron.log(dataplus)
-    dataplus.firma  = this.state.signature
-    //dataplus.firma = dataplus.firma.replace('data:image/png;base64,','')
-    console.tron.log({name:'signatureGoTo',value:dataplus})
-    this.props.navigation.navigate('RemitoScreen', { signature : dataplus } )
+    console.tron.log({name:'cleaning'})
+    const { navigation } = this.props;
+    navigation.goBack();
+    navigation.state.params.onSign(this.state.signature);
+
+    // //console.tron.log(this.state.data)
+    // let dataplus={...this.state.data};
+    // //console.tron.log(dataplus)
+    // dataplus.firma  = this.state.signature
+    // //dataplus.firma = dataplus.firma.replace('data:image/png;base64,','')
+    // console.tron.log({name:'signatureGoTo',value:dataplus})
+    // this.props.navigation.goBack({ signature : dataplus } )
   }
 
   onClean = () => {
@@ -102,6 +107,7 @@ class SignatureScreen extends Component {
         <View style={{ paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
         
           <Button
+            disabled={this.state.signature == null}
             raised
             icon={{name: 'check', type: 'font-awesome' }}
             buttonStyle={styles.buttonElementOK}

@@ -57,16 +57,17 @@ export default StyleSheet.create({
   },
 
   nombre : {
-    fontWeight: 'bold',
-    fontSize: 15,
+    // fontWeight: 'bold',
+    // fontSize: 15,
+    ...Fonts.style.normal
   },
 
   hoja : {
-
+    ...Fonts.style.normal
   },
 
   mail: {
-
+    ...Fonts.style.normal
   }
 
 })

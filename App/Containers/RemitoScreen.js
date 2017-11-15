@@ -33,16 +33,17 @@ class RemitoScreen extends Component {
       fetching: false,
       alert : {},
       showAlert : false,
-      updating : false
+      updating : false,
+      signature : null
     }
     this.isRequesting = false
 
-    //si tiene la firma
-    if (props.navigation.state.params){
-      console.tron.log("llego signature")
-      console.tron.log(props.navigation.state.params.signature)
-      this.onUpdate(props.navigation.state.params.signature)
-    }
+    // //si tiene la firma
+    // if (props.navigation.state.params){
+    //   console.tron.log("llego signature")
+    //   console.tron.log(props.navigation.state.params.signature)
+    //   this.onUpdate(props.navigation.state.params.signature)
+    // }
 
   }
 
@@ -80,20 +81,38 @@ class RemitoScreen extends Component {
     //listo para mostrar un mensaje
     this.showAlert = true
 
-    //me voy a firma
-    if (this.state.motivo == 0)
-      this.onSign(data)
-    else
+    // si no tengo la firma 
+    if (this.state.motivo == 0 && !this.state.signature )
+      this.onSigning()
+    else 
       this.onUpdate(data)
+
+    // {
+    //   console.tron.log({name:'updating '})
+    //   let dataSign = { ...data}
+    //   dataSign.firma = this.state.signature
+    //   console.tron.log({name:'update ', value: dataSign})
+    //   this.onUpdate(dataSign)
+    // }
 
   }
 
-  onSign = (data) => {
-    // console.tron.log({name:'gotosigning', value:data})
-    this.props.navigation.navigate('SignatureScreen', data)
+  // called from signature
+  onSignature = (sign) => {
+    this.setState({signature: sign});
+  } 
+
+  onSigning = () => {
+    this.props.navigation.navigate('SignatureScreen', { onSign : this.onSignature })  
   }
 
   onUpdate = (data) => {
+
+    if (this.state.motivo == 0)
+      data.firma = this.state.signature
+    else
+      data.firma = ''
+
     console.tron.log("updating")
     this.setState({updating : true})
     this.props.updateRemito(data)
@@ -214,7 +233,7 @@ class RemitoScreen extends Component {
         
         <View style={{ alignItems: 'center', flexGrow: 1  }}>
 
-          <View style={{ flexDirection: 'row', padding: 5 }}>
+          <View style={{ flexDirection: 'row', padding: 10 }}>
 
             <View style={{ alignItems: 'center', minWidth: '25%' }}> 
 
@@ -244,13 +263,9 @@ class RemitoScreen extends Component {
             </View>
 
           </View>
-        
-        </View>
+          
+          { ( gpsfetching || fetching || updating ) ?
 
-        <View style={styles.formContainer}>
-
-        { ( gpsfetching || fetching || updating ) ?
-        
           <View style={{ alignContent: 'center', padding: 20 }}>
 
             <Spinner
@@ -260,7 +275,21 @@ class RemitoScreen extends Component {
               color={'#27ae60'}/>
 
           </View>
-          
+
+          :
+
+          null
+
+          }
+        
+        </View>
+
+        <View style={styles.formContainer}>
+
+        { ( gpsfetching || fetching || updating ) ?
+        
+        null
+
         :
 
           <View>
@@ -285,7 +314,7 @@ class RemitoScreen extends Component {
                 icon={{name: 'thumbs-up', type: 'entypo' }}
                 buttonStyle={styles.buttonElement}
                 textStyle={{textAlign: 'center'}}
-                title={'CONFIRMAR'}
+                title={(this.state.motivo == 0 && !this.state.signature)?'FIRMAR':'CONFIRMA'}
                 onPress={() => this.onPressingConfirm()} 
               />
 
