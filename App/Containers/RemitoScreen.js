@@ -28,18 +28,21 @@ class RemitoScreen extends Component {
       latitude : 0,
       longitude : 0,
       motivos : [],
-      motivo: '',
+      motivo: 0,
       gpserror: '',
       fetching: false,
-      alert : false,
+      alert : {},
       showAlert : false,
       updating : false
     }
     this.isRequesting = false
 
     //si tiene la firma
-    if (props.navigation.state.params)
+    if (props.navigation.state.params){
+      console.tron.log("llego signature")
+      console.tron.log(props.navigation.state.params.signature)
       this.onUpdate(props.navigation.state.params.signature)
+    }
 
   }
 
@@ -115,7 +118,6 @@ class RemitoScreen extends Component {
   componentWillReceiveProps (newProps) {
 
     try {
-
       // console.tron.display({name:"rp_remito", value:newProps})
       this.setState({ 
         motivos: newProps.motivos, 
@@ -195,38 +197,6 @@ class RemitoScreen extends Component {
     } = this.state
 
     const { remito, motivos } = this.props
-
-    // const leftButtonConfig = {
-    //   title: "< Remitos", 
-    //   handler: () => this.onPressingBack(),
-    // }
-
-    // const titleConfig = {
-    //   title: 'Detalle',
-    //   style: {color:'#FFF'}
-    // }
-    
-    // const statusBarConfig = {
-    //   style: 'light-content', 
-    //   hidden: false, 
-    //   tintColor: '#2ecc71'
-    // }
-
-  //   { fetching  && (
-  //     <Spinner
-  //       style={styles.spinner}
-  //       size={100}
-  //       type={'Pulse'}
-  //       color={'#27ae60'}/>
-  // )}
-
-//   { updating && (
-//     <Spinner
-//       style={styles.spinner}
-//       size={100}
-//       type={'Pulse'}
-//       color={'#27ae60'}/>
-// )}
 
     return (
 

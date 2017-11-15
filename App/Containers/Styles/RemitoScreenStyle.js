@@ -12,9 +12,9 @@ export default StyleSheet.create({
     // flex: 1,
     // padding: 20,
     backgroundColor: Colors.ricePaper,
-    paddingLeft: 15,
-    paddingRight: 15,
-    justifyContent: 'center'
+    paddingLeft: 10,
+    paddingRight: 10,
+
   },
   
   // buttonText: {
@@ -54,7 +54,9 @@ export default StyleSheet.create({
 
   spinner: {
     //flex:1,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center'
   },
 
   // information : {

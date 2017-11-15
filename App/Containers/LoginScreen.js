@@ -54,7 +54,7 @@ class LoginScreen extends Component {
 
     //DEV
     //if (DebugConfig.useFixtures)
-    //  this.setState({username:'31922',password:'31922'})
+     this.setState({username:'31922',password:'31922'})
 
     this.setState({ authenticated : false })
   }
@@ -136,6 +136,7 @@ class LoginScreen extends Component {
             style={styles.input}
             returnKeyType="next"
             keyboardType="numeric"
+            autoCapitalize="none"
             autoCorrect={false}
             onChangeText={this.handleChangeUsername}
             onSubmitEditing={()=> this.passwordInput.focus()}
@@ -146,8 +147,8 @@ class LoginScreen extends Component {
           <TextInput
             placeholder='contraseña'
             style={styles.input}
-            keyboardType="numeric"
             returnKeyType="done"
+            keyboardType="numeric"
             secureTextEntry
             onChangeText={this.handleChangePassword}
             ref={(input)=> this.passwordInput = input}

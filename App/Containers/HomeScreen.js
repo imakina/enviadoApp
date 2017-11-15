@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, KeyboardAvoidingView, Image, StatusBar, TouchableOpacity } from 'react-native'
-import { Header, Button, Avatar } from 'react-native-elements'
+import { Header, Button } from 'react-native-elements'
 import { connect } from 'react-redux'
-import NavigationBar from 'react-native-navbar';
+// import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
@@ -47,44 +47,8 @@ class HomeScreen extends Component {
       mail 
     } = this.state.user
 
-    // const initials = this.state.user.car_first_nm.substring(0,1).toUpperCase() + this.state.user.car_last_nm.substring(0,1).toUpperCase()
-
-    // ===========================
-    // NavigationBar
-    // const rightButtonConfig = {
-    //   title: 'Salir',
-    //   handler: () => this.onPressingLogout(),
-    // }
-
-    // const titleConfig = {
-    //   title: 'enviadoApp',
-    //   style: {color:'#FFF'}
-    // }
-
-    // const statusBarConfig = {
-    //     style: 'light-content', 
-    //     hidden: false, 
-    //     tintColor: '#2ecc71'
-    // }
-    // ===========================
-
-        // <Avatar
-        //   xlarge
-        //   rounded
-        //   title={initials}
-        //   onPress={() => console.log("Works!")}
-        //   activeOpacity={0.7}
-        // />
-
     return (
       <View style={styles.container}>
-
-         {/* <NavigationBar
-            style={styles.navigation}
-            title={titleConfig}
-            rightButton={rightButtonConfig}
-            statusBar={statusBarConfig}
-        />  */}
 
         <Header
           statusBarProps={{ barStyle: 'light-content' }}

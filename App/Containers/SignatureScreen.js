@@ -29,18 +29,18 @@ class SignatureScreen extends Component {
     let dataplus={...this.state.data};
     //console.tron.log(dataplus)
     dataplus.firma  = this.state.signature
-    dataplus.firma = dataplus.firma.replace('data:image/png;base64,','')
-    console.tron.log({name:'signature',value:dataplus})
-    this.props.navigation.navigate('RemitoScreen', {signature:dataplus} )
+    //dataplus.firma = dataplus.firma.replace('data:image/png;base64,','')
+    console.tron.log({name:'signatureGoTo',value:dataplus})
+    this.props.navigation.navigate('RemitoScreen', { signature : dataplus } )
   }
 
   onClean = () => {
     console.tron.log('cleaning')
-    this.setState({ show: false }); 
-    console.tron.log('changed false')
-    console.tron.log(this.state.show)
-    setTimeout( () => { this.setState({ show: true }); }, 10000);
-    console.tron.log('after')
+    //this.setState({ show: false }); 
+    // console.tron.log('changed false')
+    // console.tron.log(this.state.show)
+    // setTimeout( () => { this.setState({ show: true }); }, 10000);
+    // console.tron.log('after')
   }
 
   _signaturePadError = (error) => {
@@ -48,8 +48,9 @@ class SignatureScreen extends Component {
   }
 
   _signaturePadChange = ({base64DataUrl}) => {
-    this.setState({signature: base64DataUrl})
-    //console.tron.log({name:"Got new signature: ", value:base64DataUrl});
+    this.setState({ signature: base64DataUrl.replace('data:image/png;base64,','') })
+    console.tron.log({name:"Got new signature: ", value:this.state.signature});
+    //this.setState({ signature: base64DataUrl })
   }
 
   // {this.state.show ?    
@@ -57,16 +58,24 @@ class SignatureScreen extends Component {
   //                 <SignaturePad onError={this._signaturePadError}
   //                             onChange={this._signaturePadChange}
   //                             style={{flex: 1, backgroundColor: 'white'}}/>
-    
+  
   //               :
-                
+  
   //                 null
-                
+  
   //               }
+  
+  // { show ? 
+
+  // :
+
+  //     <View style={{backgroundColor: '#F5F5F5', width: '90%', height: '90%'}}> 
+  //         <Text> Limpiando </Text> 
+  //     </View> 
+
+  // }
 
   render () {
-
-    const show = this.state
 
     return (
       <View style={styles.container}>
@@ -83,19 +92,10 @@ class SignatureScreen extends Component {
 
         <View style={{flex: 1}}> 
 
-          { show ? 
+          <SignaturePad onError={this._signaturePadError}
+                      onChange={this._signaturePadChange}
+                      style={{flex: 1, backgroundColor: 'white'}}/>
           
-              <SignaturePad onError={this._signaturePadError}
-                          onChange={this._signaturePadChange}
-                          style={{flex: 1, backgroundColor: 'white'}}/>
-          
-          :
-
-              <View style={{backgroundColor: '#F5F5F5', width: '90%', height: '90%'}}> 
-                  <Text> Limpiando </Text> 
-              </View> 
-
-          }
 
         </View>
 
@@ -110,14 +110,14 @@ class SignatureScreen extends Component {
             onPress={() => this.onSigned()} 
           />
 
-          <Button
+          {/* <Button
             raised
             icon={{name: 'rocket', type: 'font-awesome' }}
             buttonStyle={styles.buttonElementKO}
             textStyle={{textAlign: 'center'}}
             title={'Limpiar'}
             onPress={() => this.onClean()} 
-          />
+          /> */}
 
         </View>
 
