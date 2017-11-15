@@ -40,12 +40,8 @@ class SignatureScreen extends Component {
   }
 
   onClean = () => {
-    console.tron.log('cleaning')
-    //this.setState({ show: false }); 
-    // console.tron.log('changed false')
-    // console.tron.log(this.state.show)
-    // setTimeout( () => { this.setState({ show: true }); }, 10000);
-    // console.tron.log('after')
+    this.setState({ show: false }); 
+    setTimeout( () => { this.setState({ show: true }); }, 100);
   }
 
   _signaturePadError = (error) => {
@@ -58,31 +54,10 @@ class SignatureScreen extends Component {
     //this.setState({ signature: base64DataUrl })
   }
 
-  // {this.state.show ?    
-    
-  //                 <SignaturePad onError={this._signaturePadError}
-  //                             onChange={this._signaturePadChange}
-  //                             style={{flex: 1, backgroundColor: 'white'}}/>
-  
-  //               :
-  
-  //                 null
-  
-  //               }
-  
-  // { show ? 
-
-  // :
-
-  //     <View style={{backgroundColor: '#F5F5F5', width: '90%', height: '90%'}}> 
-  //         <Text> Limpiando </Text> 
-  //     </View> 
-
-  // }
-
   render () {
 
     return (
+
       <View style={styles.container}>
 
         <Header
@@ -95,12 +70,36 @@ class SignatureScreen extends Component {
           }}
         />
 
-        <View style={{flex: 1}}> 
+        <View style={{
+          flex: 1, 
+          alignContent: 'center',
+          padding: 20,
+          backgroundColor: '#F5F5F5'
+          }}> 
 
-          <SignaturePad onError={this._signaturePadError}
-                      onChange={this._signaturePadChange}
-                      style={{flex: 1, backgroundColor: 'white'}}/>
-          
+         { this.state.show ? 
+
+            <SignaturePad 
+              onError={this._signaturePadError}
+              onChange={this._signaturePadChange}
+              style={styles.pad}
+            >
+            </SignaturePad>
+
+          :
+
+            <View style={{backgroundColor: 'white', flex: 1, alignContent: 'center'}}> 
+              
+              <Icon
+                name='paint-brush'
+                type='font-awesome'
+                color='#C3C3C3'
+                size={180}
+              /> 
+
+            </View> 
+
+          }
 
         </View>
 
@@ -116,14 +115,14 @@ class SignatureScreen extends Component {
             onPress={() => this.onSigned()} 
           />
 
-          {/* <Button
+          <Button
             raised
-            icon={{name: 'rocket', type: 'font-awesome' }}
+            icon={{name: 'paint-brush', type: 'font-awesome' }}
             buttonStyle={styles.buttonElementKO}
             textStyle={{textAlign: 'center'}}
             title={'Limpiar'}
             onPress={() => this.onClean()} 
-          /> */}
+          />
 
         </View>
 

@@ -263,7 +263,7 @@ class RemitoScreen extends Component {
             </View>
 
           </View>
-          
+
           { ( gpsfetching || fetching || updating ) ?
 
           <View style={{ alignContent: 'center', padding: 20 }}>
@@ -331,8 +331,6 @@ class RemitoScreen extends Component {
   }
 }
 
-// disabled={gpsfetching || updating }
-// enabled={!gpsfetching}
 
 const mapStateToProps = (state) => {
   //console.tron.display({name:'remito_sp', value:state})
