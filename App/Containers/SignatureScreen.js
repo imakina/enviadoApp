@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { Button, Icon, Header } from 'react-native-elements'
+import SignatureCapture from 'react-native-signature-capture';
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
-var SignaturePad = require('react-native-signature-pad');
+// var SignaturePad = require('react-native-signature-pad');
 // Styles
 import styles from './Styles/SignatureScreenStyle'
 
@@ -16,7 +17,8 @@ class SignatureScreen extends Component {
     this.state = {
       show : true,
       data : props.navigation.state.params,
-      signature : null
+      signature : null,
+      dragged : false
     }
      //console.tron.log({name:'state', value: props.navigation.state.params})
   }
@@ -26,10 +28,11 @@ class SignatureScreen extends Component {
   }
 
   onSigned = () => {
-    console.tron.log({name:'cleaning'})
-    const { navigation } = this.props;
-    navigation.goBack();
-    navigation.state.params.onSign(this.state.signature);
+    console.tron.log({name:'saving'})
+    this.refs["sign"].saveImage();
+    //const { navigation } = this.props;
+    // navigation.goBack();
+    // navigation.state.params.onSign(this.state.signature);
 
     // //console.tron.log(this.state.data)
     // let dataplus={...this.state.data};
@@ -41,18 +44,45 @@ class SignatureScreen extends Component {
   }
 
   onClean = () => {
-    this.setState({ show: false }); 
+    this.setState({ show: false, dragged: false }); 
     setTimeout( () => { this.setState({ show: true }); }, 130);
   }
 
-  _signaturePadError = (error) => {
-    console.tron.log(error);
+  // _signaturePadError = (error) => {
+  //   console.tron.log(error);
+  // }
+
+  // _signaturePadChange = ({base64DataUrl}) => {
+  //   this.setState({ signature: base64DataUrl.replace('data:image/png;base64,','') })
+  //   console.tron.log({name:"Got new signature: ", value:this.state.signature});
+  //   //this.setState({ signature: base64DataUrl })
+  // }
+
+  _onSaveEvent = (result) => {
+    //result.encoded - for the base64 encoded png
+    //result.pathName - for the file path name
+    console.tron.log(result);
+    this.setState({ 
+      signature: result.encoded 
+    }, function() {
+      console.tron.log("then")
+      const { navigation } = this.props;
+      navigation.goBack();
+      navigation.state.params.onSign(this.state.signature);
+    })
+  }
+  _onDragEvent = () => {
+      // This callback will be called when the user enters signature
+      console.tron.log("dragged");
+      this.setState({ dragged : true})
   }
 
-  _signaturePadChange = ({base64DataUrl}) => {
-    this.setState({ signature: base64DataUrl.replace('data:image/png;base64,','') })
-    console.tron.log({name:"Got new signature: ", value:this.state.signature});
-    //this.setState({ signature: base64DataUrl })
+  saveSign() {
+    this.refs["sign"].saveImage();
+  }
+
+  resetSign() {
+      this.refs["sign"].resetImage();
   }
 
   render () {
@@ -81,12 +111,22 @@ class SignatureScreen extends Component {
 
          { this.state.show ? 
 
-            <SignaturePad 
-              onError={this._signaturePadError}
-              onChange={this._signaturePadChange}
-              style={styles.pad}
-            >
-            </SignaturePad>
+            // <SignaturePad 
+            //   onError={this._signaturePadError}
+            //   onChange={this._signaturePadChange}
+            //   style={styles.pad}
+            // >
+            // </SignaturePad>
+
+            <SignatureCapture
+              style={[{flex:1},styles.pad]}
+              ref="sign"
+              onSaveEvent={this._onSaveEvent}
+              onDragEvent={this._onDragEvent}
+              saveImageFileInExtStorage={false}
+              showNativeButtons={false}
+              showTitleLabel={false}
+              viewMode={"portrait"} />
 
           :
 
@@ -107,14 +147,14 @@ class SignatureScreen extends Component {
         <View style={{ paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
         
           <Button
-            disabled={this.state.signature == null}
+            disabled={!this.state.dragged}
             raised
             icon={{name: 'check', type: 'font-awesome' }}
             buttonStyle={styles.buttonElementOK}
             textStyle={{textAlign: 'center'}}
             title={'Recibido'}
             onPress={() => this.onSigned()} 
-          />
+            />
 
           <Button
             raised
@@ -123,7 +163,7 @@ class SignatureScreen extends Component {
             textStyle={{textAlign: 'center'}}
             title={'Limpiar'}
             onPress={() => this.onClean()} 
-          />
+            />
 
         </View>
 

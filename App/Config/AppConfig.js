@@ -6,6 +6,7 @@ export default {
   // font scaling override - RN default is on
   allowTextFontScaling: true,
   nameApp: 'enviadoApp',
+  version : '0.1.0'
   // statusBarConfig : {
   //   style: 'light-content', 
   //   hidden: false, 

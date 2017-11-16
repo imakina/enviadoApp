@@ -98,6 +98,7 @@ class RemitoScreen extends Component {
 
   // called from signature
   onSignature = (sign) => {
+    console.tron.log({name:"receive_signature",value:sign})
     this.setState({signature: sign});
   } 
 
@@ -331,7 +332,7 @@ class RemitoScreen extends Component {
 
 
 const mapStateToProps = (state) => {
-  //console.tron.display({name:'remito_sp', value:state})
+  console.tron.display({name:'remito_sp', value:state})
   return {
     fetching: state.motivos.fetching,
     motivos: state.motivos.payload,

@@ -6480,6 +6480,12 @@ react-native-side-menu@^1.0.2:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-signature-capture@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/react-native-signature-capture/-/react-native-signature-capture-0.4.9.tgz#c581cedef6cea42beea40d0f7d210173196b9d4a"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-signature-pad@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/react-native-signature-pad/-/react-native-signature-pad-0.0.8.tgz#65b43fd7d6606e272e5ca29e8eee26a942fb8d33"

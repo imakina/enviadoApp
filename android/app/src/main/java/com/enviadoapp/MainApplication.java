@@ -3,6 +3,7 @@ package com.enviadoapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rssignaturecapture.RSSignatureCapturePackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RSSignatureCapturePackage(),
             new MapsPackage(),
             new RCTCameraPackage(),
             new VectorIconsPackage(),

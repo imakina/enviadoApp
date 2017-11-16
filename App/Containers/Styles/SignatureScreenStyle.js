@@ -10,8 +10,8 @@ export default StyleSheet.create({
     paddingTop:70,
   },
   pad : {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1.2,
+    borderColor: 'black',
+    borderWidth: 1.2,
     flex: 1, 
     backgroundColor: 'white',
   },
