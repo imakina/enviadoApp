@@ -16,11 +16,10 @@ class SignatureScreen extends Component {
     super(props);
     this.state = {
       show : true,
-      data : props.navigation.state.params,
+      // data : props.navigation.state.params,
       signature : null,
       dragged : false
     }
-     //console.tron.log({name:'state', value: props.navigation.state.params})
   }
 
   onPressingBack = () => {
@@ -30,17 +29,6 @@ class SignatureScreen extends Component {
   onSigned = () => {
     console.tron.log({name:'saving'})
     this.refs["sign"].saveImage();
-    //const { navigation } = this.props;
-    // navigation.goBack();
-    // navigation.state.params.onSign(this.state.signature);
-
-    // //console.tron.log(this.state.data)
-    // let dataplus={...this.state.data};
-    // //console.tron.log(dataplus)
-    // dataplus.firma  = this.state.signature
-    // //dataplus.firma = dataplus.firma.replace('data:image/png;base64,','')
-    // console.tron.log({name:'signatureGoTo',value:dataplus})
-    // this.props.navigation.goBack({ signature : dataplus } )
   }
 
   onClean = () => {
@@ -48,33 +36,24 @@ class SignatureScreen extends Component {
     setTimeout( () => { this.setState({ show: true }); }, 130);
   }
 
-  // _signaturePadError = (error) => {
-  //   console.tron.log(error);
-  // }
-
-  // _signaturePadChange = ({base64DataUrl}) => {
-  //   this.setState({ signature: base64DataUrl.replace('data:image/png;base64,','') })
-  //   console.tron.log({name:"Got new signature: ", value:this.state.signature});
-  //   //this.setState({ signature: base64DataUrl })
-  // }
-
   _onSaveEvent = (result) => {
     //result.encoded - for the base64 encoded png
     //result.pathName - for the file path name
-    console.tron.log(result);
+    // console.tron.log(result);
     this.setState({ 
       signature: result.encoded 
     }, function() {
-      console.tron.log("then")
+      // console.tron.log("then")
       const { navigation } = this.props;
       navigation.goBack();
       navigation.state.params.onSign(this.state.signature);
     })
   }
+
   _onDragEvent = () => {
-      // This callback will be called when the user enters signature
-      console.tron.log("dragged");
-      this.setState({ dragged : true})
+    // This callback will be called when the user enters signature
+    console.tron.log("dragged");
+    this.setState({ dragged : true})
   }
 
   saveSign() {
@@ -82,7 +61,7 @@ class SignatureScreen extends Component {
   }
 
   resetSign() {
-      this.refs["sign"].resetImage();
+    this.refs["sign"].resetImage();
   }
 
   render () {
