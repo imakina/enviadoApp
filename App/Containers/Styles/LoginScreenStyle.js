@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Metrics, ApplicationStyles } from '../../Themes/'
+import { Metrics, ApplicationStyles, Fonts } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -39,16 +39,16 @@ input: {
   color: '#FFF',
   paddingHorizontal: 10
 },
-
-// buttonContainer: {
-//   backgroundColor: '#27ae60',
-//   paddingVertical: 15
-// },
-// buttonText: {
-//   textAlign: 'center',
-//   color: '#FFF',
-//   fontWeight: '700'
-// },
+checkbox: {
+  backgroundColor: '#2ecc71',
+  height: 20,
+  marginBottom: 10,
+},
+checkboxTitle : {
+  ...Fonts.style.normal,
+  color: '#FFF',
+  opacity: 0.8
+},
 
 spinnerContainer: {
   flex:1,

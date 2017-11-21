@@ -27,10 +27,9 @@ class HomeScreen extends Component {
   }
 
   onPressingLogout = () => {
-    this.props.navigation.navigate('LoginScreen')
-    //TODO
-    //logout 
-    //this.props.attemptLogout()
+    const { navigation } = this.props
+    navigation.state.params.onLogout();
+    navigation.navigate('LoginScreen')
   }
 
   componentDidMount() {
