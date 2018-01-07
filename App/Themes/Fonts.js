@@ -1,5 +1,5 @@
 const type = {
-  base: 'HelveticaNeue',
+  base: 'Avenir',
   bold: 'Avenir-Black',
   emphasis: 'HelveticaNeue-Italic'
 }

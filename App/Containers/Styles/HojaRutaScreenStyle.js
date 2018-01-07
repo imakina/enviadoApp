@@ -12,4 +12,11 @@ export default StyleSheet.create({
     flex:1,
     alignItems: 'center',
   },
+  button : {
+    backgroundColor: '#ff4f00', 
+    borderRadius: 12,
+  },
+  buttonContainer: {
+    backgroundColor: Colors.transparent,
+  }
 })

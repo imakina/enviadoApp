@@ -42,7 +42,7 @@ input: {
 checkbox: {
   backgroundColor: '#2ecc71',
   height: 20,
-  marginBottom: 10,
+  // marginBottom: 10,
 },
 checkboxTitle : {
   ...Fonts.style.normal,

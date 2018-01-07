@@ -16,6 +16,8 @@ import { Button, CheckBox } from 'react-native-elements'
 // import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
 import AlertActions from '../Redux/AlertRedux'
+import ButtonIcon from '../Components/ButtonIcon'
+
 
 // Styles
 import styles from './Styles/LoginScreenStyle'
@@ -203,21 +205,11 @@ class LoginScreen extends Component {
           />
 
           <CheckBox
-            // center
-            // iconRight
-            // iconType='material'
-            // checkedIcon='clear'
-            // uncheckedIcon='add'
             checked={this.state.saveasync}
             checkedColor='white'
             title="Recordarme"
             onIconPress={this.handleSavePassword}
             onPress={this.handleSavePassword}
-            
-            
-            // label="Save Password"
-            // onValueChange={this.handleSavePassword}
-            // // onCheck={this.handleSavePassword}
             style={styles.checkbox}
             textStyle={styles.checkboxTitle}
           /> 
@@ -235,7 +227,8 @@ class LoginScreen extends Component {
               { cancelable: false }
             )
         }
-        <View style={{ paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
+
+        <View style={{ paddingTop: 15, paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
           <Button
             raised
             icon={{ name: 'sign-in', type: 'font-awesome' }}
@@ -245,6 +238,14 @@ class LoginScreen extends Component {
             onPress={() => this.handlePressLogin()} 
           />
         </View>
+
+        {/* <View style={[styles.formContainer, {marginBottom: 20}]}>
+          <ButtonIcon
+            icon={{ name: 'sign-in', type: 'font-awesome' }}
+            text="INGRESAR"
+            onPress={() => this.handlePressLogin()} 
+          />
+        </View> */}
 
       </KeyboardAvoidingView>
 
