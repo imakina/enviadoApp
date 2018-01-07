@@ -1,6 +1,9 @@
 import { put, select } from 'redux-saga/effects'
+import AsyncStorage from 'AsyncStorage';
 // import GithubActions from '../Redux/GithubRedux'
 import { is } from 'ramda'
+// import { AsyncResource } from 'async_hooks';
+import LoginActions from '../Redux/LoginRedux'
 
 // exported to make available for tests
 // export const selectAvatar = (state) => state.github.avatar
@@ -35,10 +38,29 @@ export function * startup (action) {
     //   }
     // })
     console.tron.display({preview:'🔥 IGNITE 🔥'})
+  
+
+
+    // const serializedState = await AsyncStorage.getItem('account');
+    // if (serializedState !== null) {
+    //   const account = JSON.parse(serializedState)
+    //   yield put(LoginActions.loginSuccess(account))
+    // }
+    // return ;
+
+    // AsyncStorage.multiGet(['expire','username','password']).then((data) => {
+    //   console.tron.display({preview:data})
+    //   if (data[0][1]) {
+    //     console.tron.display({name:'AsyncStorage', value:data})
+    //   }
+    // })
+
   }
 
-  //const token = yield select(selectToken)
+  yield put(LoginActions.loginCheck())
 
+  //const token = yield select(selectToken)
+  // 31913 
   // const avatar = yield select(selectAvatar)
   // // only get if we don't have it yet
   // if (!is(String, avatar)) {

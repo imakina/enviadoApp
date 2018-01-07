@@ -27,9 +27,10 @@ class HomeScreen extends Component {
   }
 
   onPressingLogout = () => {
-    const { navigation } = this.props
-    navigation.state.params.onLogout();
-    navigation.navigate('LoginScreen')
+    // const { navigation } = this.props
+    // navigation.state.params.onLogout();
+    // navigation.navigate('LoginScreen')
+    this.props.attemptLogout()
   }
 
   componentDidMount() {
@@ -101,14 +102,14 @@ class HomeScreen extends Component {
 const mapStateToProps = (state) => {
   //console.tron.display({name:'stop_home',value: state}) 
   return {
-    user: state.login.payload,
+    user: state.login.account,
     fetching: state.login.fetching
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogout: () => dispatch(LoginActions.logoutRequest())
+    attemptLogout: () => dispatch(LoginActions.loginOut())
   }
 }
 

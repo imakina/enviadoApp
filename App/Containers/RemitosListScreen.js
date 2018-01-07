@@ -169,7 +169,12 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   // Render a header?
   renderHeader = () =>
-    <SearchBar placeholder="Type Here..." lightTheme round />
+    <SearchBar 
+      onChangeText={this.onSearch}
+      onClearText={this.onClearSearch}
+      placeholder="Escriba aqui ..." 
+      lightTheme 
+      round />
     // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
 
   // Render a footer?
@@ -207,10 +212,34 @@ class RemitosListScreen extends React.PureComponent {
 
   // fetching = false
 
+  onSearch = (some) => {
+    // console.tron.log(some)
+    if (some.length==0) {
+      data = this.state.data
+    } else {
+      data=this.state.data.filter(function(item){
+          return item.nroRemito.indexOf(some) > 0;
+      }).map(function(item){
+          return item;
+      });
+    }
+
+    this.setState({ 
+      dataObjects: data
+    })
+  }
+
+  onClearSearch = () => {
+    this.setState({ 
+      dataObjects: this.state.data
+    })
+  }
+
   componentWillReceiveProps (newProps) {
     //console.tron.display({name: 'props', value: newProps})
     this.setState({ 
       dataObjects: newProps.payload,
+      data: newProps.payload,
       fetching: newProps.fetching 
     })
   }

@@ -162,7 +162,7 @@ const mapStateToProps = (state) => {
   return {
     payload: state.hojaruta.payload,
     fetching: state.hojaruta.fetching,
-    user: state.login.payload,
+    user: state.login.account,
   }
 }
 

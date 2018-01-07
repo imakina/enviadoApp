@@ -46,9 +46,9 @@ class LoginScreen extends Component {
   handlePressLogin = () => {
     // waiting for login
     this.setState({fetching:true})
-    const { username, password } = this.state
+    const { username, password, saveasync } = this.state
     // attempt a login - a saga is listening to pick it up from here.
-    this.props.attemptLogin(username, password)
+    this.props.attemptLogin(username, password, saveasync)
   }
 
   handleChangeUsername = (text) => {
@@ -63,35 +63,36 @@ class LoginScreen extends Component {
     // console.tron.display({name:'checkboxChanged', value:this.state.saveasync})
     this.setState({ saveasync: !this.state.saveasync })
     // whenever the user change your mind, the store need to be cleaned
-    this.onLogout()
+    // this.onLogout()
   }
 
   componentDidMount() {
     //DEV
     //if (DebugConfig.useFixtures)
     //this.setState({username:'31922',password:'31922'})
-
-    AsyncStorage.multiGet(['expire','username','password']).then((data) => {
-      if (data[0][1]) {
-        // username = data[0][1]
-        // password = data[0][2]
-        // console.tron.log("retrieve from async storage")
-        // console.tron.log({name:'async',value:username})
-        // console.tron.log({name:'async',value:password})
-        // this.props.attemptLogin(username, password)
-        console.tron.display({name:'date',value:data})
-        this.setState({
-          username : data[0][2],
-          password : data[0][3]
-        }, this.handlePressLogin())
-      }
-    })
     this.setState({ authenticated : false })
+
+    // AsyncStorage.multiGet(['expire','username','password']).then((data) => {
+    //   if (data[0][1]) {
+    //     // username = data[0][1]
+    //     // password = data[0][2]
+    //     // console.tron.log("retrieve from async storage")
+    //     // console.tron.log({name:'async',value:username})
+    //     // console.tron.log({name:'async',value:password})
+    //     // this.props.attemptLogin(username, password)
+    //     console.tron.display({name:'date',value:data})
+    //     this.setState({
+    //       username : data[0][2],
+    //       password : data[0][3]
+    //     }, this.handlePressLogin())
+    //   }
+    // })
   }
 
-  onLogout() {
-    AsyncStorage.multiRemove(['expire','username','password'])
-  }
+  // onLogout() {
+  //   // AsyncStorage.multiRemove(['expire','username','password','account'])
+  //   this.props.logout()
+  // }
 
   componentWillReceiveProps (newProps) {
 
@@ -99,30 +100,31 @@ class LoginScreen extends Component {
       fetching: newProps.fetching ,
       error: newProps.error,
       message: newProps.message,
-      logged: newProps.logged
+      logged: newProps.account
     })
 
     // console.tron.log({name:'crp_login_props', value:newProps})
     // console.tron.log({name:'crp_login_state', value:this.state})
 
+    // deprecated, moved to saga
     // moving to home if everything is ok
-    if (!this.state.authenticated)
-      if (newProps.logged)
-          if (!newProps.error) {
-            // save to storage the user preference
-            // console.tron.log(newProps.logged)
-            if (this.state.saveasync) {
-              console.tron.log("saving to async storage")
-              AsyncStorage.multiSet([
-                ['expire', Date.now().toString()],
-                ['username', newProps.logged.car_id.toString()],
-                ['password', newProps.logged.pass.toString()],
-              ])
-            } 
-            // flag to prevent navigate to homescreen many times as vars changed
-            this.state.authenticated = true
-            this.props.navigation.navigate('HomeScreen', { onLogout : this.onLogout })
-          }
+    // if (!this.state.authenticated)
+    //   if (newProps.account)
+    //       if (!newProps.error) {
+    //         // save to storage the user preference
+    //         // console.tron.log(newProps.logged)
+    //         // if (this.state.saveasync) {
+    //         //   console.tron.log("saving to async storage")
+    //         //   AsyncStorage.multiSet([
+    //         //     ['expire', Date.now().toString()],
+    //         //     ['username', newProps.logged.car_id.toString()],
+    //         //     ['password', newProps.logged.pass.toString()],
+    //         //   ])
+    //         // } 
+    //         // flag to prevent navigate to homescreen many times as vars changed
+    //         this.state.authenticated = true
+    //         this.props.navigation.navigate('HomeScreen', { onLogout : this.onLogout })
+    //       }
 
     //TODO
     //Recuperar el alert en esta func revisando que cambia
@@ -191,7 +193,7 @@ class LoginScreen extends Component {
           <TextInput
             placeholder='contraseña'
             style={styles.input}
-            returnKeyType="done"
+            returnKeyType="next"
             keyboardType="numeric"
             secureTextEntry
             onChangeText={this.handleChangePassword}
@@ -255,14 +257,15 @@ const mapStateToProps = (state) => {
   return {
     fetching: state.login.fetching,
     error: state.login.error,
-    logged : state.login.payload,
+    account : state.login.account,
     alert: state.alert
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogin: (username, password) => dispatch(LoginActions.loginRequest(username, password)),
+    attemptLogin: (username, password, saveasync) => dispatch(LoginActions.loginRequest(username, password, saveasync)),
+    // logout: () => dispatch(LoginActions.logout()),
     clearAlert: () => dispatch(AlertActions.alertClear())
   }
 }
