@@ -28,9 +28,10 @@ title: {
 //
 formContainer: {
   // flex: 1,
-  paddingLeft: 20,
-  paddingRight: 20,
-  paddingTop: 20,
+  // paddingLeft: 20,
+  // paddingRight: 20,
+  // paddingTop: 20,
+  padding : 20
 },
 input: {
   backgroundColor: 'rgba(255,255,255,0.2)',
@@ -42,7 +43,7 @@ input: {
 checkbox: {
   backgroundColor: '#2ecc71',
   height: 20,
-  // marginBottom: 10,
+  marginBottom: 10,
 },
 checkboxTitle : {
   ...Fonts.style.normal,

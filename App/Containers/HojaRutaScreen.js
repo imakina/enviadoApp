@@ -6,7 +6,7 @@ import { ListItem, Button, Header } from 'react-native-elements'
 // import YourActions from '../Redux/YourRedux'
 import HojaRutaActions from '../Redux/HojaRutaRedux'
 
-import NavigationBar from 'react-native-navbar';
+import ButtonIcon from '../Components/ButtonIcon'
 
 // Styles
 import styles from './Styles/HojaRutaScreenStyle'
@@ -52,6 +52,10 @@ class HojaRutaScreen extends Component {
   // item reordering.  Otherwise index is fine
   keyExtractor = (item, index) => index
 
+  renderHeader = () => {
+    return <Text style={{textAlign:'center', padding: 10}}>Estas son las hojas de rutas disponibles</Text>
+  }
+
   renderRow ({item}) {
 
     return (
@@ -67,15 +71,21 @@ class HojaRutaScreen extends Component {
     //   />
 
 
-    <View style={{ padding: 15}}>
+    <View style={{ paddingRight: 20, paddingLeft: 20, paddingTop: 20}}>
     
-      <Button
+      {/* <Button
         raised
         icon={{name: 'map', size: 60}}
         buttonStyle={styles.button}
         textStyle={{textAlign: 'center'}}
         containerViewStyle={styles.buttonContainer}
         title={item.numeroHojaRuta}
+        onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
+      /> */}
+
+      <ButtonIcon
+        icon={{ name: 'map', type: 'font-awesome' }}
+        text={item.numeroHojaRuta}
         onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
       />
 
@@ -92,33 +102,10 @@ class HojaRutaScreen extends Component {
       user
     } = this.state;
 
-  //   const leftButtonConfig = {
-  //     title: '< Inicio', 
-  //     handler: () => this.props.navigation.navigate('HomeScreen'),
-  //   }
-
-  //   const titleConfig = {
-  //     title: 'Hojas de Ruta ',
-  //     style: {color:'#FFF'}
-  //   }
-
-  //   const statusBarConfig = {
-  //     style: 'light-content', 
-  //     hidden: false, 
-  //     tintColor: '#2ecc71'
-  // }
   
     return (
 
       <View style={styles.container}>
-
-        {/* <NavigationBar
-          style={styles.navigation}
-          title={titleConfig}
-          leftButton={leftButtonConfig}
-          statusBar={statusBarConfig}
-          rightComponent={{ icon: 'menu', color: '#27ae60' }}
-        /> */}
 
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
@@ -136,7 +123,7 @@ class HojaRutaScreen extends Component {
           renderItem={this.renderRow}
           keyExtractor={this.keyExtractor}
           //initialNumToRender={this.oneScreensWorth}
-          //ListHeaderComponent={this.renderHeader}
+          ListHeaderComponent={this.renderHeader}
           // ListFooterComponent={this.renderFooter}
           //ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}

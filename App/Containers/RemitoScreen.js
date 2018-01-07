@@ -14,6 +14,7 @@ import AlertActions from '../Redux/AlertRedux'
 // Styles
 import styles from './Styles/RemitoScreenStyle'
 import { Colors } from '../Themes/'
+import ButtonIcon from '../Components/ButtonIcon'
 
 
 class RemitoScreen extends Component {
@@ -306,14 +307,20 @@ class RemitoScreen extends Component {
               }
             </Picker>
             
-            <View style={{ paddingBottom: 15 }}>
+            <View style={{ paddingBottom: 15, paddingLeft: 10, paddingRight: 10 }}>
             
-              <Button
+              {/* <Button
                 raised
                 icon={{name: 'thumbs-up', type: 'entypo' }}
                 buttonStyle={styles.buttonElement}
                 textStyle={{textAlign: 'center'}}
                 title={(this.state.motivo == 0 && !this.state.signature)?'FIRMAR':'CONFIRMA'}
+                onPress={() => this.onPressingConfirm()} 
+              /> */}
+
+              <ButtonIcon
+                icon={{ name: 'thumbs-up', type: 'entypo' }}
+                text={(this.state.motivo == 0 && !this.state.signature)?'FIRMAR':'CONFIRMA'}
                 onPress={() => this.onPressingConfirm()} 
               />
 

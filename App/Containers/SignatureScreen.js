@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { Button, Icon, Header } from 'react-native-elements'
 import SignatureCapture from 'react-native-signature-capture';
+import ButtonIcon from '../Components/ButtonIcon'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -123,9 +124,9 @@ class SignatureScreen extends Component {
 
         </View>
 
-        <View style={{ paddingBottom: 10, paddingLeft: 5, paddingRight: 5}}>
+        <View style={{ paddingBottom: 20, paddingLeft: 20, paddingRight: 20}}>
         
-          <Button
+          {/* <Button
             disabled={!this.state.dragged}
             raised
             icon={{name: 'check', type: 'font-awesome' }}
@@ -143,6 +144,23 @@ class SignatureScreen extends Component {
             title={'Limpiar'}
             onPress={() => this.onClean()} 
             />
+         */}
+
+          <View style={{paddingBottom: 10}}>
+            <ButtonIcon
+              disabled={!this.state.dragged}
+              icon={{ name: 'check', type: 'font-awesome' }}
+              text={'Recibido'}
+              onPress={() => this.onSigned()} 
+            />
+          </View>
+
+          <ButtonIcon
+            type={'ko'}
+            icon={{ name: 'round-brush', type: 'entypo' }}
+            text={'Limpiar'}
+            onPress={() => this.onClean()} 
+          />
 
         </View>
 

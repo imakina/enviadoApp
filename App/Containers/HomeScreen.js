@@ -9,6 +9,7 @@ import LoginActions from '../Redux/LoginRedux'
 
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ButtonIcon from '../Components/ButtonIcon'
 
 // Styles
 import styles from './Styles/HomeScreenStyle'
@@ -81,7 +82,7 @@ class HomeScreen extends Component {
 
         </View>
 
-        <View style={{ paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
+        {/* <View style={{ paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
         
           <Button
             raised
@@ -92,6 +93,14 @@ class HomeScreen extends Component {
             onPress={() => this.onPressingHojaDeRuta()} 
           />
 
+        </View> */}
+
+        <View style={[styles.formContainer]}>
+          <ButtonIcon
+            icon={{ name: 'road', type: 'font-awesome' }}
+            text="HOJAS DE RUTA"
+            onPress={() => this.onPressingHojaDeRuta()} 
+          />
         </View>
 
       </View>

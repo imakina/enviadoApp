@@ -13,6 +13,7 @@ export default class ButtonIcon extends Component {
     // children: PropTypes.string,
     // navigator: PropTypes.object,
     icon : PropTypes.object,
+    disabled: PropTypes.bool
   }
 
 //   getText () {
@@ -22,9 +23,14 @@ export default class ButtonIcon extends Component {
 
     kindOfButton() {
 
+        if (this.props.disabled)
+            return styles.disabled
+
         switch(this.props.type) {
         case 'alert':
             return styles.kindAlert
+        case 'ko':
+            return styles.kindKO
         default:
             return styles.kindNormal
         }
@@ -35,13 +41,15 @@ export default class ButtonIcon extends Component {
     console.tron.log(this.props.icon)
 
     return (
-      <TouchableOpacity 
+      <TouchableOpacity
+            disabled={this.props.disabled}
             style={[styles.button, this.kindOfButton()]} 
             onPress={this.props.onPress}>
         <Icon
             name={this.props.icon.name}
             type={this.props.icon.type}
             style={styles.icon}
+            size={35}
             iconStyle={styles.iconText}>
         </Icon>
         <Text style={styles.text}>{this.props.text}</Text>

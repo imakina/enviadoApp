@@ -36,11 +36,18 @@ export default StyleSheet.create({
         color: Colors.snow,
         textAlign: 'left',
         alignSelf: 'center',
+        paddingRight: 20
     },
     kindNormal : {
         backgroundColor: Colors.backgroundVariant
     },
     kindAlert : {
         backgroundColor: Colors.bloodOrange
+    },
+    kindKO: {
+        backgroundColor: Colors.flame
+    },
+    disabled: {
+        backgroundColor: Colors.frost
     }
 })

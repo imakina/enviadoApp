@@ -214,6 +214,12 @@ class LoginScreen extends Component {
             textStyle={styles.checkboxTitle}
           /> 
 
+          <ButtonIcon
+            icon={{ name: 'sign-in', type: 'font-awesome' }}
+            text="INGRESAR"
+            onPress={() => this.handlePressLogin()} 
+          />
+
         </View>
         
         {
@@ -228,7 +234,7 @@ class LoginScreen extends Component {
             )
         }
 
-        <View style={{ paddingTop: 15, paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
+        {/* <View style={{ paddingTop: 15, paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
           <Button
             raised
             icon={{ name: 'sign-in', type: 'font-awesome' }}
@@ -237,14 +243,10 @@ class LoginScreen extends Component {
             title="INGRESAR"
             onPress={() => this.handlePressLogin()} 
           />
-        </View>
+        </View> */}
 
         {/* <View style={[styles.formContainer, {marginBottom: 20}]}>
-          <ButtonIcon
-            icon={{ name: 'sign-in', type: 'font-awesome' }}
-            text="INGRESAR"
-            onPress={() => this.handlePressLogin()} 
-          />
+
         </View> */}
 
       </KeyboardAvoidingView>
