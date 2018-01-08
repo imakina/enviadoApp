@@ -10,6 +10,7 @@ import LoginActions from '../Redux/LoginRedux'
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ButtonIcon from '../Components/ButtonIcon'
+// import Header from '../Components/Header'
 
 // Styles
 import styles from './Styles/HomeScreenStyle'
@@ -62,9 +63,13 @@ class HomeScreen extends Component {
             onPress: () => this.onPressingLogout()
           }}
         />
+        {/* <Header
+          title={'ENVIADO.COM'}
+          onPressRight={() => this.onPressingLogout()}
+          onPressLeft={() => this.onPressingLogout()}
+        /> */}
 
         <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
-
 
           <Icon
              reverse

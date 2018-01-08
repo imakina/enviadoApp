@@ -38,8 +38,6 @@ export default class ButtonIcon extends Component {
 
   render () {
 
-    console.tron.log(this.props.icon)
-
     return (
       <TouchableOpacity
             disabled={this.props.disabled}

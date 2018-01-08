@@ -1,17 +1,14 @@
 import React from 'react'
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { ListItem, List, Header, Icon, SearchBar } from 'react-native-elements'
-import { StackNavigator } from 'react-navigation'
+import { ListItem, List, Header, Icon, SearchBar, ButtonGroup } from 'react-native-elements'
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 import RemitosActions from '../Redux/RemitosRedux'
 
-import NavigationBar from 'react-native-navbar';
-import I18n from 'react-native-i18n'
-
 // Styles
 import styles from './Styles/RemitosListScreenStyle'
+import { Colors } from '../Themes'
 
 var Spinner = require('react-native-spinkit')
 
@@ -34,6 +31,7 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   state = {
     fetching:false,
+    tabIndex: 0,
     dataObjects : []
     // dataObjects: [
     //   {title: 'First Title', description: 'First Description'},
@@ -98,51 +96,6 @@ class RemitosListScreen extends React.PureComponent {
 
     const customDomicilio = domicilio.replace('|tpoprop: Casa','')
 
-    //const nombre = transform(item.nombreDestinatario) 
-
-    // return (
-      // hideChevron
-      // <ListItem
-      //     title={nombre}
-      //     title='dos'
-      //     subtitle={item.domicilioDestinatario}
-      //     badge={badge}
-      //     containerStyle={{ backgroundColor: 'white' }}
-      //     onPress={() => this.onPressSingleItem(item)}  
-      // <Text style={styles.description}>El Tipo de Pago es : {item.tipoPago.trim()===''?'no aplica':item.tipoPago}</Text>
-      // <Text style={styles.description}>El Tipo de Pago es : {item.tipoPago.trim()===''?'no aplica':item.tipoPago}</Text>
-      //   />
-
-      // <View style={styles.greatbox} >
-      
-      //     <View style={styles.imagem} >
-      //       <Icon
-      //         name='globe'
-      //         type='font-awesome'
-      //         color={item.latitud.trim()===''?'#BFBFBF':'red'}
-      //         size={40}
-      //         onPress={() => this.onPressMap(item)} 
-      //       />
-      //     </View>
-
-      //     <TouchableOpacity onPress={() => this.onPressSingleItem(item)}>
-      //       <View style={styles.box} >
-      //         <Text style={styles.title}>{item.nroRemito} - (${item.importe} {item.tipoPago.trim()})</Text>
-      //         <Text style={styles.subtitle}>{nombre}</Text>
-      //         <Text style={styles.direction} numberOfLines={3}>{item.domicilioDestinatario}</Text>
-      //         <Text style={styles.description} numberOfLines={3}>{item.observaciones}</Text>
-      //       </View>
-      //     </TouchableOpacity>
-        
-      // </View>
-
-      // subtitle={
-      //   <View style={styles.subtitleView}>
-      //     <Text style={styles.ratingText}>{nombre}</Text>
-      //     <Text style={styles.ratingText}>{item.domicilioDestinatario}</Text>
-      //   </View>
-      // }
-
     return (
 
       <ListItem
@@ -155,8 +108,7 @@ class RemitosListScreen extends React.PureComponent {
           leftIcon={customIcon}
           leftIconOnPress={() => this.onPressMap(item)}
         />
-
-)
+    )
 
 }
 // rightIcon={customChevron}
@@ -169,12 +121,40 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   // Render a header?
   renderHeader = () =>
-    <SearchBar 
-      onChangeText={this.onSearch}
-      onClearText={this.onClearSearch}
-      placeholder="Escriba aqui ..." 
-      lightTheme 
-      round />
+      <View>
+
+        <ButtonGroup
+          selectedBackgroundColor={Colors.backgroundVariant}
+          onPress={this.updateIndex}
+          selectedIndex={this.state.tabIndex}
+          buttons={['Todos', 'Pendientes']}
+          containerStyle={{height: 35}}
+          // textStyle={styles.buttonGroup} 
+          selectedTextStyle={styles.buttonGroupSelected} 	
+          />
+
+        <SearchBar 
+          onChangeText={this.onSearch}
+          onClearText={this.onClearSearch}
+          placeholder="Escriba aqui ..." 
+          lightTheme 
+          round />
+
+      </View>
+
+  updateIndex = (index) => {
+    console.tron.log("updating index")
+    this.setState({tabIndex: index})
+    switch(index) {
+      case 0:
+        //update the list
+        break;
+      case 1:
+        //update the list
+        break;
+    }
+  }
+
     // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
 
   // Render a footer?
@@ -182,8 +162,14 @@ class RemitosListScreen extends React.PureComponent {
     <Text style={[styles.label, styles.sectionHeader]}> - Footer - </Text>
 
   // Show this when data is empty
-  renderEmpty = () =>
-    <Text style={{padding:20, textAlign:'center', marginTop:30}}> Buscando ... </Text>
+  renderEmpty = () => { 
+  
+    if (this.state.fetching)
+      return <Text style={{padding:20, textAlign:'center', marginTop:30}}> Buscando ... </Text>
+    else 
+      return null
+
+  }
 
   renderSeparator = () =>
     <Text style={styles.label}> - ~~~~~ - </Text>
@@ -240,12 +226,13 @@ class RemitosListScreen extends React.PureComponent {
     this.setState({ 
       dataObjects: newProps.payload,
       data: newProps.payload,
-      fetching: newProps.fetching 
+      fetching: newProps.fetching,
     })
   }
 
   componentDidMount () {
     // get remitos list
+    this.setState({tabIndex:0})
     this.onRequestingRemitos()
   }
   
@@ -269,44 +256,34 @@ class RemitosListScreen extends React.PureComponent {
   }
 
   onPressMap = (item) => {
-    console.tron.log({name:'map', value:item})
+    console.log({name:'map', value:item})
     this.props.selectedRemitos(item)
     //navigation
-    //this.props.navigation.navigate('MapScreen')
+    const markers = [].push(item)
+    console.tron.display({name:'unequipo', value:markers})
+    this.props.navigation.navigate('MapScreen', { markers: null })
   }
 
-  // onPressSignature = (item) => {
-  //   console.tron.log({name:'map', value:item})
-  //   this.props.selectedRemitos(item)
-  //   //navigation
-  //   this.props.navigation.navigate('SignatureScreen')
-  // }
-
+  onPressMarkers = () => {
+    const markers=this.state.dataObjects.filter(
+      function(item){
+        return item.latitud !== '';
+      }).map(function(item){
+        return item;
+      }
+    );
+    console.tron.display({name:'markers', value:markers})
+    this.props.navigation.navigate('MapScreen', { markers: markers})
+  }
 
   render () {
 
     const { fetching } = this.state;
 
-    // const leftButtonConfig = {
-    //   title: "< Hoja de Ruta", //I18n.t('back'),
-    //   handler: () => this.props.navigation.navigate('HojaRutaScreen'),
-    // }
-
-    // const titleConfig = {
-    //   title: 'Remitos',
-    //   style: {color:'#FFF'}
-    // }
+    // console.tron.log(this.state.tabIndex)
 
     return (
       <View style={styles.container}>
-
-        {/* <NavigationBar
-          style={styles.navigation}
-          title={titleConfig}
-          leftButton={leftButtonConfig}
-          statusBar={{style: 'light-content', hidden: false, tintColor: '#2ecc71'}}
-          rightComponent={{ icon: 'menu', color: '#27ae60' }}
-        /> */}
 
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
@@ -317,9 +294,9 @@ class RemitosListScreen extends React.PureComponent {
             onPress: () => this.props.navigation.navigate('HojaRutaScreen')
           }}
           rightComponent={{ 
-            icon: 'refresh', 
+            icon: 'map', 
             color: '#27ae60',
-            onPress: () => this.onRequestingRemitos()
+            onPress: () => this.onPressMarkers()
           }}
         />
           <FlatList

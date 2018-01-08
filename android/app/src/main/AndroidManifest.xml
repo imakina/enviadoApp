@@ -17,6 +17,10 @@
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyD4HEoq1Rr3UeThx1qnKOMfKfea1Eqswkw"/>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -28,9 +32,9 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-        <meta-data
+        <!-- <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="PASTE-YOUR-API-KEY-HERE-FOR-A-GOOD-TIME" />
+            android:value="AIzaSyD4HEoq1Rr3UeThx1qnKOMfKfea1Eqswkw" /> -->
     </application>
 
 </manifest>

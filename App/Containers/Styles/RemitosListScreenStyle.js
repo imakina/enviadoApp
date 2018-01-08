@@ -129,4 +129,12 @@ export default StyleSheet.create({
     paddingLeft: 10,
     color: 'grey'
   },
+  buttonGroup : {
+    // color: Colors.windowTint
+  },
+  buttonGroupSelected: {
+    ...Fonts.style.normal
+    // color: Colors.snow
+  }
+
 })
