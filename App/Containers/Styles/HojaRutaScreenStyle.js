@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles, Colors } from '../../Themes/'
+import { ApplicationStyles, Colors, Fonts } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -18,5 +18,10 @@ export default StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: Colors.transparent,
+  },
+  help: {
+    ...Fonts.style.normal,
+    textAlign:'center', 
+    padding: 10
   }
 })

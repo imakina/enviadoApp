@@ -1,12 +1,11 @@
 import { StyleSheet } from 'react-native'
-import { Metrics, ApplicationStyles, Fonts } from '../../Themes/'
+import { Metrics, ApplicationStyles, Fonts, Colors } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
-
 container : {
   flex:1,
-  backgroundColor: '#2ecc71'
+  backgroundColor: Colors.background
 },
 logoContainer: {
   alignItems: 'center',
@@ -34,20 +33,23 @@ formContainer: {
   padding : 20
 },
 input: {
+  ...Fonts.style.normal,
   backgroundColor: 'rgba(255,255,255,0.2)',
   height: 40,
   marginBottom: 10,
-  color: '#FFF',
+  color: Colors.snow,
   paddingHorizontal: 10
 },
 checkbox: {
-  backgroundColor: '#2ecc71',
+  backgroundColor: Colors.background,
   height: 20,
   marginBottom: 10,
 },
 checkboxTitle : {
-  ...Fonts.style.normal,
-  color: '#FFF',
+  // fontSize: 15,
+  // fontWeight: 'bold',
+  // fontFamily: 'HelveticaNeue-Italic',
+  color: Colors.snow,
   opacity: 0.8
 },
 

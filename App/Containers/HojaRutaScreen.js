@@ -53,7 +53,7 @@ class HojaRutaScreen extends Component {
   keyExtractor = (item, index) => index
 
   renderHeader = () => {
-    return <Text style={{textAlign:'center', padding: 10}}>Estas son las hojas de rutas disponibles</Text>
+    return <Text style={styles.help}>Estas son las hojas de rutas disponibles</Text>
   }
 
   renderRow ({item}) {
@@ -109,7 +109,7 @@ class HojaRutaScreen extends Component {
 
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'HOJAS DE RUTA', style: { color: '#27ae60' } }} 
+          centerComponent={{ text: 'HOJAS DE RUTA', style: styles.navigation }} 
           leftComponent={{ 
             icon: 'chevron-left', 
             color: '#27ae60',

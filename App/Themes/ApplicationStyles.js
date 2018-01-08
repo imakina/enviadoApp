@@ -10,7 +10,6 @@ const ApplicationStyles = {
     mainContainer: {
       flex: 1,
       backgroundColor: Colors.transparent,
-      
     },
     backgroundImage: {
       position: 'absolute',
@@ -48,9 +47,11 @@ const ApplicationStyles = {
     },
     /// navigation bar
     navigation: {
-      borderBottomColor: 'rgba(255,255,255,0.2)',
-      borderBottomWidth: 0.5,
-      backgroundColor: Colors.background
+      // borderBottomColor: 'rgba(255,255,255,0.2)',
+      // borderBottomWidth: 0.5,
+      // backgroundColor: Colors.background
+      ...Fonts.style.normal,
+      color: Colors.background
     },
     information :{
       paddingBottom: 2,

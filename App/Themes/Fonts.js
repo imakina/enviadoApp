@@ -1,6 +1,8 @@
 const type = {
-  base: 'Avenir',
-  bold: 'Avenir-Black',
+  // base: 'Avenir',
+  // bold: 'Avenir-Black',
+  base: 'NunitoRegular',
+  bold: 'NunitoBold',
   emphasis: 'HelveticaNeue-Italic'
 }
 

@@ -212,7 +212,10 @@ class LoginScreen extends Component {
             onPress={this.handleSavePassword}
             style={styles.checkbox}
             textStyle={styles.checkboxTitle}
-          /> 
+            fontFamily="RalewayRegular"
+          > 
+            <Text> La la la la </Text>
+          </CheckBox>
 
           <ButtonIcon
             icon={{ name: 'sign-in', type: 'font-awesome' }}

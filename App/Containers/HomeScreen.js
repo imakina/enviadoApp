@@ -55,7 +55,7 @@ class HomeScreen extends Component {
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
           leftComponent={{ icon: 'menu', color: '#27ae60' }}
-          centerComponent={{ text: 'ENVIADO.COM', style: { color: '#27ae60' } }} 
+          centerComponent={{ text: 'ENVIADO.COM', style: styles.navigation }} 
           rightComponent={{ 
             icon: 'sign-out', 
             type: 'font-awesome', 

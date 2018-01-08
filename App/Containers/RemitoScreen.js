@@ -224,7 +224,7 @@ class RemitoScreen extends Component {
 
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'REMITO', style: { color: '#27ae60' } }} 
+          centerComponent={{ text: 'REMITO', style: styles.navigation }} 
           leftComponent={{ 
             icon: 'chevron-left',
             color: '#27ae60',

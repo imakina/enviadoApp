@@ -56,6 +56,11 @@
 		F9357FF5EF4A47BBA7A2BC3D /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E791E3B95644C186AFC69F /* libRCTCamera.a */; };
 		FFE7C32BAC6D48BBB686CA13 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 807FDA1874884627A53F9A6F /* Octicons.ttf */; };
 		97E8F1A259E944D5BB3A1777 /* libRSSignatureCapture.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B6C37F28754753BE357DAE /* libRSSignatureCapture.a */; };
+		C1FAA17327EA45FDA3B8F4F1 /* NunitoBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C8FDE7C702F4AFBA668F620 /* NunitoBold.ttf */; };
+		E4945E7FFB2141D1A5BF5C1B /* NunitoRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FD08703B3D14900ADB02024 /* NunitoRegular.ttf */; };
+		A832B49C788844C29F7A008A /* RalewayBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A694CDEA9144946A453257A /* RalewayBold.ttf */; };
+		3DEB098804A948B4AB3AA126 /* RalewayRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F24C03CC9D864459ACFFD222 /* RalewayRegular.ttf */; };
+		EADC7D5D300645D6A39087C7 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 742018F0636A4DB096F3C852 /* Feather.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -395,6 +400,11 @@
 		FB9417B03F004EF38DE30EAC /* libjschelpers.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libjschelpers.a; sourceTree = "<group>"; };
 		F62E1A9776BE466F9EF3BC52 /* RSSignatureCapture.xcodeproj */ = {isa = PBXFileReference; name = "RSSignatureCapture.xcodeproj"; path = "../node_modules/react-native-signature-capture/ios/RSSignatureCapture.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		99B6C37F28754753BE357DAE /* libRSSignatureCapture.a */ = {isa = PBXFileReference; name = "libRSSignatureCapture.a"; path = "libRSSignatureCapture.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		4C8FDE7C702F4AFBA668F620 /* NunitoBold.ttf */ = {isa = PBXFileReference; name = "NunitoBold.ttf"; path = "../assets/fonts/NunitoBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3FD08703B3D14900ADB02024 /* NunitoRegular.ttf */ = {isa = PBXFileReference; name = "NunitoRegular.ttf"; path = "../assets/fonts/NunitoRegular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1A694CDEA9144946A453257A /* RalewayBold.ttf */ = {isa = PBXFileReference; name = "RalewayBold.ttf"; path = "../assets/fonts/RalewayBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F24C03CC9D864459ACFFD222 /* RalewayRegular.ttf */ = {isa = PBXFileReference; name = "RalewayRegular.ttf"; path = "../assets/fonts/RalewayRegular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		742018F0636A4DB096F3C852 /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -736,6 +746,11 @@
 				807FDA1874884627A53F9A6F /* Octicons.ttf */,
 				8EF7A90463F4406D880F2B31 /* SimpleLineIcons.ttf */,
 				0171B9153F41404999795DB3 /* Zocial.ttf */,
+				4C8FDE7C702F4AFBA668F620 /* NunitoBold.ttf */,
+				3FD08703B3D14900ADB02024 /* NunitoRegular.ttf */,
+				1A694CDEA9144946A453257A /* RalewayBold.ttf */,
+				F24C03CC9D864459ACFFD222 /* RalewayRegular.ttf */,
+				742018F0636A4DB096F3C852 /* Feather.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1230,6 +1245,11 @@
 				FFE7C32BAC6D48BBB686CA13 /* Octicons.ttf in Resources */,
 				A8CF2C8D4DA64557B00E2192 /* SimpleLineIcons.ttf in Resources */,
 				055CA4B0F45E4CC3BC10E625 /* Zocial.ttf in Resources */,
+				C1FAA17327EA45FDA3B8F4F1 /* NunitoBold.ttf in Resources */,
+				E4945E7FFB2141D1A5BF5C1B /* NunitoRegular.ttf in Resources */,
+				A832B49C788844C29F7A008A /* RalewayBold.ttf in Resources */,
+				3DEB098804A948B4AB3AA126 /* RalewayRegular.ttf in Resources */,
+				EADC7D5D300645D6A39087C7 /* Feather.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

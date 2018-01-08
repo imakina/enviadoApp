@@ -99,7 +99,9 @@ class RemitosListScreen extends React.PureComponent {
     return (
 
       <ListItem
-          
+          fontFamily="NunitoRegular"
+          subtitleStyle={styles.item}
+          textInputStyle={styles.item}
           title={item.nroRemito}
           subtitle={customDomicilio}
           badge={badge}
@@ -129,8 +131,8 @@ class RemitosListScreen extends React.PureComponent {
           selectedIndex={this.state.tabIndex}
           buttons={['Todos', 'Pendientes']}
           containerStyle={{height: 35}}
-          // textStyle={styles.buttonGroup} 
-          selectedTextStyle={styles.buttonGroupSelected} 	
+          textStyle={styles.itembutton} 
+          selectedTextStyle={styles.itembutton} 	
           />
 
         <SearchBar 
@@ -165,7 +167,7 @@ class RemitosListScreen extends React.PureComponent {
   renderEmpty = () => { 
   
     if (this.state.fetching)
-      return <Text style={{padding:20, textAlign:'center', marginTop:30}}> Buscando ... </Text>
+      return <Text style={[styles.item, {padding:20, textAlign:'center', marginTop:30}]}> Buscando ... </Text>
     else 
       return null
 
@@ -287,7 +289,7 @@ class RemitosListScreen extends React.PureComponent {
 
         <Header
           statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'LISTA REMITOS', style: { color: '#27ae60' } }} 
+          centerComponent={{ text: 'LISTA REMITOS', style: styles.navigation }} 
           leftComponent={{ 
             icon: 'chevron-left',
             color: '#27ae60',
