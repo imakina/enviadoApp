@@ -78,7 +78,6 @@ class RemitosListScreen extends React.PureComponent {
       badgeTextStyle: { fontSize: 14, padding: 2 },
     };
 
-
     const customIconName = (item.domicilioDestinatario.indexOf("|TpoProp: CASA")===-1)?"building-o":"home"
     // {item.nombreDestinatario.indexOf("tpoProp:casa")>0:'#BFBFBF':'red'}
 
@@ -99,7 +98,7 @@ class RemitosListScreen extends React.PureComponent {
     return (
 
       <ListItem
-          fontFamily="NunitoRegular"
+          // fontFamily="NunitoRegular"
           subtitleStyle={styles.item}
           textInputStyle={styles.item}
           title={item.nroRemito}
@@ -113,8 +112,6 @@ class RemitosListScreen extends React.PureComponent {
     )
 
 }
-// rightIcon={customChevron}
-// onPressRightIcon={() => this.onPressSignature(item)}
 
   /* ***********************************************************
   * STEP 3
@@ -125,7 +122,16 @@ class RemitosListScreen extends React.PureComponent {
   renderHeader = () =>
       <View>
 
-        <ButtonGroup
+        <View style={{flexDirection:'row', height: 40}}>
+          <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(0)}>
+            <Text style={[styles.textButtonGroup, (this.state.tabIndex == 0)?styles.textButtonSelected:'']}>Pendientes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(1)}>
+            <Text style={[styles.textButtonGroup, (this.state.tabIndex == 1)?styles.textButtonSelected:'']}>Todos</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* <ButtonGroup
           selectedBackgroundColor={Colors.backgroundVariant}
           onPress={this.updateIndex}
           selectedIndex={this.state.tabIndex}
@@ -133,7 +139,7 @@ class RemitosListScreen extends React.PureComponent {
           containerStyle={{height: 35}}
           textStyle={styles.itembutton} 
           selectedTextStyle={styles.itembutton} 	
-          />
+          /> */}
 
         <SearchBar 
           onChangeText={this.onSearch}
@@ -150,9 +156,11 @@ class RemitosListScreen extends React.PureComponent {
     switch(index) {
       case 0:
         //update the list
+        this.onRequestingRemitos(false)
         break;
       case 1:
         //update the list
+        this.onRequestingRemitos(true)
         break;
     }
   }
@@ -235,12 +243,12 @@ class RemitosListScreen extends React.PureComponent {
   componentDidMount () {
     // get remitos list
     this.setState({tabIndex:0})
-    this.onRequestingRemitos()
+    this.onRequestingRemitos(false)
   }
   
-  onRequestingRemitos = () => {
+  onRequestingRemitos = (todos) => {
     this.setState({ fetching: true })
-    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta)
+    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos)
   }
 
   componentDidCatch(error, info) {
@@ -258,11 +266,11 @@ class RemitosListScreen extends React.PureComponent {
   }
 
   onPressMap = (item) => {
-    console.log({name:'map', value:item})
+    // console.log({name:'map', value:item})
     this.props.selectedRemitos(item)
     //navigation
     const markers = [].push(item)
-    console.tron.display({name:'unequipo', value:markers})
+    // console.tron.display({name:'unequipo', value:markers})
     this.props.navigation.navigate('MapScreen', { markers: null })
   }
 
@@ -274,16 +282,14 @@ class RemitosListScreen extends React.PureComponent {
         return item;
       }
     );
-    console.tron.display({name:'markers', value:markers})
+    // console.tron.display({name:'markers', value:markers})
     this.props.navigation.navigate('MapScreen', { markers: markers})
   }
 
   render () {
 
     const { fetching } = this.state;
-
-    // console.tron.log(this.state.tabIndex)
-
+  
     return (
       <View style={styles.container}>
 
@@ -342,7 +348,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestRemitos: (hoja) => dispatch(RemitosActions.remitosRequest(hoja)),
+    requestRemitos: (hoja,todos) => dispatch(RemitosActions.remitosRequest(hoja,todos)),
     selectedRemitos: (remito) => dispatch(RemitosActions.remitoSelected(remito))
   }
 }

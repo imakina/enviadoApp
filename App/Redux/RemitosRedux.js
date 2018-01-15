@@ -4,7 +4,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  remitosRequest: ['hoja'],
+  remitosRequest: ['hoja','todos'],
   remitoUpdate: ['body'],
   remitosSuccess: ['payload'],
   remitosFailure: null,

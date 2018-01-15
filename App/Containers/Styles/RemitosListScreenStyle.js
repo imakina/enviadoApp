@@ -41,5 +41,15 @@ export default StyleSheet.create({
   // buttonGroup : {
   //   ...Fonts.type.base
   // },
-
+  textButtonGroup : {
+    ...Fonts.style.normal,
+    alignItems: 'center',
+    justifyContent:'center', 
+    textAlign:'center',
+    padding: 6
+  },
+  textButtonSelected : {
+    backgroundColor: Colors.backgroundVariant,
+    color: Colors.snow
+  }
 })

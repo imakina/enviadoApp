@@ -51,6 +51,7 @@ const create = (baseURL = 'http://enviado.com/') => {
   //remitos por hoja de ruta
   //const getRemitos = (token) => api.get('api/remitos/ListadoRemitoRuteo', { token: token })
   const getRemitos = (hojaruta,token) => api.get('api/remitos/ListadoRemitosHojaRuta', { hojaruta: hojaruta, token: token })
+  const getRemitosTodos = (hojaruta,token) => api.get('api/remitos/ListadoRemitosHojaRutaTodos', { hojaruta: hojaruta, token: token })
   const getHojaRuta = (car_id, estado) => api.get('api/remitos/ListadoHojasRuta', { car_id: car_id, estado: estado })
   const getMotivos = (token) => api.get('api/remitos/motivos', { token: token })
   const postRemitoEstado = (token, body) => api.post('api/remitos/actualizaestado/?token=' + token, body )
@@ -75,6 +76,7 @@ const create = (baseURL = 'http://enviado.com/') => {
     getUser,
     postLogin,
     getRemitos,
+    getRemitosTodos,
     getHojaRuta,
     getMotivos,
     postRemitoEstado

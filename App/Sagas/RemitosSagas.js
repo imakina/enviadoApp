@@ -15,21 +15,17 @@ import RemitosActions from '../Redux/RemitosRedux'
 import AlertActions from '../Redux/AlertRedux'
 
 export const login = (state) => state.login.payload
-
-//todo
-//remove
-//import { Alert } from 'react-native'
+const token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
 
 export function * getRemitos (api, action) {
-  //const { token } = action
-  //const { token } = yield select(login)
-  const { hoja } = action
-
-  // console.tron.log({status:'SAGA_REMITO', value: action})
-  let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
+  
+  const { hoja, todos } = action
   // make the call to the api
-  const response = yield call(api.getRemitos, hoja, token)
-  //console.tron.log({status:'REMITOS_REQUEST',response: response})
+  let response = {}
+  if (todos)
+    response = yield call(api.getRemitosTodos, hoja, token)
+  else
+    response = yield call(api.getRemitos, hoja, token)
 
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
@@ -39,7 +35,7 @@ export function * getRemitos (api, action) {
   } else {
     // todo put the messages in a unified place
     // network error
-    const { problem } = response
+    let { problem } = response
     if (problem == null)
       problem = response.data.message
 
@@ -49,30 +45,19 @@ export function * getRemitos (api, action) {
 }
 
 export function * postRemito (api, action) {
-  //const { token } = action
-  //const { token } = yield select(login)
   const { body } = action
-  let token = 'NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA=='
-
   // make the call to the api
   const response = yield call(api.postRemitoEstado, token, body)
-  //console.tron.log(response)
-
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    //const { data } = response
-    //const { data } = "Estado modificado correctamente"
     yield put(RemitosActions.remitoUpdateSuccess())
     yield put(AlertActions.alertSuccess("Remito actualizado"))
   } else {
     // todo put the messages in a unified place
     // network error
-    const { problem } = response
+    let { problem } = response
     if (problem == null)
       problem = response.data.message
 
-    //yield call(Alert.alert, problem)
     yield put(RemitosActions.remitosFailure({fetching: false}))
   }
 }

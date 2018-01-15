@@ -7,7 +7,8 @@ import {
   Image, 
   TextInput, 
   TouchableOpacity, 
-  AsyncStorage, 
+  AsyncStorage,
+  Switch, 
   Alert } from 'react-native'
 import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
@@ -18,10 +19,9 @@ import LoginActions from '../Redux/LoginRedux'
 import AlertActions from '../Redux/AlertRedux'
 import ButtonIcon from '../Components/ButtonIcon'
 
-
 // Styles
 import styles from './Styles/LoginScreenStyle'
-import { Images } from '../Themes'
+import { Images, Colors } from '../Themes'
 
 import DebugConfig from '../Config/DebugConfig'
 
@@ -62,7 +62,7 @@ class LoginScreen extends Component {
   }
 
   handleSavePassword = () => {
-    // console.tron.display({name:'checkboxChanged', value:this.state.saveasync})
+    console.tron.display({name:'checkboxChanged', value:this.state.saveasync})
     this.setState({ saveasync: !this.state.saveasync })
     // whenever the user change your mind, the store need to be cleaned
     // this.onLogout()
@@ -204,7 +204,7 @@ class LoginScreen extends Component {
             underlineColorAndroid='rgba(255,255,255,0.2)'
           />
 
-          <CheckBox
+          {/* <CheckBox
             checked={this.state.saveasync}
             checkedColor='white'
             title="Recordarme"
@@ -215,7 +215,28 @@ class LoginScreen extends Component {
             fontFamily="RalewayRegular"
           > 
             <Text> La la la la </Text>
-          </CheckBox>
+          </CheckBox> */}
+          <View style={styles.rememberme}>
+
+            <Text style={styles.rememberText}> Recordarme  </Text>
+            <View style={styles.rememberCheck}>
+              <Switch
+                  value={this.state.saveasync}
+                  onValueChange={this.handleSavePassword}
+                  disabled={false}
+                  activeText={'Yes'}
+                  inActiveText={'Off'}
+                  circleSize={30}
+                  barHeight={1}
+                  circleBorderWidth={3}
+                  backgroundActive={Colors.snow}
+                  backgroundInactive={Colors.silver}
+                  circleActiveColor={Colors.bloodOrange}
+                  circleInActiveColor={'#000000'}
+                />
+            </View>
+
+          </View>
 
           <ButtonIcon
             icon={{ name: 'sign-in', type: 'font-awesome' }}

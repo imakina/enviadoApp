@@ -45,11 +45,26 @@ checkbox: {
   height: 20,
   marginBottom: 10,
 },
-checkboxTitle : {
+rememberme: {
+  flexDirection: 'row',
+  marginBottom: 10,
+},
+rememberText : {
+  flex: 1,
+  ...Fonts.style.normal,
+  // alignItems: 'baseline',
+  // justifyContent: 'center',
+  backgroundColor: Colors.transparent,
+  color: Colors.snow,
+},
+rememberCheck : {
   // fontSize: 15,
   // fontWeight: 'bold',
   // fontFamily: 'HelveticaNeue-Italic',
-  color: Colors.snow,
+  // color: Colors.snow,
+  // backgroundColor: Colors.bloodOrange,
+  alignItems: 'flex-end',
+  justifyContent: 'flex-start',
   opacity: 0.8
 },
 
