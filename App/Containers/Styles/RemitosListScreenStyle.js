@@ -33,7 +33,7 @@ export default StyleSheet.create({
   },
   // item: {
   //   ...Fonts.type.base
-  // }
+  // },
   // buttonGroupSelected: {
   //   ...Fonts.type.base
   //   // color: Colors.snow
@@ -41,6 +41,7 @@ export default StyleSheet.create({
   // buttonGroup : {
   //   ...Fonts.type.base
   // },
+
   textButtonGroup : {
     ...Fonts.style.normal,
     alignItems: 'center',
@@ -51,5 +52,17 @@ export default StyleSheet.create({
   textButtonSelected : {
     backgroundColor: Colors.backgroundVariant,
     color: Colors.snow
+  },
+
+  listitem: {
+    flexDirection: 'row',
+    height: Metrics.screenHeight / 20
+  },
+  domicilio: {
+    ...Fonts.style.normal
+  },
+  distance : {
+    ...Fonts.style.normal
   }
+
 })

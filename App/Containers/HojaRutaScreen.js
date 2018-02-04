@@ -40,56 +40,42 @@ class HojaRutaScreen extends Component {
       fetching: newProps.fetching 
     })
   }
-
+  
   onPressingRemitosPorHojaRuta = (item) => {
     //hojarutaselected
     this.props.selectedHojaRuta(item)
     this.props.navigation.navigate('RemitosListScreen')
   }
-
+  
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
   keyExtractor = (item, index) => index
-
+  
   renderHeader = () => {
-    return <Text style={styles.help}>Estas son las hojas de rutas disponibles</Text>
+    console.tron.display({name: 'dataobjects', value: this.state.dataObjects})
+    return (this.state.dataObjects === null)?
+        <Text style={styles.help}>No tiene asignadas hojas de rutas</Text>
+        :
+        <Text style={styles.help}>Estas son las hojas de ruta disponibles</Text>
   }
+
+  //{"numeroHojaRuta":"00000045","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
+  //{"numeroHojaRuta":"00000161","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
 
   renderRow ({item}) {
 
     return (
-    //{"numeroHojaRuta":"00000045","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
-    //{"numeroHojaRuta":"00000161","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
-    // hideChevron
-    // <ListItem
-    //     title={item.numeroHojaRuta}
-    //     subtitle={item.car_id}
-    //     //badge={badge} 
-    //     containerStyle={{ backgroundColor: 'white' }}
-    //     onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
-    //   />
 
+        <View style={{ paddingRight: 20, paddingLeft: 20, paddingTop: 20}}>
 
-    <View style={{ paddingRight: 20, paddingLeft: 20, paddingTop: 20}}>
-    
-      {/* <Button
-        raised
-        icon={{name: 'map', size: 60}}
-        buttonStyle={styles.button}
-        textStyle={{textAlign: 'center'}}
-        containerViewStyle={styles.buttonContainer}
-        title={item.numeroHojaRuta}
-        onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
-      /> */}
+          <ButtonIcon
+            icon={{ name: 'map', type: 'font-awesome' }}
+            text={item.numeroHojaRuta}
+            onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
+          />
 
-      <ButtonIcon
-        icon={{ name: 'map', type: 'font-awesome' }}
-        text={item.numeroHojaRuta}
-        onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
-      />
-
-    </View>
+        </View>
 
     )
 

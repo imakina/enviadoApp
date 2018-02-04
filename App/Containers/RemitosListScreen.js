@@ -88,10 +88,10 @@ class RemitosListScreen extends React.PureComponent {
       type:'font-awesome'
     }
 
-    const customChevron = { 
-      name: 'pencil',
-      type:'font-awesome'
-    }
+    // const customChevron = { 
+    //   name: 'pencil',
+    //   type:'font-awesome'
+    // }
 
     const customDomicilio = domicilio.replace('|tpoprop: Casa','')
 
@@ -109,6 +109,23 @@ class RemitosListScreen extends React.PureComponent {
           leftIcon={customIcon}
           leftIconOnPress={() => this.onPressMap(item)}
         />
+
+        // <View style={style.listitem}>
+        //   <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(0)}>
+        //     <Icon
+        //       name={'map'}
+        //       type={'font-awesome'}
+        //       color={Colors.backgroundVariant}
+        //     />
+        //   </TouchableOpacity>
+        //   <TouchableOpacity style={{flex:3}}>
+        //     <Text style={styles.domicilio}>{customDomicilio}</Text>
+        //   </TouchableOpacity>
+        //   <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(1)}>
+        //     <Text style={styles.distance}>9.23 km</Text>
+        //   </TouchableOpacity>
+        // </View>
+
     )
 
 }
@@ -298,12 +315,12 @@ class RemitosListScreen extends React.PureComponent {
           centerComponent={{ text: 'LISTA REMITOS', style: styles.navigation }} 
           leftComponent={{ 
             icon: 'chevron-left',
-            color: '#27ae60',
+            color: Colors.background,
             onPress: () => this.props.navigation.navigate('HojaRutaScreen')
           }}
           rightComponent={{ 
             icon: 'map', 
-            color: '#27ae60',
+            color: Colors.background,
             onPress: () => this.onPressMarkers()
           }}
         />
