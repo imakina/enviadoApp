@@ -650,6 +650,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				EF90D01E9B0B4AAF9AB32CC9 /* Resources */,
 				C64E771F1FBCE30800DBCDD9 /* Recovered References */,
+				C6CE7A422027868500E46ECC /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -706,6 +707,13 @@
 				C6AE5A79200C2E6900B2B8C6 /* libRSSignatureCapture.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C6CE7A422027868500E46ECC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		C6D8D63C1F5A675200A6D7D5 /* Products */ = {
@@ -862,6 +870,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 6AE622B8U2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;

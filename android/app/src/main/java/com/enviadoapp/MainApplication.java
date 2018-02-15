@@ -3,12 +3,12 @@ package com.enviadoapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.rssignaturecapture.RSSignatureCapturePackage;
 import com.airbnb.android.react.maps.MapsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.rssignaturecapture.RSSignatureCapturePackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.facebook.react.ReactNativeHost;
@@ -31,12 +31,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RSSignatureCapturePackage(),
             new MapsPackage(),
+            new RNDeviceInfo(),
+            new RSSignatureCapturePackage(),
             new RCTCameraPackage(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),
-            new RNDeviceInfo(),
             new ReactNativeConfigPackage(),
             new ReactNativeI18n()
       );

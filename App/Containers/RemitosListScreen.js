@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem, List, Header, Icon, SearchBar, ButtonGroup } from 'react-native-elements'
+import openMap from 'react-native-open-maps';
+import getDirections from 'react-native-google-maps-directions';
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 import RemitosActions from '../Redux/RemitosRedux'
@@ -88,43 +90,68 @@ class RemitosListScreen extends React.PureComponent {
       type:'font-awesome'
     }
 
-    // const customChevron = { 
-    //   name: 'pencil',
-    //   type:'font-awesome'
-    // }
+    const customDomicilio = domicilio.split('|')[0]
+    // const customDomicilio = domicilio.replace('|tpoprop: Casa','')
 
-    const customDomicilio = domicilio.replace('|tpoprop: Casa','')
+    const dist = this.getDistance({latitud:this.state.latitude,longitud:this.state.longitude}, {latitud:item.latitud,longitud:item.longitud})
+
+    const distance = parseFloat(Math.round(dist * 100) / 100).toFixed(2) + ' kms';
+
+    console.log(distance);
 
     return (
 
-      <ListItem
-          // fontFamily="NunitoRegular"
-          subtitleStyle={styles.item}
-          textInputStyle={styles.item}
-          title={item.nroRemito}
-          subtitle={customDomicilio}
-          badge={badge}
-          containerStyle={{ backgroundColor: 'white' }}
-          onPress={() => this.onPressSingleItem(item)}
-          leftIcon={customIcon}
-          leftIconOnPress={() => this.onPressMap(item)}
-        />
+      // <ListItem
+      //     // fontFamily="NunitoRegular"
+      //     subtitleStyle={styles.item}
+      //     textInputStyle={styles.item}
+      //     title={item.nroRemito}
+      //     subtitle={customDomicilio}
+      //     badge={badge}
+      //     containerStyle={{ backgroundColor: 'white' }}
+      //     onPress={() => this.onPressSingleItem(item)}
+      //     leftIcon={customIcon}
+      //     leftIconOnPress={() => this.onPressMap(item)}
+      //   />
+      // <TouchableOpacity style={{flex:0.7}} onPress={() => this.onPressDirection(item)}>
+      //   <Icon
+      //     name={'map'}
+      //     color={Colors.backgroundVariant}
+      //   />
+      // </TouchableOpacity>
 
-        // <View style={style.listitem}>
-        //   <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(0)}>
-        //     <Icon
-        //       name={'map'}
-        //       type={'font-awesome'}
-        //       color={Colors.backgroundVariant}
-        //     />
-        //   </TouchableOpacity>
-        //   <TouchableOpacity style={{flex:3}}>
-        //     <Text style={styles.domicilio}>{customDomicilio}</Text>
-        //   </TouchableOpacity>
-        //   <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(1)}>
-        //     <Text style={styles.distance}>9.23 km</Text>
-        //   </TouchableOpacity>
-        // </View>
+      <View style={styles.shadow}>
+        <TouchableOpacity style={styles.listitem} onPress={() => this.onPressSingleItem(item)}>
+
+          <View style={styles.row}>
+            <TouchableOpacity style={{ flex: 0.5, alignSelf: 'flex-start' }} onPress={() => this.onPressOpenMaps(item)}>
+              <Icon
+                name={customIconName}
+                color={item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}
+                size={28}
+                type='font-awesome'
+              />
+            </TouchableOpacity>
+            <View style={{ flex: 2 }}>
+              <Text style={styles.numero}>{item.nroRemito}</Text>
+            </View>
+            <View style={{ flex: 3 }}>
+              {/* <Icon
+                name={'globe'}
+                color={Colors.facebook}
+                size={28}
+                type='font-awesome'
+              /> */}
+              <Text style={styles.distance}> {distance}</Text>
+            </View>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.domicilio}>{customDomicilio}</Text>
+          </View>
+
+        </TouchableOpacity>
+      </View>
 
     )
 
@@ -182,7 +209,7 @@ class RemitosListScreen extends React.PureComponent {
     }
   }
 
-    // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+  // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
 
   // Render a footer?
   renderFooter = () =>
@@ -242,6 +269,27 @@ class RemitosListScreen extends React.PureComponent {
     })
   }
 
+  // distance gps
+  getDistance = (origin,destination) => {
+    console.log(origin.latitud + ' ' + destination.latitud)
+    console.log(origin.longitud + ' ' + destination.longitud)
+    const R = 6371; // Radius of the earth in km
+    const dLat = this.deg2rad(destination.latitud-origin.latitud);  // this.deg2rad below
+    const dLon = this.deg2rad(destination.longitud-origin.longitud); 
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(this.deg2rad(origin.latitud)) * Math.cos(this.deg2rad(destination.latitud)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    const d = R * c; // Distance in km
+    return d;
+  }
+  
+  deg2rad = (deg) => { return deg * (Math.PI/180); }
+  // end distance gps
+  
+
   onClearSearch = () => {
     this.setState({ 
       dataObjects: this.state.data
@@ -261,6 +309,30 @@ class RemitosListScreen extends React.PureComponent {
     // get remitos list
     this.setState({tabIndex:0})
     this.onRequestingRemitos(false)
+    this.myCurrentPosition()
+  }
+
+  myCurrentPosition() {
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+        // console.log("my position",position);
+        // console.log("destination",this.state.marker.latitud);
+        // this.mergeLot();
+        // let start = this.state.latitude +","+ this.state.longitude
+        // let end = this.state.marker.latitud +","+ this.state.marker.longitud
+        // this.getDirections(start, end)
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+      // {enableHighAccuracy: true, timeout: 25000, maximumAge: 3600000} 
+    );
+
   }
   
   onRequestingRemitos = (todos) => {
@@ -291,6 +363,41 @@ class RemitosListScreen extends React.PureComponent {
     this.props.navigation.navigate('MapScreen', { markers: null })
   }
 
+  onPressOpenMaps = (item) => {
+    console.log(item)
+    // openMap({ latitude: parseFloat(item.latitud), longitude: parseFloat(item.longitud)});
+    this.handleGetDirections(item)
+  }
+
+  handleGetDirections = (item) => {
+    const data = {
+       source: {
+        latitude: this.state.latitude,
+        longitude: this.state.longitude
+      },
+      destination: {
+        latitude: parseFloat(item.latitud),
+        longitude: parseFloat(item.longitud)
+      },
+      params: [
+        {
+          key: "dirflg",
+          value: "d"
+        }
+      ]
+    }
+ 
+    getDirections(data)
+  }
+
+  // onPressDirection = (item) => {
+  //   console.log({name:'direction', value:item})
+  //   this.props.selectedRemitos(item)
+  //   //navigation
+  //   const markers = [].push(item)
+  //   this.props.navigation.navigate('DirectionScreen', { marker: item })
+  // }
+
   onPressMarkers = () => {
     const markers=this.state.dataObjects.filter(
       function(item){
@@ -299,7 +406,6 @@ class RemitosListScreen extends React.PureComponent {
         return item;
       }
     );
-    // console.tron.display({name:'markers', value:markers})
     this.props.navigation.navigate('MapScreen', { markers: markers})
   }
 

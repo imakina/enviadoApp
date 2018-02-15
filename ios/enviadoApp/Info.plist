@@ -28,12 +28,12 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>enviado.com</key>
+			<key>desa.enviado.softsencillo.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>desa.enviado.softsencillo.com</key>
+			<key>enviado.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -45,14 +45,16 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
 	<key>NSCameraUsageDescription</key>
 	<string>Se necesita permiso para acceder a la Camara</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Se necesita permiso para acceder a las Fotos</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Para poder trazar las rutas</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Para poder trazar las rutas</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Se necesita permiso para acceder al microfono</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Se necesita permiso para acceder a las Fotos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
@@ -70,6 +72,10 @@
 		<string>RalewayBold.ttf</string>
 		<string>RalewayRegular.ttf</string>
 		<string>Feather.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>

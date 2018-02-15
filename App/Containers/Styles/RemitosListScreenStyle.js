@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ColorPropType } from 'react-native'
 import { ApplicationStyles, Metrics, Colors, Fonts  } from '../../Themes'
 
 export default StyleSheet.create({
@@ -53,16 +53,56 @@ export default StyleSheet.create({
     backgroundColor: Colors.backgroundVariant,
     color: Colors.snow
   },
+  shadow: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: Colors.eggplant
+  },
 
   listitem: {
+    height: Metrics.screenHeight / 8,
+    width: Metrics.screenWidth - 30,
+    // alignItems: 'center',
+    backgroundColor: Colors.snow,
+    // borderBottomColor: Colors.snow,
+    flexDirection: 'column',
+    // marginRight: 5,
+    // marginLeft: 5,
+    marginTop: 20,
+    // padding: 10,
+
+    borderRadius: 10,
+    padding: 10,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1.0
+  },
+  row: {
+    flex: 1,
     flexDirection: 'row',
-    height: Metrics.screenHeight / 20
+    justifyContent: 'space-between',
+    // backgroundColor: Colors.bloodOrange
+  },
+  numero: {
+    ...Fonts.style.h5,
+    marginLeft: 5,
+    // backgroundColor: Colors.charcoal
   },
   domicilio: {
-    ...Fonts.style.normal
+    ...Fonts.style.small,
+    padding: 0,
+    marginTop: 5
   },
   distance : {
-    ...Fonts.style.normal
-  }
+    ...Fonts.style.h5,
+    color: Colors.facebook,
+    // backgroundColor: Colors.coal,
+    alignSelf: 'flex-end'
+  },
 
 })
