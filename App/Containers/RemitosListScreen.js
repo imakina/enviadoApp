@@ -90,14 +90,14 @@ class RemitosListScreen extends React.PureComponent {
       type:'font-awesome'
     }
 
-    const customDomicilio = domicilio.split('|')[0]
+    const customDomicilio = domicilio.split('|')[0].substring(0,40)
     // const customDomicilio = domicilio.replace('|tpoprop: Casa','')
 
     const dist = this.getDistance({latitud:this.state.latitude,longitud:this.state.longitude}, {latitud:item.latitud,longitud:item.longitud})
 
     const distance = parseFloat(Math.round(dist * 100) / 100).toFixed(2) + ' kms';
 
-    console.log(distance);
+    // console.log(distance);
 
     return (
 
@@ -120,33 +120,53 @@ class RemitosListScreen extends React.PureComponent {
       //   />
       // </TouchableOpacity>
 
+      
+
       <View style={styles.shadow}>
+
+                  {/* <Icon
+                    name={'globe'}
+                    color={Colors.facebook}
+                    size={28}
+                    type='font-awesome'
+                  /> */}
+
         <TouchableOpacity style={styles.listitem} onPress={() => this.onPressSingleItem(item)}>
 
-          <View style={styles.row}>
-            <TouchableOpacity style={{ flex: 0.5, alignSelf: 'flex-start' }} onPress={() => this.onPressOpenMaps(item)}>
-              <Icon
-                name={customIconName}
-                color={item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}
-                size={28}
-                type='font-awesome'
-              />
-            </TouchableOpacity>
-            <View style={{ flex: 2 }}>
-              <Text style={styles.numero}>{item.nroRemito}</Text>
+          <View style={{flexDirection:'row'}}>
+
+            <View style={{flex:0.3}}>
+
+                <TouchableOpacity  onPress={() => this.onPressOpenMaps(item)}>
+                  <Icon
+                    name={customIconName}
+                    color={item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}
+                    size={40}
+                    type='font-awesome'
+                  />
+                </TouchableOpacity>
+
             </View>
-            <View style={{ flex: 3 }}>
-              {/* <Icon
-                name={'globe'}
-                color={Colors.facebook}
-                size={28}
-                type='font-awesome'
-              /> */}
-              <Text style={styles.distance}> {distance}</Text>
+
+            <View style={{flex:2}}>
+
+              <View style={{flexDirection:'column'}}>
+
+                <View >
+                  <Text style={styles.numero}>{item.nroRemito}</Text>
+                </View>
+
+                <View >
+                  <Text style={styles.distance}> {distance}</Text>
+                </View>
+
+              </View>
+
             </View>
+
           </View>
 
-          <View style={styles.row}>
+          <View>
             <Text style={styles.domicilio}>{customDomicilio}</Text>
           </View>
 
@@ -424,11 +444,11 @@ class RemitosListScreen extends React.PureComponent {
             color: Colors.background,
             onPress: () => this.props.navigation.navigate('HojaRutaScreen')
           }}
-          rightComponent={{ 
-            icon: 'map', 
-            color: Colors.background,
-            onPress: () => this.onPressMarkers()
-          }}
+          // rightComponent={{ 
+          //   icon: 'map', 
+          //   color: Colors.background,
+          //   onPress: () => this.onPressMarkers()
+          // }}
         />
           <FlatList
             contentContainerStyle={styles.listContent}

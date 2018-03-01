@@ -61,7 +61,7 @@ export default StyleSheet.create({
   },
 
   listitem: {
-    height: Metrics.screenHeight / 8,
+    height: Metrics.screenHeight / 7,
     width: Metrics.screenWidth - 30,
     // alignItems: 'center',
     backgroundColor: Colors.snow,
@@ -96,7 +96,8 @@ export default StyleSheet.create({
   domicilio: {
     ...Fonts.style.small,
     padding: 0,
-    marginTop: 5
+    marginTop: 5,
+    backgroundColor: Colors.transparent
   },
   distance : {
     ...Fonts.style.h5,
