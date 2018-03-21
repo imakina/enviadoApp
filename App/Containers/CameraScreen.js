@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { connect } from 'react-redux'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-
 // Styles
 import styles from './Styles/CameraScreenStyle'
-
-// import { Screen, Button, Text } from '@shoutem/ui';
 import Camera from 'react-native-camera';
 
 class CameraScreen extends Component {
@@ -15,9 +10,9 @@ class CameraScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      detail : props.navigation.state.params.detail
+      // detail : props.navigation.state.params.detail
     }
-    console.tron.log({screen:'CameraScreen', value: this.state.detail})
+    // console.tron.log({screen:'CameraScreen', value: this.state.detail})
   }
   //
   // path
@@ -29,12 +24,14 @@ class CameraScreen extends Component {
     const options = {};
     //options.location = ...
     this.camera.capture({metadata: options})
-      .then((data) => console.tron.log(data))
+      .then((data) => this.goBack(data))
       .catch(err => console.tron.log(err));
   }
 
-  goBack() {
-    this.props.navigation.goBack()
+  goBack(data) {
+    const { navigation } = this.props;
+    navigation.goBack();
+    navigation.state.params.onImage(data);
   }
 
   render () {

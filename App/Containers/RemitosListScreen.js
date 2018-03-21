@@ -303,7 +303,7 @@ class RemitosListScreen extends React.PureComponent {
     ; 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     const d = R * c; // Distance in km
-    return d;
+    return d || 0;
   }
   
   deg2rad = (deg) => { return deg * (Math.PI/180); }
@@ -348,7 +348,7 @@ class RemitosListScreen extends React.PureComponent {
         // let end = this.state.marker.latitud +","+ this.state.marker.longitud
         // this.getDirections(start, end)
       },
-      (error) => this.setState({ error: error.message }),
+      (error) => this.setState({ error: error.message, latitude:0, longitude: 0 }),
       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
       // {enableHighAccuracy: true, timeout: 25000, maximumAge: 3600000} 
     );

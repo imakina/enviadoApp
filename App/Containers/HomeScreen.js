@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, KeyboardAvoidingView, Image, StatusBar, TouchableOpacity } from 'react-native'
+import { View, Text, Image, StatusBar, TouchableOpacity } from 'react-native'
 import { Header, Button } from 'react-native-elements'
 import { connect } from 'react-redux'
-// import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
 
-// import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ButtonIcon from '../Components/ButtonIcon'
-// import Header from '../Components/Header'
+import ButtonIcon from '../Components/ButtonIcon';
+import ImagePicker from 'react-native-image-picker'
 
 // Styles
 import styles from './Styles/HomeScreenStyle'
@@ -20,7 +17,8 @@ class HomeScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      user : {}
+      user : {},
+      image : null, 
     }
   }
 
@@ -34,9 +32,65 @@ class HomeScreen extends Component {
     // navigation.navigate('LoginScreen')
     this.props.attemptLogout()
   }
+  
+  onOpenCamera() {
+    this.onChangeImage();
+    // this.props.navigation.navigate('CameraScreen', { onImage : this.getImage })
+  }
+  
+  // getImage = (image) => {
+  //   console.log(image.mediaUri);
+  //   this.setState({ image : image })
+  // }
+
+  persistImage(response) {
+    // parse image
+    const picture = 'data:image/jpeg;base64,' + response.data 
+    // update localstorage
+    this.setState({ image : picture })
+    this.props.updatePicture(picture)
+  }
+
+  onChangeImage () {
+
+    const options = {
+      title: 'Foto de Perfil',
+      cancelButtonTitle: 'Cancelar',
+      takePhotoButtonTitle: 'Tomar una foto...',
+      chooseFromLibraryButtonTitle: 'Seleccionar de la Galeria...',
+      permissionDenied: {
+        title: '',
+        text: 'EnviadoApp quiere acceder a la cámara para poder usarla desde la aplicación',
+        reTryTitle: 'Ir a Configuración',
+        okTitle: 'Cancelar'
+      },
+      cameraType: 'front',
+      mediaType: 'photo',
+      quality: 0.5,
+      maxWidth: 500,
+      maxHeight: 500
+    }
+
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        this.setState({ pickFoto: false }, () => setTimeout(() => this.setState({ pickFoto: true }), 100))
+      } else if (response.error) {
+        // console.log(response.error)
+      } else if (response.customButton) {
+        // console.log(response.customButton)
+      } else {
+        this.persistImage(response)
+        // this.setState({ image : 'data:image/jpeg;base64,' + response.data })
+      }
+    })
+  }
 
   componentDidMount() {
+    console.tron.log(this.props.user)
     this.setState({ user : this.props.user })
+    //profilePic
+    if (this.props.picture)
+      this.setState({ image : this.props.picture })
   }
 
   render () {
@@ -46,8 +100,12 @@ class HomeScreen extends Component {
       token, 
       car_first_nm, 
       car_last_nm, 
-      mail 
+      mail
     } = this.state.user
+
+    const {
+      image
+    } = this.state
 
     return (
       <View style={styles.container}>
@@ -63,22 +121,32 @@ class HomeScreen extends Component {
             onPress: () => this.onPressingLogout()
           }}
         />
-        {/* <Header
-          title={'ENVIADO.COM'}
-          onPressRight={() => this.onPressingLogout()}
-          onPressLeft={() => this.onPressingLogout()}
-        /> */}
 
         <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
 
-          <Icon
-             reverse
-             name='ios-contact'
-             type='ionicon'
-             color='#27ae60'
-             size={160}
-          />
-          
+          { image ?
+
+            <TouchableOpacity
+              onPress={()=> this.onOpenCamera()}>
+              <Image
+                style={styles.capture}
+                source={{ uri: image }}
+              />
+            </TouchableOpacity>
+
+          :
+
+            <Icon
+              reverse
+              name='ios-camera-outline'
+              type='ionicon'
+              color='#27ae60'
+              size={160}
+              onPress={() => this.onOpenCamera() }
+            />
+
+          }
+
           <View style={{ padding: 10, alignItems: 'center' }}>
             <Text style={styles.nombre}>{car_first_nm } { car_last_nm}</Text>
             <Text style={styles.hoja}>CarID{car_id}</Text>
@@ -86,19 +154,6 @@ class HomeScreen extends Component {
           </View>
 
         </View>
-
-        {/* <View style={{ paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
-        
-          <Button
-            raised
-            icon={{name: 'road', type:'font-awesome', size: 25}}
-            buttonStyle={styles.buttonElement}
-            textStyle={{textAlign: 'center'}}
-            title={'HOJAS DE RUTA'}
-            onPress={() => this.onPressingHojaDeRuta()} 
-          />
-
-        </View> */}
 
         <View style={[styles.formContainer]}>
           <ButtonIcon
@@ -114,16 +169,18 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  //console.tron.display({name:'stop_home',value: state}) 
+  console.tron.display({name:'stop_home',value: state}) 
   return {
     user: state.login.account,
+    picture: state.login.picture,
     fetching: state.login.fetching
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    attemptLogout: () => dispatch(LoginActions.loginOut())
+    attemptLogout: () => dispatch(LoginActions.loginOut()),
+    updatePicture: (img) => dispatch(LoginActions.loginPicture(img)),
   }
 }
 

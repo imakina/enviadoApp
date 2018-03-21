@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles, Colors, Fonts } from '../../Themes/'
+import { ApplicationStyles, Colors, Fonts, Metrics } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -68,6 +68,16 @@ export default StyleSheet.create({
 
   mail: {
     ...Fonts.style.normal
-  }
+  },
+
+ capture: {
+  marginTop: Metrics.screenHeight / 10,
+  width: Metrics.screenWidth / 2.5,
+  height: Metrics.screenWidth / 2.5,
+  alignSelf: 'center',
+  borderWidth:1,
+       borderColor:'rgba(0,0,0,0.2)',
+       borderRadius: Metrics.screenWidth / 5,
+ }
 
 })

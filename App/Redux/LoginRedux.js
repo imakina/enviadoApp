@@ -8,7 +8,9 @@ const { Types, Creators } = createActions({
   loginSuccess: ['payload'],
   loginFailure: ['message'],
   loginOut: null,
-  loginCheck: null
+  loginCheck: null,
+  loginPicture: ['picture'],
+  loginPictureSuccess: ['picture'],
 })
 
 export const LoginTypes = Types
@@ -50,9 +52,15 @@ export const logout = (state) =>
 export const check = (state) =>
   state.merge({ account: null })
 
-// export const unlogged = (state) =>
-//   state.merge({ fetching: false, account : null })
+// Check async storage for the token
+export const picture = (state) =>
+  state.merge({ fetching: true })
 
+export const pictureSuccess = (state, data) => {
+  const { picture } = data
+  // console.tron.log("pciture sucess", picture)
+  return state.merge({ picture : picture })
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -62,6 +70,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_FAILURE]: failure,
   [Types.LOGIN_OUT]: logout,
   [Types.LOGIN_CHECK]: check,
+  [Types.LOGIN_PICTURE]: picture,
+  [Types.LOGIN_PICTURE_SUCCESS]: pictureSuccess,
 })
 
 /* ------------- Selectors ------------- */

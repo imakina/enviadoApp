@@ -16,7 +16,7 @@ import { MotivosTypes } from '../Redux/MotivosRedux'
 
 import { startup } from './StartupSagas'
 //import { getUserAvatar } from './GithubSagas'
-import { login, check, logout } from './LoginSagas'
+import { login, check, logout, picture } from './LoginSagas'
 import { getRemitos } from './RemitosSagas'
 import { postRemito } from './RemitosSagas'
 import { getHojaRuta } from './HojaRutaSagas'
@@ -42,6 +42,7 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_REQUEST, login, api),
     takeLatest(LoginTypes.LOGIN_CHECK, check),
     takeLatest(LoginTypes.LOGIN_OUT, logout),
+    takeLatest(LoginTypes.LOGIN_PICTURE, picture),
 
     // some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),

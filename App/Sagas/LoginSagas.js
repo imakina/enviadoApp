@@ -19,8 +19,16 @@ import { NavigationActions } from 'react-navigation'
 export function * check () {
     // Async information
     console.tron.display({preview:'reading from async'})
-    const serializedState = yield AsyncStorage.getItem('account')
-    const account = JSON.parse(serializedState)
+    const serAccount = yield AsyncStorage.getItem('account')
+    const serPicture = yield AsyncStorage.getItem('picture')
+    const account = JSON.parse(serAccount)
+    const picture = JSON.parse(serPicture)
+
+    if (picture) {
+      // console.tron.log('dispaching')
+      yield put(LoginActions.loginPictureSuccess(picture))
+    }
+
     if (account) {
       //TODO evaluate date
       console.tron.log("Already have a login saved")
@@ -53,10 +61,6 @@ export function * login (api, action) {
       const serializedState = JSON.stringify(data);
       // console.tron.log({ name: "Saving to async storage data ", value:serializedState})
       AsyncStorage.setItem('account', serializedState);
-      // AsyncStorage.multiSet([
-      //   ['expire', Date.now().toString()],
-      //   ['data', serializedState]
-      // ])
     } else
       AsyncStorage.multiRemove(['expire','username','password','account'])
 
@@ -75,4 +79,15 @@ export function * login (api, action) {
     yield put(LoginActions.loginFailure())
     yield put(AlertActions.alertError(problem))
   }
+}
+
+export function * picture (action) {
+
+  const { picture } = action
+  const serializedState = JSON.stringify(picture);
+  console.tron.log({ name: "Saving picture storage data ", value:serializedState})
+  AsyncStorage.setItem('picture', serializedState);
+
+  yield put(LoginActions.loginPictureSuccess(serializedState))
+
 }

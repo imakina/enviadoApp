@@ -46,7 +46,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Se necesita permiso para acceder a la Camara</string>
+	<string>Enciende tu camara para jugar.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Para poder trazar las rutas</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -55,6 +55,11 @@
 	<string>Se necesita permiso para acceder al microfono</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Se necesita permiso para acceder a las Fotos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Se necesita acceder a la Librearia</string>
+	<key>NSLocalizedDescription</key>
+	<string>Se necesita acceder a tu ubicaion</string>
+
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
