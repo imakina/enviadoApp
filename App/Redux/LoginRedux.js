@@ -46,7 +46,7 @@ export const failure = (state) => {
 
 // Logout cleaning
 export const logout = (state) =>
-  state.merge({ fetching: false, account : null })
+  state.merge({ fetching: false, account : null, picture : null })
 
 // Check async storage for the token
 export const check = (state) =>

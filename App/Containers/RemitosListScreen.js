@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { ListItem, List, Header, Icon, SearchBar, ButtonGroup } from 'react-native-elements'
+import { Icon, SearchBar } from 'react-native-elements'
 import openMap from 'react-native-open-maps';
 import getDirections from 'react-native-google-maps-directions';
 
@@ -13,18 +13,18 @@ import styles from './Styles/RemitosListScreenStyle'
 import { Colors } from '../Themes'
 
 var Spinner = require('react-native-spinkit')
+// Components
+import ItemRemito from '../Components/ItemRemito';
+import Header from '../Components/Header';
 
 class RemitosListScreen extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.renderRow = this.renderRow.bind(this);
-    // this.state = {
-    //   hoja : props.navigation.state.params.hoja,
-    //   //car_id : props.navigation.state.params.car_id
-    // }
-    //console.tron.log({screen:'CameraScreen', value: this.state.hoja})
   }
+
+  goBack = () => this.props.navigation.navigate('HojaRutaScreen')
+
 
   /* ***********************************************************
   * STEP 1
@@ -32,18 +32,9 @@ class RemitosListScreen extends React.PureComponent {
   * Usually this should come from Redux mapStateToProps
   *************************************************************/
   state = {
-    fetching:false,
+    fetching: false,
     tabIndex: 0,
-    dataObjects : []
-    // dataObjects: [
-    //   {title: 'First Title', description: 'First Description'},
-    //   {title: 'Second Title', description: 'Second Description'},
-    //   {title: 'Third Title', description: 'Third Description'},
-    //   {title: 'Fourth Title', description: 'Fourth Description'},
-    //   {title: 'Fifth Title', description: 'Fifth Description'},
-    //   {title: 'Sixth Title', description: 'Sixth Description'},
-    //   {title: 'Seventh Title', description: 'Seventh Description'}
-    // ]
+    dataObjects: []
   }
 
   /* ***********************************************************
@@ -54,128 +45,109 @@ class RemitosListScreen extends React.PureComponent {
   * e.g.
     return <MyCustomCell title={item.title} description={item.description} />
   *************************************************************/
-  renderRow ({item}) {
-
-    const nombre = item.nombreDestinatario
-      .toLowerCase()
-      .trim()
-      .split(' ')
-      .reduce((nombre, item, index) => {    
-        //console.tron.log({nombre,item,index})
-        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
-      })
-
-    const domicilio = item.domicilioDestinatario
-      .toLowerCase()
-      .trim()
-      .split(' ')
-      .reduce((nombre, item, index) => {    
-        //console.tron.log({nombre,item,index})
-        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
-      })
-
-    const badge = {
-      value: `$ ${item.importe} ${item.tipoPago.trim()}` ,
-      badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
-      badgeTextStyle: { fontSize: 14, padding: 2 },
-    };
-
-    const customIconName = (item.domicilioDestinatario.indexOf("|TpoProp: CASA")===-1)?"building-o":"home"
-    // {item.nombreDestinatario.indexOf("tpoProp:casa")>0:'#BFBFBF':'red'}
-
-    const customIcon = { 
-      name: customIconName,
-      color: `${item.latitud.trim()===''?'#BFBFBF':'#27ae60'}`,
-      size:30,
-      type:'font-awesome'
-    }
-
-    const customDomicilio = domicilio.split('|')[0].substring(0,40)
-    // const customDomicilio = domicilio.replace('|tpoprop: Casa','')
-
-    const dist = this.getDistance({latitud:this.state.latitude,longitud:this.state.longitude}, {latitud:item.latitud,longitud:item.longitud})
-
-    const distance = parseFloat(Math.round(dist * 100) / 100).toFixed(2) + ' kms';
-
-    // console.log(distance);
+  renderRow = ({ item }) => {
 
     return (
-
-      // <ListItem
-      //     // fontFamily="NunitoRegular"
-      //     subtitleStyle={styles.item}
-      //     textInputStyle={styles.item}
-      //     title={item.nroRemito}
-      //     subtitle={customDomicilio}
-      //     badge={badge}
-      //     containerStyle={{ backgroundColor: 'white' }}
-      //     onPress={() => this.onPressSingleItem(item)}
-      //     leftIcon={customIcon}
-      //     leftIconOnPress={() => this.onPressMap(item)}
-      //   />
-      // <TouchableOpacity style={{flex:0.7}} onPress={() => this.onPressDirection(item)}>
-      //   <Icon
-      //     name={'map'}
-      //     color={Colors.backgroundVariant}
-      //   />
-      // </TouchableOpacity>
-
-      
-
-      <View style={styles.shadow}>
-
-                  {/* <Icon
-                    name={'globe'}
-                    color={Colors.facebook}
-                    size={28}
-                    type='font-awesome'
-                  /> */}
-
-        <TouchableOpacity style={styles.listitem} onPress={() => this.onPressSingleItem(item)}>
-
-          <View style={{flexDirection:'row'}}>
-
-            <View style={{flex:0.3}}>
-
-                <TouchableOpacity  onPress={() => this.onPressOpenMaps(item)}>
-                  <Icon
-                    name={customIconName}
-                    color={item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}
-                    size={40}
-                    type='font-awesome'
-                  />
-                </TouchableOpacity>
-
-            </View>
-
-            <View style={{flex:2}}>
-
-              <View style={{flexDirection:'column'}}>
-
-                <View >
-                  <Text style={styles.numero}>{item.nroRemito}</Text>
-                </View>
-
-                <View >
-                  <Text style={styles.distance}> {distance}</Text>
-                </View>
-
-              </View>
-
-            </View>
-
-          </View>
-
-          <View>
-            <Text style={styles.domicilio}>{customDomicilio}</Text>
-          </View>
-
-        </TouchableOpacity>
-      </View>
-
+      <ItemRemito
+        latitud={this.state.latitude}
+        longitud={this.state.longitude}
+        onPressSingleItem={() => this.onPressSingleItem(item)}
+        onPressOpenMaps={() => this.onPressOpenMaps(item)}
+        item={item}
+      />
     )
+  }
 
-}
+  // renderRowOld({ item }) {
+
+  //   const nombre = item.nombreDestinatario
+  //     .toLowerCase()
+  //     .trim()
+  //     .split(' ')
+  //     .reduce((nombre, item, index) => {
+  //       return (nombre.substring(0, 1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0, 1).toUpperCase() + item.substring(1))
+  //     })
+
+  //   const domicilio = item.domicilioDestinatario
+  //     .toLowerCase()
+  //     .trim()
+  //     .split(' ')
+  //     .reduce((nombre, item, index) => {
+  //       return (nombre.substring(0, 1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0, 1).toUpperCase() + item.substring(1))
+  //     })
+
+  //   const badge = {
+  //     value: `$ ${item.importe} ${item.tipoPago.trim()}`,
+  //     badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
+  //     badgeTextStyle: { fontSize: 14, padding: 2 },
+  //   };
+
+  //   const customIconName = (item.domicilioDestinatario.indexOf("|TpoProp: CASA") === -1) ? "building-o" : "home"
+
+  //   const customIcon = {
+  //     name: customIconName,
+  //     color: `${item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}`,
+  //     size: 30,
+  //     type: 'font-awesome'
+  //   }
+
+  //   const customDomicilio = domicilio.split('|')[0].substring(0, 40)
+
+  //   const dist = this.getDistance({ latitud: this.state.latitude, longitud: this.state.longitude }, { latitud: item.latitud, longitud: item.longitud })
+
+  //   const distance = parseFloat(Math.round(dist * 100) / 100).toFixed(2) + ' kms';
+
+  //   // console.log(distance);
+
+  //   return (
+
+  //     <View style={styles.shadow}>
+
+  //       <TouchableOpacity style={styles.listitem} onPress={() => this.onPressSingleItem(item)}>
+
+  //         <View style={{ flexDirection: 'row' }}>
+
+  //           <View style={{ flex: 0.3 }}>
+
+  //             <TouchableOpacity onPress={() => this.onPressOpenMaps(item)}>
+  //               <Icon
+  //                 name={customIconName}
+  //                 color={item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}
+  //                 size={40}
+  //                 type='font-awesome'
+  //               />
+  //             </TouchableOpacity>
+
+  //           </View>
+
+  //           <View style={{ flex: 2 }}>
+
+  //             <View style={{ flexDirection: 'column' }}>
+
+  //               <View >
+  //                 <Text style={styles.numero}>{item.nroRemito}</Text>
+  //               </View>
+
+  //               <View >
+  //                 <Text style={styles.distance}> {distance}</Text>
+  //               </View>
+
+  //             </View>
+
+  //           </View>
+
+  //         </View>
+
+  //         <View>
+  //           <Text style={styles.domicilio}>{customDomicilio}</Text>
+  //         </View>
+
+  //       </TouchableOpacity>
+  //     </View>
+
+  //   )
+
+  // }
 
   /* ***********************************************************
   * STEP 3
@@ -184,40 +156,30 @@ class RemitosListScreen extends React.PureComponent {
   *************************************************************/
   // Render a header?
   renderHeader = () =>
-      <View>
+    <View>
 
-        <View style={{flexDirection:'row', height: 40}}>
-          <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(0)}>
-            <Text style={[styles.textButtonGroup, (this.state.tabIndex == 0)?styles.textButtonSelected:'']}>Pendientes</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(1)}>
-            <Text style={[styles.textButtonGroup, (this.state.tabIndex == 1)?styles.textButtonSelected:'']}>Todos</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* <ButtonGroup
-          selectedBackgroundColor={Colors.backgroundVariant}
-          onPress={this.updateIndex}
-          selectedIndex={this.state.tabIndex}
-          buttons={['Todos', 'Pendientes']}
-          containerStyle={{height: 35}}
-          textStyle={styles.itembutton} 
-          selectedTextStyle={styles.itembutton} 	
-          /> */}
-
-        <SearchBar 
-          onChangeText={this.onSearch}
-          onClearText={this.onClearSearch}
-          placeholder="Escriba aqui ..." 
-          lightTheme 
-          round />
-
+      <View style={{ flexDirection: 'row', height: 40 }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => this.updateIndex(0)}>
+          <Text style={[styles.textButtonGroup, (this.state.tabIndex == 0) ? styles.textButtonSelected : '']}>Pendientes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => this.updateIndex(1)}>
+          <Text style={[styles.textButtonGroup, (this.state.tabIndex == 1) ? styles.textButtonSelected : '']}>Todos</Text>
+        </TouchableOpacity>
       </View>
+
+      <SearchBar
+        onChangeText={this.onSearch}
+        onClearText={this.onClearSearch}
+        placeholder="Escriba aqui ..."
+        lightTheme
+        round />
+
+    </View>
 
   updateIndex = (index) => {
     console.tron.log("updating index")
-    this.setState({tabIndex: index})
-    switch(index) {
+    this.setState({ tabIndex: index })
+    switch (index) {
       case 0:
         //update the list
         this.onRequestingRemitos(false)
@@ -229,18 +191,16 @@ class RemitosListScreen extends React.PureComponent {
     }
   }
 
-  // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
-
   // Render a footer?
   renderFooter = () =>
     <Text style={[styles.label, styles.sectionHeader]}> - Footer - </Text>
 
   // Show this when data is empty
-  renderEmpty = () => { 
-  
+  renderEmpty = () => {
+
     if (this.state.fetching)
-      return <Text style={[styles.item, {padding:20, textAlign:'center', marginTop:30}]}> Buscando ... </Text>
-    else 
+      return <Text style={[styles.item, { padding: 20, textAlign: 'center', marginTop: 30 }]}> Buscando ... </Text>
+    else
       return null
 
   }
@@ -274,60 +234,39 @@ class RemitosListScreen extends React.PureComponent {
 
   onSearch = (some) => {
     // console.tron.log(some)
-    if (some.length==0) {
+    if (some.length == 0) {
       data = this.state.data
     } else {
-      data=this.state.data.filter(function(item){
-          return item.nroRemito.indexOf(some) > 0;
-      }).map(function(item){
-          return item;
+      data = this.state.data.filter(function (item) {
+        return item.nroRemito.indexOf(some) > 0;
+      }).map(function (item) {
+        return item;
       });
     }
 
-    this.setState({ 
+    this.setState({
       dataObjects: data
     })
   }
 
-  // distance gps
-  getDistance = (origin,destination) => {
-    console.log(origin.latitud + ' ' + destination.latitud)
-    console.log(origin.longitud + ' ' + destination.longitud)
-    const R = 6371; // Radius of the earth in km
-    const dLat = this.deg2rad(destination.latitud-origin.latitud);  // this.deg2rad below
-    const dLon = this.deg2rad(destination.longitud-origin.longitud); 
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(this.deg2rad(origin.latitud)) * Math.cos(this.deg2rad(destination.latitud)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-    ; 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    const d = R * c; // Distance in km
-    return d || 0;
-  }
-  
-  deg2rad = (deg) => { return deg * (Math.PI/180); }
-  // end distance gps
-  
-
   onClearSearch = () => {
-    this.setState({ 
+    this.setState({
       dataObjects: this.state.data
     })
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     //console.tron.display({name: 'props', value: newProps})
-    this.setState({ 
+    this.setState({
       dataObjects: newProps.payload,
       data: newProps.payload,
       fetching: newProps.fetching,
     })
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // get remitos list
-    this.setState({tabIndex:0})
+    this.setState({ tabIndex: 0 })
     this.onRequestingRemitos(false)
     this.myCurrentPosition()
   }
@@ -348,13 +287,13 @@ class RemitosListScreen extends React.PureComponent {
         // let end = this.state.marker.latitud +","+ this.state.marker.longitud
         // this.getDirections(start, end)
       },
-      (error) => this.setState({ error: error.message, latitude:0, longitude: 0 }),
+      (error) => this.setState({ error: error.message, latitude: 0, longitude: 0 }),
       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
       // {enableHighAccuracy: true, timeout: 25000, maximumAge: 3600000} 
     );
 
   }
-  
+
   onRequestingRemitos = (todos) => {
     this.setState({ fetching: true })
     this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos)
@@ -368,30 +307,30 @@ class RemitosListScreen extends React.PureComponent {
   }
 
   onPressSingleItem = (item) => {
-    // console.tron.log({item:'item', value:item})
+    // console.tron.log({ item: 'item', value: item })
     this.props.selectedRemitos(item)
     //navigation
     this.props.navigation.navigate('RemitoScreen')
   }
 
-  onPressMap = (item) => {
-    // console.log({name:'map', value:item})
-    this.props.selectedRemitos(item)
-    //navigation
-    const markers = [].push(item)
-    // console.tron.display({name:'unequipo', value:markers})
-    this.props.navigation.navigate('MapScreen', { markers: null })
-  }
+  // onPressMap = (item) => {
+  //   // console.log({name:'map', value:item})
+  //   this.props.selectedRemitos(item)
+  //   //navigation
+  //   const markers = [].push(item)
+  //   // console.tron.display({name:'unequipo', value:markers})
+  //   this.props.navigation.navigate('MapScreen', { markers: null })
+  // }
 
   onPressOpenMaps = (item) => {
-    console.log(item)
+    console.tron.log({ name: 'onPressOpenMaps', value: item })
     // openMap({ latitude: parseFloat(item.latitud), longitude: parseFloat(item.longitud)});
     this.handleGetDirections(item)
   }
 
   handleGetDirections = (item) => {
     const data = {
-       source: {
+      source: {
         latitude: this.state.latitude,
         longitude: this.state.longitude
       },
@@ -406,7 +345,7 @@ class RemitosListScreen extends React.PureComponent {
         }
       ]
     }
- 
+
     getDirections(data)
   }
 
@@ -419,79 +358,69 @@ class RemitosListScreen extends React.PureComponent {
   // }
 
   onPressMarkers = () => {
-    const markers=this.state.dataObjects.filter(
-      function(item){
+    const markers = this.state.dataObjects.filter(
+      function (item) {
         return item.latitud !== '';
-      }).map(function(item){
+      }).map(function (item) {
         return item;
       }
-    );
-    this.props.navigation.navigate('MapScreen', { markers: markers})
+      );
+    this.props.navigation.navigate('MapScreen', { markers: markers })
   }
 
-  render () {
+  render() {
 
     const { fetching } = this.state;
-  
+
     return (
       <View style={styles.container}>
 
         <Header
-          statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'LISTA REMITOS', style: styles.navigation }} 
-          leftComponent={{ 
-            icon: 'chevron-left',
-            color: Colors.background,
-            onPress: () => this.props.navigation.navigate('HojaRutaScreen')
-          }}
-          // rightComponent={{ 
-          //   icon: 'map', 
-          //   color: Colors.background,
-          //   onPress: () => this.onPressMarkers()
-          // }}
+          title='LISTA REMITOS'
+          left={{ icon: 'chevron-left', onPress: () => this.goBack() }}
         />
-          <FlatList
-            contentContainerStyle={styles.listContent}
-            data={this.state.dataObjects}
-            renderItem={this.renderRow}
-            keyExtractor={this.keyExtractor}
-            initialNumToRender={this.oneScreensWorth}
-            ListHeaderComponent={this.renderHeader}
-            // ListFooterComponent={this.renderFooter}
-            ListEmptyComponent={this.renderEmpty}
-            // ItemSeparatorComponent={this.renderSeparator}
-          />
+
+        <FlatList
+          contentContainerStyle={styles.listContent}
+          data={this.state.dataObjects}
+          renderItem={this.renderRow}
+          keyExtractor={this.keyExtractor}
+          initialNumToRender={this.oneScreensWorth}
+          ListHeaderComponent={this.renderHeader}
+          // ListFooterComponent={this.renderFooter}
+          ListEmptyComponent={this.renderEmpty}
+        // ItemSeparatorComponent={this.renderSeparator}
+        />
 
         <View style={styles.spinnerContainer}>
-        { fetching && (
-          <Spinner
-            style={styles.spinner}
-            isVisible={true}
-            size={100}
-            type={'9CubeGrid'}
-            color={'#2ecc71'}/>
-        )}
+          {fetching && (
+            <Spinner
+              style={styles.spinner}
+              isVisible={true}
+              size={100}
+              type={'9CubeGrid'}
+              color={Colors.background} />
+          )}
         </View>
 
       </View>
-        
-      )
+
+    )
   }
 }
 
 const mapStateToProps = (state) => {
-  //console.tron.display({name:'statepropsremitoslist',value: state})
   return {
     payload: state.remitos.payload,
     fetching: state.remitos.fetching,
     user: state.login.payload,
-    hojaruta : state.hojaruta.selected
+    hojaruta: state.hojaruta.selected
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestRemitos: (hoja,todos) => dispatch(RemitosActions.remitosRequest(hoja,todos)),
+    requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
     selectedRemitos: (remito) => dispatch(RemitosActions.remitoSelected(remito))
   }
 }

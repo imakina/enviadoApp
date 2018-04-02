@@ -6,11 +6,15 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor : Colors.snow,
-    //new header
     paddingTop:50, 
   },
+  main : {
+    alignItems: 'center', 
+    // padding: 20, 
+    flexGrow: 1 ,
+    marginTop: Metrics.screenHeight / 10,
+  },
   formContainer: {
-    // flex: 1,
     padding: 20
   },
 
@@ -71,13 +75,12 @@ export default StyleSheet.create({
   },
 
  capture: {
-  marginTop: Metrics.screenHeight / 10,
   width: Metrics.screenWidth / 2.5,
   height: Metrics.screenWidth / 2.5,
+  borderRadius: Metrics.screenWidth / 5,
   alignSelf: 'center',
   borderWidth:1,
-       borderColor:'rgba(0,0,0,0.2)',
-       borderRadius: Metrics.screenWidth / 5,
+  borderColor:'rgba(0,0,0,0.2)',
  }
 
 })

@@ -1,106 +1,96 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
-import { ListItem, Button, Header } from 'react-native-elements'
+// import { ListItem } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import HojaRutaActions from '../Redux/HojaRutaRedux'
-
+// Components
 import ButtonIcon from '../Components/ButtonIcon'
-
+import Header from '../Components/Header';
 // Styles
 import styles from './Styles/HojaRutaScreenStyle'
-import I18n from 'react-native-i18n'
 
 var Spinner = require('react-native-spinkit')
 
 const PENDING_STATE = '0'
 
 class HojaRutaScreen extends Component {
-  
+
   constructor(props) {
     super(props)
     this.renderRow = this.renderRow.bind(this);
     this.state = {
-      fetching:false,
+      fetching: false,
       dataObjects: []
     }
   }
 
-  componentDidMount () {
+  goBack = () => this.props.navigation.navigate('HomeScreen')
+
+  componentDidMount() {
     this.setState({ fetching: true })
     this.props.requestHojaRuta(this.props.user.car_id, PENDING_STATE)
-    this.setState({ user : this.props.user })
+    // this.setState({ user : this.props.user })
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     //console.tron.display({name: 'props', value: newProps})
-    this.setState({ 
+    this.setState({
       dataObjects: newProps.payload,
-      fetching: newProps.fetching 
+      fetching: newProps.fetching
     })
   }
-  
+
   onPressingRemitosPorHojaRuta = (item) => {
     //hojarutaselected
     this.props.selectedHojaRuta(item)
     this.props.navigation.navigate('RemitosListScreen')
   }
-  
+
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
   keyExtractor = (item, index) => index
-  
+
   renderHeader = () => {
-    console.tron.display({name: 'dataobjects', value: this.state.dataObjects})
-    return (this.state.dataObjects === null)?
-        <Text style={styles.help}>No tiene asignadas hojas de rutas</Text>
-        :
-        <Text style={styles.help}>Estas son las hojas de ruta disponibles</Text>
+    // console.tron.display({name: 'dataobjects', value: this.state.dataObjects})
+    let text = (this.state.dataObjects === null) ? "No tiene asignadas hojas de rutas" : "Estas son las hojas de ruta disponibles"
+    return <Text style={styles.help}>{text}</Text>
   }
 
-  //{"numeroHojaRuta":"00000045","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
-  //{"numeroHojaRuta":"00000161","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
-
-  renderRow ({item}) {
+  renderRow({ item }) {
 
     return (
 
-        <View style={{ paddingRight: 20, paddingLeft: 20, paddingTop: 20}}>
+      <View style={{ paddingRight: 20, paddingLeft: 20, paddingTop: 20 }}>
 
-          <ButtonIcon
-            icon={{ name: 'map', type: 'font-awesome' }}
-            text={item.numeroHojaRuta}
-            onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
-          />
+        <ButtonIcon
+          icon={{ name: 'map', type: 'font-awesome' }}
+          text={item.numeroHojaRuta}
+          onPress={() => this.onPressingRemitosPorHojaRuta(item)}
+        />
 
-        </View>
+      </View>
 
     )
 
   }
 
-  render () {
+  render() {
 
-    const { 
+    const {
       fetching,
-      user
+      // user
     } = this.state;
 
-  
     return (
 
       <View style={styles.container}>
 
         <Header
-          statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'HOJAS DE RUTA', style: styles.navigation }} 
-          leftComponent={{ 
-            icon: 'chevron-left', 
-            color: '#27ae60',
-            onPress: () => this.props.navigation.navigate('HomeScreen')
-          }}
+          title='HOJAS DE RUTA'
+          left={{ icon: 'chevron-left', onPress: () => this.goBack() }}
         />
 
         <FlatList
@@ -110,20 +100,20 @@ class HojaRutaScreen extends Component {
           keyExtractor={this.keyExtractor}
           //initialNumToRender={this.oneScreensWorth}
           ListHeaderComponent={this.renderHeader}
-          // ListFooterComponent={this.renderFooter}
-          //ListEmptyComponent={this.renderEmpty}
-          // ItemSeparatorComponent={this.renderSeparator}
+        // ListFooterComponent={this.renderFooter}
+        //ListEmptyComponent={this.renderEmpty}
+        // ItemSeparatorComponent={this.renderSeparator}
         />
 
         <View style={styles.spinnerContainer}>
-        { fetching && (
-          <Spinner
-            style={styles.spinner}
-            isVisible={true}
-            size={100}
-            type={'9CubeGrid'}
-            color={'#2ecc71'}/>
-        )}
+          {fetching && (
+            <Spinner
+              style={styles.spinner}
+              isVisible={true}
+              size={100}
+              type={'9CubeGrid'}
+              color={'#2ecc71'} />
+          )}
         </View>
 
       </View>
@@ -142,7 +132,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    requestHojaRuta: (car_id,estado) => dispatch(HojaRutaActions.hojaRutaRequest(car_id,estado)),
+    requestHojaRuta: (car_id, estado) => dispatch(HojaRutaActions.hojaRutaRequest(car_id, estado)),
     selectedHojaRuta: (hojaruta) => dispatch(HojaRutaActions.hojaRutaSelected(hojaruta))
   }
 }

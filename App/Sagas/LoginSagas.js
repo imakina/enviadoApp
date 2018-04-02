@@ -39,7 +39,7 @@ export function * check () {
 
 export function * logout () {
   console.tron.log("Logout requested")
-  AsyncStorage.multiRemove(['expire','username','password','account'])
+  AsyncStorage.multiRemove(['expire','username','password','account','picture'])
   //navigate to login indeed
   yield put(NavigationActions.navigate({routeName: 'LoginScreen'}))
 }
@@ -62,7 +62,7 @@ export function * login (api, action) {
       // console.tron.log({ name: "Saving to async storage data ", value:serializedState})
       AsyncStorage.setItem('account', serializedState);
     } else
-      AsyncStorage.multiRemove(['expire','username','password','account'])
+      AsyncStorage.multiRemove(['expire','username','password','account','picture'])
 
     //yield put(LoginActions.loginSuccess(response.data.data))
     yield put(LoginActions.loginSuccess(data))

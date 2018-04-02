@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StatusBar, TouchableOpacity } from 'react-native'
-import { Header, Button } from 'react-native-elements'
 import { connect } from 'react-redux'
+import { View, Text, Image, StatusBar, TouchableOpacity } from 'react-native'
+// import Icon from 'react-native-vector-icons/Ionicons';
+import ImagePicker from 'react-native-image-picker'
+import { Icon } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LoginActions from '../Redux/LoginRedux'
-
-import Icon from 'react-native-vector-icons/Ionicons';
+// Components
 import ButtonIcon from '../Components/ButtonIcon';
-import ImagePicker from 'react-native-image-picker'
-
+import Header from '../Components/Header';
 // Styles
 import styles from './Styles/HomeScreenStyle'
 
 class HomeScreen extends Component {
-  
-  constructor (props) {
+
+  constructor(props) {
     super(props)
     this.state = {
-      user : {},
-      image : null, 
+      user: {},
+      image: null,
     }
   }
 
@@ -32,12 +32,12 @@ class HomeScreen extends Component {
     // navigation.navigate('LoginScreen')
     this.props.attemptLogout()
   }
-  
-  onOpenCamera() {
-    this.onChangeImage();
-    // this.props.navigation.navigate('CameraScreen', { onImage : this.getImage })
-  }
-  
+
+  // onSelectImage() {
+  //   this.onChangeImage();
+  //   // this.props.navigation.navigate('CameraScreen', { onImage : this.getImage })
+  // }
+
   // getImage = (image) => {
   //   console.log(image.mediaUri);
   //   this.setState({ image : image })
@@ -45,13 +45,13 @@ class HomeScreen extends Component {
 
   persistImage(response) {
     // parse image
-    const picture = 'data:image/jpeg;base64,' + response.data 
+    const picture = 'data:image/jpeg;base64,' + response.data
     // update localstorage
-    this.setState({ image : picture })
+    this.setState({ image: picture })
     this.props.updatePicture(picture)
   }
 
-  onChangeImage () {
+  onSelectImage() {
 
     const options = {
       title: 'Foto de Perfil',
@@ -87,19 +87,20 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     console.tron.log(this.props.user)
-    this.setState({ user : this.props.user })
+    this.setState({ user: this.props.user })
+
     //profilePic
     if (this.props.picture)
-      this.setState({ image : this.props.picture })
+      this.setState({ image: this.props.picture })
   }
 
-  render () {
+  render() {
 
-    const { 
-      car_id, 
-      token, 
-      car_first_nm, 
-      car_last_nm, 
+    const {
+      car_id,
+      token,
+      car_first_nm,
+      car_last_nm,
       mail
     } = this.state.user
 
@@ -111,44 +112,38 @@ class HomeScreen extends Component {
       <View style={styles.container}>
 
         <Header
-          statusBarProps={{ barStyle: 'light-content' }}
-          leftComponent={{ icon: 'menu', color: '#27ae60' }}
-          centerComponent={{ text: 'ENVIADO.COM', style: styles.navigation }} 
-          rightComponent={{ 
-            icon: 'sign-out', 
-            type: 'font-awesome', 
-            color: '#27ae60',
-            onPress: () => this.onPressingLogout()
-          }}
+          left={{ icon: 'bars' }}
+          right={{ icon: 'sign-out', onPress: () => this.onPressingLogout() }}
+          title="ENVIADO.COM"
         />
 
-        <View style={{ alignItems: 'center', padding: 20, flexGrow: 1 }}>
+        <View style={styles.main}>
 
-          { image ?
+          {image ?
 
             <TouchableOpacity
-              onPress={()=> this.onOpenCamera()}>
+              onPress={() => this.onSelectImage()}>
               <Image
                 style={styles.capture}
                 source={{ uri: image }}
               />
             </TouchableOpacity>
 
-          :
+            :
 
             <Icon
-              reverse
+              // reverse
               name='ios-camera-outline'
               type='ionicon'
               color='#27ae60'
-              size={160}
-              onPress={() => this.onOpenCamera() }
+              size={100}
+              onPress={() => this.onSelectImage()}
             />
 
           }
 
           <View style={{ padding: 10, alignItems: 'center' }}>
-            <Text style={styles.nombre}>{car_first_nm } { car_last_nm}</Text>
+            <Text style={styles.nombre}>{car_first_nm} {car_last_nm}</Text>
             <Text style={styles.hoja}>CarID{car_id}</Text>
             <Text style={styles.mail}>{mail}</Text>
           </View>
@@ -159,7 +154,7 @@ class HomeScreen extends Component {
           <ButtonIcon
             icon={{ name: 'road', type: 'font-awesome' }}
             text="HOJAS DE RUTA"
-            onPress={() => this.onPressingHojaDeRuta()} 
+            onPress={() => this.onPressingHojaDeRuta()}
           />
         </View>
 
@@ -169,7 +164,7 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.tron.display({name:'stop_home',value: state}) 
+  // console.tron.display({name:'stop_home',value: state}) 
   return {
     user: state.login.account,
     picture: state.login.picture,
