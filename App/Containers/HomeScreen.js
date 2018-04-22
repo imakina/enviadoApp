@@ -6,11 +6,13 @@ import ImagePicker from 'react-native-image-picker'
 import { Icon } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LoginActions from '../Redux/LoginRedux'
+import SyncActions from '../Redux/SyncRedux'
 // Components
 import ButtonIcon from '../Components/ButtonIcon';
 import Header from '../Components/Header';
 // Styles
 import styles from './Styles/HomeScreenStyle'
+import Colors from '../Themes'
 
 class HomeScreen extends Component {
 
@@ -19,6 +21,9 @@ class HomeScreen extends Component {
     this.state = {
       user: {},
       image: null,
+      quantity: 0,
+      pending: 0,
+      synced: 0
     }
   }
 
@@ -32,16 +37,6 @@ class HomeScreen extends Component {
     // navigation.navigate('LoginScreen')
     this.props.attemptLogout()
   }
-
-  // onSelectImage() {
-  //   this.onChangeImage();
-  //   // this.props.navigation.navigate('CameraScreen', { onImage : this.getImage })
-  // }
-
-  // getImage = (image) => {
-  //   console.log(image.mediaUri);
-  //   this.setState({ image : image })
-  // }
 
   persistImage(response) {
     // parse image
@@ -83,15 +78,47 @@ class HomeScreen extends Component {
         // this.setState({ image : 'data:image/jpeg;base64,' + response.data })
       }
     })
+
+  }
+
+  onSync() {
+    this.props.attemptSync()
   }
 
   componentDidMount() {
-    console.tron.log(this.props.user)
+    // console.tron.log(this.props.user)
     this.setState({ user: this.props.user })
 
     //profilePic
     if (this.props.picture)
       this.setState({ image: this.props.picture })
+
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.parseRemitos();
+  }
+
+  parseRemitos() {
+
+    if (!this.props.remitos.payload)
+      return
+
+    let quantity = this.props.remitos.payload.length
+    // let pending = this.props.remitos.payload.filter(function (item) {
+    //   return item.estado_mobile == 99;
+    // }).map(function (item) {
+    //   return item;
+    // });
+    let pending = 9
+    let synced = quantity - pending
+
+    this.setState({
+      quantity,
+      pending,
+      synced
+    })
+
   }
 
   render() {
@@ -105,8 +132,21 @@ class HomeScreen extends Component {
     } = this.state.user
 
     const {
-      image
+      image,
+      quantity,
+      pending,
+      synced
     } = this.state
+
+    const {
+      syncedAt,
+    } = this.props.sync
+
+    const {
+      active,
+    } = this.props.hojaruta
+
+    this.parseRemitos()
 
     return (
       <View style={styles.container}>
@@ -128,9 +168,7 @@ class HomeScreen extends Component {
                 source={{ uri: image }}
               />
             </TouchableOpacity>
-
             :
-
             <Icon
               // reverse
               name='ios-camera-outline'
@@ -151,11 +189,41 @@ class HomeScreen extends Component {
         </View>
 
         <View style={[styles.formContainer]}>
-          <ButtonIcon
-            icon={{ name: 'road', type: 'font-awesome' }}
-            text="HOJAS DE RUTA"
-            onPress={() => this.onPressingHojaDeRuta()}
-          />
+
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity style={styles.bigaction}>
+              <Icon
+                name='refresh'
+                type='font-awesome'
+                color='white'
+                size={60}
+                onPress={() => this.onSync()}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ alignItems: 'center', marginTop: 10 }}>
+            <Text>Ultima sync : {syncedAt}</Text>
+            <Text>Hoja de Ruta activa : {active}</Text>
+            <Text>Remitos : {quantity}</Text>
+            <Text>Sincronizados : {synced}</Text>
+            <Text>Pendientes : {pending}</Text>
+          </View>
+
+          <View style={{ alignItems: 'center', marginTop: 10 }}>
+            <TouchableOpacity
+              style={styles.action}
+              onPress={() => this.onPressingHojaDeRuta()}
+            >
+              <Icon
+                name='arrow-right'
+                type='font-awesome'
+                color='white'
+                size={40}
+              />
+            </TouchableOpacity>
+          </View>
+
         </View>
 
       </View>
@@ -168,7 +236,11 @@ const mapStateToProps = (state) => {
   return {
     user: state.login.account,
     picture: state.login.picture,
-    fetching: state.login.fetching
+    fetching: state.login.fetching,
+    // sync
+    sync: state.sync,
+    hojaruta: state.hojaruta,
+    remitos: state.remitos,
   }
 }
 
@@ -176,6 +248,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     attemptLogout: () => dispatch(LoginActions.loginOut()),
     updatePicture: (img) => dispatch(LoginActions.loginPicture(img)),
+    attemptSync: () => dispatch(SyncActions.syncRequest()),
   }
 }
 

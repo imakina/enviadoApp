@@ -12,7 +12,8 @@ export default () => {
     remitos: require('./RemitosRedux').reducer,
     hojaruta: require('./HojaRutaRedux').reducer,
     motivos: require('./MotivosRedux').reducer,
-    alert: require('./AlertRedux').reducer
+    alert: require('./AlertRedux').reducer,
+    sync: require('./SyncRedux').reducer
   })
 
   return configureStore(rootReducer, rootSaga)

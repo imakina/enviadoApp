@@ -1,52 +1,34 @@
-import React from 'react'
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import { connect } from 'react-redux'
-import { Icon, SearchBar } from 'react-native-elements'
-import openMap from 'react-native-open-maps';
-import getDirections from 'react-native-google-maps-directions';
+import React from "react";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import { Icon, SearchBar } from "react-native-elements";
+import openMap from "react-native-open-maps";
+import getDirections from "react-native-google-maps-directions";
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
-import RemitosActions from '../Redux/RemitosRedux'
-
+import RemitosActions from "../Redux/RemitosRedux";
 // Styles
-import styles from './Styles/RemitosListScreenStyle'
-import { Colors } from '../Themes'
-
-var Spinner = require('react-native-spinkit')
+import styles from "./Styles/RemitosListScreenStyle";
+import { Colors } from "../Themes";
 // Components
-import ItemRemito from '../Components/ItemRemito';
-import Header from '../Components/Header';
+import ItemRemito from "../Components/ItemRemito";
+import Header from "../Components/Header";
+import Spinner from "../Components/Spinner";
 
 class RemitosListScreen extends React.PureComponent {
-
   constructor(props) {
     super(props);
   }
 
-  goBack = () => this.props.navigation.navigate('HojaRutaScreen')
+  goBack = () => this.props.navigation.navigate("HojaRutaScreen");
 
-
-  /* ***********************************************************
-  * STEP 1
-  * This is an array of objects with the properties you desire
-  * Usually this should come from Redux mapStateToProps
-  *************************************************************/
   state = {
     fetching: false,
     tabIndex: 0,
-    dataObjects: []
-  }
+    dataObjects: this.props.remitos
+  };
 
-  /* ***********************************************************
-  * STEP 2
-  * `renderRow` function. How each cell/row should be rendered
-  * It's our best practice to place a single component here:
-  *
-  * e.g.
-    return <MyCustomCell title={item.title} description={item.description} />
-  *************************************************************/
   renderRow = ({ item }) => {
-
     return (
       <ItemRemito
         latitud={this.state.latitude}
@@ -55,8 +37,8 @@ class RemitosListScreen extends React.PureComponent {
         onPressOpenMaps={() => this.onPressOpenMaps(item)}
         item={item}
       />
-    )
-  }
+    );
+  };
 
   // renderRowOld({ item }) {
 
@@ -149,21 +131,35 @@ class RemitosListScreen extends React.PureComponent {
 
   // }
 
-  /* ***********************************************************
-  * STEP 3
-  * Consider the configurations we've set below.  Customize them
-  * to your liking!  Each with some friendly advice.
-  *************************************************************/
   // Render a header?
-  renderHeader = () =>
+  renderHeader = () => (
     <View>
-
-      <View style={{ flexDirection: 'row', height: 40 }}>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => this.updateIndex(0)}>
-          <Text style={[styles.textButtonGroup, (this.state.tabIndex == 0) ? styles.textButtonSelected : '']}>Pendientes</Text>
+      <View style={{ flexDirection: "row", height: 40 }}>
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => this.updateIndex(0)}
+        >
+          <Text
+            style={[
+              styles.textButtonGroup,
+              this.state.tabIndex == 0 ? styles.textButtonSelected : ""
+            ]}
+          >
+            Pendientes
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => this.updateIndex(1)}>
-          <Text style={[styles.textButtonGroup, (this.state.tabIndex == 1) ? styles.textButtonSelected : '']}>Todos</Text>
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => this.updateIndex(1)}
+        >
+          <Text
+            style={[
+              styles.textButtonGroup,
+              this.state.tabIndex == 1 ? styles.textButtonSelected : ""
+            ]}
+          >
+            Todos
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -172,113 +168,102 @@ class RemitosListScreen extends React.PureComponent {
         onClearText={this.onClearSearch}
         placeholder="Escriba aqui ..."
         lightTheme
-        round />
-
+        round
+      />
     </View>
+  );
 
-  updateIndex = (index) => {
-    console.tron.log("updating index")
-    this.setState({ tabIndex: index })
+  updateIndex = index => {
+    console.tron.log("updating index");
+    this.setState({ tabIndex: index });
     switch (index) {
       case 0:
         //update the list
-        this.onRequestingRemitos(false)
+        this.onRequestingRemitos(false);
         break;
       case 1:
         //update the list
-        this.onRequestingRemitos(true)
+        this.onRequestingRemitos(true);
         break;
     }
-  }
+  };
 
   // Render a footer?
-  renderFooter = () =>
+  renderFooter = () => (
     <Text style={[styles.label, styles.sectionHeader]}> - Footer - </Text>
+  );
 
   // Show this when data is empty
   renderEmpty = () => {
-
     if (this.state.fetching)
-      return <Text style={[styles.item, { padding: 20, textAlign: 'center', marginTop: 30 }]}> Buscando ... </Text>
-    else
-      return null
+      return (
+        <Text
+          style={[
+            styles.item,
+            { padding: 20, textAlign: "center", marginTop: 30 }
+          ]}
+        >
+          {" "}
+          Buscando ...{" "}
+        </Text>
+      );
+    else return null;
+  };
 
-  }
-
-  renderSeparator = () =>
-    <Text style={styles.label}> - ~~~~~ - </Text>
+  renderSeparator = () => <Text style={styles.label}> - ~~~~~ - </Text>;
 
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => index
+  keyExtractor = (item, index) => index;
 
   // How many items should be kept im memory as we scroll?
-  oneScreensWorth = 20
+  oneScreensWorth = 20;
 
-  // extraData is for anything that is not indicated in data
-  // for instance, if you kept "favorites" in `this.state.favs`
-  // pass that in, so changes in favorites will cause a re-render
-  // and your renderItem will have access to change depending on state
-  // e.g. `extraData`={this.state.favs}
-
-  // Optimize your list if the height of each item can be calculated
-  // by supplying a constant height, there is no need to measure each
-  // item after it renders.  This can save significant time for lists
-  // of a size 100+
-  // e.g. itemLayout={(data, index) => (
-  //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
-  // )}
-
-  // fetching = false
-
-  onSearch = (some) => {
+  onSearch = some => {
     // console.tron.log(some)
     if (some.length == 0) {
-      data = this.state.data
+      data = this.state.data;
     } else {
-      data = this.state.data.filter(function (item) {
-        return item.nroRemito.indexOf(some) > 0;
-      }).map(function (item) {
-        return item;
-      });
+      data = this.state.data
+        .filter(item => item.nroRemito.indexOf(some) > 0)
+        .map(item => item);
     }
 
     this.setState({
       dataObjects: data
-    })
-  }
+    });
+  };
 
   onClearSearch = () => {
     this.setState({
       dataObjects: this.state.data
-    })
-  }
+    });
+  };
 
   componentWillReceiveProps(newProps) {
     //console.tron.display({name: 'props', value: newProps})
     this.setState({
-      dataObjects: newProps.payload,
-      data: newProps.payload,
-      fetching: newProps.fetching,
-    })
+      dataObjects: newProps.remitos,
+      data: newProps.remitos,
+      fetching: newProps.fetching
+    });
   }
 
   componentDidMount() {
     // get remitos list
-    this.setState({ tabIndex: 0 })
-    this.onRequestingRemitos(false)
-    this.myCurrentPosition()
+    this.setState({ tabIndex: 0 });
+    // this.onRequestingRemitos(false);
+    this.myCurrentPosition();
   }
 
   myCurrentPosition() {
-
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      position => {
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          error: null,
+          error: null
         });
         // console.log("my position",position);
         // console.log("destination",this.state.marker.latitud);
@@ -287,17 +272,17 @@ class RemitosListScreen extends React.PureComponent {
         // let end = this.state.marker.latitud +","+ this.state.marker.longitud
         // this.getDirections(start, end)
       },
-      (error) => this.setState({ error: error.message, latitude: 0, longitude: 0 }),
-      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
-      // {enableHighAccuracy: true, timeout: 25000, maximumAge: 3600000} 
+      error =>
+        this.setState({ error: error.message, latitude: 0, longitude: 0 }),
+      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
+      // {enableHighAccuracy: true, timeout: 25000, maximumAge: 3600000}
     );
-
   }
 
-  onRequestingRemitos = (todos) => {
-    this.setState({ fetching: true })
-    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos)
-  }
+  // onRequestingRemitos = todos => {
+  //   this.setState({ fetching: true });
+  //   this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
+  // };
 
   componentDidCatch(error, info) {
     // Display fallback UI
@@ -306,12 +291,12 @@ class RemitosListScreen extends React.PureComponent {
     //console.tron.log({name:info, value:error})
   }
 
-  onPressSingleItem = (item) => {
+  onPressSingleItem = item => {
     // console.tron.log({ item: 'item', value: item })
-    this.props.selectedRemitos(item)
+    this.props.selectedRemitos(item);
     //navigation
-    this.props.navigation.navigate('RemitoScreen')
-  }
+    this.props.navigation.navigate("RemitoScreen");
+  };
 
   // onPressMap = (item) => {
   //   // console.log({name:'map', value:item})
@@ -322,13 +307,13 @@ class RemitosListScreen extends React.PureComponent {
   //   this.props.navigation.navigate('MapScreen', { markers: null })
   // }
 
-  onPressOpenMaps = (item) => {
-    console.tron.log({ name: 'onPressOpenMaps', value: item })
+  onPressOpenMaps = item => {
+    console.tron.log({ name: "onPressOpenMaps", value: item });
     // openMap({ latitude: parseFloat(item.latitud), longitude: parseFloat(item.longitud)});
-    this.handleGetDirections(item)
-  }
+    this.handleGetDirections(item);
+  };
 
-  handleGetDirections = (item) => {
+  handleGetDirections = item => {
     const data = {
       source: {
         latitude: this.state.latitude,
@@ -344,10 +329,10 @@ class RemitosListScreen extends React.PureComponent {
           value: "d"
         }
       ]
-    }
+    };
 
-    getDirections(data)
-  }
+    getDirections(data);
+  };
 
   // onPressDirection = (item) => {
   //   console.log({name:'direction', value:item})
@@ -358,26 +343,24 @@ class RemitosListScreen extends React.PureComponent {
   // }
 
   onPressMarkers = () => {
-    const markers = this.state.dataObjects.filter(
-      function (item) {
-        return item.latitud !== '';
-      }).map(function (item) {
+    const markers = this.state.dataObjects
+      .filter(function(item) {
+        return item.latitud !== "";
+      })
+      .map(function(item) {
         return item;
-      }
-      );
-    this.props.navigation.navigate('MapScreen', { markers: markers })
-  }
+      });
+    this.props.navigation.navigate("MapScreen", { markers: markers });
+  };
 
   render() {
-
     const { fetching } = this.state;
 
     return (
       <View style={styles.container}>
-
         <Header
-          title='LISTA REMITOS'
-          left={{ icon: 'chevron-left', onPress: () => this.goBack() }}
+          title="LISTA REMITOS"
+          left={{ icon: "chevron-left", onPress: () => this.goBack() }}
         />
 
         <FlatList
@@ -389,40 +372,30 @@ class RemitosListScreen extends React.PureComponent {
           ListHeaderComponent={this.renderHeader}
           // ListFooterComponent={this.renderFooter}
           ListEmptyComponent={this.renderEmpty}
-        // ItemSeparatorComponent={this.renderSeparator}
+          // ItemSeparatorComponent={this.renderSeparator}
         />
 
-        <View style={styles.spinnerContainer}>
-          {fetching && (
-            <Spinner
-              style={styles.spinner}
-              isVisible={true}
-              size={100}
-              type={'9CubeGrid'}
-              color={Colors.background} />
-          )}
-        </View>
-
+        <View style={styles.spinnerContainer}>{fetching && <Spinner />}</View>
       </View>
-
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    payload: state.remitos.payload,
+    remitos: state.remitos.remitos,
     fetching: state.remitos.fetching,
     user: state.login.payload,
-    hojaruta: state.hojaruta.selected
-  }
-}
+    hojaruta: state.hojaruta.active
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
-    selectedRemitos: (remito) => dispatch(RemitosActions.remitoSelected(remito))
-  }
-}
+    requestRemitos: (hoja, todos) =>
+      dispatch(RemitosActions.remitosRequest(hoja, todos)),
+    selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito))
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemitosListScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(RemitosListScreen);

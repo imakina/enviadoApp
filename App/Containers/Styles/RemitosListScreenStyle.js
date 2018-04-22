@@ -1,16 +1,16 @@
-import { StyleSheet, ColorPropType } from 'react-native'
-import { ApplicationStyles, Metrics, Colors, Fonts } from '../../Themes'
+import { StyleSheet, ColorPropType } from "react-native";
+import { ApplicationStyles, Metrics, Colors, Fonts } from "../../Themes";
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: Colors.ricePaper,
-    paddingTop: 70,
+    backgroundColor: Colors.snow,
+    paddingTop: 70
   },
   spinnerContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center"
   },
   itembutton: {
     ...Fonts.style.normal
@@ -20,10 +20,10 @@ export default StyleSheet.create({
     paddingTop: 24
   },
   box: {
-    padding: 5,
+    padding: 5
   },
   subtitleView: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingLeft: 10,
     paddingTop: 5
   },
@@ -44,14 +44,13 @@ export default StyleSheet.create({
 
   textButtonGroup: {
     ...Fonts.style.normal,
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     padding: 6
   },
   textButtonSelected: {
     backgroundColor: Colors.backgroundVariant,
     color: Colors.snow
-  },
-
-})
+  }
+});
