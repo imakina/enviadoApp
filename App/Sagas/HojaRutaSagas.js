@@ -2,7 +2,7 @@ import AsyncStorage from "AsyncStorage";
 import { call, put, select } from "redux-saga/effects";
 // actions
 import HojaRutaActions from "../Redux/HojaRutaRedux";
-// import RemitosActions from "../Redux/RemitosRedux";
+import RemitosActions from "../Redux/RemitosRedux";
 // account
 const selectAccount = state => state.login.account;
 
@@ -20,18 +20,25 @@ export function* getHojaRuta(api, action) {
     //   return item;
     // });
     // console.tron.display({ preview: 'saving hojaruta from async' })
-    AsyncStorage.setItem("hojaruta", JSON.stringify(response.data));
+    // AsyncStorage.setItem("hojaruta", JSON.stringify(response.data));
+    store(response.data);
     // end save async
     yield put(HojaRutaActions.hojaRutaSuccess(response.data));
   } else {
     yield put(HojaRutaActions.hojaRutaFailure());
   }
 }
+
+function store(hojaruta) {
+  console.tron.display({ preview: "saved hojaruta to async" });
+  AsyncStorage.setItem("hojaruta", JSON.stringify(hojaruta));
+}
+
 // rehydrate the hojas from the storage
 export function* rehydrateHojaRuta(action) {
   const hojas = yield AsyncStorage.getItem("hojaruta");
   // console.tron.log("rehydratehojas");
-  yield put(HojaRutaActions.hojaRutaSuccess(JSON.parse(hojas)));
+  if (hojas) yield put(HojaRutaActions.hojaRutaSuccess(JSON.parse(hojas)));
 }
 
 // check if there is someone active
@@ -40,10 +47,13 @@ export function* rehydrateHojaRutaActive(action) {
   // console.tron.log({ preview: "rehydratehojaActive", value: active });
   if (active) yield put(HojaRutaActions.hojaRutaActivated(JSON.parse(active)));
 }
+
 // save to storage the active hoja
 // change the state
 export function* activeHojaRuta({ active }) {
   // console.tron.log({ preview: "ActiveHoja", value: active });
-  yield AsyncStorage.setItem("active", JSON.stringify(active));
+  // get remitos
   yield put(HojaRutaActions.hojaRutaActivated(active));
+  yield put(RemitosActions.remitosRequest());
+  yield AsyncStorage.setItem("active", JSON.stringify(active));
 }

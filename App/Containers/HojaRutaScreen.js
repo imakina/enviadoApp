@@ -20,7 +20,8 @@ class HojaRutaScreen extends Component {
     this.renderRow = this.renderRow.bind(this);
     this.state = {
       fetching: false,
-      dataObjects: this.props.hojas
+      dataObjects: this.props.hojaruta.hojas,
+      active: this.props.hojaruta.active
     };
   }
 
@@ -30,24 +31,21 @@ class HojaRutaScreen extends Component {
     // this.setState({ fetching: true });
     // this.props.requestHojaRuta(this.props.user.car_id, PENDING_STATE);
     // this.setState({ user : this.props.user })
-
     // In case we dont get any hojaruta
     // need to recover from async
-    if (!this.props.hojas) {
-      this.setState({ fetching: true });
-      this.props.rehydrateHojaRuta();
-    }
+    // if (!this.props.hojas) {
+    //   this.setState({ fetching: true });
+    //   this.props.rehydrateHojaRuta();
+    // }
   }
 
   componentWillReceiveProps(newProps) {
-    // console.tron.display({ name: "hojas", value: newProps.hojas });
+    // console.tron.display({ name: "newProps", value: newProps.hojaruta.active });
     // if (newProps.hojas !== this.state.dataObjects)
     this.setState({
-      dataObjects: newProps.hojas
-    });
-
-    this.setState({
-      fetching: newProps.fetching
+      dataObjects: newProps.hojaruta.hojas,
+      active: newProps.hojaruta.active,
+      fetching: newProps.hojaruta.fetching
     });
   }
 
@@ -61,7 +59,7 @@ class HojaRutaScreen extends Component {
         [
           {
             text: "Activarla",
-            onPress: () => console.log("Activada baby")
+            onPress: () => this.onActivateHojaRuta(item)
           },
           {
             text: "No, continuo con la actual",
@@ -95,9 +93,10 @@ class HojaRutaScreen extends Component {
   };
 
   renderRow({ item }) {
-    // console.tron.log(item);
-    const active = this.props.active == item.numeroHojaRuta;
-    const alerta = active ? "ACTIVA, hoja de ruta actual" : "Debe descargarse";
+    const active = this.state.active == item.numeroHojaRuta;
+    const alerta = active
+      ? "ACTIVA, hoja de ruta actual"
+      : "Debe descargarse para comenzar a actualizar";
     return (
       <View style={styles.groupHojas}>
         <View style={{ padding: 2 }}>
@@ -110,15 +109,18 @@ class HojaRutaScreen extends Component {
         </View>
         <View style={{ padding: 2 }}>
           <Text> {alerta} </Text>
-          <Text> Remitos incluidos : 23 </Text>
-          <Text> Para sincronizar : 20 </Text>
-          <Text> Fendientes de actualizar : 3 </Text>
-          <Text> Kms totales : 12km </Text>
-          {/* <ButtonIcon
-            icon={{ name: "check", type: "font-awesome" }}
-            text={"Activar"}
-            onPress={() => this.onActivateHojaRuta(item)}
-          /> */}
+          {active ? (
+            <View>
+              <Text> Remitos totales : {this.props.remitos.quantity} </Text>
+              <Text> Actualizados : {this.props.remitos.updated}</Text>
+              <Text>
+                {" "}
+                Sin Cambios :
+                {this.props.remitos.quantity - this.props.remitos.updated}
+              </Text>
+              <Text> Kms totales : 12000km </Text>
+            </View>
+          ) : null}
         </View>
       </View>
     );
@@ -126,7 +128,7 @@ class HojaRutaScreen extends Component {
 
   render() {
     const { fetching } = this.state;
-
+    // console.tron.log("re-render", this.props.hojaruta.active);
     return (
       <View style={styles.container}>
         <Header
@@ -144,6 +146,7 @@ class HojaRutaScreen extends Component {
           // ListFooterComponent={this.renderFooter}
           //ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}
+          extraData={[this.state.active, this.state.fetching]}
         />
 
         <View style={styles.spinnerContainer}>{fetching && <Spinner />}</View>
@@ -155,10 +158,12 @@ class HojaRutaScreen extends Component {
 const mapStateToProps = state => {
   // console.tron.display({ name: "statepropsremitoslist", value: state });
   return {
-    hojas: state.hojaruta.hojas,
-    fetching: state.hojaruta.fetching,
-    active: state.hojaruta.active,
-    user: state.login.account
+    // hojas: state.hojaruta.hojas,
+    // fetching: state.hojaruta.fetching,
+    // active: state.hojaruta.active,
+    hojaruta: state.hojaruta,
+    user: state.login.account,
+    remitos: state.remitos
   };
 };
 

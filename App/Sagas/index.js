@@ -18,7 +18,12 @@ import { SyncTypes } from "../Redux/SyncRedux";
 import { startup } from "./StartupSagas";
 //import { getUserAvatar } from './GithubSagas'
 import { login, check, logout, picture } from "./LoginSagas";
-import { getRemitos, postRemito } from "./RemitosSagas";
+import {
+  getRemitos,
+  updateRemito,
+  postRemito,
+  rehydrateRemitos
+} from "./RemitosSagas";
 import {
   getHojaRuta,
   rehydrateHojaRuta,
@@ -49,12 +54,20 @@ export default function* root() {
     takeLatest(LoginTypes.LOGIN_CHECK, check),
     takeLatest(LoginTypes.LOGIN_OUT, logout),
     takeLatest(LoginTypes.LOGIN_PICTURE, picture),
+    // ===== trying to rehydrate the possible
+    takeLatest(LoginTypes.LOGIN_SUCCESS, rehydrateHojaRuta),
+    takeLatest(LoginTypes.LOGIN_SUCCESS, rehydrateHojaRutaActive),
+    takeLatest(LoginTypes.LOGIN_SUCCESS, rehydrateRemitos),
+    // ===== trying to rehydrate the possible
+    takeLatest(LoginTypes.LOGIN_SUCCESS, getMotivos, api),
 
     // some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
-    takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
+    // takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
+    takeLatest(RemitosTypes.REMITO_UPDATE, updateRemito),
+    takeLatest(RemitosTypes.REMITOS_REHYDRATE, rehydrateRemitos),
     // takeLatest(RemitosTypes.REMITO_SYNC, syncRemitos),
-    takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVATED, getRemitos, api),
+    // takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVATED, getRemitos, api),
 
     // some sagas about hojaderuta
     takeLatest(HojaRutaTypes.HOJA_RUTA_REQUEST, getHojaRuta, api),
@@ -66,6 +79,6 @@ export default function* root() {
     takeLatest(MotivosTypes.MOTIVOS_REQUEST, getMotivos, api),
 
     // sync process
-    takeLatest(SyncTypes.SYNC_REQUEST, sync)
+    takeLatest(SyncTypes.SYNC_REQUEST, sync, api)
   ]);
 }

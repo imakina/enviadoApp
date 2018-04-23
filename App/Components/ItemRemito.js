@@ -16,8 +16,8 @@ export default class ItemRemito extends Component {
 
   // distance gps
   getDistance = destination => {
-    console.tron.log(this.props.latitud + " " + destination.latitud);
-    console.tron.log(this.props.longitud + " " + destination.longitud);
+    // console.tron.log(this.props.latitud + " " + destination.latitud);
+    // console.tron.log(this.props.longitud + " " + destination.longitud);
     const R = 6371; // Radius of the earth in km
     const dLat = this.deg2rad(destination.latitud - this.props.latitud); // this.deg2rad below
     const dLon = this.deg2rad(destination.longitud - this.props.longitud);
@@ -86,10 +86,12 @@ export default class ItemRemito extends Component {
       ? tempDist
       : parseFloat(Math.round(tempDist * 100) / 100).toFixed(2) + " kms";
 
+    const updated = item.estado_mobile == 7;
+
     return (
       <View style={styles.shadow}>
         <TouchableOpacity
-          style={styles.listitem}
+          style={[styles.listitem, updated ? styles.updated : ""]}
           onPress={this.props.onPressSingleItem}
         >
           <View style={{ flexDirection: "row" }}>
@@ -107,11 +109,13 @@ export default class ItemRemito extends Component {
             <View style={{ flex: 2 }}>
               <View style={{ flexDirection: "column" }}>
                 <View>
-                  <Text style={styles.numero}>{item.nroRemito}</Text>
+                  <Text style={styles.numero}>
+                    {item.nroRemito}
+                    {updated ? " (actualizado)" : ""}
+                  </Text>
                 </View>
-
                 <View>
-                  <Text style={styles.distance}> {distance}</Text>
+                  <Text style={styles.distance}>{distance}</Text>
                 </View>
               </View>
             </View>

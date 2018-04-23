@@ -43,7 +43,7 @@ export const success = (state, { hojas }) =>
 
 // Something went wrong somewhere.
 export const failure = state =>
-  state.merge({ fetching: false, error: true, hojas: null });
+  state.merge({ fetching: false, error: true, hojas: null, active: null });
 
 // // select a hoja ruta
 // export const selected = (state, action) =>
@@ -51,7 +51,7 @@ export const failure = state =>
 
 // activated a hoja ruta
 export const activated = (state, { active }) => {
-  // console.tron.log({ preview: "reduxactivated", value: active });
+  console.tron.display({ preview: "reduxactivated", value: active });
   return state.merge({ fetching: false, error: false, active: active });
 };
 /* ------------- Hookup Reducers To Types ------------- */
