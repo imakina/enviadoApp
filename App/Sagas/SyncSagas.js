@@ -40,20 +40,22 @@ function* syncRemitos(item, account, api) {
 export function* sync(api) {
   // update remitos status
   const remitos = yield select(selectRemitos);
-  const account = yield select(selectAccount);
 
-  let data = yield all(
-    remitos.map(item => call(syncRemitos, item, account, api))
-  );
-  yield put(RemitosActions.remitosSuccess(data));
+  // if we got no remitos
+  if (remitos) {
+    const account = yield select(selectAccount);
+    let data = yield all(
+      remitos.map(item => call(syncRemitos, item, account, api))
+    );
+    yield put(RemitosActions.remitosSuccess(data));
 
-  const syncerror = yield select(selectSyncError);
-  //
-  if (syncerror) {
-    // if something failed we cannot ask for new data
-    // we do not ask for new ones
-    console.tron.log("no se sincronizo, debe reintentar");
-    return false;
+    const syncerror = yield select(selectSyncError);
+    if (syncerror) {
+      // if something failed we cannot ask for new data
+      // we do not ask for new ones
+      console.tron.log("no se sincronizo, debe reintentar");
+      return false;
+    }
   }
 
   // re sync data to the store
