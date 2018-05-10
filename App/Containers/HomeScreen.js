@@ -127,21 +127,6 @@ class HomeScreen extends Component {
         />
 
         <View style={styles.main}>
-          {image ? (
-            <TouchableOpacity onPress={() => this.onSelectImage()}>
-              <Image style={styles.capture} source={{ uri: image }} />
-            </TouchableOpacity>
-          ) : (
-            <Icon
-              // reverse
-              name="ios-camera-outline"
-              type="ionicon"
-              color="#27ae60"
-              size={100}
-              onPress={() => this.onSelectImage()}
-            />
-          )}
-
           <View style={{ padding: 10, alignItems: "center" }}>
             <Text style={styles.nombre}>
               {car_first_nm} {car_last_nm}

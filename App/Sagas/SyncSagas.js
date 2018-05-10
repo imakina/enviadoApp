@@ -19,7 +19,7 @@ function* syncRemitos(item, account, api) {
       latitud: Number(item.latitud),
       longitud: Number(item.longitud),
       car_id: account.car_id,
-      firma: ""
+      firma: item.firma
     };
     console.tron.log(data);
     const response = yield call(api.postRemitoEstado, account.token, data);
