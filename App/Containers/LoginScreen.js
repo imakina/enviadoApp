@@ -39,7 +39,7 @@ class LoginScreen extends Component {
       message: '',
       error: false,
       authenticated : false,
-      saveasync : false,
+      saveasync : true,
     }
     // this.isAttempting = false
   }
@@ -217,8 +217,9 @@ class LoginScreen extends Component {
           </CheckBox> */}
           <View style={styles.rememberme}>
 
-            <Text style={styles.rememberText}> Recordarme  </Text>
+            <Text style={styles.rememberText}> Recordarme </Text>
             <View style={styles.rememberCheck}>
+              <Text style={styles.rememberCheckText}>{this.state.saveasync?" SI ":" NO "}</Text>
               <Switch
                   value={this.state.saveasync}
                   onValueChange={this.handleSavePassword}
@@ -232,6 +233,7 @@ class LoginScreen extends Component {
                   backgroundInactive={Colors.silver}
                   circleActiveColor={Colors.bloodOrange}
                   circleInActiveColor={'#000000'}
+                  // onTintColor={Colors.bloodOrange}
                 />
             </View>
 

@@ -65,7 +65,14 @@ rememberCheck : {
   // backgroundColor: Colors.bloodOrange,
   alignItems: 'flex-end',
   justifyContent: 'flex-start',
-  opacity: 0.8
+  opacity: 0.8,
+  flexDirection: "row"
+},
+rememberCheckText : {
+  fontSize : 18,
+  color: Colors.snow,
+  paddingBottom: 4,
+  paddingRight: 6
 },
 
 spinnerContainer: {
