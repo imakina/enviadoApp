@@ -33,7 +33,7 @@ export default StyleSheet.create({
     shadowOpacity: 1.0
   },
   updated: {
-    backgroundColor: Colors.bloodOrange
+    backgroundColor: Colors.charcoal
   },
   row: {
     flex: 1,

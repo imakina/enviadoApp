@@ -66,10 +66,10 @@ class RemitoScreen extends Component {
     this.showAlert = true;
 
     // si no tengo la firma
-    // if (this.state.motivo == 0 && !this.state.signature) this.onSigning();
-    // else this.onUpdate(data);
+    if (this.state.motivo == 0 && !this.state.signature) this.onSigning();
+    else this.onUpdate(data);
 
-    this.onUpdate(data);
+    //this.onUpdate(data);
   };
 
   // called from signature
@@ -85,11 +85,11 @@ class RemitoScreen extends Component {
   };
 
   onUpdate = data => {
-    // if (this.state.motivo == 0) data.firma = this.state.signature;
-    // else data.firma = "";
+    if (this.state.motivo == 0) data.firma = this.state.signature;
+    else data.firma = "";
 
     // console.tron.log("updating");
-    data.firma = "";
+    // data.firma = "";
     this.setState({ updating: true });
     this.props.updateRemito(data);
   };
