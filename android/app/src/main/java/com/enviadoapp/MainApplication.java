@@ -8,7 +8,6 @@ import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rssignaturecapture.RSSignatureCapturePackage;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -38,7 +37,6 @@ public class MainApplication extends Application implements ReactApplication {
             new MapsPackage(),
             new RNDeviceInfo(),
             new RSSignatureCapturePackage(),
-            new RCTCameraPackage(),
             new VectorIconsPackage(),
             new RNSpinkitPackage(),
             new ReactNativeConfigPackage(),

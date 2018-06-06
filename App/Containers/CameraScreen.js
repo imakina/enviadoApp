@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 import { connect } from 'react-redux'
 // Styles
 import styles from './Styles/CameraScreenStyle'
-import Camera from 'react-native-camera';
+// import Camera from 'react-native-camera';
 
 class CameraScreen extends Component {
 
@@ -37,13 +37,13 @@ class CameraScreen extends Component {
   render () {
     return (
       <View style={styles.container}>
-          <Camera style={styles.preview}
+          {/* <Camera style={styles.preview}
                   ref={cam => this.camera=cam}
                   aspect={Camera.constants.Aspect.fit}
                   captureQuality={Camera.constants.CaptureQuality.low}>
                   <Text style={styles.capture} onPress={this.takePicture.bind(this)}>CAPTURE</Text>
                   <Text style={styles.exit} onPress={this.goBack.bind(this)}>GOBACK</Text>
-          </Camera>
+          </Camera> */}
       </View>
     )
   }

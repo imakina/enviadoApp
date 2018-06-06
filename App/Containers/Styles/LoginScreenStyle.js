@@ -66,13 +66,14 @@ rememberCheck : {
   alignItems: 'flex-end',
   justifyContent: 'flex-start',
   opacity: 0.8,
-  flexDirection: "row"
+  flexDirection: "row",
+  backgroundColor: Colors.backgroundVariant,
 },
 rememberCheckText : {
   fontSize : 18,
   color: Colors.snow,
   paddingBottom: 4,
-  paddingRight: 6
+  paddingRight: 6,
 },
 
 spinnerContainer: {

@@ -224,15 +224,15 @@ class LoginScreen extends Component {
                   value={this.state.saveasync}
                   onValueChange={this.handleSavePassword}
                   disabled={false}
-                  activeText={'Yes'}
-                  inActiveText={'Off'}
-                  circleSize={30}
-                  barHeight={1}
-                  circleBorderWidth={3}
-                  backgroundActive={Colors.snow}
-                  backgroundInactive={Colors.silver}
-                  circleActiveColor={Colors.bloodOrange}
-                  circleInActiveColor={'#000000'}
+                  // activeText={'Yes'} 
+                  // inActiveText={'Off'}
+                  // circleSize={30}
+                  // barHeight={1}
+                  // circleBorderWidth={3}
+                  // backgroundActive={Colors.snow}
+                  // backgroundInactive={Colors.silver}
+                  // circleActiveColor={Colors.bloodOrange}
+                  // circleInActiveColor={'#000000'}
                   // onTintColor={Colors.bloodOrange}
                 />
             </View>
