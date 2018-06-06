@@ -233,7 +233,7 @@ class LoginScreen extends Component {
                   // backgroundInactive={Colors.silver}
                   // circleActiveColor={Colors.bloodOrange}
                   // circleInActiveColor={'#000000'}
-                  // onTintColor={Colors.bloodOrange}
+                  onTintColor={Colors.backgroundVariant}
                 />
             </View>
 
