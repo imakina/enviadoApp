@@ -20,8 +20,8 @@ export default StyleSheet.create({
   button: {
     flexDirection: "row",
     height: Metrics.screenHeight / 10,
-    borderRadius: 8
-    // flexGrow: 1
+    borderRadius: 8,
+    flexGrow: 1
   },
   icon: {
     flex: 3,

@@ -29,7 +29,8 @@ class RemitoScreen extends Component {
       alert: {},
       showAlert: false,
       updating: false,
-      signature: null
+      signature: null,
+      scan: null
     };
     this.isRequesting = false;
 
@@ -66,15 +67,18 @@ class RemitoScreen extends Component {
     this.showAlert = true;
 
     // si no tengo la firma
-    if (this.state.motivo == 0 && !this.state.signature) this.onSigning();
-    else this.onUpdate(data);
+    // o sino tengo el scan del documento
+    if (this.state.motivo == 0 && (!this.state.signature || !this.state.scan)) 
+      this.onSigning();
+    else 
+      this.onUpdate(data);
 
     //this.onUpdate(data);
   };
 
   // called from signature
   onSignature = sign => {
-    console.tron.log({ name: "receive_signature", value: sign });
+    console.tron.log({ name: "receive_signature or scan", value: sign });
     this.setState({ signature: sign });
   };
 
@@ -84,12 +88,18 @@ class RemitoScreen extends Component {
     });
   };
 
-  onUpdate = data => {
-    if (this.state.motivo == 0) data.firma = this.state.signature;
-    else data.firma = "";
+  onScanning = () => {
+    this.props.navigation.navigate("CameraScreen", {
+      onSign: this.onSignature
+    });
+  };
 
-    // console.tron.log("updating");
-    // data.firma = "";
+  onUpdate = data => {
+    if (this.state.motivo == 0) 
+      data.firma = this.state.signature;
+    else 
+      data.firma = "";
+
     this.setState({ updating: true });
     this.props.updateRemito(data);
   };
@@ -257,19 +267,44 @@ class RemitoScreen extends Component {
                   })}
               </Picker>
 
-              <View
-                style={{ paddingBottom: 15, paddingLeft: 10, paddingRight: 10 }}
-              >
+              <Divider style={{ backgroundColor: "#2ecc71" }} />
+
+              <View>
+
+                <Text style={{paddingBottom:6, paddingTop: 6}}>Si se ha entregado, guarde un escaneo del dni o la firma para su aceptacion</Text>
+
+                <View
+                  style={styles.buttonContainer}
+                >
+                  <ButtonIcon
+                    disabled={this.state.motivo != 0}
+                    icon={{ name: "pencil", type: "entypo" }}
+                    text={"FIRMAR"}
+                    onPress={() => this.onSigning()}
+                  />
+
+                  <View><Text>{" "}</Text></View>
+
+                  <ButtonIcon
+                    disabled={this.state.motivo != 0}
+                    icon={{ name: "camera", type: "entypo" }}
+                    text={"SCAN"}
+                    onPress={() => this.onScanning()}
+                  />
+
+                </View>
+              
+              </View>
+              
+              <View style={{paddingBottom: 10}}>
                 <ButtonIcon
+                  disabled={this.state.motivo == 0 && !this.state.signature}
                   icon={{ name: "thumbs-up", type: "entypo" }}
-                  text={
-                    this.state.motivo == 0 && !this.state.signature
-                      ? "FIRMAR"
-                      : "CONFIRMA"
-                  }
+                  text={"CONFIRMA"}
                   onPress={() => this.onPressingConfirm()}
                 />
               </View>
+
             </View>
           )}
         </View>

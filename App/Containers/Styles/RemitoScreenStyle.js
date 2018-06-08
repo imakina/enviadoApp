@@ -88,5 +88,14 @@ export default StyleSheet.create({
   },
   description: {
     fontSize: 11
+  },
+
+  buttonContainer : {
+    flexDirection: 'row',
+    paddingBottom: 10, 
+    justifyContent: 'space-between'
+    // paddingLeft: 10, 
+    // paddingRight: 10,
   }
+
 });
