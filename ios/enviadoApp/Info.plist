@@ -64,7 +64,6 @@
 	<string>Se necesita acceder a la Librearia</string>
 	<key>NSLocalizedDescription</key>
 	<string>Se necesita acceder a tu ubicaion</string>
-
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
