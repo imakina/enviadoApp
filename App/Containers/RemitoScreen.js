@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Picker, Alert } from "react-native";
 import { connect } from "react-redux";
 import { Button, Divider, Icon } from "react-native-elements";
-var Spinner = require("react-native-spinkit");
+import Spinner from "react-native-spinkit";
 // import NavigationBar from 'react-native-navbar';
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -30,7 +30,8 @@ class RemitoScreen extends Component {
       showAlert: false,
       updating: false,
       signature: null,
-      scan: null
+      scan: null,
+      scanned : ""
     };
     this.isRequesting = false;
 
@@ -50,9 +51,9 @@ class RemitoScreen extends Component {
   // }
 
   onPressingConfirm = () => {
-    const { car_id, motivo, longitude, latitude, item } = this.state;
-
-    const { remito, hojaruta } = this.props;
+    
+    const { motivo, longitude, latitude } = this.state;
+    const { remito } = this.props;
 
     let data = {
       idRemito: remito.idRemito,
@@ -79,7 +80,7 @@ class RemitoScreen extends Component {
   // called from signature
   onSignature = sign => {
     console.tron.log({ name: "receive_signature or scan", value: sign });
-    this.setState({ signature: sign });
+    this.setState({ signature: sign, scanned : sign });
   };
 
   onSigning = () => {
@@ -152,25 +153,25 @@ class RemitoScreen extends Component {
   componentDidMount() {
     if (!this.props.motivos) {
       // console.tron.log("rcm_motivos");
-      this.setState({ fetching: true });
+      this.setState({ fetching: true, gpsfetching: false });
       this.props.requestMotivos();
     }
 
-    // get the position
-    this.setState({ gpsfetching: true });
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-          gpsfetching: false
-        });
-        // console.tron.display({ name: "position", value: position });
-      },
-      error => this.setState({ gpserror: error.message, gpsfetching: false }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+    // // get the position
+    // this.setState({ gpsfetching: true });
+    // navigator.geolocation.getCurrentPosition(
+    //   position => {
+    //     this.setState({
+    //       latitude: position.coords.latitude,
+    //       longitude: position.coords.longitude,
+    //       error: null,
+    //       gpsfetching: false
+    //     });
+    //     // console.tron.display({ name: "position", value: position });
+    //   },
+    //   error => this.setState({ gpserror: error.message, gpsfetching: false }),
+    //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    // );
   }
 
   onPressingBack = () => {
@@ -271,7 +272,7 @@ class RemitoScreen extends Component {
 
               <View>
 
-                <Text style={{paddingBottom:6, paddingTop: 6}}>Si se ha entregado, guarde un escaneo del dni o la firma para su aceptacion</Text>
+                <Text style={{paddingBottom:6, paddingTop: 6}}>Si se ha entregado, guarde un escaneo del dni o la firma para su aceptacion {this.state.scanned}</Text>
 
                 <View
                   style={styles.buttonContainer}
