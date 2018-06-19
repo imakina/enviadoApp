@@ -19,7 +19,7 @@ export function* getRemitos(api, action) {
   // make the call to the api
   // let response = {}
   // let todos = true
-  // let fnn = (todos) ? api.getRemitosTodos : api.getRemitos
+  // let fnn = (todos) ? api.getRemitos : api.getRemitos
   // if (todos)
   // response = yield call(api.getRemitosTodos, hojaruta, account.token)
   // else

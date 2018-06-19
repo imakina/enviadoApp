@@ -11,7 +11,8 @@ const selectSyncError = state => state.sync.failure;
 
 // trato a cada uno
 function* syncRemitos(item, account, api) {
-  if (item.estado_mobile === 7) {
+  if (item.estado_mobile == 7) {
+    console.tron.display({name:'accontudsmdkasdmnfdfgfdgfffffff', value:item});
     let data = {
       idRemito: item.idRemito,
       estado: item.estado,
@@ -19,9 +20,9 @@ function* syncRemitos(item, account, api) {
       latitud: Number(item.latitud),
       longitud: Number(item.longitud),
       car_id: account.car_id,
-      firma: item.firma
+      firma: item.firma,
+      scan: "scan"
     };
-    console.tron.log(data);
     const response = yield call(api.postRemitoEstado, account.token, data);
     if (response.ok) {
       //successfully update state
@@ -40,10 +41,12 @@ function* syncRemitos(item, account, api) {
 export function* sync(api) {
   // update remitos status
   const remitos = yield select(selectRemitos);
-
+  console.tron.log("remitos che");
+  console.tron.display({name:'remitos', value:remitos});
   // if we got no remitos
   if (remitos) {
     const account = yield select(selectAccount);
+    console.tron.display({name:'account', value:account});
     let data = yield all(
       remitos.map(item => call(syncRemitos, item, account, api))
     );

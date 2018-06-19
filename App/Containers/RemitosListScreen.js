@@ -174,18 +174,20 @@ class RemitosListScreen extends React.PureComponent {
   );
 
   updateIndex = index => {
-    // console.tron.log("updating index");
-    // this.setState({ tabIndex: index });
-    // switch (index) {
-    //   case 0:
-    //     //update the list
-    //     this.onRequestingRemitos(false);
-    //     break;
-    //   case 1:
-    //     //update the list
-    //     this.onRequestingRemitos(true);
-    //     break;
-    // }
+     console.tron.log("updating index");
+     this.setState({ tabIndex: index });
+     switch (index) {
+       case 0:
+         data = this.state.dataObjects
+        .filter(item => item.estado_mobile == 99)
+        .map(item => item);
+        this.setState({dataObjects: data})
+         break;
+       case 1:
+         //update the list
+         this.setState({dataObjects: this.props.remitos})
+         break;
+     }
   };
 
   // Render a footer?
@@ -253,6 +255,7 @@ class RemitosListScreen extends React.PureComponent {
   componentDidMount() {
     // get remitos list
     this.setState({ tabIndex: 0 });
+    this.updateIndex(0);
     // this.onRequestingRemitos(false);
     // if (!this.props.remitos) {
     //   console.tron.log("remitosscreen-rehydrating");
@@ -284,12 +287,10 @@ class RemitosListScreen extends React.PureComponent {
     );
   }
 
-  // onRequestingRemitos = todos => {
-  //   this.setState({ fetching: true });
-  //   this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
-  // };
-
-  componentDidCatch(error, info) {
+   onRequestingRemitos = todos => {
+     this.setState({ fetching: true });
+     this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
+   };  componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true });
     // You can also log the error to an error reporting service
@@ -397,8 +398,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // requestRemitos: (hoja, todos) =>
-    //   dispatch(RemitosActions.remitosRequest(hoja, todos)),
+     requestRemitos: (hoja, todos) =>
+       dispatch(RemitosActions.remitosRequest(hoja, todos)),
     rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
     selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito))
   };
