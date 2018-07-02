@@ -10,6 +10,8 @@ class CameraScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      scan : true,
+      dni : ""
       // detail : props.navigation.state.params.detail
     };
     // console.tron.log({screen:'CameraScreen', value: this.state.detail})
@@ -20,28 +22,42 @@ class CameraScreen extends Component {
   // mediaUri
   // assets-library://asset/asset.JPG?id=9842F165-BD05-4D3C-9367-384E9D628D68&ext=JPG
 
-  takePicture() {
-    const options = {};
-    //options.location = ...
-    this.camera
-      .capture({ metadata: options })
-      .then(data => this.goBack(data))
-      .catch(err => console.tron.log(err));
-  }
+  // takePicture() {
+  //   const options = {};
+  //   //options.location = ...
+  //   this.camera
+  //     .capture({ metadata: options })
+  //     .then(data => this.goBack(data))
+  //     .catch(err => console.tron.log(err));
+  // }
 
   goBack = (data) => {
+
+    this.setState({ 
+      scan : false 
+    })
+
     const { navigation } = this.props;
     navigation.goBack();
     // navigation.state.params.onImage(data);
-    navigation.state.params.onSign(data);
+    navigation.state.params.onBarcode(data);
   }
 
   scannedBarCode({data, type}) {
+
+    this.setState({ 
+      dni: data, 
+      scan : false 
+    })
+    //
     const { navigation } = this.props;
     // navigation.goBack();
     // navigation.state.params.onImage(data);
     // navigation.state.params.onSign(data);
-    this.setState({ dni: data })
+    navigation.state.params.onBarcode(data);
+    //
+    // umount the component to prevent future
+    // scannings
   }
 
   handleChangeDni = (text) => {
@@ -79,6 +95,7 @@ class CameraScreen extends Component {
       // </View>
 
       <View style={{ flexGrow: 1 }}>
+      { this.status.scan &&
         <BarcodeScanner
           style={{ flex: 1 }}
           onBarcodeRead={this.scannedBarCode.bind(this)}
@@ -101,6 +118,7 @@ class CameraScreen extends Component {
           // }}
           >
         </BarcodeScanner>
+      }
         <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
           <View style={{width:'70%'}}>
             <TextInput
@@ -117,13 +135,15 @@ class CameraScreen extends Component {
             />
           </View>
             <ButtonIcon
-              // disabled={!this.state.dragged}
+              disabled={!this.state.dni != ""}
               icon={{ name: 'check', type: 'font-awesome' }}
               text={'OK'}
               onPress={() => this.goBack()} 
             />
         </View>
+
         <Text style={{padding:10}}>Leido : {this.state.dni}</Text>
+
       </View>
     );
   }

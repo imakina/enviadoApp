@@ -1,15 +1,15 @@
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-import { Icon, SearchBar } from "react-native-elements";
-import openMap from "react-native-open-maps";
+import { SearchBar } from "react-native-elements";
+// import openMap from "react-native-open-maps";
 import getDirections from "react-native-google-maps-directions";
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 import RemitosActions from "../Redux/RemitosRedux";
 // Styles
 import styles from "./Styles/RemitosListScreenStyle";
-import { Colors } from "../Themes";
+// import { Colors } from "../Themes";
 // Components
 import ItemRemito from "../Components/ItemRemito";
 import Header from "../Components/Header";
@@ -174,20 +174,21 @@ class RemitosListScreen extends React.PureComponent {
   );
 
   updateIndex = index => {
-     console.tron.log("updating index");
-     this.setState({ tabIndex: index });
-     switch (index) {
-       case 0:
-         data = this.state.dataObjects
+    console.tron.log("updating index");
+    this.setState({ tabIndex: index });
+    switch (index) {
+    case 0:
+      // pending
+      data = this.state.dataObjects
         .filter(item => item.estado_mobile == 99)
         .map(item => item);
-        this.setState({dataObjects: data})
-         break;
-       case 1:
-         //update the list
-         this.setState({dataObjects: this.props.remitos})
-         break;
-     }
+      this.setState({dataObjects: data})
+      break;
+    case 1:
+      // full list
+      this.setState({dataObjects: this.props.remitos})
+      break;
+    }
   };
 
   // Render a footer?
@@ -398,8 +399,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-     requestRemitos: (hoja, todos) =>
-       dispatch(RemitosActions.remitosRequest(hoja, todos)),
+    //requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
     rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
     selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito))
   };

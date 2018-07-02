@@ -51,6 +51,10 @@ class RemitoScreen extends Component {
   // }
 
   onPressingConfirm = () => {
+    this.save();
+  }
+
+  onSave = () => {
     
     const { motivo, longitude, latitude } = this.state;
     const { remito } = this.props;
@@ -69,7 +73,7 @@ class RemitoScreen extends Component {
 
     // si no tengo la firma
     // o sino tengo el scan del documento
-    if (this.state.motivo == 0 && (!this.state.signature || !this.state.scan)) 
+    if (this.state.motivo == 0 && !this.state.signature) 
       this.onSigning();
     else 
       this.onUpdate(data);
@@ -79,8 +83,20 @@ class RemitoScreen extends Component {
 
   // called from signature
   onSignature = sign => {
-    console.tron.log({ name: "receive_signature or scan", value: sign });
-    this.setState({ signature: sign, scanned : sign });
+    console.tron.log({ name: "receive_signature", value: sign });
+    console.log("signature", sign)
+    this.setState({ signature: sign }, function() {
+      this.onSave()
+    });
+  };
+
+  // from the scan screen
+  // save the data scanned
+  // go to signature
+  onScanned = scanned => {
+    console.tron.log({ name: "receive_scan", value: scanned });
+    this.setState({ scan : scanned });
+    this.onSigning()
   };
 
   onSigning = () => {
@@ -89,17 +105,21 @@ class RemitoScreen extends Component {
     });
   };
 
+  // button trigger
   onScanning = () => {
     this.props.navigation.navigate("CameraScreen", {
-      onSign: this.onSignature
+      onBarcode: this.onScanned
     });
   };
 
   onUpdate = data => {
-    if (this.state.motivo == 0) 
-      data.firma = this.state.signature;
-    else 
-      data.firma = "";
+    // if (this.state.motivo == 0) 
+    //   data.firma = this.state.signature;
+    // else 
+    //   data.firma = "";
+
+    data.firma = (this.state.motivo == 0 ? this.state.signature : "")
+    data.scan = (this.state.motivo == 0 ? this.state.scan : "")
 
     this.setState({ updating: true });
     this.props.updateRemito(data);
@@ -203,52 +223,45 @@ class RemitoScreen extends Component {
         />
 
         <View style={{ alignItems: "center", flexGrow: 1 }}>
+
           <View style={{ flexDirection: "row", padding: 10 }}>
-            <View
-              style={{ alignItems: "flex-end", padding: 5, minWidth: "25%" }}
-            >
-              <Icon name="open-book" type="entypo" size={70} color="#27ae60" />
+            
+            <View style={{ alignItems: "flex-end", padding: 5, minWidth: "25%"}}>
+              <Icon name="open-book" type="entypo" size={70} color={Colors.background} />
             </View>
 
             <View style={{ padding: 5, minWidth: "75%" }}>
               <View style={{ paddingRight: 5, paddingLeft: 5 }}>
                 <Text style={styles.title}>{remito.nroRemito}</Text>
-                <Text style={styles.subtitle}>
-                  {remito.nombreDestinatario.trim()}
-                </Text>
+                <Text style={styles.subtitle}>{remito.nombreDestinatario.trim()}</Text>
                 <Text style={styles.subtitle}>{remito.razonSocial}</Text>
-                <Text style={styles.direction} numberOfLines={3}>
-                  {remito.domicilioDestinatario.trim()}
-                </Text>
-                <Text style={styles.description} numberOfLines={3}>
-                  {remito.observaciones}
-                </Text>
-                <Text style={styles.price}>
-                  $ {remito.importe} {remito.tipoPago.trim()}
-                </Text>
+                <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
+                <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
+                <Text style={styles.price}> $ {remito.importe} {remito.tipoPago.trim()}</Text>
                 {gpsfetching && (
                   <Text style={styles.description}>Buscando GPS ... </Text>
                 )}
               </View>
             </View>
+
           </View>
 
-          {gpsfetching || fetching || updating ? (
+          { gpsfetching || fetching || updating ? (
             <View style={{ alignContent: "center", padding: 20 }}>
               <Spinner
                 style={styles.spinner}
                 size={130}
                 type={"Pulse"}
-                color={"#27ae60"}
+                color={Colors.backgroundVariant}
               />
             </View>
           ) : null}
         </View>
 
         <View style={styles.formContainer}>
-          {gpsfetching || fetching || updating ? null : (
+          { gpsfetching || fetching || updating ? null : (
             <View>
-              <Divider style={{ backgroundColor: "#2ecc71" }} />
+              <Divider style={{ backgroundColor: Colors.background  }} />
 
               <Picker
                 selectedValue={this.state.motivo}
@@ -268,13 +281,17 @@ class RemitoScreen extends Component {
                   })}
               </Picker>
 
-              <Divider style={{ backgroundColor: "#2ecc71" }} />
+              <Divider style={{ backgroundColor: Colors.background }} />
 
               <View>
 
-                <Text style={{paddingBottom:6, paddingTop: 6}}>Si se ha entregado, guarde un escaneo del dni o la firma para su aceptacion {this.state.scanned}</Text>
+                <Text style={{paddingBottom:6, paddingTop: 6}}>
+                { this.state.motivo == 0 ?
+                `Guarde un escaneo del dni y la firma para su aceptacion ${this.state.scanned}` :
+                "No tiene requisitos dado que no existe una persona para entregar" }
+                </Text>
 
-                <View
+                {/* <View
                   style={styles.buttonContainer}
                 >
                   <ButtonIcon
@@ -293,16 +310,17 @@ class RemitoScreen extends Component {
                     onPress={() => this.onScanning()}
                   />
 
-                </View>
+                </View> */}
               
               </View>
               
               <View style={{paddingBottom: 10}}>
                 <ButtonIcon
-                  disabled={this.state.motivo == 0 && !this.state.signature}
-                  icon={{ name: "thumbs-up", type: "entypo" }}
-                  text={"CONFIRMA"}
-                  onPress={() => this.onPressingConfirm()}
+                  // disabled={this.state.motivo == 0 && !this.state.signature}
+                  icon={{ name: "camera", type: "entypo" }}
+                  text={"SIGUIENTE >>"}
+                  // onPress={() => this.onPressingConfirm()}
+                  onPress={() => this.onScanning()}
                 />
               </View>
 
