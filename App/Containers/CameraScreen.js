@@ -31,6 +31,10 @@ class CameraScreen extends Component {
   //     .catch(err => console.tron.log(err));
   // }
 
+  componentDidMount() {
+    this.setState({scan:true});
+  }
+
   goBack = (data) => {
 
     this.setState({ 
@@ -95,7 +99,7 @@ class CameraScreen extends Component {
       // </View>
 
       <View style={{ flexGrow: 1 }}>
-      { this.status.scan &&
+      { this.state.scan &&
         <BarcodeScanner
           style={{ flex: 1 }}
           onBarcodeRead={this.scannedBarCode.bind(this)}

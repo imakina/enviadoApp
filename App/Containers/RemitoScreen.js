@@ -95,20 +95,29 @@ class RemitoScreen extends Component {
   // go to signature
   onScanned = scanned => {
     console.tron.log({ name: "receive_scan", value: scanned });
+    console.log("receive_scan", scanned);
     this.setState({ scan : scanned });
-    this.onSigning()
+    // this.onSigning()
   };
 
-  onSigning = () => {
-    this.props.navigation.navigate("SignatureScreen", {
-      onSign: this.onSignature
-    });
-  };
+  // onSigning = () => {
+  //   this.props.navigation.navigate("SignatureScreen", {
+  //     onSign: this.onSignature
+  //   });
+  // };
 
-  // button trigger
+  // 
+  // first step, navigate to scanner
+  // arguments : onScan & on Sign
+  //
   onScanning = () => {
-    this.props.navigation.navigate("CameraScreen", {
-      onBarcode: this.onScanned
+    //bloqueo el ingreso o cambio de
+    this.setState({fetching:true})
+    // this.props.navigation.navigate("CameraScreen", {
+    this.props.navigation.navigate("SignatureScreen", {
+      onBarcode: this.onScanned,
+      onSign: this.onSignature,
+      step: "barcode"
     });
   };
 

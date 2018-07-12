@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TextInput } from 'react-native'
 import { connect } from 'react-redux'
-import { Button, Icon, Header } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import SignatureCapture from 'react-native-signature-capture';
 import ButtonIcon from '../Components/ButtonIcon'
+import Header from "../Components/Header";
+// Barcode
+import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
 
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-// var SignaturePad = require('react-native-signature-pad');
-// Styles
 import styles from './Styles/SignatureScreenStyle'
 
 class SignatureScreen extends Component {
@@ -19,8 +18,15 @@ class SignatureScreen extends Component {
       show : true,
       // data : props.navigation.state.params,
       signature : null,
-      dragged : false
+      dragged : false,
+      step : "barcode",
+      partdni : "",
+      partname : ""
     }
+  }
+
+  componentDidMount() {
+    this.setState({step:"barcode"})
   }
 
   onPressingBack = () => {
@@ -57,12 +63,55 @@ class SignatureScreen extends Component {
     this.setState({ dragged : true})
   }
 
-  saveSign() {
-    this.refs["sign"].saveImage();
+  saveSign() { this.refs["sign"].saveImage(); }
+  resetSign() { this.refs["sign"].resetImage(); }
+
+  /////////////////////////////// BARCODE
+
+  saveScan = () => {
+    // save to the parent
+    const { navigation } = this.props;
+    navigation.state.params.onBarcode(this.state.dni);
   }
 
-  resetSign() {
-    this.refs["sign"].resetImage();
+  scannedBarCode({data, type}) {
+    this.setState({dni: data, step:"signature"}, () => {
+      this.saveScan();
+    })
+  }
+
+  handleChangeDni = (text) => {
+    this.setState({ partdni: text })
+  }
+
+  handleChangeName = (text) => {
+    this.setState({ partname: text })
+  }
+
+  handleSave = () => {
+    const scanned = {
+      data : this.state.partdni + " " + this.state.partname,
+      type : 'none'
+    }
+    this.scannedBarCode(scanned)
+  }
+
+  handleException = (exceptionKey) => {
+    var exception = ''
+    switch (exceptionKey) {
+      case Exception.NO_PLAY_SERVICES:
+        exception = "no esta usando play services en su telefono"
+        // tell the user they need to update Google Play Services
+      case Exception.LOW_STORAGE:
+        exception = "esta bajo de memoria"
+        // tell the user their device doesn't have enough storage to fit the barcode scanning magic
+      case Exception.NOT_OPERATIONAL:
+        exception = "no es operacional"
+        // Google's barcode magic is being downloaded, but is not yet operational.
+      default:
+          break;
+      }
+    this.setState({error:exception})
   }
 
   render () {
@@ -72,31 +121,67 @@ class SignatureScreen extends Component {
       <View style={styles.container}>
 
         <Header
-          statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'FIRMA', style: styles.navigation }} 
-          leftComponent={{ 
-            icon: 'chevron-left',
-            color: '#27ae60',
-            onPress: () => this.onPressingBack()
-          }}
+          title={this.state.step}
+          left={{ icon: "chevron-left", onPress: () => this.onPressingBack() }}
         />
 
-        <View style={{
-          flex: 1, 
-          alignContent: 'center',
-          padding: 20,
-          backgroundColor: '#F5F5F5'
-          }}> 
+        <View style={styles.content}> 
 
+          { this.state.step === "barcode" ?
+          // Barcode
 
-         { this.state.show ? 
+          <View style={{ flexGrow: 1 }}>
 
-            // <SignaturePad 
-            //   onError={this._signaturePadError}
-            //   onChange={this._signaturePadChange}
-            //   style={styles.pad}
-            // >
-            // </SignaturePad>
+            <BarcodeScanner
+              style={{ flex: 1 }}
+              onBarcodeRead={this.scannedBarCode.bind(this)}
+              onException={this.handleException.bind(this)}
+              focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
+              torchMode={TorchMode.ON /* could be the default OFF */}
+              cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
+              barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}>
+            </BarcodeScanner>
+          
+            <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
+              <View style={{width:'70%'}}>
+                <TextInput
+                  placeholder='Ingrese Numero DNI'
+                  keyboardType="numeric"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onChangeText={this.handleChangeDni}
+                  onSubmitEditing={()=> this.nameInput.focus()}
+                />
+                <TextInput
+                  placeholder='Ingrese el nombre'
+                  keyboardType="default"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onChangeText={this.handleChangeName}
+                  ref={(input)=> this.nameInput = input}
+                />
+              </View>
+              <ButtonIcon
+                disabled={!(this.state.partdni.length > 0 && this.state.partname.length > 0)}
+                icon={{ name: 'check', type: 'font-awesome' }}
+                text={'OK'}
+                onPress={() => this.handleSave()} 
+              />
+            </View>
+    
+            {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
+
+          </View>
+
+          :
+
+          <View style={{ flexGrow: 1 }}>
+          
+          <View style={{padding: 5}}>
+            <Text style={{fontSize: 17, textAlign: 'center'}}>{"DNI: "}{this.state.dni}</Text>
+          </View>
+
+          { this.state.show ? 
 
             <SignatureCapture
               style={[{flex:1},styles.pad]}
@@ -106,65 +191,49 @@ class SignatureScreen extends Component {
               saveImageFileInExtStorage={false}
               showNativeButtons={false}
               showTitleLabel={false}
-              viewMode={"portrait"} />
-
+              viewMode={"portrait"}
+            />
+              
           :
 
-            <View style={{backgroundColor: 'white', flex: 1, alignContent: 'center', padding: 90}}> 
-              
+            <View style={styles.padbrush}> 
               <Icon
                 name='round-brush'
                 type='entypo'
                 size={120}
                 color= '#ff4f00' />
-
             </View> 
 
           }
 
-        </View>
+          <View style={{ paddingBottom: 20, paddingLeft: 20, paddingRight: 20}}>
 
-        <View style={{ paddingBottom: 20, paddingLeft: 20, paddingRight: 20}}>
-        
-          {/* <Button
-            disabled={!this.state.dragged}
-            raised
-            icon={{name: 'check', type: 'font-awesome' }}
-            buttonStyle={styles.buttonElementOK}
-            textStyle={{textAlign: 'center'}}
-            title={'Recibido'}
-            onPress={() => this.onSigned()} 
-            />
+            <View style={{paddingBottom: 10}}>
+              <ButtonIcon
+                disabled={!this.state.dragged}
+                icon={{ name: 'check', type: 'font-awesome' }}
+                text={'Recibido'}
+                onPress={() => this.onSigned()} 
+              />
+            </View>
 
-          <Button
-            raised
-            icon={{name: 'round-brush', type: 'entypo' }}
-            buttonStyle={styles.buttonElementKO}
-            textStyle={{textAlign: 'center'}}
-            title={'Limpiar'}
-            onPress={() => this.onClean()} 
-            />
-         */}
-
-          <View style={{paddingBottom: 10}}>
             <ButtonIcon
-              disabled={!this.state.dragged}
-              icon={{ name: 'check', type: 'font-awesome' }}
-              text={'Recibido'}
-              onPress={() => this.onSigned()} 
+              type={'ko'}
+              icon={{ name: 'round-brush', type: 'entypo' }}
+              text={'Limpiar'}
+              onPress={() => this.onClean()} 
             />
+
           </View>
 
-          <ButtonIcon
-            type={'ko'}
-            icon={{ name: 'round-brush', type: 'entypo' }}
-            text={'Limpiar'}
-            onPress={() => this.onClean()} 
-          />
-
         </View>
 
+        }
+
       </View>
+
+    </View>
+
     )
   }
 }

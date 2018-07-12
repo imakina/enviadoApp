@@ -9,6 +9,14 @@ export default StyleSheet.create({
     //new header
     paddingTop:70,
   },
+  content : {
+    flex: 1, 
+    alignContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    backgroundColor: '#F5F5F5'
+  },
   pad : {
     borderColor: 'black',
     borderWidth: 1.2,
@@ -23,5 +31,12 @@ export default StyleSheet.create({
   buttonElementKO: {
     marginBottom: 10,
     backgroundColor: Colors.flame
+  },
+  padbrush : {
+    backgroundColor: 'white', 
+    flex: 1, 
+    alignContent: 'center', 
+    padding: 90
   }
+     
 })
