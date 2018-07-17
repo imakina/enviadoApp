@@ -73,10 +73,10 @@ class RemitoScreen extends Component {
 
     // si no tengo la firma
     // o sino tengo el scan del documento
-    if (this.state.motivo == 0 && !this.state.signature) 
-      this.onSigning();
-    else 
-      this.onUpdate(data);
+    // if (this.state.motivo == 0 && !this.state.signature) 
+    //   this.onSigning();
+    // else 
+    this.onUpdate(data);
 
     //this.onUpdate(data);
   };
@@ -113,12 +113,16 @@ class RemitoScreen extends Component {
   onScanning = () => {
     //bloqueo el ingreso o cambio de
     this.setState({fetching:true})
-    // this.props.navigation.navigate("CameraScreen", {
-    this.props.navigation.navigate("SignatureScreen", {
-      onBarcode: this.onScanned,
-      onSign: this.onSignature,
-      step: "barcode"
-    });
+
+    if (this.state.motivo == 0)
+      this.props.navigation.navigate("SignatureScreen", {
+        onBarcode: this.onScanned,
+        onSign: this.onSignature,
+        step: "barcode"
+      });
+    else
+      this.onSave();
+
   };
 
   onUpdate = data => {
