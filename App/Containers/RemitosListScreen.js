@@ -7,6 +7,7 @@ import getDirections from "react-native-google-maps-directions";
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 import RemitosActions from "../Redux/RemitosRedux";
+import SyncActions from "../Redux/SyncRedux";
 // Styles
 import styles from "./Styles/RemitosListScreenStyle";
 // import { Colors } from "../Themes";
@@ -349,6 +350,9 @@ class RemitosListScreen extends React.PureComponent {
   //   this.props.navigation.navigate('DirectionScreen', { marker: item })
   // }
 
+  onSync() {
+    this.props.attemptSync();
+  }
   onPressMarkers = () => {
     const markers = this.state.dataObjects
       .filter(function(item) {
@@ -368,6 +372,7 @@ class RemitosListScreen extends React.PureComponent {
         <Header
           title="LISTA REMITOS"
           left={{ icon: "chevron-left", onPress: () => this.goBack() }}
+          right={{ icon: "refresh", onPress: () => this.onSync() }}
         />
 
         <FlatList
@@ -393,7 +398,9 @@ const mapStateToProps = state => {
     remitos: state.remitos.remitos,
     fetching: state.remitos.fetching,
     user: state.login.payload,
-    hojaruta: state.hojaruta.active
+    hojaruta: state.hojaruta.active,
+    // sync
+    sync: state.sync
   };
 };
 
@@ -401,7 +408,8 @@ const mapDispatchToProps = dispatch => {
   return {
     //requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
     rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
-    selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito))
+    selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
+    attemptSync: () => dispatch(SyncActions.syncRequest())
   };
 };
 

@@ -113,8 +113,10 @@ class RemitoScreen extends Component {
   onScanning = () => {
     //bloqueo el ingreso o cambio de
     this.setState({fetching:true})
-
-    if (this.state.motivo == 0)
+    const { remito } = this.props;
+    console.tron.log({ name: "RazonSocial", value: remito.razonSocial });
+    console.log("RazonSOCIALSOCIAL", remito);
+    if (this.state.motivo == 0 && remito.razonSocial != "SA La Nación")
       this.props.navigation.navigate("SignatureScreen", {
         onBarcode: this.onScanned,
         onSign: this.onSignature,
@@ -191,20 +193,20 @@ class RemitoScreen extends Component {
     }
 
     // // get the position
-    // this.setState({ gpsfetching: true });
-    // navigator.geolocation.getCurrentPosition(
-    //   position => {
-    //     this.setState({
-    //       latitude: position.coords.latitude,
-    //       longitude: position.coords.longitude,
-    //       error: null,
-    //       gpsfetching: false
-    //     });
-    //     // console.tron.display({ name: "position", value: position });
-    //   },
-    //   error => this.setState({ gpserror: error.message, gpsfetching: false }),
-    //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    // );
+     this.setState({ gpsfetching: true });
+     navigator.geolocation.getCurrentPosition(
+       position => {
+         this.setState({
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude,
+           error: null,
+           gpsfetching: false
+         });
+         // console.tron.display({ name: "position", value: position });
+       },
+       error => this.setState({ gpserror: error.message, gpsfetching: false }),
+       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+     );
   }
 
   onPressingBack = () => {

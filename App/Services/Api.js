@@ -3,7 +3,7 @@ import apisauce from "apisauce";
 
 // our "constructor"
 // const create = (baseURL = 'https://api.github.com/') => {
-// const create = (URL = "http://clientes.enviado.com/") => {
+ //const create = (baseURL = "http://clientes.enviado.com/") => {
 const create = (baseURL = "http://test.softsencillo.com/") => {
   // const create = (baseURL = "http://desa.clientes.enviado.softsencillo.com/") => {
   // ------

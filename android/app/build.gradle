@@ -90,15 +90,15 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 27
 //    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.enviadoapp"
         minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 27
+        versionCode 8
+        versionName "1.8"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
