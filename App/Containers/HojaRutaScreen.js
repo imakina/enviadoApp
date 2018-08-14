@@ -95,7 +95,7 @@ class HojaRutaScreen extends Component {
   renderRow({ item }) {
     const active = this.state.active == item.numeroHojaRuta;
     const alerta = active
-      ? "ACTIVA, hoja de ruta actual"
+      ? "Hoja de ruta ACTIVA"
       : "Debe descargarse para comenzar a actualizar";
     return (
       <View style={styles.groupHojas}>
@@ -107,18 +107,19 @@ class HojaRutaScreen extends Component {
             type={active ? "" : "inactive"}
           />
         </View>
-        <View style={{ padding: 2 }}>
+        <View style={{ paddingTop: 8 }}>
           <Text> {alerta} </Text>
+          <Text></Text>
           {active ? (
             <View>
               <Text> Remitos totales : {this.props.remitos.quantity} </Text>
-              <Text> Actualizados : {this.props.remitos.updated}</Text>
+              <Text> Pendientes de syncronización : {this.props.remitos.updated}</Text>
+              <Text> Distancia total : 12000 km</Text>
               <Text>
-                {" "}
+                {/* {" "}
                 Sin Cambios :
-                {this.props.remitos.quantity - this.props.remitos.updated}
+                {this.props.remitos.quantity - this.props.remitos.updated} */}
               </Text>
-              <Text> Kms totales : 12000km </Text>
             </View>
           ) : null}
         </View>

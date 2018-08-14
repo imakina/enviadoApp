@@ -75,12 +75,12 @@ export default StyleSheet.create({
   },
 
   capture: {
-    width: Metrics.screenWidth / 2.5,
-    height: Metrics.screenWidth / 2.5,
-    borderRadius: Metrics.screenWidth / 5,
-    alignSelf: "center",
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.2)"
+    // width: Metrics.screenWidth / 2.5,
+    // height: Metrics.screenWidth / 2.5,
+    // borderRadius: Metrics.screenWidth / 5,
+    // alignSelf: "center",
+    // borderWidth: 1,
+    // borderColor: "rgba(0,0,0,0.2)"
   },
 
   bigaction: {
@@ -97,5 +97,16 @@ export default StyleSheet.create({
     backgroundColor: "#27ae60",
     borderRadius: 10,
     padding: 10
+  },
+
+  spinnerContainer: {
+    flex:1,
+    alignItems: 'center'
+  },
+  spinner: {
+    color : "#27ae60",
+    // backgroundColor: "#27ae60"
   }
+
+
 });

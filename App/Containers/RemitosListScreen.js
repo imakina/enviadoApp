@@ -25,6 +25,7 @@ class RemitosListScreen extends React.PureComponent {
 
   state = {
     fetching: false,
+    updating : false,
     tabIndex: 0,
     dataObjects: this.props.remitos
   };
@@ -248,10 +249,21 @@ class RemitosListScreen extends React.PureComponent {
   componentWillReceiveProps(newProps) {
     //console.tron.display({name: 'props', value: newProps})
     this.setState({
+      sync: newProps.sync,
       dataObjects: newProps.remitos,
       data: newProps.remitos,
-      fetching: newProps.fetching
+      fetching: newProps.fetching,
     });
+
+    // console.log(newProps)
+
+    if (this.state.sync) 
+      if (this.state.sync.syncing == false) {
+        console.log("updateindex")
+        this.updateIndex(0)
+        // this.setState({updating:false})
+      }
+
   }
 
   componentDidMount() {
@@ -292,7 +304,9 @@ class RemitosListScreen extends React.PureComponent {
    onRequestingRemitos = todos => {
      this.setState({ fetching: true });
      this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
-   };  componentDidCatch(error, info) {
+   };  
+   
+   componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true });
     // You can also log the error to an error reporting service
@@ -351,8 +365,10 @@ class RemitosListScreen extends React.PureComponent {
   // }
 
   onSync() {
+    this.setState({ updating:true })
     this.props.attemptSync();
   }
+
   onPressMarkers = () => {
     const markers = this.state.dataObjects
       .filter(function(item) {
@@ -366,6 +382,7 @@ class RemitosListScreen extends React.PureComponent {
 
   render() {
     const { fetching } = this.state;
+    const { syncing } = this.props.sync
 
     return (
       <View style={styles.container}>
@@ -375,19 +392,27 @@ class RemitosListScreen extends React.PureComponent {
           right={{ icon: "refresh", onPress: () => this.onSync() }}
         />
 
-        <FlatList
-          contentContainerStyle={styles.listContent}
-          data={this.state.dataObjects}
-          renderItem={this.renderRow}
-          keyExtractor={this.keyExtractor}
-          initialNumToRender={this.oneScreensWorth}
-          ListHeaderComponent={this.renderHeader}
-          // ListFooterComponent={this.renderFooter}
-          ListEmptyComponent={this.renderEmpty}
-          // ItemSeparatorComponent={this.renderSeparator}
-        />
+        { 
+          syncing ?
+            null
+          :
+        
+          <FlatList
+            contentContainerStyle={styles.listContent}
+            data={this.state.dataObjects}
+            renderItem={this.renderRow}
+            keyExtractor={this.keyExtractor}
+            initialNumToRender={this.oneScreensWorth}
+            ListHeaderComponent={this.renderHeader}
+            // ListFooterComponent={this.renderFooter}
+            ListEmptyComponent={this.renderEmpty}
+            // ItemSeparatorComponent={this.renderSeparator}
+          />
 
-        <View style={styles.spinnerContainer}>{fetching && <Spinner />}</View>
+        }
+
+        <View style={styles.spinnerContainer}>{ (fetching || syncing) && <Spinner />}</View>
+
       </View>
     );
   }

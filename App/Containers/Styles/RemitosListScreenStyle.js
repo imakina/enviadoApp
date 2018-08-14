@@ -10,7 +10,8 @@ export default StyleSheet.create({
   },
   spinnerContainer: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 40
   },
   itembutton: {
     ...Fonts.style.normal

@@ -4,7 +4,8 @@ import apisauce from "apisauce";
 // our "constructor"
 // const create = (baseURL = 'https://api.github.com/') => {
  //const create = (baseURL = "http://clientes.enviado.com/") => {
-const create = (baseURL = "http://test.softsencillo.com/") => {
+const create = (baseURL = "http://test.softsencillo.com/api/") => {
+// const create = (baseURL = "http://localhost:8080/") => {
   // const create = (baseURL = "http://desa.clientes.enviado.softsencillo.com/") => {
   // ------
   // STEP 1
@@ -47,26 +48,26 @@ const create = (baseURL = "http://test.softsencillo.com/") => {
   const getUser = username => api.get("search/users", { q: username });
   //no fletero
   //const postLogin = (u,p) => api.post('api/authentication/login', {username: u, password: p })
-  const postLogin = (u, p) =>
-    api.post("api/authentication/loginfletero", { username: u, password: p });
+  // const postLogin = (u, p) => api.post("api/authentication/loginfletero", { username: u, password: p });
+  const postLogin = (u, p) => api.post("authentication/loginfletero", { username: u, password: p });
   //remitos por hoja de ruta
   //const getRemitos = (token) => api.get('api/remitos/ListadoRemitoRuteo', { token: token })
   const getRemitos = (hojaruta, token, t) =>
-    api.get("api/remitos/ListadoRemitosHojaRuta", {
+    api.get("remitos/ListadoRemitosHojaRuta", {
       hojaruta: hojaruta,
       mobile: t,
       token: token
     });
   const getRemitosTodos = (hojaruta, token) =>
-    api.get("api/remitos/ListadoRemitosHojaRutaTodos", {
+    api.get("remitos/ListadoRemitosHojaRutaTodos", {
       hojaruta: hojaruta,
       token: token
     });
-  const getHojaRuta = (car_id, estado) =>
-    api.get("api/remitos/ListadoHojasRuta", { car_id: car_id, estado: estado });
-  const getMotivos = token => api.get("api/remitos/motivos", { token: token });
-  const postRemitoEstado = (token, body) =>
-    api.post("api/remitos/actualizaestado/?token=" + token, body);
+  const getHojaRuta = (car_id, estado) => api.get("remitos/ListadoHojasRuta", { car_id: car_id, estado: estado });
+  const getMotivos = token => api.get("remitos/motivos", { token: token });
+  const postRemitoEstado = (token, body) => api.post("remitos/actualizaestado/?token=" + token, body);
+
+  // sp_mobile_update_status_confirmacion
 
   // ------
   // STEP 3

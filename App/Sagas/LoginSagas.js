@@ -54,6 +54,8 @@ export function* login(api, action) {
   const response = yield call(api.postLogin, username, password);
   // console.tron.log({status:'SAGA_LOGINREQUEST', value: response})
   // success?
+  console.log(response);
+  
   if (response.ok && response.data.success) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.

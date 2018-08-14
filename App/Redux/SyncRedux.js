@@ -16,10 +16,10 @@ export default Creators;
 
 export const INITIAL_STATE = Immutable({
   // data: null,
-  syncing: null,
+  syncing: false,
   // payload: null,
   error: null,
-  syncedAt: null
+  syncedAt: null,
 });
 
 /* ------------- Reducers ------------- */
@@ -58,8 +58,12 @@ export const success = (state, action) => {
 };
 
 // Something went wrong somewhere.
-export const failure = state =>
-  state.merge({ fetching: false, error: true, payload: null });
+export const failure = (state, action) => {
+
+  const { error } = action;
+
+  return state.merge({ error: error,  syncing: false });
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 

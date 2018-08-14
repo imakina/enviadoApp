@@ -3,7 +3,7 @@ import { Text, View, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
 // Styles
 // import Camera from 'react-native-camera';
-import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
+// import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
 import ButtonIcon from '../Components/ButtonIcon'
 
 class CameraScreen extends Component {
@@ -99,30 +99,7 @@ class CameraScreen extends Component {
       // </View>
 
       <View style={{ flexGrow: 1 }}>
-      { this.state.scan &&
-        <BarcodeScanner
-          style={{ flex: 1 }}
-          onBarcodeRead={this.scannedBarCode.bind(this)}
-          onException={this.handleException.bind(this)}
-          focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
-          torchMode={TorchMode.ON /* could be the default OFF */}
-          cameraFillMode={
-            CameraFillMode.COVER /* could also be FIT */
-          }
-          barcodeType={
-            BarcodeType.ALL /* replace with ALL for all alternatives */
-          }
-                    
-          // onBarcodeRead={({ data, type }) => {
-          //     // handle your scanned barcodes here!
-          //     // as an example, we show an alert:
-          //     Alert.alert(
-          //         `Barcode '${data}' of type '${type}' was scanned.`
-          //     );
-          // }}
-          >
-        </BarcodeScanner>
-      }
+ 
         <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
           <View style={{width:'70%'}}>
             <TextInput

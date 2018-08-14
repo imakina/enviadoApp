@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import SignatureCapture from 'react-native-signature-capture';
 import ButtonIcon from '../Components/ButtonIcon'
 import Header from "../Components/Header";
 // Barcode
-import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
+// import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
+// import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode} from "react-native-barcode-scanner-google";
+
+const BarcodeScanner = Platform.select({
+  android: () => require('react-native-barcode-scanner-google').default,
+  ios: () => require('react-native-camera').default
+})();
 
 import styles from './Styles/SignatureScreenStyle'
 
@@ -114,6 +120,23 @@ class SignatureScreen extends Component {
     this.setState({error:exception})
   }
 
+//   Platform.OS === 'iso' ? <ScannerComponent
+//   ref={cam => this.cameraComponent = cam}
+//   style={style}
+//   type={cameraType}
+//   permissionDialogTitle={permissionDialogTitle}
+//   permissionDialogMessage={permissionDialogMessage}
+//   onBarCodeRead={onBarcodeRead}
+//   onPhoto={onPhoto}
+//   barCodeTypes={[Camera.constants.BarCodeType.code128]}>
+//   {this.props.children}
+// </ScannerComponent>
+// :
+// <ScannerComponent
+//   style={style}
+//   onBarcodeRead={onBarcodeRead}
+// />
+
   render () {
 
     return (
@@ -136,10 +159,11 @@ class SignatureScreen extends Component {
               style={{ flex: 1 }}
               onBarcodeRead={this.scannedBarCode.bind(this)}
               onException={this.handleException.bind(this)}
-              focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
-              torchMode={TorchMode.ON /* could be the default OFF */}
-              cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
-              barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}>
+              // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
+              // torchMode={TorchMode.ON /* could be the default OFF */}
+              // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
+              // barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}
+              >
             </BarcodeScanner>
           
             <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>

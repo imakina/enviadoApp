@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Text, Image, StatusBar, TouchableOpacity } from "react-native";
+import { View, Text, Image, StatusBar, TouchableOpacity, Alert } from "react-native";
 // import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from "react-native-image-picker";
+// import Spinner  from 'react-native-spinkit';
 import { Icon } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LoginActions from "../Redux/LoginRedux";
 import SyncActions from "../Redux/SyncRedux";
 // Components
-import ButtonIcon from "../Components/ButtonIcon";
+// import ButtonIcon from "../Components/ButtonIcon";
 import Header from "../Components/Header";
 // Styles
 import styles from "./Styles/HomeScreenStyle";
-import Colors from "../Themes";
-import { parse } from "querystring";
+// import Colors from "../Themes";
+// import { parse } from "querystring";
+
+var Spinner = require('react-native-spinkit')
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -83,6 +86,7 @@ class HomeScreen extends Component {
   }
 
   onSync() {
+    console.log("sync")
     this.props.attemptSync();
   }
 
@@ -114,8 +118,8 @@ class HomeScreen extends Component {
   render() {
     const { image, quantity_hojas } = this.state;
     const { quantity, updated } = this.props.remitos;
-    const { car_id, token, car_first_nm, car_last_nm, mail } = this.state.user;
-    const { syncedAt } = this.props.sync;
+    const { car_id, car_first_nm, car_last_nm, mail } = this.state.user;
+    const { syncedAt, syncing, error } = this.props.sync;
     const { active } = this.props.hojaruta;
 
     return (
@@ -136,44 +140,58 @@ class HomeScreen extends Component {
           </View>
         </View>
 
-        <View style={[styles.formContainer]}>
-          <View style={{ alignItems: "center" }}>
-            <TouchableOpacity style={styles.bigaction}>
-              <Icon
-                name="refresh"
-                type="font-awesome"
-                color="white"
-                size={60}
-                onPress={() => this.onSync()}
-              />
-            </TouchableOpacity>
-          </View>
 
-          <View style={{ alignItems: "center", marginTop: 10 }}>
-            <Text>Ultima sincronizacion : </Text>
-            <Text>{syncedAt}</Text>
-            <Text> </Text>
-            <Text>Hojas totales : {quantity_hojas}</Text>
-            <Text>Hoja de Ruta (activa) : {active}</Text>
-            <Text>Remitos totales: {quantity}</Text>
-            <Text>Remitos actualizados : {updated}</Text>
-            <Text>Remitos sin cambios : {quantity - updated}</Text>
-          </View>
+        { syncing ? 
 
-          <View style={{ alignItems: "center", marginTop: 10 }}>
-            <TouchableOpacity
-              style={styles.action}
-              onPress={() => this.onPressingHojaDeRuta()}
-            >
-              <Icon
-                name="arrow-right"
-                type="font-awesome"
-                color="white"
-                size={40}
+          <View style={styles.spinnerContainer}>
+            <Spinner
+              style={styles.spinner}
+              isVisible={true}
+              size={100}
+              type={'ChasingDots'}
               />
-            </TouchableOpacity>
           </View>
-        </View>
+        :
+          <View style={[styles.formContainer]}>
+            <View style={{ alignItems: "center" }}>
+              <TouchableOpacity style={styles.bigaction}>
+                <Icon
+                  name="refresh"
+                  type="font-awesome"
+                  color="white"
+                  size={60}
+                  onPress={() => this.onSync()}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <Text>Ultima sincronizacion : </Text>
+              <Text>{syncedAt}</Text>
+              <Text> </Text>
+              <Text>Cantidad de Hojas : {quantity_hojas}</Text>
+              <Text>Hoja de Ruta Activa : {active}</Text>
+              <Text>Remitos : {quantity} / Pendientes : {updated} </Text>
+              {/* <Text>Remitos actualizados : {updated}</Text> */}
+              <Text>Error : {error}</Text>
+              {/* <Text>Remitos sin cambios : </Text> */}
+            </View>
+
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <TouchableOpacity
+                style={styles.action}
+                onPress={() => this.onPressingHojaDeRuta()}
+              >
+                <Icon
+                  name="arrow-right"
+                  type="font-awesome"
+                  color="white"
+                  size={40}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        }
       </View>
     );
   }

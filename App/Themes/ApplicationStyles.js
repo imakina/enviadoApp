@@ -47,9 +47,6 @@ const ApplicationStyles = {
     },
     /// navigation bar
     navigation: {
-      // borderBottomColor: 'rgba(255,255,255,0.2)',
-      // borderBottomWidth: 0.5,
-      // backgroundColor: Colors.background
       ...Fonts.style.normal,
       color: Colors.background
     },
@@ -57,23 +54,13 @@ const ApplicationStyles = {
       paddingBottom: 2,
       fontSize: Fonts.size.medium,
     },
-    // navigationStatusBar: {
-    //   style: 'light-content', 
-    //   hidden: false, 
-    //   tintColor: Colors.backgroundVariant
-    // }
-    /// bottom bar
-    // bottomBar: {
-    //   flexDirection: 'row',
-    //   padding: 20,
-    //   backgroundColor: 'black',
-    //   alignItems: 'center',
-    //   justifyContent: 'space-between',
-    // },
-    // bottomBarText: {
-    //   color: 'white',
-    //   alignItems: 'center',
-    // }
+    
+    horizontalBox : {
+      flex: 0, 
+      flexDirection: "row", 
+      justifyContent: "space-between"
+    }
+
   },
   darkLabelContainer: {
     padding: Metrics.smallMargin,

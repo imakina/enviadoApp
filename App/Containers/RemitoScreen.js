@@ -112,16 +112,25 @@ class RemitoScreen extends Component {
   //
   onScanning = () => {
     //bloqueo el ingreso o cambio de
-    this.setState({fetching:true})
+    this.setState({ fetching:true })
     const { remito } = this.props;
-    console.tron.log({ name: "RazonSocial", value: remito.razonSocial });
-    console.log("RazonSOCIALSOCIAL", remito);
-    if (this.state.motivo == 0 && remito.razonSocial != "SA La Nación")
-      this.props.navigation.navigate("SignatureScreen", {
-        onBarcode: this.onScanned,
-        onSign: this.onSignature,
-        step: "barcode"
-      });
+    // console.tron.log({ name: "RazonSocial", value: remito.razonSocial });
+    // console.log("RazonSOCIALSOCIAL", remito);
+    if (this.state.motivo == 0)
+      
+      if (remito.razonSocial != "SA La Nación") {
+        this.props.navigation.navigate("SignatureScreen", {
+          onBarcode: this.onScanned,
+          onSign: this.onSignature,
+          step: "barcode"
+        });
+      }
+      else
+      {
+        // in update, this two states are collected
+        this.setState({ signature : "", scan : ""}, () => this.onSave());
+      }
+
     else
       this.onSave();
 
@@ -205,7 +214,7 @@ class RemitoScreen extends Component {
          // console.tron.display({ name: "position", value: position });
        },
        error => this.setState({ gpserror: error.message, gpsfetching: false }),
-       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+       { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
      );
   }
 
@@ -220,11 +229,8 @@ class RemitoScreen extends Component {
 
   render() {
     const {
-      latitude,
-      longitude,
       fetching,
       updating,
-      gpserror,
       gpsfetching
     } = this.state;
 
@@ -232,49 +238,62 @@ class RemitoScreen extends Component {
 
     return (
       <View style={styles.container}>
+
         <Header
           title="REMITO"
           left={{ icon: "chevron-left", onPress: () => this.onPressingBack() }}
         />
 
-        <View style={{ alignItems: "center", flexGrow: 1 }}>
+        <View style={styles.outerBox}>
 
-          <View style={{ flexDirection: "row", padding: 10 }}>
-            
-            <View style={{ alignItems: "flex-end", padding: 5, minWidth: "25%"}}>
-              <Icon name="open-book" type="entypo" size={70} color={Colors.background} />
-            </View>
+          <View style={styles.horizontalBox}>
+            <Text style={styles.price}>$ {remito.importe} {remito.tipoPago && "- " + remito.tipoPago.trim()} </Text>
+            <Icon name="open-book" type="entypo" size={70} color={Colors.background} />
+          </View>
 
-            <View style={{ padding: 5, minWidth: "75%" }}>
-              <View style={{ paddingRight: 5, paddingLeft: 5 }}>
-                <Text style={styles.title}>{remito.nroRemito}</Text>
-                <Text style={styles.subtitle}>{remito.nombreDestinatario.trim()}</Text>
-                <Text style={styles.subtitle}>{remito.razonSocial}</Text>
-                <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
-                <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
-                <Text style={styles.price}> $ {remito.importe} {remito.tipoPago.trim()}</Text>
-                {gpsfetching && (
-                  <Text style={styles.description}>Buscando GPS ... </Text>
-                )}
-              </View>
+          <View style={styles.horizontalBox}>
+
+            <View>
+              <Text style={styles.title}>{remito.nroRemito}</Text>
+              <Text style={styles.subtitle}>{remito.nombreDestinatario.trim()}</Text>
+              <Text style={styles.subtitle}>{remito.razonSocial}</Text>
+              <Text style={styles.direction} numberOfLines={3}>{remito.domicilioDestinatario.trim()}</Text>
+              <Text style={styles.description} numberOfLines={3}>{remito.observaciones}</Text>
             </View>
 
           </View>
 
-          { gpsfetching || fetching || updating ? (
-            <View style={{ alignContent: "center", padding: 20 }}>
-              <Spinner
-                style={styles.spinner}
-                size={130}
-                type={"Pulse"}
-                color={Colors.backgroundVariant}
-              />
-            </View>
-          ) : null}
+          <View style={{ alignItems: 'center' }}>
+
+              { gpsfetching && (
+                <Text style={styles.gps}>Buscando GPS ... </Text>
+              )}
+
+              { (gpsfetching || fetching || updating) && 
+              
+              <View >
+                <Spinner
+                  style={styles.spinner}
+                  size={130}
+                  type={"Pulse"}
+                  color={Colors.backgroundVariant}
+                />
+              </View>
+
+              }
+
+          </View>
+
         </View>
 
         <View style={styles.formContainer}>
-          { gpsfetching || fetching || updating ? null : (
+
+          { gpsfetching || fetching || updating ? 
+          
+            null
+          
+          : (
+
             <View>
               <Divider style={{ backgroundColor: Colors.background  }} />
 

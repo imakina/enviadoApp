@@ -24,6 +24,7 @@ function* syncRemitos(item, account, api) {
       scan: item.scan
     };
     const response = yield call(api.postRemitoEstado, account.token, data);
+    console.log(response)
     if (response.ok) {
       //successfully update state
       // console.tron.log(response);
@@ -32,7 +33,8 @@ function* syncRemitos(item, account, api) {
       return newItem;
     } else {
       // console.tron.log("respnosefailed");
-      yield put(SyncActions.syncFailure());
+      console.log(response.data)
+      yield put(SyncActions.syncFailure({ error : response.data.message }));
       return item;
     }
   } else return item;

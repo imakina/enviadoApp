@@ -15,6 +15,12 @@ export default StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10
   },
+  outerBox: { 
+    flexGrow: 1, 
+    paddingRight: 15, 
+    paddingLeft: 15, 
+    paddingTop: 8 
+  },
 
   // buttonText: {
   //   textAlign: 'center',
@@ -55,7 +61,7 @@ export default StyleSheet.create({
     //flex:1,
     alignItems: "center",
     justifyContent: "center",
-    alignContent: "center"
+    // alignContent: "center"
   },
 
   // information : {
@@ -73,6 +79,7 @@ export default StyleSheet.create({
 
   title: {
     ...Fonts.style.normal,
+    fontSize: 20,
     fontWeight: "bold"
   },
   price: {
@@ -90,12 +97,17 @@ export default StyleSheet.create({
     fontSize: 11
   },
 
+  gps: {
+    marginTop: 10,
+    alignItems: 'center'
+  },
+
   buttonContainer : {
     flexDirection: 'row',
     paddingBottom: 10, 
     justifyContent: 'space-between'
     // paddingLeft: 10, 
     // paddingRight: 10,
-  }
+  },
 
 });
