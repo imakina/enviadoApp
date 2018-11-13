@@ -77,14 +77,14 @@ export default class ItemRemito extends Component {
         : "home";
     const customDomicilio = domicilio.split("|")[0].substring(0, 40);
 
-    const tempDist = this.getDistance({
-      latitud: item.latitud,
-      longitud: item.longitud
-    });
+    // const tempDist = this.getDistance({
+    //   latitud: item.latitud,
+    //   longitud: item.longitud
+    // });
     // format distance
-    const distance = isNaN(tempDist)
-      ? tempDist
-      : parseFloat(Math.round(tempDist * 100) / 100).toFixed(2) + " kms";
+    const distance = isNaN(item.distance)
+      ? item.distance
+      : parseFloat(Math.round(item.distance * 100) / 100).toFixed(2) + " kms";
 
     const updated = item.estado_mobile == 7;
 

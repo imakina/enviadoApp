@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity,  Switch } from "react-native";
 import { connect } from "react-redux";
 import { SearchBar } from "react-native-elements";
 // import openMap from "react-native-open-maps";
@@ -16,6 +16,8 @@ import ItemRemito from "../Components/ItemRemito";
 import Header from "../Components/Header";
 import Spinner from "../Components/Spinner";
 
+import { Colors } from '../Themes'
+
 class RemitosListScreen extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -27,7 +29,8 @@ class RemitosListScreen extends React.PureComponent {
     fetching: false,
     updating : false,
     tabIndex: 0,
-    dataObjects: this.props.remitos
+    dataObjects: this.props.remitos,
+    saveproximity : false,
   };
 
   renderRow = ({ item }) => {
@@ -42,96 +45,13 @@ class RemitosListScreen extends React.PureComponent {
     );
   };
 
-  // renderRowOld({ item }) {
-
-  //   const nombre = item.nombreDestinatario
-  //     .toLowerCase()
-  //     .trim()
-  //     .split(' ')
-  //     .reduce((nombre, item, index) => {
-  //       return (nombre.substring(0, 1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0, 1).toUpperCase() + item.substring(1))
-  //     })
-
-  //   const domicilio = item.domicilioDestinatario
-  //     .toLowerCase()
-  //     .trim()
-  //     .split(' ')
-  //     .reduce((nombre, item, index) => {
-  //       return (nombre.substring(0, 1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0, 1).toUpperCase() + item.substring(1))
-  //     })
-
-  //   const badge = {
-  //     value: `$ ${item.importe} ${item.tipoPago.trim()}`,
-  //     badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
-  //     badgeTextStyle: { fontSize: 14, padding: 2 },
-  //   };
-
-  //   const customIconName = (item.domicilioDestinatario.indexOf("|TpoProp: CASA") === -1) ? "building-o" : "home"
-
-  //   const customIcon = {
-  //     name: customIconName,
-  //     color: `${item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}`,
-  //     size: 30,
-  //     type: 'font-awesome'
-  //   }
-
-  //   const customDomicilio = domicilio.split('|')[0].substring(0, 40)
-
-  //   const dist = this.getDistance({ latitud: this.state.latitude, longitud: this.state.longitude }, { latitud: item.latitud, longitud: item.longitud })
-
-  //   const distance = parseFloat(Math.round(dist * 100) / 100).toFixed(2) + ' kms';
-
-  //   // console.log(distance);
-
-  //   return (
-
-  //     <View style={styles.shadow}>
-
-  //       <TouchableOpacity style={styles.listitem} onPress={() => this.onPressSingleItem(item)}>
-
-  //         <View style={{ flexDirection: 'row' }}>
-
-  //           <View style={{ flex: 0.3 }}>
-
-  //             <TouchableOpacity onPress={() => this.onPressOpenMaps(item)}>
-  //               <Icon
-  //                 name={customIconName}
-  //                 color={item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}
-  //                 size={40}
-  //                 type='font-awesome'
-  //               />
-  //             </TouchableOpacity>
-
-  //           </View>
-
-  //           <View style={{ flex: 2 }}>
-
-  //             <View style={{ flexDirection: 'column' }}>
-
-  //               <View >
-  //                 <Text style={styles.numero}>{item.nroRemito}</Text>
-  //               </View>
-
-  //               <View >
-  //                 <Text style={styles.distance}> {distance}</Text>
-  //               </View>
-
-  //             </View>
-
-  //           </View>
-
-  //         </View>
-
-  //         <View>
-  //           <Text style={styles.domicilio}>{customDomicilio}</Text>
-  //         </View>
-
-  //       </TouchableOpacity>
-  //     </View>
-
-  //   )
-
-  // }
+  handleSaveProximity = () => {
+    console.log({name:'checkboxChanged', value:this.state.saveproximity})
+    this.setState({ saveproximity: !this.state.saveproximity })
+    // reorder the grid after proximity check change
+    console.log(this.state.tabIndex);
+    this.updateIndex(this.state.tabIndex);
+  }
 
   // Render a header?
   renderHeader = () => (
@@ -165,6 +85,23 @@ class RemitosListScreen extends React.PureComponent {
         </TouchableOpacity>
       </View>
 
+      { this.state.tabIndex == 0 ?
+      <View style={styles.proximityCheck}>
+        <Text style={styles.proximityCheckText}>
+        {
+          this.state.saveproximity?" Ordenado por proximidad ":" Ordenado por BackOffice "
+        }
+        </Text>
+        <Switch
+            value={this.state.saveproximity}
+            onValueChange={this.handleSaveProximity}
+            disabled={false}
+            onTintColor={Colors.backgroundVariant}
+          />
+      </View>
+      :
+      null
+      }
       <SearchBar
         onChangeText={this.onSearch}
         onClearText={this.onClearSearch}
@@ -176,16 +113,48 @@ class RemitosListScreen extends React.PureComponent {
   );
 
   updateIndex = index => {
+
     console.tron.log("updating index");
+    console.log("updating index", this.state.tabIndex);
+
     this.setState({ tabIndex: index });
     switch (index) {
     case 0:
       // pending
-      data = this.state.dataObjects
+      // data = this.state.dataObjects
+      data = this.props.remitos
         .filter(item => item.estado_mobile == 99)
         .map(item => item);
-      this.setState({dataObjects: data})
+
+      var dataCopied;
+
+      var dataCloned = [ ...data]
+      
+      const dataCopy = dataCloned.map((item) => {
+        
+        const tempDist = this.getDistance({
+          latitud: item.latitud,
+          longitud: item.longitud
+        });
+        
+        // format distance
+        const distance = isNaN(tempDist)
+        ? tempDist
+        : parseFloat(Math.round(tempDist * 100) / 100).toFixed(2);
+        
+        return {...item, distance: distance};
+        
+      });
+      
+      // order by proximity
+      if (this.state.saveproximity) 
+        dataCopied = dataCopy.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+      else
+        dataCopied = dataCopy;
+
+      this.setState({dataObjects: dataCopied})
       break;
+
     case 1:
       // full list
       this.setState({dataObjects: this.props.remitos})
@@ -270,13 +239,14 @@ class RemitosListScreen extends React.PureComponent {
     // get remitos list
     this.setState({ tabIndex: 0 });
     this.updateIndex(0);
-    // this.onRequestingRemitos(false);
-    // if (!this.props.remitos) {
-    //   console.tron.log("remitosscreen-rehydrating");
-    //   this.setState({ fetching: true });
-    //   this.props.rehydrateRemitos();
-    // }
-    this.myCurrentPosition();
+
+    //changed to promote realtime gps 
+    // this.myCurrentPosition();
+    this.myWatchPosition();
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
   }
 
   myCurrentPosition() {
@@ -287,26 +257,38 @@ class RemitosListScreen extends React.PureComponent {
           longitude: position.coords.longitude,
           error: null
         });
-        // console.log("my position",position);
-        // console.log("destination",this.state.marker.latitud);
-        // this.mergeLot();
-        // let start = this.state.latitude +","+ this.state.longitude
-        // let end = this.state.marker.latitud +","+ this.state.marker.longitud
-        // this.getDirections(start, end)
       },
-      error =>
-        this.setState({ error: error.message, latitude: 0, longitude: 0 }),
+      error => this.setState({ error: error.message, latitude: 0, longitude: 0 }),
       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
-      // {enableHighAccuracy: true, timeout: 25000, maximumAge: 3600000}
     );
   }
 
-   onRequestingRemitos = todos => {
-     this.setState({ fetching: true });
-     this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
-   };  
+  myWatchPosition() {
+    console.log("myWatchPosition")
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+        console.log("myWatchPosition new position", this.state.latitude)
+        this.updateIndex(this.state.tabIndex);
+      },
+      (error) => { 
+        this.setState({ error: error.message }),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+        console.log('error',error)
+        }
+    );
+  }
+
+  onRequestingRemitos = todos => {
+    this.setState({ fetching: true });
+    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
+  };  
    
-   componentDidCatch(error, info) {
+  componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true });
     // You can also log the error to an error reporting service
@@ -379,6 +361,35 @@ class RemitosListScreen extends React.PureComponent {
       });
     this.props.navigation.navigate("MapScreen", { markers: markers });
   };
+
+  // distance gps
+  getDistance = destination => {
+    // console.log("Dest",destination);
+    // console.log("state",this.state.longitude);
+    const R = 6371; // Radius of the earth in km
+    const dLat = this.deg2rad(destination.latitud - this.state.latitude); 
+    const dLon = this.deg2rad(destination.longitud - this.state.longitude);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(this.state.latitude)) *
+        Math.cos(this.deg2rad(destination.latitud)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    
+    // console.log("d",d)
+
+    if (d > 100) return -1;
+
+    return d || -1;
+  };
+
+  deg2rad = deg => {
+    return deg * (Math.PI / 180);
+  };
+  
+  // end distance gps
 
   render() {
     const { fetching } = this.state;

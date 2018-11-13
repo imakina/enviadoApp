@@ -53,5 +53,22 @@ export default StyleSheet.create({
   textButtonSelected: {
     backgroundColor: Colors.backgroundVariant,
     color: Colors.snow
-  }
+  },
+
+
+  proximityCheck : {
+    borderRadius: 4,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    flexDirection: "row",
+    paddingBottom: 6,
+    paddingRight: 6,
+  },
+  proximityCheckText : {
+    fontSize : 14,
+    color: Colors.black,
+    paddingBottom: 6,
+    paddingRight: 10,
+  },
+
 });
