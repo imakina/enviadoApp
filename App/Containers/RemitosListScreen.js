@@ -46,11 +46,11 @@ class RemitosListScreen extends React.PureComponent {
   };
 
   handleSaveProximity = () => {
-    console.log({name:'checkboxChanged', value:this.state.saveproximity})
-    this.setState({ saveproximity: !this.state.saveproximity })
+    console.log({name:'checkboxChanged', value:!this.state.saveproximity})
+    this.setState({ saveproximity: !this.state.saveproximity }, ()=> this.updateIndex(this.state.tabIndex))
     // reorder the grid after proximity check change
     console.log(this.state.tabIndex);
-    this.updateIndex(this.state.tabIndex);
+    
   }
 
   // Render a header?
@@ -118,6 +118,8 @@ class RemitosListScreen extends React.PureComponent {
     console.log("updating index", this.state.tabIndex);
 
     this.setState({ tabIndex: index });
+    var dataOrdered;
+
     switch (index) {
     case 0:
       // pending
@@ -125,8 +127,6 @@ class RemitosListScreen extends React.PureComponent {
       data = this.props.remitos
         .filter(item => item.estado_mobile == 99)
         .map(item => item);
-
-      var dataCopied;
 
       var dataCloned = [ ...data]
       
@@ -146,20 +146,27 @@ class RemitosListScreen extends React.PureComponent {
         
       });
       
+      console.log(this.state.saveproximity);
+
+      // default with gps 
+      dataOrdered = dataCopy;
+
       // order by proximity
       if (this.state.saveproximity) 
-        dataCopied = dataCopy.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
-      else
-        dataCopied = dataCopy;
-
-      this.setState({dataObjects: dataCopied})
+        dataOrdered = dataCopy.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+      
+      // this.setState({dataObjects: dataOrdered})
       break;
-
+        
     case 1:
       // full list
-      this.setState({dataObjects: this.props.remitos})
+      dataOrdered = this.props.remitos;
       break;
     }
+      
+    console.table(dataOrdered);
+    this.setState({ dataObjects: dataOrdered })
+
   };
 
   // Render a footer?
