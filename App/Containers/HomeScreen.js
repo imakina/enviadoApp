@@ -13,7 +13,7 @@ import SyncActions from "../Redux/SyncRedux";
 import Header from "../Components/Header";
 // Styles
 import styles from "./Styles/HomeScreenStyle";
-// import Colors from "../Themes";
+import { Colors } from "../Themes";
 // import { parse } from "querystring";
 
 var Spinner = require('react-native-spinkit')
@@ -101,8 +101,10 @@ class HomeScreen extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.hojaruta.hojas)
+    if (newProps.hojaruta.hojas) {
       this.setState({ quantity_hojas: newProps.hojaruta.hojas.length });
+      // console.log( newProps.hojaruta )
+    }
   }
 
   // parseRemitos(remitos) {
@@ -158,7 +160,9 @@ class HomeScreen extends Component {
                 <Icon
                   name="refresh"
                   type="font-awesome"
-                  color="white"
+                  // color="white"
+                  color={Colors.backgroundVariant}
+                  reverse
                   size={60}
                   onPress={() => this.onSync()}
                 />
@@ -173,7 +177,10 @@ class HomeScreen extends Component {
               <Text>Hoja de Ruta Activa : {active}</Text>
               <Text>Remitos : {quantity} / Pendientes : {updated} </Text>
               {/* <Text>Remitos actualizados : {updated}</Text> */}
-              <Text>Error : {error}</Text>
+              {/* solo mostrar si existe un error */}
+              { error && 
+                <Text>Error : {error}</Text>
+              }
               {/* <Text>Remitos sin cambios : </Text> */}
             </View>
 

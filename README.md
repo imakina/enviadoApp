@@ -81,3 +81,7 @@ hojas de ruta
 remitos
 
 * sync
+
+---
+* la palabra error presta a confusion
+

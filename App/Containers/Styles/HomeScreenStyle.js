@@ -84,9 +84,9 @@ export default StyleSheet.create({
   },
 
   bigaction: {
-    width: 80,
-    height: 80,
-    backgroundColor: "#27ae60",
+    // width: 80,
+    // height: 80,
+    // backgroundColor: "#27ae60",
     borderRadius: 10,
     padding: 10
   },

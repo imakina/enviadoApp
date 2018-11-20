@@ -25,10 +25,16 @@ class RemitosListScreen extends React.PureComponent {
     super(props);
   }
 
-  // define a initial value
-  watchID = null;
-
-  goBack = () => this.props.navigation.navigate("HojaRutaScreen");
+  goBack = () => {
+    this.clearWatch();
+    this.props.navigation.navigate("HojaRutaScreen");
+  }
+  
+  //force unmounting 
+  clearWatch = () => {
+    navigator.geolocation.clearWatch(this.watchId);
+    console.log("force umounting")
+  }
 
   state = {
     fetching: false,
@@ -51,10 +57,10 @@ class RemitosListScreen extends React.PureComponent {
   };
 
   handleSaveProximity = () => {
-    console.log({name:'checkboxChanged', value:!this.state.saveproximity})
+    // console.log({name:'checkboxChanged', value:!this.state.saveproximity})
     this.setState({ saveproximity: !this.state.saveproximity }, ()=> this.updateIndex(this.state.tabIndex))
     // reorder the grid after proximity check change
-    // console.log(this.state.tabIndex);
+    console.log(this.state.tabIndex);
   }
 
   renderHeader = () => ( 
@@ -62,7 +68,7 @@ class RemitosListScreen extends React.PureComponent {
       tabIndex = {this.state.tabIndex}
       saveproximity = {this.state.saveproximity} 
       updateIndex = {this.updateIndex} 
-      handleSaveProximity = {() => this.handleSaveProximity} 
+      handleSaveProximity = {this.handleSaveProximity} 
       onSearch = {() => this.onSearch} 
       onClearSearch = {() => this.onClearSearch} 
     /> )
@@ -127,6 +133,9 @@ class RemitosListScreen extends React.PureComponent {
   // );
 
   updateIndex = index => {
+
+    if (!this.props.remitos)
+      return;
 
     console.tron.log("updating index");
     console.log("updating index", index);
@@ -267,7 +276,7 @@ class RemitosListScreen extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId);
+    this.clearWatch();
   }
 
   myCurrentPosition() {
@@ -284,8 +293,12 @@ class RemitosListScreen extends React.PureComponent {
     );
   }
 
+  watchID = null;
+
   myWatchPosition() {
-    console.log("myWatchPosition")
+    console.log("init myWatchPosition",this.watchID)
+    this.setState({ gpsfetch : true })
+
     this.watchId = navigator.geolocation.watchPosition(
       (position) => {
         this.setState({
@@ -295,11 +308,13 @@ class RemitosListScreen extends React.PureComponent {
         });
         console.log("myWatchPosition new position", this.state.latitude)
         this.updateIndex(this.state.tabIndex);
+        this.setState({ gpsfetch : false })
       },
       (error) => { 
         this.setState({ error: error.message }),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
         console.log('error',error)
+        this.setState({ gpsfetch : false })
         }
     );
   }
@@ -319,6 +334,8 @@ class RemitosListScreen extends React.PureComponent {
   onPressSingleItem = item => {
     // console.tron.log({ item: 'item', value: item })
     this.props.selectedRemitos(item);
+    //clearwatch
+    this.clearWatch();
     //navigation
     this.props.navigation.navigate("RemitoScreen");
   };
@@ -413,7 +430,7 @@ class RemitosListScreen extends React.PureComponent {
   // end distance gps
 
   render() {
-    const { fetching } = this.state;
+    const { fetching, gpsfetch } = this.state;
     const { syncing } = this.props.sync
 
     return (
@@ -421,7 +438,7 @@ class RemitosListScreen extends React.PureComponent {
         <Header
           title="LISTA REMITOS"
           left={{ icon: "chevron-left", onPress: () => this.goBack() }}
-          right={{ icon: "refresh", onPress: () => this.onSync() }}
+          right={{ icon: gpsfetch ? "map-marker" : "refresh", onPress: () => this.onSync() }}
         />
 
         { 

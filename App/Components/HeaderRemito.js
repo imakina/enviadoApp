@@ -19,7 +19,9 @@ export default class HeaderRemito extends Component {
   render() {
 
     return (
+
       <View>
+
         <View style={{ flexDirection: "row", height: 40 }}>
           <TouchableOpacity
             style={{ flex: 1 }}
@@ -48,24 +50,7 @@ export default class HeaderRemito extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-
-        { this.props.tabIndex == 0 ?
-        <View style={styles.proximityCheck}>
-          <Text style={styles.proximityCheckText}>
-          {
-            this.props.saveproximity ? " Ordenado por proximidad ":" Ordenado por BackOffice "
-          }
-          </Text>
-          <Switch
-              value={this.props.saveproximity}
-              onValueChange={this.props.handleSaveProximity}
-              disabled={false}
-              onTintColor={Colors.backgroundVariant}
-            />
-        </View>
-        :
-        null
-        }
+        
         <SearchBar
           onChangeText={this.props.onSearch}
           onClearText={this.props.onClearSearch}
@@ -73,6 +58,25 @@ export default class HeaderRemito extends Component {
           lightTheme
           round
         />
+
+        { this.props.tabIndex == 0 ?
+          <View style={styles.proximityCheck}>
+            <Text style={styles.proximityCheckText}>
+            {
+              this.props.saveproximity ? " Ordenado por proximidad ":" Ordenado por BackOffice "
+            }
+            </Text>
+            <Switch
+              value={this.props.saveproximity}
+              onValueChange={() => this.props.handleSaveProximity()}
+              disabled={false}
+              onTintColor={Colors.backgroundVariant}
+            />
+          </View>
+        :
+          null
+        }
+
       </View>
     );
   }

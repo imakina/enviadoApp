@@ -54,15 +54,15 @@ export default StyleSheet.create({
     backgroundColor: Colors.backgroundVariant,
     color: Colors.snow
   },
-
-
+  
   proximityCheck : {
     borderRadius: 4,
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     flexDirection: "row",
-    paddingBottom: 6,
-    paddingRight: 6,
+    paddingTop: 8,
+    // paddingBottom: 3,
+    paddingRight: 10,
   },
   proximityCheckText : {
     fontSize : 14,

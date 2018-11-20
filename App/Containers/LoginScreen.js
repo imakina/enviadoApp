@@ -11,7 +11,7 @@ import {
   Alert } from 'react-native'
 import { connect } from 'react-redux'
 // import PropTypes from 'prop-types'
-import { Button, CheckBox } from 'react-native-elements'
+// import { Button, CheckBox } from 'react-native-elements'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
@@ -22,7 +22,7 @@ import ButtonIcon from '../Components/ButtonIcon'
 import styles from './Styles/LoginScreenStyle'
 import { Images, Colors } from '../Themes'
 
-import DebugConfig from '../Config/DebugConfig'
+// import DebugConfig from '../Config/DebugConfig'
 
 var Spinner = require('react-native-spinkit')
 
