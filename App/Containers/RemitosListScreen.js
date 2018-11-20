@@ -134,8 +134,8 @@ class RemitosListScreen extends React.PureComponent {
 
   updateIndex = index => {
 
-    if (!this.props.remitos)
-      return;
+    //if (!this.props.remitos)
+    //  return;
 
     console.tron.log("updating index");
     console.log("updating index", index);
@@ -146,8 +146,8 @@ class RemitosListScreen extends React.PureComponent {
     switch (index) {
     case 0:
       // pending
-      // data = this.state.dataObjects
-      data = this.props.remitos
+      data = this.state.dataObjects
+      //data = this.props.remitos
         .filter(item => item.estado_mobile == 99)
         .map(item => item);
 
@@ -183,7 +183,8 @@ class RemitosListScreen extends React.PureComponent {
         
     case 1:
       // full list
-      dataOrdered = this.props.remitos;
+      dataOrdered = this.state.dataObjects
+      //dataOrdered = this.props.remitos;
       break;
     }
       
@@ -258,9 +259,11 @@ class RemitosListScreen extends React.PureComponent {
 
     if (this.state.sync) 
       if (this.state.sync.syncing == false) {
-        console.log("updateindex")
+        console.tron.log("propsremitos", this.props.remitos)
+        console.tron.log("updateindex5555")
         this.updateIndex(0)
         // this.setState({updating:false})
+        
       }
 
   }
