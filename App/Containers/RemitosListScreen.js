@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity,  Switch } from "react-native";
 import { connect } from "react-redux";
-import { SearchBar } from "react-native-elements";
+// import { SearchBar } from "react-native-elements";
 // import openMap from "react-native-open-maps";
 import getDirections from "react-native-google-maps-directions";
 
@@ -13,15 +13,20 @@ import styles from "./Styles/RemitosListScreenStyle";
 // import { Colors } from "../Themes";
 // Components
 import ItemRemito from "../Components/ItemRemito";
+import HeaderRemito from "../Components/HeaderRemito";
 import Header from "../Components/Header";
 import Spinner from "../Components/Spinner";
 
 import { Colors } from '../Themes'
 
+
 class RemitosListScreen extends React.PureComponent {
   constructor(props) {
     super(props);
   }
+
+  // define a initial value
+  watchID = null;
 
   goBack = () => this.props.navigation.navigate("HojaRutaScreen");
 
@@ -49,73 +54,82 @@ class RemitosListScreen extends React.PureComponent {
     console.log({name:'checkboxChanged', value:!this.state.saveproximity})
     this.setState({ saveproximity: !this.state.saveproximity }, ()=> this.updateIndex(this.state.tabIndex))
     // reorder the grid after proximity check change
-    console.log(this.state.tabIndex);
-    
+    // console.log(this.state.tabIndex);
   }
 
-  // Render a header?
-  renderHeader = () => (
-    <View>
-      <View style={{ flexDirection: "row", height: 40 }}>
-        <TouchableOpacity
-          style={{ flex: 1 }}
-          onPress={() => this.updateIndex(0)}
-        >
-          <Text
-            style={[
-              styles.textButtonGroup,
-              this.state.tabIndex == 0 ? styles.textButtonSelected : ""
-            ]}
-          >
-            Pendientes
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ flex: 1 }}
-          onPress={() => this.updateIndex(1)}
-        >
-          <Text
-            style={[
-              styles.textButtonGroup,
-              this.state.tabIndex == 1 ? styles.textButtonSelected : ""
-            ]}
-          >
-            Todos
-          </Text>
-        </TouchableOpacity>
-      </View>
+  renderHeader = () => ( 
+    <HeaderRemito 
+      tabIndex = {this.state.tabIndex}
+      saveproximity = {this.state.saveproximity} 
+      updateIndex = {this.updateIndex} 
+      handleSaveProximity = {() => this.handleSaveProximity} 
+      onSearch = {() => this.onSearch} 
+      onClearSearch = {() => this.onClearSearch} 
+    /> )
 
-      { this.state.tabIndex == 0 ?
-      <View style={styles.proximityCheck}>
-        <Text style={styles.proximityCheckText}>
-        {
-          this.state.saveproximity?" Ordenado por proximidad ":" Ordenado por BackOffice "
-        }
-        </Text>
-        <Switch
-            value={this.state.saveproximity}
-            onValueChange={this.handleSaveProximity}
-            disabled={false}
-            onTintColor={Colors.backgroundVariant}
-          />
-      </View>
-      :
-      null
-      }
-      <SearchBar
-        onChangeText={this.onSearch}
-        onClearText={this.onClearSearch}
-        placeholder="Escriba aqui ..."
-        lightTheme
-        round
-      />
-    </View>
-  );
+  // Render a header?
+  // renderHeader = () => (
+  //   <View>
+  //     <View style={{ flexDirection: "row", height: 40 }}>
+  //       <TouchableOpacity
+  //         style={{ flex: 1 }}
+  //         onPress={() => this.updateIndex(0)}
+  //       >
+  //         <Text
+  //           style={[
+  //             styles.textButtonGroup,
+  //             this.state.tabIndex == 0 ? styles.textButtonSelected : ""
+  //           ]}
+  //         >
+  //           Pendientes
+  //         </Text>
+  //       </TouchableOpacity>
+  //       <TouchableOpacity
+  //         style={{ flex: 1 }}
+  //         onPress={() => this.updateIndex(1)}
+  //       >
+  //         <Text
+  //           style={[
+  //             styles.textButtonGroup,
+  //             this.state.tabIndex == 1 ? styles.textButtonSelected : ""
+  //           ]}
+  //         >
+  //           Todos
+  //         </Text>
+  //       </TouchableOpacity>
+  //     </View>
+
+  //     { this.state.tabIndex == 0 ?
+  //     <View style={styles.proximityCheck}>
+  //       <Text style={styles.proximityCheckText}>
+  //       {
+  //         this.state.saveproximity?" Ordenado por proximidad ":" Ordenado por BackOffice "
+  //       }
+  //       </Text>
+  //       <Switch
+  //           value={this.state.saveproximity}
+  //           onValueChange={this.handleSaveProximity}
+  //           disabled={false}
+  //           onTintColor={Colors.backgroundVariant}
+  //         />
+  //     </View>
+  //     :
+  //     null
+  //     }
+  //     <SearchBar
+  //       onChangeText={this.onSearch}
+  //       onClearText={this.onClearSearch}
+  //       placeholder="Escriba aqui ..."
+  //       lightTheme
+  //       round
+  //     />
+  //   </View>
+  // );
 
   updateIndex = index => {
 
     console.tron.log("updating index");
-    console.log("updating index", this.state.tabIndex);
+    console.log("updating index", index);
 
     this.setState({ tabIndex: index });
     var dataOrdered;
@@ -146,7 +160,7 @@ class RemitosListScreen extends React.PureComponent {
         
       });
       
-      console.log(this.state.saveproximity);
+      // console.log(this.state.saveproximity);
 
       // default with gps 
       dataOrdered = dataCopy;
@@ -164,7 +178,7 @@ class RemitosListScreen extends React.PureComponent {
       break;
     }
       
-    console.table(dataOrdered);
+    // console.table(dataOrdered);
     this.setState({ dataObjects: dataOrdered })
 
   };
