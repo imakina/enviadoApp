@@ -378,18 +378,18 @@ class RemitoScreen extends Component {
               <View style={{paddingBottom: 10, flexDirection: 'row'}}>
                 <View style={{marginRight: 5, flex: 1}}>
                   <ButtonIcon
-                    icon={{ name: "arrow-with-circle-right", type: "entypo" }}
-                    text={"SIGUIENTE"}
+                    icon={{ name: this.state.motivo != 0 ? "camera": "arrow-with-circle-right", type: "entypo" }}
+                    text={this.state.motivo != 0 ? "": "SIGUIENTE"}
                     onPress={() => this.onScanning()}
                   />
                 </View>
 
                 { this.state.motivo != 0 &&
-                  <View style={{flex: 0.6}}>
+                  <View style={{flex: 0.4}}>
                     <ButtonIcon
                       type={'ko'}
                       icon={{ name: "circle-with-cross", type: "entypo" }}
-                      text={" SIN "}
+                      text={""}
                       onPress={() => this.this.onSave()}
                     />
                   </View>

@@ -49,7 +49,9 @@ export default class ButtonIcon extends Component {
           size={35}
           iconStyle={styles.iconText}
         />
-        <Text style={styles.text}>{this.props.text}</Text>
+        { this.props.text !== '' &&
+          <Text style={styles.text}>{this.props.text}</Text>
+        }
       </TouchableOpacity>
     );
   }
