@@ -390,7 +390,7 @@ class RemitoScreen extends Component {
                       type={'ko'}
                       icon={{ name: "circle-with-cross", type: "entypo" }}
                       text={""}
-                      onPress={() => this.this.onSave()}
+                      onPress={() => this.onSave()}
                     />
                   </View>
                 }
