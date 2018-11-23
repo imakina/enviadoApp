@@ -37,6 +37,32 @@ export default StyleSheet.create({
     flex: 1, 
     alignContent: 'center', 
     padding: 90
+  },
+
+  camera: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'black'
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  capture: {
+    flex: 0,
+    // backgroundColor: Colors.transparent,
+    // color: Colors.snow,
+    borderColor: Colors.snow,
+    borderWidth: 1,
+    borderRadius: 60,
+    // padding: 5,
+    width: 110,
+    height: 110,
+    paddingHorizontal: 20,
+    // alignSelf: 'center',
+    margin: 30,
+    paddingTop: 35
   }
      
 })

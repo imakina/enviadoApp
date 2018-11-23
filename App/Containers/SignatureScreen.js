@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, Platform } from 'react-native'
+import { View, Text, TextInput, Platform, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import SignatureCapture from 'react-native-signature-capture';
@@ -13,6 +13,7 @@ const BarcodeScanner = Platform.select({
   android: () => require('react-native-barcode-scanner-google').default,
   ios: () => require('react-native-camera').default
 })();
+import Camera from 'react-native-camera';
 
 import styles from './Styles/SignatureScreenStyle'
 
@@ -25,14 +26,14 @@ class SignatureScreen extends Component {
       // data : props.navigation.state.params,
       signature : null,
       dragged : false,
-      step : "barcode",
+      step : props.navigation.state.params.step,
       partdni : "",
       partname : ""
     }
   }
 
   componentDidMount() {
-    this.setState({step:"barcode"})
+    // this.setState({step:"barcode"})
   }
 
   onPressingBack = () => {
@@ -120,6 +121,20 @@ class SignatureScreen extends Component {
     this.setState({error:exception})
   }
 
+  takePicture() {
+    const options = {};
+    //options.location = ...
+    this.camera
+      .capture({ metadata: options })
+      .then(data => {
+        // this.goBack(data)
+        const { navigation } = this.props;
+        navigation.goBack();
+        navigation.state.params.onCapture(data);
+      })
+      .catch(err => console.tron.log(err));
+  }
+
 //   Platform.OS === 'iso' ? <ScannerComponent
 //   ref={cam => this.cameraComponent = cam}
 //   style={style}
@@ -141,122 +156,149 @@ class SignatureScreen extends Component {
 
     return (
 
-      <View style={styles.container}>
+      this.state.step == "capture" ?
 
-        <Header
-          title={this.state.step}
-          left={{ icon: "chevron-left", onPress: () => this.onPressingBack() }}
-        />
+        <View style={styles.camera}>
+          <Camera 
+              style={styles.preview}
+              ref={cam => this.camera=cam}
+              aspect={Camera.constants.Aspect.fit}
+              captureQuality={Camera.constants.CaptureQuality.low}>
 
-        <View style={styles.content}> 
-
-          { this.state.step === "barcode" ?
-          // Barcode
-
-          <View style={{ flexGrow: 1 }}>
-
-            <BarcodeScanner
-              style={{ flex: 1 }}
-              onBarcodeRead={this.scannedBarCode.bind(this)}
-              onException={this.handleException.bind(this)}
-              // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
-              // torchMode={TorchMode.ON /* could be the default OFF */}
-              // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
-              // barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}
-              >
-            </BarcodeScanner>
-          
-            <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
-              <View style={{width:'70%'}}>
-                <TextInput
-                  placeholder='Ingrese Numero DNI'
-                  keyboardType="numeric"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  onChangeText={this.handleChangeDni}
-                  onSubmitEditing={()=> this.nameInput.focus()}
+              <TouchableOpacity style={styles.capture}>
+                <Icon
+                  name="camera"
+                  type="font-awesome"
+                  color="white"
+                  size={30}
+                  onPress={() => this.takePicture()}
                 />
-                <TextInput
-                  placeholder='Ingrese el nombre'
-                  keyboardType="default"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  onChangeText={this.handleChangeName}
-                  ref={(input)=> this.nameInput = input}
-                />
-              </View>
-              <ButtonIcon
-                disabled={!(this.state.partdni.length > 0 && this.state.partname.length > 0)}
-                icon={{ name: 'check', type: 'font-awesome' }}
-                text={'OK'}
-                onPress={() => this.handleSave()} 
-              />
-            </View>
-    
-            {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
+              </TouchableOpacity>
 
-          </View>
+          </Camera>
+        </View>
 
-          :
+      :
 
-          <View style={{ flexGrow: 1 }}>
-          
-          <View style={{padding: 5}}>
-            <Text style={{fontSize: 17, textAlign: 'center'}}>{"DNI: "}{this.state.dni}</Text>
-          </View>
+        <View style={styles.container}>
 
-          { this.state.show ? 
+          <Header
+            title={this.state.step}
+            left={{ icon: "chevron-left", onPress: () => this.onPressingBack() }}
+          />
 
-            <SignatureCapture
-              style={[{flex:1},styles.pad]}
-              ref="sign"
-              onSaveEvent={this._onSaveEvent}
-              onDragEvent={this._onDragEvent}
-              saveImageFileInExtStorage={false}
-              showNativeButtons={false}
-              showTitleLabel={false}
-              viewMode={"portrait"}
-            />
+          <View style={styles.content}> 
+
+            { this.state.step === "barcode" &&
+            // Barcode
+
+              <View style={{ flexGrow: 1 }}>
+
+                <BarcodeScanner
+                  style={{ flex: 1 }}
+                  onBarcodeRead={this.scannedBarCode.bind(this)}
+                  onException={this.handleException.bind(this)}
+                  // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
+                  // torchMode={TorchMode.ON /* could be the default OFF */}
+                  // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
+                  // barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}
+                  >
+                </BarcodeScanner>
               
-          :
+                <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
+                  <View style={{width:'70%'}}>
+                    <TextInput
+                      placeholder='Ingrese Numero DNI'
+                      keyboardType="numeric"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onChangeText={this.handleChangeDni}
+                      onSubmitEditing={()=> this.nameInput.focus()}
+                    />
+                    <TextInput
+                      placeholder='Ingrese el nombre'
+                      keyboardType="default"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onChangeText={this.handleChangeName}
+                      ref={(input)=> this.nameInput = input}
+                    />
+                  </View>
+                  <ButtonIcon
+                    disabled={!(this.state.partdni.length > 0 && this.state.partname.length > 0)}
+                    icon={{ name: 'check', type: 'font-awesome' }}
+                    text={'OK'}
+                    onPress={() => this.handleSave()} 
+                  />
+                </View>
+        
+                {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
 
-            <View style={styles.padbrush}> 
-              <Icon
-                name='round-brush'
-                type='entypo'
-                size={120}
-                color= '#ff4f00' />
-            </View> 
+              </View>
 
-          }
+            }
 
-          <View style={{ paddingBottom: 20, paddingLeft: 20, paddingRight: 20}}>
+            { this.state.step === "signature" &&
+            // Signature
 
-            <View style={{paddingBottom: 10}}>
-              <ButtonIcon
-                disabled={!this.state.dragged}
-                icon={{ name: 'check', type: 'font-awesome' }}
-                text={'Recibido'}
-                onPress={() => this.onSigned()} 
-              />
-            </View>
+              <View style={{ flexGrow: 1 }}>
+              
+                <View style={{padding: 5}}>
+                  <Text style={{fontSize: 17, textAlign: 'center'}}>{"DNI: "}{this.state.dni}</Text>
+                </View>
 
-            <ButtonIcon
-              type={'ko'}
-              icon={{ name: 'round-brush', type: 'entypo' }}
-              text={'Limpiar'}
-              onPress={() => this.onClean()} 
-            />
+                { this.state.show ? 
+
+                  <SignatureCapture
+                    style={[{flex:1},styles.pad]}
+                    ref="sign"
+                    onSaveEvent={this._onSaveEvent}
+                    onDragEvent={this._onDragEvent}
+                    saveImageFileInExtStorage={false}
+                    showNativeButtons={false}
+                    showTitleLabel={false}
+                    viewMode={"portrait"}
+                  />
+                    
+                :
+
+                  <View style={styles.padbrush}> 
+                    <Icon
+                      name='round-brush'
+                      type='entypo'
+                      size={120}
+                      color= '#ff4f00' />
+                  </View> 
+
+                }
+
+                <View style={{ paddingBottom: 20, paddingLeft: 20, paddingRight: 20}}>
+
+                  <View style={{paddingBottom: 10}}>
+                    <ButtonIcon
+                      disabled={!this.state.dragged}
+                      icon={{ name: 'check', type: 'font-awesome' }}
+                      text={'Recibido'}
+                      onPress={() => this.onSigned()} 
+                    />
+                  </View>
+
+                  <ButtonIcon
+                    type={'ko'}
+                    icon={{ name: 'round-brush', type: 'entypo' }}
+                    text={'Limpiar'}
+                    onPress={() => this.onClean()} 
+                  />
+
+                </View>
+
+              </View>
+
+            }
 
           </View>
 
         </View>
-
-        }
-
-      </View>
-
-    </View>
 
     )
   }

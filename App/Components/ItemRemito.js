@@ -7,37 +7,37 @@ import { Colors } from "../Themes/";
 
 export default class ItemRemito extends Component {
   static propTypes = {
-    latitud: PropTypes.number,
-    longitud: PropTypes.number,
+    // latitud: PropTypes.number,
+    // longitud: PropTypes.number,
     item: PropTypes.object,
     onPressSingleItem: PropTypes.func,
     onPressOpenMaps: PropTypes.func
   };
 
   // distance gps
-  getDistance = destination => {
-    // console.tron.log(this.props.latitud + " " + destination.latitud);
-    // console.tron.log(this.props.longitud + " " + destination.longitud);
-    const R = 6371; // Radius of the earth in km
-    const dLat = this.deg2rad(destination.latitud - this.props.latitud); // this.deg2rad below
-    const dLon = this.deg2rad(destination.longitud - this.props.longitud);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.deg2rad(this.props.latitud)) *
-        Math.cos(this.deg2rad(destination.latitud)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; // Distance in km
+  // getDistance = destination => {
+  //   // console.tron.log(this.props.latitud + " " + destination.latitud);
+  //   // console.tron.log(this.props.longitud + " " + destination.longitud);
+  //   const R = 6371; // Radius of the earth in km
+  //   const dLat = this.deg2rad(destination.latitud - this.props.latitud); // this.deg2rad below
+  //   const dLon = this.deg2rad(destination.longitud - this.props.longitud);
+  //   const a =
+  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  //     Math.cos(this.deg2rad(this.props.latitud)) *
+  //       Math.cos(this.deg2rad(destination.latitud)) *
+  //       Math.sin(dLon / 2) *
+  //       Math.sin(dLon / 2);
+  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  //   const d = R * c; // Distance in km
 
-    if (d > 100) return "N/D";
+  //   if (d > 100) return "N/D";
 
-    return d || "N/D";
-  };
+  //   return d || "N/D";
+  // };
 
-  deg2rad = deg => {
-    return deg * (Math.PI / 180);
-  };
+  // deg2rad = deg => {
+  //   return deg * (Math.PI / 180);
+  // };
   // end distance gps
 
   render() {
@@ -81,6 +81,8 @@ export default class ItemRemito extends Component {
     //   latitud: item.latitud,
     //   longitud: item.longitud
     // });
+
+    
     // format distance
     const distance = isNaN(item.distance)
       ? item.distance

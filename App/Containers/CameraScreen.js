@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import { Text, View, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
 // Styles
-// import Camera from 'react-native-camera';
+import Camera from 'react-native-camera';
 // import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
 import ButtonIcon from '../Components/ButtonIcon'
+
+
+import styles from "./Styles/CameraScreenStyle";
 
 class CameraScreen extends Component {
   constructor(props) {
@@ -22,14 +25,14 @@ class CameraScreen extends Component {
   // mediaUri
   // assets-library://asset/asset.JPG?id=9842F165-BD05-4D3C-9367-384E9D628D68&ext=JPG
 
-  // takePicture() {
-  //   const options = {};
-  //   //options.location = ...
-  //   this.camera
-  //     .capture({ metadata: options })
-  //     .then(data => this.goBack(data))
-  //     .catch(err => console.tron.log(err));
-  // }
+  takePicture() {
+    const options = {};
+    //options.location = ...
+    this.camera
+      .capture({ metadata: options })
+      .then(data => this.goBack(data))
+      .catch(err => console.tron.log(err));
+  }
 
   componentDidMount() {
     this.setState({scan:true});
@@ -88,44 +91,44 @@ class CameraScreen extends Component {
 
   render() {
     return (
-      // <View style={styles.container}>
-      //     <Camera style={styles.preview}
-      //             ref={cam => this.camera=cam}
-      //             aspect={Camera.constants.Aspect.fit}
-      //             captureQuality={Camera.constants.CaptureQuality.low}>
-      //             <Text style={styles.capture} onPress={this.takePicture.bind(this)}>CAPTURE</Text>
-      //             <Text style={styles.exit} onPress={this.goBack.bind(this)}>GOBACK</Text>
-      //     </Camera>
-      // </View>
-
-      <View style={{ flexGrow: 1 }}>
- 
-        <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
-          <View style={{width:'70%'}}>
-            <TextInput
-              ref='dni'
-              placeholder='inserte dni manualmente'
-              // returnKeyType="next"
-              keyboardType="numeric"
-              autoCapitalize="none"
-              autoCorrect={false}
-              onChangeText={this.handleChangeDni}
-              // onSubmitEditing={()=> this.passwordInput.focus()}
-              // placeholderTextColor='rgba(255,255,255,0.5)'
-              // underlineColorAndroid='rgba(255,255,255,0.2)'
-            />
-          </View>
-            <ButtonIcon
-              disabled={!this.state.dni != ""}
-              icon={{ name: 'check', type: 'font-awesome' }}
-              text={'OK'}
-              onPress={() => this.goBack()} 
-            />
-        </View>
-
-        <Text style={{padding:10}}>Leido : {this.state.dni}</Text>
-
+      <View style={styles.container}>
+          <Camera style={styles.preview}
+                  ref={cam => this.camera=cam}
+                  aspect={Camera.constants.Aspect.fit}
+                  captureQuality={Camera.constants.CaptureQuality.low}>
+                  <Text style={styles.capture} onPress={this.takePicture.bind(this)}>CAPTURE</Text>
+                  <Text style={styles.exit} onPress={this.goBack.bind(this)}>GOBACK</Text>
+          </Camera>
       </View>
+
+      // <View style={{ flexGrow: 1 }}>
+ 
+      //   <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
+      //     <View style={{width:'70%'}}>
+      //       <TextInput
+      //         ref='dni'
+      //         placeholder='inserte dni manualmente'
+      //         // returnKeyType="next"
+      //         keyboardType="numeric"
+      //         autoCapitalize="none"
+      //         autoCorrect={false}
+      //         onChangeText={this.handleChangeDni}
+      //         // onSubmitEditing={()=> this.passwordInput.focus()}
+      //         // placeholderTextColor='rgba(255,255,255,0.5)'
+      //         // underlineColorAndroid='rgba(255,255,255,0.2)'
+      //       />
+      //     </View>
+      //       <ButtonIcon
+      //         disabled={!this.state.dni != ""}
+      //         icon={{ name: 'check', type: 'font-awesome' }}
+      //         text={'OK'}
+      //         onPress={() => this.goBack()} 
+      //       />
+      //   </View>
+
+      //   <Text style={{padding:10}}>Leido : {this.state.dni}</Text>
+
+      // </View>
     );
   }
 }

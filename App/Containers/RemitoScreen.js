@@ -63,8 +63,8 @@ class RemitoScreen extends Component {
       idRemito: remito.idRemito,
       estado: motivo,
       fechaHora: this.formatDateTime(),
-      latitud: latitude.toString(),
-      longitud: longitude.toString(),
+      latitud: latitude ? latitude.toString() : '',
+      longitud: longitude ? longitude.toString() : '',
       car_id: 0 //hojaruta.car_id
     };
 
@@ -90,6 +90,15 @@ class RemitoScreen extends Component {
     });
   };
 
+  // capture a picture
+  onCapture = picture => {
+    console.tron.log({ name: "receive_picture", value: picture });
+    console.log("picture", picture)
+    this.setState({ picture: picture }, () => {
+      this.onSave()
+    });
+  };
+
   // from the scan screen
   // save the data scanned
   // go to signature
@@ -99,12 +108,6 @@ class RemitoScreen extends Component {
     this.setState({ scan : scanned });
     // this.onSigning()
   };
-
-  // onSigning = () => {
-  //   this.props.navigation.navigate("SignatureScreen", {
-  //     onSign: this.onSignature
-  //   });
-  // };
 
   // 
   // first step, navigate to scanner
@@ -118,7 +121,7 @@ class RemitoScreen extends Component {
     // console.log("RazonSOCIALSOCIAL", remito);
     if (this.state.motivo == 0)
       
-      if (remito.razonSocial != "SA La Nación") {
+      if (remito.razonSocial != "SA La DNación") {
         this.props.navigation.navigate("SignatureScreen", {
           onBarcode: this.onScanned,
           onSign: this.onSignature,
@@ -132,18 +135,26 @@ class RemitoScreen extends Component {
       }
 
     else
-      this.onSave();
+      // this.onSave();
+      this.props.navigation.navigate("SignatureScreen", {
+        // onBarcode: this.onScanned,
+        // onSign: this.onSignature,
+        onCapture: this.onCapture, 
+        step: "capture"
+      });
 
   };
 
+  // if (this.state.motivo == 0) 
+  //   data.firma = this.state.signature;
+  // else 
+  //   data.firma = "";
+
   onUpdate = data => {
-    // if (this.state.motivo == 0) 
-    //   data.firma = this.state.signature;
-    // else 
-    //   data.firma = "";
 
     data.firma = (this.state.motivo == 0 ? this.state.signature : "")
     data.scan = (this.state.motivo == 0 ? this.state.scan : "")
+    data.firma = (this.state.motivo != 0 ? this.state.capture : "")
 
     this.setState({ updating: true });
     this.props.updateRemito(data);
@@ -195,27 +206,43 @@ class RemitoScreen extends Component {
   }
 
   componentDidMount() {
+    
     if (!this.props.motivos) {
       // console.tron.log("rcm_motivos");
       this.setState({ fetching: true, gpsfetching: false });
       this.props.requestMotivos();
     }
 
-    // // get the position
-     this.setState({ gpsfetching: true });
-     navigator.geolocation.getCurrentPosition(
-       position => {
-         this.setState({
-           latitude: position.coords.latitude,
-           longitude: position.coords.longitude,
-           error: null,
-           gpsfetching: false
-         });
-         // console.tron.display({ name: "position", value: position });
-       },
-       error => this.setState({ gpserror: error.message, gpsfetching: false }),
-       { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
-     );
+    // get position
+    if (this.props.location.latitude != '') {
+
+      console.log("adquire location")
+      this.setState({
+        latitude: this.props.location.latitude,
+        longitude: this.props.location.longitude,
+        error: null,
+        gpsfetching: false
+      });
+
+    } else {
+
+      this.setState({ gpsfetching: true });
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null,
+            gpsfetching: false
+          });
+          // console.tron.display({ name: "position", value: position });
+        },
+        error => this.setState({ gpserror: error.message, gpsfetching: false }),
+        { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+      );
+
+    }
+
   }
 
   onPressingBack = () => {
@@ -348,14 +375,25 @@ class RemitoScreen extends Component {
               
               </View>
               
-              <View style={{paddingBottom: 10}}>
-                <ButtonIcon
-                  // disabled={this.state.motivo == 0 && !this.state.signature}
-                  icon={{ name: "camera", type: "entypo" }}
-                  text={"SIGUIENTE >>"}
-                  // onPress={() => this.onPressingConfirm()}
-                  onPress={() => this.onScanning()}
-                />
+              <View style={{paddingBottom: 10, flexDirection: 'row'}}>
+                <View style={{marginRight: 5, flex: 1}}>
+                  <ButtonIcon
+                    icon={{ name: "arrow-with-circle-right", type: "entypo" }}
+                    text={"SIGUIENTE"}
+                    onPress={() => this.onScanning()}
+                  />
+                </View>
+
+                { this.state.motivo != 0 &&
+                  <View style={{flex: 0.6}}>
+                    <ButtonIcon
+                      type={'ko'}
+                      icon={{ name: "circle-with-cross", type: "entypo" }}
+                      text={" SIN "}
+                      onPress={() => this.this.onSave()}
+                    />
+                  </View>
+                }
               </View>
 
             </View>
@@ -374,7 +412,8 @@ const mapStateToProps = state => {
     updating: state.remitos.fetching,
     remito: state.remitos.remito,
     hojaruta: state.hojaruta.hojaruta,
-    alert: state.alert
+    alert: state.alert,
+    location: state.location
   };
 };
 

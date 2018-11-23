@@ -12,24 +12,24 @@ export default StyleSheet.create({
   },
   listitem: {
     height: Metrics.screenHeight / 7,
-    width: Metrics.screenWidth - 30,
+    width: Metrics.screenWidth - 20,
     // alignItems: 'center',
     backgroundColor: Colors.snow,
     // borderBottomColor: Colors.snow,
     flexDirection: "column",
     // marginRight: 5,
     // marginLeft: 5,
-    marginTop: 20,
+    marginTop: 10,
     // padding: 10,
 
-    borderRadius: 10,
+    borderRadius: 6,
     padding: 10,
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 2
     },
-    shadowRadius: 5,
+    shadowRadius: 3,
     shadowOpacity: 1.0
   },
   updated: {

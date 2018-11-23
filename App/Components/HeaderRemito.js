@@ -16,16 +16,24 @@ export default class HeaderRemito extends Component {
     onClearSearch : PropTypes.func,
   };
 
+  onChangeTab = newIndex => {
+    console.log("changing index to ", newIndex);
+    this.props.updateIndex(newIndex);
+  }
+
   render() {
+
+    // console.log("tab",this.props.tabIndex);
 
     return (
 
       <View>
 
         <View style={{ flexDirection: "row", height: 40 }}>
+          
           <TouchableOpacity
             style={{ flex: 1 }}
-            onPress={()=>this.props.updateIndex(0)}
+            onPress={()=>this.onChangeTab(0)}
           >
             <Text
               style={[
@@ -36,9 +44,10 @@ export default class HeaderRemito extends Component {
               Pendientes
             </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={{ flex: 1 }}
-            onPress={()=>this.props.updateIndex(1)}
+            onPress={()=>this.onChangeTab(1)}
           >
             <Text
               style={[
@@ -49,6 +58,7 @@ export default class HeaderRemito extends Component {
               Todos
             </Text>
           </TouchableOpacity>
+          
         </View>
         
         <SearchBar
