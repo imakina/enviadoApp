@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Switch } from "react-native";
-import { SearchBar } from "react-native-elements";
+import { SearchBar, ButtonGroup } from "react-native-elements";
 import styles from "../Containers/Styles/RemitosListScreenStyle";
 import { Colors } from "../Themes/";
+
+const component1 = () => <Text>Hello</Text>
+const component2 = () => <Text>World</Text>
+const component3 = () => <Text>ButtonGroup</Text>
 
 export default class HeaderRemito extends Component {
 
@@ -20,18 +24,36 @@ export default class HeaderRemito extends Component {
     console.log("changing index to ", newIndex);
     this.props.updateIndex(newIndex);
   }
-
+  
+  updateIndex (selectedIndex) {
+    // this.setState({selectedIndex})
+    console.log("changing index to ", selectedIndex);
+    this.props.updateIndex(selectedIndex);
+  }
+  
   render() {
 
     // console.log("tab",this.props.tabIndex);
+    const buttons = ['Pendientes', 'Todos']
+    // const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }]
+    //const { selectedIndex } = this.state
 
     return (
 
       <View>
 
-        <View style={{ flexDirection: "row", height: 40 }}>
+        <ButtonGroup
+          selectedBackgroundColor={Colors.backgroundVariant}
+          selectedTextStyle={{'color':Colors.snow}}
+          onPress={this.onChangeTab}
+          selectedIndex={this.props.tabIndex}
+          buttons={buttons} />
+
+        { /* 
+        <TouchableOpacity
+          <View style={{ flexDirection: "row", height: 40 }}>
           
-          <TouchableOpacity
+
             style={{ flex: 1 }}
             onPress={()=>this.onChangeTab(0)}
           >
@@ -58,9 +80,11 @@ export default class HeaderRemito extends Component {
               Todos
             </Text>
           </TouchableOpacity>
-          
+            
         </View>
-        
+
+        */ }
+
         <SearchBar
           onChangeText={this.props.onSearch}
           onClearText={this.props.onClearSearch}
