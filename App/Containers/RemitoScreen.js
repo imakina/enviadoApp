@@ -63,8 +63,8 @@ class RemitoScreen extends Component {
       idRemito: remito.idRemito,
       estado: motivo,
       fechaHora: this.formatDateTime(),
-      latitud: latitude ? latitude.toString() : '',
-      longitud: longitude ? longitude.toString() : '',
+      latitud: latitude.toString(),
+      longitud: longitude.toString(),
       car_id: 0 //hojaruta.car_id
     };
 
@@ -154,7 +154,7 @@ class RemitoScreen extends Component {
 
     data.firma = (this.state.motivo == 0 ? this.state.signature : "")
     data.scan = (this.state.motivo == 0 ? this.state.scan : "")
-    data.firma = (this.state.motivo != 0 ? this.state.capture : "")
+    data.firma = (this.state.motivo != 0 ? this.state.picture : "")
 
     this.setState({ updating: true });
     this.props.updateRemito(data);
@@ -213,8 +213,8 @@ class RemitoScreen extends Component {
       this.props.requestMotivos();
     }
 
-    // get position
-    if (this.props.location.latitude != '') {
+    //get position
+    /*if (this.props.location.latitude != '') {
 
       console.log("adquire location")
       this.setState({
@@ -224,8 +224,7 @@ class RemitoScreen extends Component {
         gpsfetching: false
       });
 
-    } else {
-
+    } else {*/
       this.setState({ gpsfetching: true });
       navigator.geolocation.getCurrentPosition(
         position => {
@@ -241,9 +240,9 @@ class RemitoScreen extends Component {
         { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
       );
 
-    }
-
+    //}
   }
+  
 
   onPressingBack = () => {
     this.props.navigation.navigate("RemitosListScreen");
@@ -378,7 +377,7 @@ class RemitoScreen extends Component {
               <View style={{paddingBottom: 10, flexDirection: 'row'}}>
                 <View style={{marginRight: 5, flex: 1}}>
                   <ButtonIcon
-                    icon={{ name: this.state.motivo != 0 ? "camera": "arrow-with-circle-right", type: "entypo" }}
+                    icon={{ name: this.state.motivo != 0 ? "camera" : "arrow-with-circle-right", type: "entypo" }}
                     text={this.state.motivo != 0 ? "": "SIGUIENTE"}
                     onPress={() => this.onScanning()}
                   />

@@ -15,6 +15,8 @@ const BarcodeScanner = Platform.select({
 })();
 import Camera from 'react-native-camera';
 
+import RNFS from 'react-native-fs'
+
 import styles from './Styles/SignatureScreenStyle'
 
 class SignatureScreen extends Component {
@@ -127,13 +129,24 @@ class SignatureScreen extends Component {
     this.camera
       .capture({ metadata: options })
       .then(data => {
+
+        let base64Img = data.path;
+        RNFS.readFile( base64Img, 'base64' )
+          .then( res => { 
+            
+            //this.setState( { uri: res } )
+            const { navigation } = this.props;
+            navigation.goBack();
+            console.log(res);
+            navigation.state.params.onCapture(res); 
+        
+          }
+        )
         // this.goBack(data)
-        const { navigation } = this.props;
-        navigation.goBack();
-        navigation.state.params.onCapture(data);
       })
       .catch(err => console.tron.log(err));
   }
+
 
 //   Platform.OS === 'iso' ? <ScannerComponent
 //   ref={cam => this.cameraComponent = cam}
