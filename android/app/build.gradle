@@ -144,6 +144,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-barcode-scanner-google')
     compile project(path: ':react-native-fs')
 
     implementation project(':react-native-barcode-scanner-google')

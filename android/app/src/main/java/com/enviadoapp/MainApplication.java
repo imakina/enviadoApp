@@ -3,8 +3,8 @@ package com.enviadoapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.spyworldxp.barcodescanner.BarcodeScannerPackage;
 import com.rnfs.RNFSPackage;
-import com.ekreutz.barcodescanner.BarcodeScannerPackage;
 import org.reactnative.camera.RNCameraPackage;
 // import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -35,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BarcodeScannerPackage(),
             new RNFSPackage(),
             new BarcodeScannerPackage(),
             new RNCameraPackage(),
