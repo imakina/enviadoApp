@@ -6,12 +6,12 @@ import com.facebook.react.ReactApplication;
 import com.rnfs.RNFSPackage;
 import com.ekreutz.barcodescanner.BarcodeScannerPackage;
 import org.reactnative.camera.RNCameraPackage;
-import com.imagepicker.ImagePickerPackage;
+// import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.rssignaturecapture.RSSignatureCapturePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
+// import com.oblador.vectoricons.VectorIconsPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
@@ -38,12 +38,12 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFSPackage(),
             new BarcodeScannerPackage(),
             new RNCameraPackage(),
-            new ImagePickerPackage(),
+            // new ImagePickerPackage(),
             new RNFetchBlobPackage(),
             new MapsPackage(),
             new RNDeviceInfo(),
             new RSSignatureCapturePackage(),
-            new VectorIconsPackage(),
+            // new VectorIconsPackage(),
             new RNSpinkitPackage(),
             new ReactNativeConfigPackage(),
             new ReactNativeI18n()

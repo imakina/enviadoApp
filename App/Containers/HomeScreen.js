@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View, Text, Image, StatusBar, TouchableOpacity, Alert } from "react-native";
 // import Icon from 'react-native-vector-icons/Ionicons';
-import ImagePicker from "react-native-image-picker";
+// import ImagePicker from "react-native-image-picker";
 // import Spinner  from 'react-native-spinkit';
 import { Icon } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -69,20 +69,20 @@ class HomeScreen extends Component {
       maxHeight: 500
     };
 
-    ImagePicker.showImagePicker(options, response => {
-      if (response.didCancel) {
-        this.setState({ pickFoto: false }, () =>
-          setTimeout(() => this.setState({ pickFoto: true }), 100)
-        );
-      } else if (response.error) {
-        // console.log(response.error)
-      } else if (response.customButton) {
-        // console.log(response.customButton)
-      } else {
-        this.persistImage(response);
-        // this.setState({ image : 'data:image/jpeg;base64,' + response.data })
-      }
-    });
+    // ImagePicker.showImagePicker(options, response => {
+    //   if (response.didCancel) {
+    //     this.setState({ pickFoto: false }, () =>
+    //       setTimeout(() => this.setState({ pickFoto: true }), 100)
+    //     );
+    //   } else if (response.error) {
+    //     // console.log(response.error)
+    //   } else if (response.customButton) {
+    //     // console.log(response.customButton)
+    //   } else {
+    //     this.persistImage(response);
+    //     // this.setState({ image : 'data:image/jpeg;base64,' + response.data })
+    //   }
+    // });
   }
 
   onSync() {

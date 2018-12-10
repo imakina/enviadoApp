@@ -150,13 +150,13 @@ dependencies {
     implementation(project(':react-native-camera')) {
         exclude group: "com.android.support", module: 'support-v4'
     }
-    implementation project(':react-native-image-picker')
+    // implementation project(':react-native-image-picker')
     implementation project(':react-native-fetch-blob')
     implementation project(':react-native-signature-capture')
     implementation(project(':react-native-maps')) {
         exclude group: 'com.google.android.gms'
     }
-    implementation project(':react-native-vector-icons')
+    // implementation project(':react-native-vector-icons')
     implementation(project(':react-native-spinkit')) {
             exclude group: "com.android.support"
         }

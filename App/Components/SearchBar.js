@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import styles from './Styles/SearchBarStyles'
 import { Colors, Metrics } from '../Themes/'
-import Icon from 'react-native-vector-icons/FontAwesome'
+// import Icon from 'react-native-vector-icons/FontAwesome'
+import { Icon } from "react-native-elements"
 
 export default class SearchBar extends Component {
   static propTypes = {
