@@ -383,7 +383,7 @@ class RemitoScreen extends Component {
                   />
                 </View>
 
-                { this.state.motivo != 0 &&
+                {/* { this.state.motivo != 0 &&
                   <View style={{flex: 0.4}}>
                     <ButtonIcon
                       type={'ko'}
@@ -392,7 +392,7 @@ class RemitoScreen extends Component {
                       onPress={() => this.onSave()}
                     />
                   </View>
-                }
+                } */}
               </View>
 
             </View>
