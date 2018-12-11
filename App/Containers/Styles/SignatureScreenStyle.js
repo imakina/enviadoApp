@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor : Colors.snow,
     //new header
-    paddingTop:70,
+    // paddingTop:70,
   },
   content : {
     flex: 1, 
