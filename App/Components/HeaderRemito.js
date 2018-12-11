@@ -43,6 +43,7 @@ export default class HeaderRemito extends Component {
       <View>
 
         <ButtonGroup
+          selectedButtonStyle={{'backgroundColor':Colors.backgroundVariant}}
           selectedBackgroundColor={Colors.backgroundVariant}
           selectedTextStyle={{'color':Colors.snow}}
           onPress={this.onChangeTab}

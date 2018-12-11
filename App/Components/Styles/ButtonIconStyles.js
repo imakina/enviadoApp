@@ -23,21 +23,26 @@ export default StyleSheet.create({
     borderRadius: 8,
     flexGrow: 1
   },
-  icon: {
-    flex: 3,
+  iconview : {
+    flex: 2,
     alignSelf: "center",
-    alignItems: "center"
+    alignItems: "center",
+  },
+  icon: {
+    // flex: 3,
+    // alignSelf: "center",
+    // alignItems: "center",
   },
   iconText: {
-    color: Colors.snow
+    color: Colors.snow,
   },
   text: {
     ...Fonts.style.normal,
-    flex: 4,
+    flex: 7,
     color: Colors.snow,
-    textAlign: "left",
+    textAlign: "center",
     alignSelf: "center",
-    paddingRight: 20
+    // paddingRight: 20
   },
   typeBase: {
     backgroundColor: Colors.backgroundVariant

@@ -6,7 +6,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.snow,
-    paddingTop: 70
+    // paddingTop: 70
   },
   spinnerContainer: {
     flex: 1,
@@ -42,6 +42,10 @@ export default StyleSheet.create({
   // buttonGroup : {
   //   ...Fonts.type.base
   // },
+
+  listContent : {
+    flexGrow: 1
+  },
 
   textButtonGroup: {
     ...Fonts.style.normal,

@@ -65,6 +65,10 @@
 		EADC7D5D300645D6A39087C7 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 742018F0636A4DB096F3C852 /* Feather.ttf */; };
 		FFE7C32BAC6D48BBB686CA13 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 807FDA1874884627A53F9A6F /* Octicons.ttf */; };
 		8BCBECDA183C4BE687D17DB7 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C05E09ED93CC47738F598AB0 /* libRNFS.a */; };
+		8B1A9E5492624A9285D8498F /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 745BE8CD6DBB499BA694E28F /* AntDesign.ttf */; };
+		A753ECED222343DF9241319C /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A418A5A0C28421FA3F3A3E6 /* FontAwesome5_Brands.ttf */; };
+		A2ABCF025AFD45EEA85C7D05 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E88DDD1A89946C79640C66D /* FontAwesome5_Regular.ttf */; };
+		AEEF2F0239D34C548BBF6237 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5EF1018DE8FD420D824D5F3B /* FontAwesome5_Solid.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -257,20 +261,6 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-		C62825C52061ABF300E7737C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 369F7A5FD942427D98FBA7E4 /* RNImagePicker.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
-			remoteInfo = RNImagePicker;
-		};
-		C62825CB2061AC4500E7737C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C62825C72061AC4500E7737C /* RNImagePicker.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
-			remoteInfo = RNImagePicker;
-		};
 		C652B09A20619A5E0056ED23 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D3C470EAA5844A48A9B6348D /* RNFetchBlob.xcodeproj */;
@@ -453,6 +443,10 @@
 		FB9417B03F004EF38DE30EAC /* libjschelpers.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libjschelpers.a; sourceTree = "<group>"; };
 		0D2DB07655EC42878CFA5692 /* RNFS.xcodeproj */ = {isa = PBXFileReference; name = "RNFS.xcodeproj"; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		C05E09ED93CC47738F598AB0 /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		745BE8CD6DBB499BA694E28F /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7A418A5A0C28421FA3F3A3E6 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3E88DDD1A89946C79640C66D /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5EF1018DE8FD420D824D5F3B /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -860,6 +854,10 @@
 				1A694CDEA9144946A453257A /* RalewayBold.ttf */,
 				F24C03CC9D864459ACFFD222 /* RalewayRegular.ttf */,
 				742018F0636A4DB096F3C852 /* Feather.ttf */,
+				745BE8CD6DBB499BA694E28F /* AntDesign.ttf */,
+				7A418A5A0C28421FA3F3A3E6 /* FontAwesome5_Brands.ttf */,
+				3E88DDD1A89946C79640C66D /* FontAwesome5_Regular.ttf */,
+				5EF1018DE8FD420D824D5F3B /* FontAwesome5_Solid.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1265,20 +1263,6 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C62825C62061ABF300E7737C /* libRNImagePicker.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNImagePicker.a;
-			remoteRef = C62825C52061ABF300E7737C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62825CC2061AC4500E7737C /* libRNImagePicker.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNImagePicker.a;
-			remoteRef = C62825CB2061AC4500E7737C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C652B09B20619A5E0056ED23 /* libRNFetchBlob.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1422,6 +1406,10 @@
 				A832B49C788844C29F7A008A /* RalewayBold.ttf in Resources */,
 				3DEB098804A948B4AB3AA126 /* RalewayRegular.ttf in Resources */,
 				EADC7D5D300645D6A39087C7 /* Feather.ttf in Resources */,
+				8B1A9E5492624A9285D8498F /* AntDesign.ttf in Resources */,
+				A753ECED222343DF9241319C /* FontAwesome5_Brands.ttf in Resources */,
+				A2ABCF025AFD45EEA85C7D05 /* FontAwesome5_Regular.ttf in Resources */,
+				AEEF2F0239D34C548BBF6237 /* FontAwesome5_Solid.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

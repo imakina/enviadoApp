@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, View } from "react-native";
 import styles from "./Styles/ButtonIconStyles";
 import { Icon } from "react-native-elements";
 
@@ -42,13 +42,15 @@ export default class ButtonIcon extends Component {
         style={[styles.button, this.styles()]}
         onPress={this.props.onPress}
       >
-        <Icon
-          name={this.props.icon.name}
-          type={this.props.icon.type}
-          style={styles.icon}
-          size={35}
-          iconStyle={styles.iconText}
-        />
+        <View style={styles.iconview}>
+          <Icon
+            name={this.props.icon.name}
+            type={this.props.icon.type}
+            style={styles.icon}
+            size={35}
+            iconStyle={styles.iconText}
+          />
+        </View>
         { this.props.text !== '' &&
           <Text style={styles.text}>{this.props.text}</Text>
         }

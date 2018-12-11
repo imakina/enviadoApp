@@ -6,7 +6,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.snow,
-    paddingTop: 50
+    // paddingTop: 50
   },
   main: {
     alignItems: "center",

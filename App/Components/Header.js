@@ -45,6 +45,7 @@ export default class Header extends Component {
     return (
       <HeaderElement
         statusBarProps={{ barStyle: 'light-content' }}
+        backgroundColor="transparent"
         {...this.build()}
       />
     )

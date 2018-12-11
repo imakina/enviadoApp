@@ -6,7 +6,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.snow,
-    paddingTop: 70
+    // paddingTop: 70
   },
   formContainer: {
     // flex: 1,
