@@ -56,6 +56,7 @@ class SignatureScreen extends Component {
     //result.encoded - for the base64 encoded png
     //result.pathName - for the file path name
     // console.tron.log(result);
+    console.log("signature", result.encoded);
     this.setState({ 
       signature: result.encoded 
     }, function() {

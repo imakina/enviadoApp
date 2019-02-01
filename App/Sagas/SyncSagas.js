@@ -13,6 +13,7 @@ const selectSyncError = state => state.sync.failure;
 function* syncRemitos(item, account, api) {
   if (item.estado_mobile == 7) {
     // console.tron.display({name:'accontudsmdkasdmnfdfgfdgfffffff', value:item});
+    console.log("item",item);
     let data = {
       idRemito: item.idRemito,
       estado: item.estado,

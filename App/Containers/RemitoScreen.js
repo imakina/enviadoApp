@@ -152,9 +152,14 @@ class RemitoScreen extends Component {
 
   onUpdate = data => {
 
-    data.firma = (this.state.motivo == 0 ? this.state.signature : "")
+    // console.log("motivo", this.state.motivo);
+    // console.log("firma", this.state.signature);
+
+    // data.firma = (this.state.motivo == 0 ? this.state.signature : "")
+    data.firma = (this.state.motivo == 0 ? this.state.signature : this.state.picture)
     data.scan = (this.state.motivo == 0 ? this.state.scan : "")
-    data.firma = (this.state.motivo != 0 ? this.state.picture : "")
+
+    // data.firma = (this.state.motivo != 0 ? this.state.picture : "")
 
     this.setState({ updating: true });
     this.props.updateRemito(data);

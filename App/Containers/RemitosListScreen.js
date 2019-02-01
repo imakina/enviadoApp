@@ -177,7 +177,7 @@ class RemitosListScreen extends React.PureComponent {
         ? tempDist
         : parseFloat(Math.round(tempDist * 100) / 100).toFixed(2);
         
-        console.log("distance", distance)
+        // console.log("distance", distance)
 
         return {...item, distance: distance};
       });
@@ -426,7 +426,7 @@ class RemitosListScreen extends React.PureComponent {
   getDistance = destination => {
 
     if (!this.state.latitude) {
-      console.log("invalid coords ", this.state.latitude)
+      // console.log("invalid coords ", this.state.latitude)
       return "?";
     }
 
