@@ -10,7 +10,7 @@ import { NavigationActions } from "react-navigation";
 
 export function* check() {
   // Async information
-  console.tron.display({ preview: "reading from async" });
+  // console.tron.display({ preview: "reading from async" });
   const serAccount = yield AsyncStorage.getItem("account");
   const serPicture = yield AsyncStorage.getItem("picture");
   const account = JSON.parse(serAccount);
@@ -23,9 +23,10 @@ export function* check() {
 
   if (account) {
     //TODO evaluate date
-    console.tron.log("Already have a login saved");
+    // console.tron.log("Alresady have a login saved");
     yield put(LoginActions.loginSuccess(account));
-    yield put(NavigationActions.navigate({ routeName: "HomeScreen" }));
+    // yield put(NavigationActions.navigate({ routeName: "HomeScreen" }));
+    yield put(NavigationActions.navigate({ routeName: "WelcomeScreen" }));
   }
 }
 

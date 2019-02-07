@@ -10,6 +10,9 @@ import RemitoScreen from '../Containers/RemitoScreen'
 import RemitosListScreen from '../Containers/RemitosListScreen'
 import LoginScreen from '../Containers/LoginScreen'
 import LaunchScreen from '../Containers/LaunchScreen'
+import WelcomeScreen from '../Containers/WelcomeScreen'
+import ScanPackageScreen from '../Containers/ScanPackageScreen'
+import PackageListScreen from '../Containers/PackageListScreen'
 
 import styles from './Styles/NavigationStyles'
 
@@ -25,7 +28,10 @@ const PrimaryNav = StackNavigator({
   RemitoScreen: { screen: RemitoScreen },
   RemitosListScreen: { screen: RemitosListScreen },
   LoginScreen: { screen: LoginScreen },
-  LaunchScreen: { screen: LaunchScreen }
+  LaunchScreen: { screen: LaunchScreen },
+  WelcomeScreen: { screen: WelcomeScreen },
+  ScanPackageScreen: { screen: ScanPackageScreen },
+  PackageListScreen: { screen: PackageListScreen }
 }, {
   // Default config for all screens
   headerMode: 'none',
