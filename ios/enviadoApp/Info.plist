@@ -104,5 +104,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Se usa tu ubicacion para calcular las rutas</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Se usa tu ubicacion para calcular las rutas</string>
 </dict>
 </plist>

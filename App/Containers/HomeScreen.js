@@ -29,6 +29,8 @@ class HomeScreen extends Component {
       quantity_hojas: 0
     };
   }
+  
+  goBack = () => this.props.navigation.navigate("WelcomeScreen");
 
   onPressingHojaDeRuta = () => {
     this.props.navigation.navigate("HojaRutaScreen");
@@ -127,8 +129,9 @@ class HomeScreen extends Component {
     return (
       <View style={styles.container}>
         <Header
-          left={{ icon: "bars" }}
-          right={{ icon: "sign-out", onPress: () => this.onPressingLogout() }}
+          // left={{ icon: "bars" }}
+          left={{ icon: "chevron-left", onPress: () => this.goBack() }}
+          // right={{ icon: "sign-out", onPress: () => this.onPressingLogout() }}
           title="ENVIADO.COM"
         />
 

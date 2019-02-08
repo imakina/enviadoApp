@@ -1,35 +1,45 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { Icon } from "react-native-elements";
+import { View } from "react-native";
+import { Button } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LoginActions from "../Redux/LoginRedux";
 import SyncActions from "../Redux/SyncRedux";
 // Components
-import ButtonIcon from '../Components/ButtonIcon'
 import Header from "../Components/Header";
 // Styles
 import styles from "./Styles/WelcomeScreenStyle";
-import { Colors, Images } from "../Themes";
+import { Colors } from "../Themes";
 
-var Spinner = require('react-native-spinkit')
+const WelcomeButton = ({icon, title, onpress}) => (
+    <Button
+      icon={{
+        name: icon,
+        size: 30,
+        color: "white",
+        type : "font-awesome"
+      }}
+      title={title}
+      buttonStyle={{backgroundColor:Colors.error, borderRadius: 2, marginTop: 10}}
+      onPress={onpress} 
+    />
+)
 
 class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      image: null,
-      quantity: 0,
-      updated: 0,
-      quantity_hojas: 0
     };
   }
 
   handlePressHR = () => this.props.navigation.navigate("HomeScreen");
   handlePressOR = () => this.props.navigation.navigate("PackageListScreen");
   handlePressDE = () => this.props.navigation.navigate("DepositoScreen");
-  
+
+  onPressingLogout = () => {
+    // this.props.attemptLogout();
+    this.props.navigation.goBack()
+  };
 
   componentDidMount() {
   }
@@ -38,6 +48,21 @@ class WelcomeScreen extends Component {
   }
 
   render() {
+
+    const buttonList = [
+      {id:1,icon: 'th-list', title: 'HOJA DE RUTA', onpress: ()=>this.handlePressHR()},
+      {id:2,icon: 'barcode', title: 'ORDEN DE RETIRO', onpress: ()=>this.handlePressOR()},
+      {id:3,icon: 'industry', title: 'DEPOSITO', onpress: ()=>this.handlePressDE()},
+    ];
+
+    const buttons = buttonList.map((button) => 
+      <WelcomeButton
+        key={button.id}
+        icon={button.icon}
+        title={button.title}
+        onpress={button.onpress} 
+      />
+    );
 
     return (
       <View style={styles.container}>
@@ -49,14 +74,10 @@ class WelcomeScreen extends Component {
         />
 
         <View style={[styles.formContainer]}>
+          
+          {buttons}
 
-          <ButtonIcon
-        icon={{ name: 'th-list', type: 'font-awesome' }}
-            text="HOJA DE RUTA"
-            onPress={() => this.handlePressHR()} 
-          />
-
-          <View style={{marginTop:10}}></View>
+          {/* <View style={{marginTop:10}}></View>
           <ButtonIcon
             icon={{ name: 'barcode', type: 'font-awesome' }}
             text="ORDEN DE RETIRO"
@@ -68,8 +89,8 @@ class WelcomeScreen extends Component {
             icon={{ name: 'industry', type: 'font-awesome' }}
             text="DEPOSITO"
             onPress={() => this.handlePressDE()} 
-          />
-        </View>
+          />*/}
+        </View> 
 
       </View>
     );

@@ -84,7 +84,8 @@ export function* login(api, action) {
     yield put(LoginActions.loginSuccess(data));
     //TODO
     //remove navigate from saga
-    yield put(NavigationActions.navigate({ routeName: "HomeScreen" }));
+    // yield put(NavigationActions.navigate({ routeName: "HomeScreen" }));
+    yield put(NavigationActions.navigate({ routeName: "WelcomeScreen" }));
   } else {
     // network error
     // console.tron.log({status:'SAGA_LOGINFAIL', value: response})

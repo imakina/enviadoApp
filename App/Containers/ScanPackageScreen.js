@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import { View, Platform } from 'react-native'
+import { View, Text, TextInput, Platform, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
+import { Icon } from 'react-native-elements'
+import SignatureCapture from 'react-native-signature-capture';
+import ButtonIcon from '../Components/ButtonIcon'
 import Header from "../Components/Header";
 // Barcode
 // import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
@@ -10,8 +13,11 @@ const BarcodeScanner = Platform.select({
   android: () => require('react-native-barcode-scanner-google').default,
   ios: () => require('react-native-camera').default
 })();
+import Camera from 'react-native-camera';
 
-import styles from './Styles/ScanPackageScreenStyle'
+import RNFS from 'react-native-fs'
+
+import styles from './Styles/SignatureScreenStyle'
 
 class ScanPackageScreen extends Component {
 
@@ -19,11 +25,12 @@ class ScanPackageScreen extends Component {
     super(props);
     this.state = {
       show : true,
+      // data : props.navigation.state.params,
       signature : null,
       dragged : false,
       step : props.navigation.state.params.step,
       partdni : "",
-      partname : ""      
+      partname : ""
     }
   }
 
@@ -35,73 +42,69 @@ class ScanPackageScreen extends Component {
     this.props.navigation.goBack()
   }
 
-  // onSigned = () => {
-  //   console.tron.log({name:'saving'})
-  //   this.refs["sign"].saveImage();
-  // }
+  onSigned = () => {
+    console.tron.log({name:'saving'})
+    this.refs["sign"].saveImage();
+  }
 
-  // onClean = () => {
-  //   this.setState({ show: false, dragged: false }); 
-  //   setTimeout( () => { this.setState({ show: true }); }, 130);
-  // }
+  onClean = () => {
+    this.setState({ show: false, dragged: false }); 
+    setTimeout( () => { this.setState({ show: true }); }, 130);
+  }
 
-  // _onSaveEvent = (result) => {
-  //   //result.encoded - for the base64 encoded png
-  //   //result.pathName - for the file path name
-  //   // console.tron.log(result);
-  //   console.log("signature", result.encoded);
-  //   this.setState({ 
-  //     signature: result.encoded 
-  //   }, function() {
-  //     // console.tron.log("then")
-  //     const { navigation } = this.props;
-  //     navigation.goBack();
-  //     navigation.state.params.onSign(this.state.signature);
-  //   })
-  // }
+  _onSaveEvent = (result) => {
+    //result.encoded - for the base64 encoded png
+    //result.pathName - for the file path name
+    // console.tron.log(result);
+    console.log("signature", result.encoded);
+    this.setState({ 
+      signature: result.encoded 
+    }, function() {
+      // console.tron.log("then")
+      const { navigation } = this.props;
+      navigation.goBack();
+      navigation.state.params.onSign(this.state.signature);
+    })
+  }
 
-  // _onDragEvent = () => {
-  //   // This callback will be called when the user enters signature
-  //   console.tron.log("dragged");
-  //   this.setState({ dragged : true})
-  // }
+  _onDragEvent = () => {
+    // This callback will be called when the user enters signature
+    console.tron.log("dragged");
+    this.setState({ dragged : true})
+  }
 
-  // saveSign() { this.refs["sign"].saveImage(); }
-  // resetSign() { this.refs["sign"].resetImage(); }
+  saveSign() { this.refs["sign"].saveImage(); }
+  resetSign() { this.refs["sign"].resetImage(); }
 
   /////////////////////////////// BARCODE
 
-  // saveScan = () => {
-  //   // save to the parent
-  //   const { navigation } = this.props;
-  //   navigation.state.params.onBarcode(this.state.package);
-  // }
-
-  scannedBarCode({data, type}) {
-    // this.setState({package: data, step:"signature"}, () => {
-    //   this.saveScan();
-    // })
-
+  saveScan = () => {
+    // save to the parent
     const { navigation } = this.props;
-    navigation.state.params.onBarcode(data);
-
+    navigation.state.params.onBarcode(this.state.dni);
   }
 
-  // handleChangeDni = (text) => {
-  //   this.setState({ partdni: text })
-  // }
+  scannedBarCode({data, type}) {
+    this.setState({dni: data, step:"signature"}, () => {
+      this.saveScan();
+    })
+  }
 
-  // handleChangeName = (text) => {
-  //   this.setState({ partname: text })
-  // }
+  handleChangeDni = (text) => {
+    this.setState({ partdni: text })
+  }
 
-  // handleSave = () => {
-  //   const scanned = {
-  //     data : this.state.partdni + " " + this.state.partname,
-  //     type : 'none'
-  //   }
-  //   this.scannedBarCode(scanned)
-  // }
+  handleChangeName = (text) => {
+    this.setState({ partname: text })
+  }
+
+  handleSave = () => {
+    const scanned = {
+      data : this.state.partdni + " " + this.state.partname,
+      type : 'none'
+    }
+    this.scannedBarCode(scanned)
+  }
 
   handleException = (exceptionKey) => {
     var exception = ''
@@ -121,29 +124,29 @@ class ScanPackageScreen extends Component {
     this.setState({error:exception})
   }
 
-  // takePicture() {
-  //   const options = {};
-  //   //options.location = ...
-  //   this.camera
-  //     .capture({ metadata: options })
-  //     .then(data => {
+  takePicture() {
+    const options = {};
+    //options.location = ...
+    this.camera
+      .capture({ metadata: options })
+      .then(data => {
 
-  //       let base64Img = data.path;
-  //       RNFS.readFile( base64Img, 'base64' )
-  //         .then( res => { 
+        let base64Img = data.path;
+        RNFS.readFile( base64Img, 'base64' )
+          .then( res => { 
             
-  //           //this.setState( { uri: res } )
-  //           const { navigation } = this.props;
-  //           navigation.goBack();
-  //           console.log(res);
-  //           navigation.state.params.onCapture(res); 
+            //this.setState( { uri: res } )
+            const { navigation } = this.props;
+            navigation.goBack();
+            console.log(res);
+            navigation.state.params.onCapture(res); 
         
-  //         }
-  //       )
-  //       // this.goBack(data)
-  //     })
-  //     .catch(err => console.tron.log(err));
-  // }
+          }
+        )
+        // this.goBack(data)
+      })
+      .catch(err => console.tron.log(err));
+  }
 
 
 //   Platform.OS === 'iso' ? <ScannerComponent
@@ -167,6 +170,30 @@ class ScanPackageScreen extends Component {
 
     return (
 
+      this.state.step == "capture" ?
+
+        <View style={styles.camera}>
+          <Camera 
+              style={styles.preview}
+              ref={cam => this.camera=cam}
+              aspect={Camera.constants.Aspect.fit}
+              captureQuality={Camera.constants.CaptureQuality.low}>
+
+              <TouchableOpacity style={styles.capture}>
+                <Icon
+                  name="camera"
+                  type="font-awesome"
+                  color="white"
+                  size={30}
+                  onPress={() => this.takePicture()}
+                />
+              </TouchableOpacity>
+
+          </Camera>
+        </View>
+
+      :
+
         <View style={styles.container}>
 
           <Header
@@ -175,6 +202,9 @@ class ScanPackageScreen extends Component {
           />
 
           <View style={styles.content}> 
+
+            { this.state.step === "barcode" &&
+            // Barcode
 
               <View style={{ flexGrow: 1 }}>
 
@@ -189,7 +219,96 @@ class ScanPackageScreen extends Component {
                   >
                 </BarcodeScanner>
               
+                <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
+                  <View style={{width:'70%'}}>
+                    <TextInput
+                      placeholder='Ingrese Numero DNI'
+                      keyboardType="numeric"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onChangeText={this.handleChangeDni}
+                      onSubmitEditing={()=> this.nameInput.focus()}
+                    />
+                    <TextInput
+                      placeholder='Ingrese el nombre'
+                      keyboardType="default"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onChangeText={this.handleChangeName}
+                      ref={(input)=> this.nameInput = input}
+                    />
+                  </View>
+                  <ButtonIcon
+                    disabled={!(this.state.partdni.length > 0 && this.state.partname.length > 0)}
+                    icon={{ name: 'check', type: 'font-awesome' }}
+                    text={'OK'}
+                    onPress={() => this.handleSave()} 
+                  />
+                </View>
+        
+                {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
+
               </View>
+
+            }
+
+            { this.state.step === "signature" &&
+            // Signature
+
+              <View style={{ flexGrow: 1 }}>
+              
+                <View style={{padding: 5}}>
+                  <Text style={{fontSize: 17, textAlign: 'center'}}>{"DNI: "}{this.state.dni}</Text>
+                </View>
+
+                { this.state.show ? 
+
+                  <SignatureCapture
+                    style={[{flex:1},styles.pad]}
+                    ref="sign"
+                    onSaveEvent={this._onSaveEvent}
+                    onDragEvent={this._onDragEvent}
+                    saveImageFileInExtStorage={false}
+                    showNativeButtons={false}
+                    showTitleLabel={false}
+                    viewMode={"portrait"}
+                  />
+                    
+                :
+
+                  <View style={styles.padbrush}> 
+                    <Icon
+                      name='round-brush'
+                      type='entypo'
+                      size={120}
+                      color= '#ff4f00' />
+                  </View> 
+
+                }
+
+                <View style={{ paddingBottom: 20, paddingLeft: 20, paddingRight: 20}}>
+
+                  <View style={{paddingBottom: 10}}>
+                    <ButtonIcon
+                      disabled={!this.state.dragged}
+                      icon={{ name: 'check', type: 'font-awesome' }}
+                      text={'Recibido'}
+                      onPress={() => this.onSigned()} 
+                    />
+                  </View>
+
+                  <ButtonIcon
+                    type={'ko'}
+                    icon={{ name: 'round-brush', type: 'entypo' }}
+                    text={'Limpiar'}
+                    onPress={() => this.onClean()} 
+                  />
+
+                </View>
+
+              </View>
+
+            }
 
           </View>
 

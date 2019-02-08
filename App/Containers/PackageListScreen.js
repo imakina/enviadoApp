@@ -13,6 +13,7 @@ import ItemRemito from "../Components/ItemRemito";
 import HeaderRemito from "../Components/HeaderRemito";
 import Header from "../Components/Header";
 import Spinner from "../Components/Spinner";
+import colors from "../Themes/Colors";
 
 class PackagesListScreen extends React.PureComponent {
 
@@ -21,7 +22,6 @@ class PackagesListScreen extends React.PureComponent {
   }
 
   goBack = () => {
-    this.clearWatch();
     this.props.navigation.navigate("WelcomeScreen");
   }
 
@@ -29,7 +29,7 @@ class PackagesListScreen extends React.PureComponent {
     fetching: false,
     updating : false,
     tabIndex: 0,
-    dataObjects: {},
+    dataObjects: [],
     saveproximity : false,
     latitude : null,
     longitude : null
@@ -37,11 +37,16 @@ class PackagesListScreen extends React.PureComponent {
 
   renderRow = ({ item }) => {
     return (
-      <ItemRemito
-        onPressSingleItem={() => this.onPressSingleItem(item)}
-        onPressOpenMaps={() => this.onPressOpenMaps(item)}
-        item={item}
-      />
+      <View
+        style={{
+          height: 60, 
+          margin: 10, 
+          backgroundColor : colors.facebook,
+          borderRadius:10,
+          padding:20
+          }}>
+        <Text style={{color:colors.snow}}>{item}</Text>
+      </View>
     );
   };
 
@@ -65,60 +70,34 @@ class PackagesListScreen extends React.PureComponent {
   //
   reload = () => {
 
-    if (!this.props.remitos) {
-      console.log('without remitos')
-      return;
-    }
+    // if (!this.props.remitos) {
+    //   console.log('without remitos')
+    //   return;
+    // }
 
     var dataOrdered;
 
-    switch (this.state.tabIndex) {
-    case 0:
-      // pending
-      // data = this.state.dataObjects
-      data = this.props.remitos
-        .filter(item => item.estado_mobile == 99)
-        .map(item => item);
+    // pending
+    // data = this.state.dataObjects
+    // data = this.props.remitos
+    //   .filter(item => item.estado_mobile == 99)
+    //   .map(item => item);
 
-      var dataCloned = [ ...data]
-      
-      //
-      // add the calculated distance field
-      //
-      const dataCopy = dataCloned.map((item) => {
-        
-        const tempDist = this.getDistance({
-          latitud: item.latitud,
-          longitud: item.longitud
-        });
-        
-        // format distance
-        const distance = isNaN(tempDist)
-        ? tempDist
-        : parseFloat(Math.round(tempDist * 100) / 100).toFixed(2);
-        
-        // console.log("distance", distance)
-
-        return {...item, distance: distance};
-      });
-
-      // default with gps 
-      dataOrdered = dataCopy;
-
-      // order by proximity
-      if (this.state.saveproximity) 
-        dataOrdered = dataCopy.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+    var dataCloned = [ ...this.state.dataObjects]
     
-      console.log("end order")
+    //
+    // add the calculated distance field
+    //
+    const dataCopy = dataCloned.map((item) => {
 
-      break;
-        
-    case 1:
-      // full list
-      // dataOrdered = this.state.dataObjects
-      dataOrdered = this.props.remitos;
-      break;
-    }
+      return {...item, nroRemito: '111111'};
+    
+    });
+
+    // default with gps 
+    dataOrdered = dataCopy;
+
+    console.log("end order")
       
     // console.table(dataOrdered);
     this.setState({ dataObjects: dataOrdered })
@@ -201,12 +180,13 @@ class PackagesListScreen extends React.PureComponent {
 
   componentDidMount() {
     // get remitos list
-    this.setState({ tabIndex: 0 }, () => this.reload());
-    this.myWatchPosition();
+    // this.setState({ tabIndex: 0 }, () => this.reload());
+    // this.myWatchPosition();
+    console.log('aaaa')
   }
 
   componentWillUnmount() {
-    this.clearWatch();
+    // this.clearWatch();
   }
 
   watchID = null;
@@ -249,7 +229,7 @@ class PackagesListScreen extends React.PureComponent {
     // console.tron.log({ item: 'item', value: item })
     this.props.selectedRemitos(item);
     //clearwatch
-    this.clearWatch();
+    // this.clearWatch();
     //navigation
     this.props.navigation.navigate("RemitoScreen");
   };
@@ -291,13 +271,17 @@ class PackagesListScreen extends React.PureComponent {
       // onBarcode: this.onScanned,
       // onSign: this.onSignature,
       onPackage: this.onCapturePackage, 
+      step : "package"
     });
   }
 
   onCapturePackage = packagescanned => {
-    var dataCloned = [ ...this.state.dataObjects]
-    dataCloned.push(packagescanned);
-    this.setState({ dataObjects: dataCloned })
+    console.log(packagescanned);
+    // var dataCloned = [ ...this.state.dataObjects];
+    var newStateArray = this.state.dataObjects.slice();
+    newStateArray.push(packagescanned);
+    this.setState({dataObjects: newStateArray});
+    // 
   }
 
   // distance gps

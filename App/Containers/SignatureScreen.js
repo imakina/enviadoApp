@@ -30,7 +30,8 @@ class SignatureScreen extends Component {
       dragged : false,
       step : props.navigation.state.params.step,
       partdni : "",
-      partname : ""
+      partname : "",
+      packageNumber : ""
     }
   }
 
@@ -75,6 +76,31 @@ class SignatureScreen extends Component {
 
   saveSign() { this.refs["sign"].saveImage(); }
   resetSign() { this.refs["sign"].resetImage(); }
+
+  /////////////////////////////// PACKAGE
+
+  handleChangePackage = (text) => {
+    this.setState({ packageNumber: text })
+  }
+
+  handleSavePackage = () => {
+    const scanned = {
+      data : this.state.packageNumber,
+      type : 'none'
+    }
+    this.scannedPackageNumber(scanned)
+  }
+
+  scannedPackageNumber({data, type}) {
+    this.setState({ packageNumber: data }, () => {
+      this.saveScanPackage();
+    })
+  }
+
+  saveScanPackage = () => {
+    const { navigation } = this.props;
+    navigation.state.params.onPackage(this.state.packageNumber);
+  }
 
   /////////////////////////////// BARCODE
 
@@ -305,6 +331,47 @@ class SignatureScreen extends Component {
                   />
 
                 </View>
+
+              </View>
+
+            }
+
+            { this.state.step === "package" &&
+            // Package
+
+              <View style={{ flexGrow: 1 }}>
+
+                <BarcodeScanner
+                  style={{ flex: 1 }}
+                  onBarcodeRead={this.scannedPackageNumber.bind(this)}
+                  onException={this.handleException.bind(this)}
+                  // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
+                  // torchMode={TorchMode.ON /* could be the default OFF */}
+                  // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
+                  // barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}
+                  >
+                </BarcodeScanner>
+              
+                <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
+                  <View style={{width:'70%'}}>
+                    <TextInput
+                      placeholder='Ingrese Package'
+                      keyboardType="numeric"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onChangeText={this.handleChangePackage}
+                      onSubmitEditing={()=> this.nameInput.focus()}
+                    />
+                  </View>
+                  <ButtonIcon
+                    disabled={!(this.state.packageNumber.length > 0)}
+                    icon={{ name: 'check', type: 'font-awesome' }}
+                    text={'OK'}
+                    onPress={() => this.handleSavePackage()} 
+                  />
+                </View>
+        
+                {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
 
               </View>
 
