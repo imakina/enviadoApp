@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, Platform, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, Platform, TouchableOpacity, Alert } from 'react-native'
 import { connect } from 'react-redux'
-import { Icon } from 'react-native-elements'
+import { Icon, Button } from 'react-native-elements'
 import SignatureCapture from 'react-native-signature-capture';
 import ButtonIcon from '../Components/ButtonIcon'
 import Header from "../Components/Header";
@@ -18,6 +18,7 @@ import Camera from 'react-native-camera';
 import RNFS from 'react-native-fs'
 
 import styles from './Styles/SignatureScreenStyle'
+import { Colors } from '../Themes';
 
 class SignatureScreen extends Component {
 
@@ -39,7 +40,7 @@ class SignatureScreen extends Component {
     // this.setState({step:"barcode"})
   }
 
-  onPressingBack = () => {
+  goBack = () => {
     this.props.navigation.goBack()
   }
 
@@ -94,6 +95,23 @@ class SignatureScreen extends Component {
   scannedPackageNumber({data, type}) {
     this.setState({ packageNumber: data }, () => {
       this.saveScanPackage();
+
+      Alert.alert(
+        "Escanear otro paquete ?",
+        `${data} agregado correctamente`,
+        [
+          {
+            text: "Si, uno mas",
+            onPress: () => console.log('vamos por uno mas')
+          },
+          {
+            text: "No tengo mas paquetes",
+            onPress: () => this.goBack(),
+            style: "cancel"
+          }
+        ],
+        { cancelable: false }
+      );
     })
   }
 
@@ -224,7 +242,7 @@ class SignatureScreen extends Component {
 
           <Header
             title={this.state.step}
-            left={{ icon: "chevron-left", onPress: () => this.onPressingBack() }}
+            left={{ icon: "chevron-left", onPress: () => this.goBack() }}
           />
 
           <View style={styles.content}> 
@@ -363,11 +381,12 @@ class SignatureScreen extends Component {
                       onSubmitEditing={()=> this.nameInput.focus()}
                     />
                   </View>
-                  <ButtonIcon
+                  <Button
                     disabled={!(this.state.packageNumber.length > 0)}
                     icon={{ name: 'check', type: 'font-awesome' }}
-                    text={'OK'}
-                    onPress={() => this.handleSavePackage()} 
+                    title={'OK'}
+                    onPress={() => this.handleSavePackage()}
+                    buttonStyle={{marginTop:3, backgroundColor:Colors.facebook}} 
                   />
                 </View>
         

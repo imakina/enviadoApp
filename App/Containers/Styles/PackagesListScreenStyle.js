@@ -44,7 +44,8 @@ export default StyleSheet.create({
   // },
 
   listContent : {
-    flexGrow: 1
+    flexGrow: 1,
+    marginTop: 30
   },
 
   textButtonGroup: {

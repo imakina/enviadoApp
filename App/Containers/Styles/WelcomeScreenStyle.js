@@ -15,7 +15,7 @@ export default StyleSheet.create({
     marginTop: Metrics.screenHeight / 10
   },
   formContainer: {
-    padding: 20
+    // padding: 20
   },
 
   buttonContainer: {

@@ -1,19 +1,13 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity,  Switch } from "react-native";
+import { View, Text, FlatList } from "react-native";
+import { ListItem, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import getDirections from "react-native-google-maps-directions";
-// import PackagesActions from "../Redux/PackagesRedux";
-// import SyncActions from "../Redux/SyncRedux";
-// import LocationActions from "../Redux/LocationRedux";
 // Styles
 import styles from "./Styles/PackagesListScreenStyle";
-// import { Colors } from '../Themes'
+import { Colors } from '../Themes'
 // Components
-import ItemRemito from "../Components/ItemRemito";
-import HeaderRemito from "../Components/HeaderRemito";
 import Header from "../Components/Header";
-import Spinner from "../Components/Spinner";
-import colors from "../Themes/Colors";
 
 class PackagesListScreen extends React.PureComponent {
 
@@ -36,26 +30,28 @@ class PackagesListScreen extends React.PureComponent {
   };
 
   renderRow = ({ item }) => {
+
+ 
     return (
-      <View
-        style={{
-          height: 60, 
-          margin: 10, 
-          backgroundColor : colors.facebook,
-          borderRadius:10,
-          padding:20
-          }}>
-        <Text style={{color:colors.snow}}>{item}</Text>
-      </View>
+
+      <ListItem
+        // key={i}
+        leftIcon={{ name : 'radio-button-checked'}}
+        title={item}
+        rightElement={null}
+        // subtitle={new Date().toLocaleString('es-EN', { hour12: true, 
+                                            //  hour: "numeric", 
+                                            //  minute: "numeric"})}
+      />
     );
   };
 
-  handleSaveProximity = () => {
-    // console.log({name:'checkboxChanged', value:!this.state.saveproximity})
-    this.setState({ saveproximity: !this.state.saveproximity }, () => this.reload())
-    // reorder the grid after proximity check change
-    console.log(this.state.tabIndex);
-  }
+  // handleSaveProximity = () => {
+  //   // console.log({name:'checkboxChanged', value:!this.state.saveproximity})
+  //   this.setState({ saveproximity: !this.state.saveproximity }, () => this.reload())
+  //   // reorder the grid after proximity check change
+  //   console.log(this.state.tabIndex);
+  // }
 
   //
   // change selection
@@ -64,54 +60,29 @@ class PackagesListScreen extends React.PureComponent {
     // if (this.state.tabIndex != index)
     this.setState({ tabIndex: index }, () => this.reload());
   }
-  
-  //
-  // reload the data without selecting a new
-  //
-  reload = () => {
-
-    // if (!this.props.remitos) {
-    //   console.log('without remitos')
-    //   return;
-    // }
-
-    var dataOrdered;
-
-    // pending
-    // data = this.state.dataObjects
-    // data = this.props.remitos
-    //   .filter(item => item.estado_mobile == 99)
-    //   .map(item => item);
-
-    var dataCloned = [ ...this.state.dataObjects]
-    
-    //
-    // add the calculated distance field
-    //
-    const dataCopy = dataCloned.map((item) => {
-
-      return {...item, nroRemito: '111111'};
-    
-    });
-
-    // default with gps 
-    dataOrdered = dataCopy;
-
-    console.log("end order")
-      
-    // console.table(dataOrdered);
-    this.setState({ dataObjects: dataOrdered })
-
-  };
 
   // Render a footer?
-  renderFooter = () => (
-    <Text style={[styles.label, styles.sectionHeader]}> - Footer - </Text>
-  );
+  renderFooter = () => {
+    if (this.state.dataObjects.length > 0)
+      return  (
+        <Button
+          icon={{
+            name: "check",
+            size: 30,
+            color: "white",
+            type : "font-awesome"
+          }}
+          title={"Enviar"}
+          buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
+        />
+      )
+    else
+        return null
+  };
 
   // Show this when data is empty
   renderEmpty = () => {
-    if (this.state.fetching)
+    // if (this.state.fetching)
       return (
         <Text
           style={[
@@ -119,11 +90,10 @@ class PackagesListScreen extends React.PureComponent {
             { padding: 20, textAlign: "center", marginTop: 30 }
           ]}
         >
-          {" "}
-          Buscando ...{" "}
+          Presione el icono de la camara para comenzar a escanear
         </Text>
       );
-    else return null;
+    // else return null;
   };
 
   renderSeparator = () => <Text style={styles.label}> - ~~~~~ - </Text>;
@@ -159,65 +129,60 @@ class PackagesListScreen extends React.PureComponent {
 
   componentWillReceiveProps(newProps) {
     //console.tron.display({name: 'props', value: newProps})
-    this.setState({
-      sync: newProps.sync,
-      dataObjects: newProps.remitos,
-      data: newProps.remitos,
-      fetching: newProps.fetching,
-    });
+    // this.setState({
+    //   sync: newProps.sync,
+    //   dataObjects: newProps.remitos,
+    //   data: newProps.remitos,
+    //   fetching: newProps.fetching,
+    // });
 
-    // console.log(newProps)
+    // // console.log(newProps)
 
-    if (this.state.sync) 
-      // console.log("syncRemitos", this.props.remitos.length)
-      if (this.state.sync.syncing == false) {
-        // console.log("updateindexSync")
-        // console.log("propsremitos", this.props.remitos)
-        this.updateIndex(0)
-        // this.setState({updating:false}) 
-      }
+    // if (this.state.sync) 
+    //   // console.log("syncRemitos", this.props.remitos.length)
+    //   if (this.state.sync.syncing == false) {
+    //     // console.log("updateindexSync")
+    //     // console.log("propsremitos", this.props.remitos)
+    //     this.updateIndex(0)
+    //     // this.setState({updating:false}) 
+    //   }
   }
 
   componentDidMount() {
-    // get remitos list
-    // this.setState({ tabIndex: 0 }, () => this.reload());
-    // this.myWatchPosition();
-    console.log('aaaa')
   }
 
   componentWillUnmount() {
-    // this.clearWatch();
   }
 
-  watchID = null;
+  // watchID = null;
 
-  myWatchPosition() {
-    console.log("init myWatchPosition",this.watchID)
-    this.setState({ gpsfetch : true })
+  // myWatchPosition() {
+  //   console.log("init myWatchPosition",this.watchID)
+  //   this.setState({ gpsfetch : true })
 
-    this.watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          gpsfetch : false,
-          error: null,
-        }, 
-          () => {
-            console.log("myWatchPosition get new position", this.state.latitude)
-            this.onAdquireLocation(position.coords.latitude, position.coords.longitude);
-            this.updateIndex(0);
-          }
-        );
-      },
-      (error) => { 
-        this.setState({ error: error.message }),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
-        console.log('error',error)
-        this.setState({ gpsfetch : false })
-      }
-    );
-  }
+  //   this.watchId = navigator.geolocation.watchPosition(
+  //     (position) => {
+  //       this.setState({
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude,
+  //         gpsfetch : false,
+  //         error: null,
+  //       }, 
+  //         () => {
+  //           console.log("myWatchPosition get new position", this.state.latitude)
+  //           this.onAdquireLocation(position.coords.latitude, position.coords.longitude);
+  //           this.updateIndex(0);
+  //         }
+  //       );
+  //     },
+  //     (error) => { 
+  //       this.setState({ error: error.message }),
+  //       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+  //       console.log('error',error)
+  //       this.setState({ gpsfetch : false })
+  //     }
+  //   );
+  // }
 
   onRequestingRemitos = todos => {
     this.setState({ fetching: true });
@@ -285,37 +250,37 @@ class PackagesListScreen extends React.PureComponent {
   }
 
   // distance gps
-  getDistance = destination => {
+  // getDistance = destination => {
 
-    if (!this.state.latitude) {
-      // console.log("invalid coords ", this.state.latitude)
-      return "?";
-    }
+  //   if (!this.state.latitude) {
+  //     // console.log("invalid coords ", this.state.latitude)
+  //     return "?";
+  //   }
 
-    // console.log("Dest",destination);
-    // console.log("state",this.state.longitude);
-    const R = 6371; // Radius of the earth in km
-    const dLat = this.deg2rad(destination.latitud - this.state.latitude); 
-    const dLon = this.deg2rad(destination.longitud - this.state.longitude);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.deg2rad(this.state.latitude)) *
-        Math.cos(this.deg2rad(destination.latitud)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; // Distance in km
+  //   // console.log("Dest",destination);
+  //   // console.log("state",this.state.longitude);
+  //   const R = 6371; // Radius of the earth in km
+  //   const dLat = this.deg2rad(destination.latitud - this.state.latitude); 
+  //   const dLon = this.deg2rad(destination.longitud - this.state.longitude);
+  //   const a =
+  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  //     Math.cos(this.deg2rad(this.state.latitude)) *
+  //       Math.cos(this.deg2rad(destination.latitud)) *
+  //       Math.sin(dLon / 2) *
+  //       Math.sin(dLon / 2);
+  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  //   const d = R * c; // Distance in km
     
-    // console.log("d",d)
+  //   // console.log("d",d)
 
-    if (d > 100) return "?";
+  //   if (d > 100) return "?";
 
-    return d || "?";
-  };
+  //   return d || "?";
+  // };
 
-  deg2rad = deg => {
-    return deg * (Math.PI / 180);
-  };
+  // deg2rad = deg => {
+  //   return deg * (Math.PI / 180);
+  // };
   
   // end distance gps
 
@@ -325,7 +290,7 @@ class PackagesListScreen extends React.PureComponent {
       <View style={styles.container}>
 
         <Header
-          title="PACKAGES"
+          title="PAQUETES"
           left={{ icon: "chevron-left", onPress: () => this.goBack() }}
           right={{ icon: "camera", onPress: () => this.onCamera() }}
         />
@@ -348,7 +313,7 @@ class PackagesListScreen extends React.PureComponent {
             keyExtractor={this.keyExtractor}
             initialNumToRender={this.oneScreensWorth}
             // ListHeaderComponent={this.renderHeader}
-            // ListFooterComponent={this.renderFooter}
+            ListFooterComponent={this.renderFooter}
             ListEmptyComponent={this.renderEmpty}
             // ItemSeparatorComponent={this.renderSeparator}
           />

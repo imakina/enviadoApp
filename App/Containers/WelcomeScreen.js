@@ -20,7 +20,7 @@ const WelcomeButton = ({icon, title, onpress}) => (
         type : "font-awesome"
       }}
       title={title}
-      buttonStyle={{backgroundColor:Colors.error, borderRadius: 2, marginTop: 10}}
+      buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
       onPress={onpress} 
     />
 )
@@ -41,12 +41,6 @@ class WelcomeScreen extends Component {
     this.props.navigation.goBack()
   };
 
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps(newProps) {
-  }
-
   render() {
 
     const buttonList = [
@@ -54,15 +48,6 @@ class WelcomeScreen extends Component {
       {id:2,icon: 'barcode', title: 'ORDEN DE RETIRO', onpress: ()=>this.handlePressOR()},
       {id:3,icon: 'industry', title: 'DEPOSITO', onpress: ()=>this.handlePressDE()},
     ];
-
-    const buttons = buttonList.map((button) => 
-      <WelcomeButton
-        key={button.id}
-        icon={button.icon}
-        title={button.title}
-        onpress={button.onpress} 
-      />
-    );
 
     return (
       <View style={styles.container}>
@@ -75,21 +60,17 @@ class WelcomeScreen extends Component {
 
         <View style={[styles.formContainer]}>
           
-          {buttons}
+          {
+            buttonList.map((button) => (
+              <WelcomeButton
+                key={button.id}
+                icon={button.icon}
+                title={button.title}
+                onpress={button.onpress} 
+              />
+            ))
+          }
 
-          {/* <View style={{marginTop:10}}></View>
-          <ButtonIcon
-            icon={{ name: 'barcode', type: 'font-awesome' }}
-            text="ORDEN DE RETIRO"
-            onPress={() => this.handlePressOR()}
-          />
-
-          <View style={{marginTop:10}}></View>
-          <ButtonIcon
-            icon={{ name: 'industry', type: 'font-awesome' }}
-            text="DEPOSITO"
-            onPress={() => this.handlePressDE()} 
-          />*/}
         </View> 
 
       </View>
@@ -100,21 +81,21 @@ class WelcomeScreen extends Component {
 const mapStateToProps = state => {
   // console.tron.display({name:'stop_home',value: state})
   return {
-    user: state.login.account,
-    picture: state.login.picture,
-    fetching: state.login.fetching,
+    // user: state.login.account,
+    // picture: state.login.picture,
+    // fetching: state.login.fetching,
     // sync
-    sync: state.sync,
-    hojaruta: state.hojaruta,
-    remitos: state.remitos
+    // sync: state.sync,
+    // hojaruta: state.hojaruta,
+    // remitos: state.remitos
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    attemptLogout: () => dispatch(LoginActions.loginOut()),
-    updatePicture: img => dispatch(LoginActions.loginPicture(img)),
-    attemptSync: () => dispatch(SyncActions.syncRequest())
+    // attemptLogout: () => dispatch(LoginActions.loginOut()),
+    // updatePicture: img => dispatch(LoginActions.loginPicture(img)),
+    // attemptSync: () => dispatch(SyncActions.syncRequest())
   };
 };
 
