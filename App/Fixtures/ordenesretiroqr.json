@@ -1,0 +1,8 @@
+[{
+    "id_orden_retiro_qr":1,
+    "codigo_qr":"12345",
+    "fecha_scan":"2019-02-10T00:00:00",
+    "latitud":-34.34,
+    "longitud":-54.23,
+    "fletero":31922
+}]

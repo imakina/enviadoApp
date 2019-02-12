@@ -44,5 +44,17 @@ export default {
       ok: true,
       data: require('../Fixtures/motivos.json')
     }
+  },
+  postOrdenRetiro: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/ordenesretiroqr.json')
+    }
+  },
+  getOrdenesRetiro: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/ordenesretiro.json')
+    }
   }
 }

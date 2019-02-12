@@ -12,6 +12,7 @@ import { RemitosTypes } from "../Redux/RemitosRedux";
 import { HojaRutaTypes } from "../Redux/HojaRutaRedux";
 import { MotivosTypes } from "../Redux/MotivosRedux";
 import { SyncTypes } from "../Redux/SyncRedux";
+import { OrdenesTypes } from "../Redux/OrdenesRedux";
 
 /* ------------- Sagas ------------- */
 
@@ -32,7 +33,10 @@ import {
 } from "./HojaRutaSagas";
 import { getMotivos } from "./MotivosSagas";
 import { sync } from "./SyncSagas";
-
+import {
+  saveOrden,
+  updateOrden
+} from "./OrdenesSagas";
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -68,6 +72,10 @@ export default function* root() {
     takeLatest(RemitosTypes.REMITOS_REHYDRATE, rehydrateRemitos),
     // takeLatest(RemitosTypes.REMITO_SYNC, syncRemitos),
     // takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVATED, getRemitos, api),
+
+    // some sagas about ordenes retiro
+    takeLatest(OrdenesTypes.ORDEN_UPDATE, updateOrden),
+    takeLatest(OrdenesTypes.ORDEN_SAVE, saveOrden, api),
 
     // some sagas about hojaderuta
     takeLatest(HojaRutaTypes.HOJA_RUTA_REQUEST, getHojaRuta, api),

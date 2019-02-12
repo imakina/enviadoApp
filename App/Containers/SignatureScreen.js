@@ -96,22 +96,22 @@ class SignatureScreen extends Component {
     this.setState({ packageNumber: data }, () => {
       this.saveScanPackage();
 
-      Alert.alert(
-        "Escanear otro paquete ?",
-        `${data} agregado correctamente`,
-        [
-          {
-            text: "Si, uno mas",
-            onPress: () => console.log('vamos por uno mas')
-          },
-          {
-            text: "No tengo mas paquetes",
-            onPress: () => this.goBack(),
-            style: "cancel"
-          }
-        ],
-        { cancelable: false }
-      );
+      // Alert.alert(
+      //   "Escanear otro paquete ?",
+      //   `${data} agregado correctamente`,
+      //   [
+      //     {
+      //       text: "Si, uno mas",
+      //       onPress: () => console.log('vamos por uno mas')
+      //     },
+      //     {
+      //       text: "No tengo mas paquetes",
+      //       onPress: () => this.goBack(),
+      //       style: "cancel"
+      //     }
+      //   ],
+      //   { cancelable: false }
+      // );
     })
   }
 
@@ -370,8 +370,8 @@ class SignatureScreen extends Component {
                   >
                 </BarcodeScanner>
               
-                <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
-                  <View style={{width:'70%'}}>
+                <View style={{flexDirection:'row', display:'flex', paddingBottom: 10, paddingTop: 10}}>
+                  <View style={{width:'75%'}}>
                     <TextInput
                       placeholder='Ingrese Package'
                       keyboardType="numeric"
@@ -388,6 +388,10 @@ class SignatureScreen extends Component {
                     onPress={() => this.handleSavePackage()}
                     buttonStyle={{marginTop:3, backgroundColor:Colors.facebook}} 
                   />
+                </View>
+                <View>
+                  <Text>Ultimo scan : {this.props.ordenes.last_package}</Text>
+                  <Text>Cantidad de paquetes : {this.props.ordenes.ordenes.length}</Text>
                 </View>
         
                 {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
@@ -406,6 +410,7 @@ class SignatureScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    ordenes: state.ordenes
   }
 }
 

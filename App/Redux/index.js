@@ -14,7 +14,8 @@ export default () => {
     motivos: require('./MotivosRedux').reducer,
     alert: require('./AlertRedux').reducer,
     sync: require('./SyncRedux').reducer,
-    location: require('./LocationRedux').reducer
+    location: require('./LocationRedux').reducer,
+    ordenes: require('./OrdenesRedux').reducer
   })
 
   return configureStore(rootReducer, rootSaga)

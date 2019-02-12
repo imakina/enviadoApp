@@ -3,6 +3,8 @@ import { View, Text, FlatList } from "react-native";
 import { ListItem, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import getDirections from "react-native-google-maps-directions";
+// import YourActions from '../Redux/YourRedux'
+import OrdenesActions from "../Redux/OrdenesRedux";
 // Styles
 import styles from "./Styles/PackagesListScreenStyle";
 import { Colors } from '../Themes'
@@ -74,6 +76,7 @@ class PackagesListScreen extends React.PureComponent {
           }}
           title={"Enviar"}
           buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
+          onPress={() => this.onSavePakages()}
         />
       )
     else
@@ -149,6 +152,7 @@ class PackagesListScreen extends React.PureComponent {
   }
 
   componentDidMount() {
+    // console.log(this.props.location)
   }
 
   componentWillUnmount() {
@@ -184,105 +188,82 @@ class PackagesListScreen extends React.PureComponent {
   //   );
   // }
 
-  onRequestingRemitos = todos => {
-    this.setState({ fetching: true });
-    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
-  };  
+  // onRequestingRemitos = todos => {
+  //   this.setState({ fetching: true });
+  //   this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
+  // };  
    
 
-  onPressSingleItem = item => {
-    // console.tron.log({ item: 'item', value: item })
-    this.props.selectedRemitos(item);
-    //clearwatch
-    // this.clearWatch();
-    //navigation
-    this.props.navigation.navigate("RemitoScreen");
-  };
+  // onPressSingleItem = item => {
+  //   // console.tron.log({ item: 'item', value: item })
+  //   this.props.selectedRemitos(item);
+  //   //clearwatch
+  //   // this.clearWatch();
+  //   //navigation
+  //   this.props.navigation.navigate("RemitoScreen");
+  // };
 
-  onAdquireLocation = (latitude, longitude) => {
-    this.props.adquireLocation({latitude,longitude});
-  }
+  // onAdquireLocation = (latitude, longitude) => {
+  //   this.props.adquireLocation({latitude,longitude});
+  // }
 
-  onPressOpenMaps = item => {
-    // console.tron.log({ name: "onPressOpenMaps", value: item });
-    // openMap({ latitude: parseFloat(item.latitud), longitude: parseFloat(item.longitud)});
-    this.handleGetDirections(item);
-  };
+  // onPressOpenMaps = item => {
+  //   // console.tron.log({ name: "onPressOpenMaps", value: item });
+  //   // openMap({ latitude: parseFloat(item.latitud), longitude: parseFloat(item.longitud)});
+  //   this.handleGetDirections(item);
+  // };
 
-  handleGetDirections = item => {
-    const data = {
-      source: {
-        latitude: this.state.latitude,
-        longitude: this.state.longitude
-      },
-      destination: {
-        latitude: parseFloat(item.latitud),
-        longitude: parseFloat(item.longitud)
-      },
-      params: [
-        {
-          key: "dirflg",
-          value: "d"
-        }
-      ]
-    };
+  // handleGetDirections = item => {
+  //   const data = {
+  //     source: {
+  //       latitude: this.state.latitude,
+  //       longitude: this.state.longitude
+  //     },
+  //     destination: {
+  //       latitude: parseFloat(item.latitud),
+  //       longitude: parseFloat(item.longitud)
+  //     },
+  //     params: [
+  //       {
+  //         key: "dirflg",
+  //         value: "d"
+  //       }
+  //     ]
+  //   };
 
-    getDirections(data);
-  };
+  //   getDirections(data);
+  // };
 
+  // fire event
   onCamera() {
     // Camera on, param function to save producto
     this.props.navigation.navigate("SignatureScreen", {
-      // onBarcode: this.onScanned,
-      // onSign: this.onSignature,
       onPackage: this.onCapturePackage, 
       step : "package"
     });
   }
 
+  // callback event
   onCapturePackage = packagescanned => {
-    console.log(packagescanned);
+    //console.log(packagescanned);
     // var dataCloned = [ ...this.state.dataObjects];
     var newStateArray = this.state.dataObjects.slice();
     newStateArray.push(packagescanned);
     this.setState({dataObjects: newStateArray});
-    // 
+
+    // build unique payload
+    let orden = {}
+      orden.codigoqr=packagescanned,
+      // orden.fecha_scan=new Date().toISOString(),
+      orden.latitud=-34.34,
+      orden.longitud=-54.23,
+    // end build unique
+    this.props.updateOrden(orden);
   }
 
-  // distance gps
-  // getDistance = destination => {
-
-  //   if (!this.state.latitude) {
-  //     // console.log("invalid coords ", this.state.latitude)
-  //     return "?";
-  //   }
-
-  //   // console.log("Dest",destination);
-  //   // console.log("state",this.state.longitude);
-  //   const R = 6371; // Radius of the earth in km
-  //   const dLat = this.deg2rad(destination.latitud - this.state.latitude); 
-  //   const dLon = this.deg2rad(destination.longitud - this.state.longitude);
-  //   const a =
-  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-  //     Math.cos(this.deg2rad(this.state.latitude)) *
-  //       Math.cos(this.deg2rad(destination.latitud)) *
-  //       Math.sin(dLon / 2) *
-  //       Math.sin(dLon / 2);
-  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  //   const d = R * c; // Distance in km
-    
-  //   // console.log("d",d)
-
-  //   if (d > 100) return "?";
-
-  //   return d || "?";
-  // };
-
-  // deg2rad = deg => {
-  //   return deg * (Math.PI / 180);
-  // };
-  
-  // end distance gps
+  onSavePakages = () => {
+    this.props.saveOrden();
+  }
 
   render() {
 
@@ -296,15 +277,6 @@ class PackagesListScreen extends React.PureComponent {
         />
 
         <View>
-
-          {/* <HeaderRemito 
-            tabIndex = {this.state.tabIndex}
-            saveproximity = {this.state.saveproximity} 
-            updateIndex = {this.updateIndex} 
-            handleSaveProximity = {this.handleSaveProximity} 
-            onSearch = {() => this.onSearch} 
-            onClearSearch = {() => this.onClearSearch} 
-          />  */}
         
           <FlatList
             contentContainerStyle={styles.listContent}
@@ -327,12 +299,12 @@ class PackagesListScreen extends React.PureComponent {
 
 const mapStateToProps = state => {
   return {
-    remitos: state.remitos.remitos,
+    // remitos: state.remitos.remitos,
     fetching: state.remitos.fetching,
-    user: state.login.payload,
-    hojaruta: state.hojaruta.active,
+    // user: state.login.payload,
+    // hojaruta: state.hojaruta.active,
     // sync
-    sync: state.sync,
+    // sync: state.sync,
     location : state.location
   };
 };
@@ -340,10 +312,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     //requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
-    rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
-    selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
-    attemptSync: () => dispatch(SyncActions.syncRequest()),
-    adquireLocation: (location) => dispatch(LocationActions.locationAdquire())
+    // rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
+    // selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
+    // attemptSync: () => dispatch(SyncActions.syncRequest()),
+    adquireLocation: (location) => dispatch(LocationActions.locationAdquire()),
+    saveOrden: () => dispatch(OrdenesActions.ordenSave()),
+    updateOrden: orden => dispatch(OrdenesActions.ordenUpdate(orden)),
   };
 };
 
