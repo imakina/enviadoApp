@@ -51,10 +51,16 @@ export default {
       data: require('../Fixtures/ordenesretiroqr.json')
     }
   },
-  getOrdenesRetiro: () => {
+  getOrdenRetiro: () => {
     return {
       ok: true,
-      data: require('../Fixtures/ordenesretiro.json')
+      data: require('../Fixtures/ordenesretiroqr.json')
+    }
+  },
+  getPackages: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/packages.json')
     }
   }
 }

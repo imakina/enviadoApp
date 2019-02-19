@@ -2,9 +2,9 @@ import React from "react";
 import { View, Text, FlatList } from "react-native";
 import { ListItem, Button } from "react-native-elements";
 import { connect } from "react-redux";
-import getDirections from "react-native-google-maps-directions";
+// import getDirections from "react-native-google-maps-directions";
 // import YourActions from '../Redux/YourRedux'
-import OrdenesActions from "../Redux/OrdenesRedux";
+import OrdenesActions from "../Redux/PackagesRedux";
 // Styles
 import styles from "./Styles/PackagesListScreenStyle";
 import { Colors } from '../Themes'
@@ -25,10 +25,11 @@ class PackagesListScreen extends React.PureComponent {
     fetching: false,
     updating : false,
     tabIndex: 0,
-    dataObjects: [],
+    dataObjects: this.props.packages,
     saveproximity : false,
     latitude : null,
-    longitude : null
+    longitude : null,
+    // ordenretiro : this.props.navigation.state.params.ordenretiro,
   };
 
   renderRow = ({ item }) => {
@@ -39,7 +40,7 @@ class PackagesListScreen extends React.PureComponent {
       <ListItem
         // key={i}
         leftIcon={{ name : 'radio-button-checked'}}
-        title={item}
+        title={item.NUMERO_REMITO}
         rightElement={null}
         // subtitle={new Date().toLocaleString('es-EN', { hour12: true, 
                                             //  hour: "numeric", 
@@ -131,13 +132,15 @@ class PackagesListScreen extends React.PureComponent {
   };
 
   componentWillReceiveProps(newProps) {
-    //console.tron.display({name: 'props', value: newProps})
-    // this.setState({
-    //   sync: newProps.sync,
-    //   dataObjects: newProps.remitos,
-    //   data: newProps.remitos,
-    //   fetching: newProps.fetching,
-    // });
+    // console.tron.display({name: 'props', value: newProps})
+    console.log('changeProps', newProps);
+    
+    this.setState({
+      sync: newProps.sync,
+      dataObjects: newProps.packages,
+      data: newProps.packages,
+      fetching: newProps.fetching,
+    });
 
     // // console.log(newProps)
 
@@ -152,11 +155,8 @@ class PackagesListScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    // console.log(this.props.location)
   }
 
-  componentWillUnmount() {
-  }
 
   // watchID = null;
 
@@ -298,20 +298,23 @@ class PackagesListScreen extends React.PureComponent {
 }
 
 const mapStateToProps = state => {
+  console.log("thepackages",state)
   return {
     // remitos: state.remitos.remitos,
+    packages: state.packages.packages,
     fetching: state.remitos.fetching,
     // user: state.login.payload,
     // hojaruta: state.hojaruta.active,
     // sync
     // sync: state.sync,
-    location : state.location
+    // location : state.location
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     //requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
+    requestPackages: (ordenretiro) => dispatch(PackagesActions.packagesRequest(ordenretiro)),
     // rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
     // selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
     // attemptSync: () => dispatch(SyncActions.syncRequest()),

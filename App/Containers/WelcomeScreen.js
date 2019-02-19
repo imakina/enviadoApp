@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 import { Button } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-import LoginActions from "../Redux/LoginRedux";
-import SyncActions from "../Redux/SyncRedux";
+// import LoginActions from "../Redux/LoginRedux";
+// import SyncActions from "../Redux/SyncRedux";
 // Components
 import Header from "../Components/Header";
 // Styles
@@ -33,7 +33,7 @@ class WelcomeScreen extends Component {
   }
 
   handlePressHR = () => this.props.navigation.navigate("HomeScreen");
-  handlePressOR = () => this.props.navigation.navigate("PackageListScreen");
+  handlePressOR = () => this.props.navigation.navigate("OrdenRetiroScreen");
   handlePressDE = () => this.props.navigation.navigate("DepositoScreen");
 
   onPressingLogout = () => {

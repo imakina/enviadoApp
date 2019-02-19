@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity,  Switch } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { connect } from "react-redux";
-import { SearchBar } from "react-native-elements";
+// import { SearchBar } from "react-native-elements";
 // import openMap from "react-native-open-maps";
 import getDirections from "react-native-google-maps-directions";
 

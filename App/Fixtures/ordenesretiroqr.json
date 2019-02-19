@@ -1,8 +1,40 @@
-[{
-    "id_orden_retiro_qr":1,
-    "codigo_qr":"12345",
-    "fecha_scan":"2019-02-10T00:00:00",
-    "latitud":-34.34,
-    "longitud":-54.23,
-    "fletero":31922
-}]
+[
+    {
+        "ID_ORDEN_RETIRO": 39145,
+        "NUMERO_ORDEN_RETIRO": "00021424",
+        "FECHA": "2018-10-03T11:27:30.467",
+        "FECHA_RETIRO": "2018-10-04T00:00:00",
+        "NOMBRE_FLETERO": "Pereyro  Hugo",
+        "CONTROL": 10823,
+        "FECHA_IMPRESION": "2018-10-04 06:04:35.417",
+        "completo": null,
+        "fecha_proc": "2018-10-03T11:27:31.38",
+        "car_id": 31922,
+        "archivo_origen": "PI",
+        "origen_id": "181003112730412",
+        "regis_codigo_postal__retiro_Cliente": 1650,
+        "domicilio_retiro_Cliente": "Erasmo 1155, San Martín, Buenos Aires, Argentina",
+        "localidad_retiro_Cliente": "San Martin (Pdo. Gral. San Martin) - Buenos Aires",
+        "observaciones_retiro_cliente": null,
+        "filler": "21514"
+    },
+    {
+        "ID_ORDEN_RETIRO": 38518,
+        "NUMERO_ORDEN_RETIRO": "00020827",
+        "FECHA": "2018-09-17T00:00:00",
+        "FECHA_RETIRO": "2018-09-21T00:00:00",
+        "NOMBRE_FLETERO": "Pereyro  Hugo",
+        "CONTROL": 10795,
+        "FECHA_IMPRESION": "2018-09-21 11:54:34.192",
+        "completo": null,
+        "fecha_proc": "2018-09-17T12:05:38.45",
+        "car_id": 31922,
+        "archivo_origen": null,
+        "origen_id": null,
+        "regis_codigo_postal__retiro_Cliente": 1650,
+        "domicilio_retiro_Cliente": "Erasmo 1155, San Martín, Buenos Aires, Argentina",
+        "localidad_retiro_Cliente": "San Martin (Pdo. Gral. San Martin) - Buenos Aires",
+        "observaciones_retiro_cliente": null,
+        "filler": "pichi"
+    }
+ ]

@@ -1,8 +1,8 @@
 import { StackNavigator } from 'react-navigation'
 import SignatureScreen from '../Containers/SignatureScreen'
 import MapScreen from '../Containers/MapScreen'
-import DirectionScreen from '../Containers/DirectionScreen'
-import RouteScreen from '../Containers/RouteScreen'
+// import DirectionScreen from '../Containers/DirectionScreen'
+// import RouteScreen from '../Containers/RouteScreen'
 import HojaRutaScreen from '../Containers/HojaRutaScreen'
 import HomeScreen from '../Containers/HomeScreen'
 import CameraScreen from '../Containers/CameraScreen'
@@ -13,6 +13,7 @@ import LaunchScreen from '../Containers/LaunchScreen'
 import WelcomeScreen from '../Containers/WelcomeScreen'
 import ScanPackageScreen from '../Containers/ScanPackageScreen'
 import PackageListScreen from '../Containers/PackageListScreen'
+import OrdenRetiroScreen from '../Containers/OrdenRetiroScreen'
 
 import styles from './Styles/NavigationStyles'
 
@@ -20,8 +21,8 @@ import styles from './Styles/NavigationStyles'
 const PrimaryNav = StackNavigator({
   SignatureScreen: { screen: SignatureScreen },
   MapScreen: { screen: MapScreen },
-  DirectionScreen: { screen: DirectionScreen },
-  RouteScreen: { screen: RouteScreen },
+  // DirectionScreen: { screen: DirectionScreen },
+  // RouteScreen: { screen: RouteScreen },
   HojaRutaScreen: { screen: HojaRutaScreen },
   HomeScreen: { screen: HomeScreen },
   CameraScreen: { screen: CameraScreen },
@@ -31,7 +32,8 @@ const PrimaryNav = StackNavigator({
   LaunchScreen: { screen: LaunchScreen },
   WelcomeScreen: { screen: WelcomeScreen },
   ScanPackageScreen: { screen: ScanPackageScreen },
-  PackageListScreen: { screen: PackageListScreen }
+  PackageListScreen: { screen: PackageListScreen },
+  OrdenRetiroScreen: { screen: OrdenRetiroScreen }
 }, {
   // Default config for all screens
   headerMode: 'none',

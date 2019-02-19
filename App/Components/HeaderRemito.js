@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity, Switch } from "react-native";
+import { View, Text, Switch } from "react-native";
 import { SearchBar, ButtonGroup } from "react-native-elements";
 import styles from "../Containers/Styles/RemitosListScreenStyle";
 import { Colors } from "../Themes/";
 
-const component1 = () => <Text>Hello</Text>
-const component2 = () => <Text>World</Text>
-const component3 = () => <Text>ButtonGroup</Text>
+// const component1 = () => <Text>Hello</Text>
+// const component2 = () => <Text>World</Text>
+// const component3 = () => <Text>ButtonGroup</Text>
 
 export default class HeaderRemito extends Component {
 
@@ -21,23 +21,20 @@ export default class HeaderRemito extends Component {
   };
 
   onChangeTab = newIndex => {
-    console.log("changing index to ", newIndex);
+    // console.log("changing index to ", newIndex);
     this.props.updateIndex(newIndex);
   }
   
   updateIndex (selectedIndex) {
-    // this.setState({selectedIndex})
-    console.log("changing index to ", selectedIndex);
+    // console.log("changing index to ", selectedIndex);
     this.props.updateIndex(selectedIndex);
   }
   
   render() {
 
-    // console.log("tab",this.props.tabIndex);
     const buttons = ['Pendientes', 'Todos']
-    // const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }]
-    //const { selectedIndex } = this.state
-
+    const proximidad = this.props.saveproximity ? " Ordenado por proximidad ":" Ordenado por BackOffice "
+        
     return (
 
       <View>
@@ -50,42 +47,6 @@ export default class HeaderRemito extends Component {
           selectedIndex={this.props.tabIndex}
           buttons={buttons} />
 
-        { /* 
-        <TouchableOpacity
-          <View style={{ flexDirection: "row", height: 40 }}>
-          
-
-            style={{ flex: 1 }}
-            onPress={()=>this.onChangeTab(0)}
-          >
-            <Text
-              style={[
-                styles.textButtonGroup,
-                this.props.tabIndex == 0 ? styles.textButtonSelected : ""
-              ]}
-            >
-              Pendientes
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={()=>this.onChangeTab(1)}
-          >
-            <Text
-              style={[
-                styles.textButtonGroup,
-                this.props.tabIndex == 1 ? styles.textButtonSelected : ""
-              ]}
-            >
-              Todos
-            </Text>
-          </TouchableOpacity>
-            
-        </View>
-
-        */ }
-
         <SearchBar
           onChangeText={this.props.onSearch}
           onClearText={this.props.onClearSearch}
@@ -95,12 +56,9 @@ export default class HeaderRemito extends Component {
         />
 
         { this.props.tabIndex == 0 ?
+
           <View style={styles.proximityCheck}>
-            <Text style={styles.proximityCheckText}>
-            {
-              this.props.saveproximity ? " Ordenado por proximidad ":" Ordenado por BackOffice "
-            }
-            </Text>
+            <Text style={styles.proximityCheckText}>{proximidad}</Text>
             <Switch
               value={this.props.saveproximity}
               onValueChange={() => this.props.handleSaveProximity()}
@@ -108,6 +66,7 @@ export default class HeaderRemito extends Component {
               onTintColor={Colors.backgroundVariant}
             />
           </View>
+          
         :
           null
         }
