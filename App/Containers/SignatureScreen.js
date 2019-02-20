@@ -390,8 +390,8 @@ class SignatureScreen extends Component {
                   />
                 </View>
                 <View>
-                  <Text>Ultimo scan : {this.props.ordenes.last_package}</Text>
-                  <Text>Cantidad de paquetes : {this.props.ordenes.ordenes.length}</Text>
+                  <Text>Ultimo scan : {this.props.packages.last_package}</Text>
+                  <Text>Escaneados : {this.props.packages.packages.length} de {this.props.packages.legacy.length}  </Text>
                 </View>
         
                 {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
@@ -410,7 +410,7 @@ class SignatureScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ordenes: state.ordenes
+    packages: state.packages,
   }
 }
 

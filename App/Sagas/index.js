@@ -71,18 +71,19 @@ export default function* root() {
     // ===== trying to rehydrate the possible
     takeLatest(LoginTypes.LOGIN_SUCCESS, getMotivos, api),
 
-    // some sagas about remitos
+    // ===== some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
     // takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
     takeLatest(RemitosTypes.REMITO_UPDATE, updateRemito),
     takeLatest(RemitosTypes.REMITOS_REHYDRATE, rehydrateRemitos),
     // takeLatest(RemitosTypes.REMITO_SYNC, syncRemitos),
     // takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVATED, getRemitos, api),
+    // ===== end some sagas about remitos
 
     // some sagas about packages
     takeLatest(PackagesTypes.PACKAGES_REQUEST, getPackages, api),
-    // takeLatest(PackagesTypes.PACKAGE_UPDATE, updatePackage, api),
-    // takeLatest(PackagesTypes.PACKAGE_SAVE, savePackage, api),
+    takeLatest(PackagesTypes.PACKAGE_UPDATE, updatePackage, api),
+    takeLatest(PackagesTypes.PACKAGE_SAVE, savePackage, api),
     // some sagas about ordenes retiro
     takeLatest(OrdenRetiroTypes.ORDEN_RETIRO_REQUEST, getOrdenRetiro, api),
     takeLatest(OrdenRetiroTypes.ORDEN_RETIRO_ACTIVE, activeOrdenRetiro),

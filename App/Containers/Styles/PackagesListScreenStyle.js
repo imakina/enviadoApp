@@ -43,6 +43,9 @@ export default StyleSheet.create({
   //   ...Fonts.type.base
   // },
 
+  infotext : { padding: 10, textAlign: "center", marginTop: 30 },
+  infosubtext : { padding: 10, textAlign: "center" },
+
   listContent : {
     flexGrow: 1,
     marginTop: 30

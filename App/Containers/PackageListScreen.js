@@ -4,7 +4,7 @@ import { ListItem, Button } from "react-native-elements";
 import { connect } from "react-redux";
 // import getDirections from "react-native-google-maps-directions";
 // import YourActions from '../Redux/YourRedux'
-import OrdenesActions from "../Redux/PackagesRedux";
+import PackagesActions from "../Redux/PackagesRedux";
 // Styles
 import styles from "./Styles/PackagesListScreenStyle";
 import { Colors } from '../Themes'
@@ -18,29 +18,24 @@ class PackagesListScreen extends React.PureComponent {
   }
 
   goBack = () => {
-    this.props.navigation.navigate("WelcomeScreen");
+    this.props.navigation.navigate("OrdenRetiroScreen");
   }
 
   state = {
     fetching: false,
     updating : false,
-    tabIndex: 0,
-    dataObjects: this.props.packages,
-    saveproximity : false,
-    latitude : null,
-    longitude : null,
-    // ordenretiro : this.props.navigation.state.params.ordenretiro,
+    dataObjects: [],
   };
 
   renderRow = ({ item }) => {
 
- 
     return (
 
       <ListItem
         // key={i}
         leftIcon={{ name : 'radio-button-checked'}}
-        title={item.NUMERO_REMITO}
+        // title={item.NUMERO_REMITO}
+        title={item}
         rightElement={null}
         // subtitle={new Date().toLocaleString('es-EN', { hour12: true, 
                                             //  hour: "numeric", 
@@ -49,36 +44,25 @@ class PackagesListScreen extends React.PureComponent {
     );
   };
 
-  // handleSaveProximity = () => {
-  //   // console.log({name:'checkboxChanged', value:!this.state.saveproximity})
-  //   this.setState({ saveproximity: !this.state.saveproximity }, () => this.reload())
-  //   // reorder the grid after proximity check change
-  //   console.log(this.state.tabIndex);
-  // }
-
-  //
-  // change selection
-  //
-  updateIndex = index => {
-    // if (this.state.tabIndex != index)
-    this.setState({ tabIndex: index }, () => this.reload());
-  }
-
   // Render a footer?
   renderFooter = () => {
     if (this.state.dataObjects.length > 0)
       return  (
-        <Button
-          icon={{
-            name: "check",
-            size: 30,
-            color: "white",
-            type : "font-awesome"
-          }}
-          title={"Enviar"}
-          buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
-          onPress={() => this.onSavePakages()}
-        />
+        <View>
+
+          <Button
+            icon={{
+              name: "check",
+              size: 30,
+              color: "white",
+              type : "font-awesome"
+            }}
+            title={"Enviar"}
+            buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
+            onPress={() => this.onSavePakages()}
+          />
+
+        </View>
       )
     else
         return null
@@ -86,16 +70,19 @@ class PackagesListScreen extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () => {
+
     // if (this.state.fetching)
       return (
-        <Text
-          style={[
-            styles.item,
-            { padding: 20, textAlign: "center", marginTop: 30 }
-          ]}
-        >
-          Presione el icono de la camara para comenzar a escanear
-        </Text>
+        <View>
+          <Text
+            style={[
+              styles.item,
+              { padding: 20, textAlign: "center", marginTop: 30 }
+            ]}
+          >
+            Presione el icono de la camara para comenzar a escanear
+          </Text>
+        </View>
       );
     // else return null;
   };
@@ -133,106 +120,19 @@ class PackagesListScreen extends React.PureComponent {
 
   componentWillReceiveProps(newProps) {
     // console.tron.display({name: 'props', value: newProps})
-    console.log('changeProps', newProps);
+    // console.log('changeProps', newProps);
     
-    this.setState({
-      sync: newProps.sync,
-      dataObjects: newProps.packages,
-      data: newProps.packages,
-      fetching: newProps.fetching,
-    });
+    // this.setState({
+    //   sync: newProps.sync,
+    //   dataObjects: newProps.packages,
+    //   data: newProps.packages,
+    //   fetching: newProps.fetching,
+    // });
 
-    // // console.log(newProps)
-
-    // if (this.state.sync) 
-    //   // console.log("syncRemitos", this.props.remitos.length)
-    //   if (this.state.sync.syncing == false) {
-    //     // console.log("updateindexSync")
-    //     // console.log("propsremitos", this.props.remitos)
-    //     this.updateIndex(0)
-    //     // this.setState({updating:false}) 
-    //   }
   }
 
   componentDidMount() {
   }
-
-
-  // watchID = null;
-
-  // myWatchPosition() {
-  //   console.log("init myWatchPosition",this.watchID)
-  //   this.setState({ gpsfetch : true })
-
-  //   this.watchId = navigator.geolocation.watchPosition(
-  //     (position) => {
-  //       this.setState({
-  //         latitude: position.coords.latitude,
-  //         longitude: position.coords.longitude,
-  //         gpsfetch : false,
-  //         error: null,
-  //       }, 
-  //         () => {
-  //           console.log("myWatchPosition get new position", this.state.latitude)
-  //           this.onAdquireLocation(position.coords.latitude, position.coords.longitude);
-  //           this.updateIndex(0);
-  //         }
-  //       );
-  //     },
-  //     (error) => { 
-  //       this.setState({ error: error.message }),
-  //       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
-  //       console.log('error',error)
-  //       this.setState({ gpsfetch : false })
-  //     }
-  //   );
-  // }
-
-  // onRequestingRemitos = todos => {
-  //   this.setState({ fetching: true });
-  //   this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
-  // };  
-   
-
-  // onPressSingleItem = item => {
-  //   // console.tron.log({ item: 'item', value: item })
-  //   this.props.selectedRemitos(item);
-  //   //clearwatch
-  //   // this.clearWatch();
-  //   //navigation
-  //   this.props.navigation.navigate("RemitoScreen");
-  // };
-
-  // onAdquireLocation = (latitude, longitude) => {
-  //   this.props.adquireLocation({latitude,longitude});
-  // }
-
-  // onPressOpenMaps = item => {
-  //   // console.tron.log({ name: "onPressOpenMaps", value: item });
-  //   // openMap({ latitude: parseFloat(item.latitud), longitude: parseFloat(item.longitud)});
-  //   this.handleGetDirections(item);
-  // };
-
-  // handleGetDirections = item => {
-  //   const data = {
-  //     source: {
-  //       latitude: this.state.latitude,
-  //       longitude: this.state.longitude
-  //     },
-  //     destination: {
-  //       latitude: parseFloat(item.latitud),
-  //       longitude: parseFloat(item.longitud)
-  //     },
-  //     params: [
-  //       {
-  //         key: "dirflg",
-  //         value: "d"
-  //       }
-  //     ]
-  //   };
-
-  //   getDirections(data);
-  // };
 
   // fire event
   onCamera() {
@@ -246,23 +146,24 @@ class PackagesListScreen extends React.PureComponent {
   // callback event
   onCapturePackage = packagescanned => {
     //console.log(packagescanned);
-    // var dataCloned = [ ...this.state.dataObjects];
-    var newStateArray = this.state.dataObjects.slice();
+    let newStateArray = this.state.dataObjects.slice();
     newStateArray.push(packagescanned);
     this.setState({dataObjects: newStateArray});
 
     // build unique payload
-    let orden = {}
-      orden.codigoqr=packagescanned,
-      // orden.fecha_scan=new Date().toISOString(),
-      orden.latitud=-34.34,
-      orden.longitud=-54.23,
+    let new_package = {}
+      new_package.codigoqr=packagescanned,
+      new_package.car_id=this.props.user.car_id,
+      new_package.id_orden_retiro_qr=this.props.ordenretiro,
+      new_package.latitud=-34.34,
+      new_package.longitud=-54.23,
     // end build unique
-    this.props.updateOrden(orden);
+    console.log("newpackage",new_package);
+    this.props.updatePackage(new_package);
   }
 
   onSavePakages = () => {
-    this.props.saveOrden();
+    this.props.savePackage();
   }
 
   render() {
@@ -292,6 +193,14 @@ class PackagesListScreen extends React.PureComponent {
 
         </View>
 
+        <Text style={styles.infotext}>
+          esta orden contiene {this.props.packages.legacy.length} paquetes.
+        </Text>
+
+        <Text style={styles.infosubtext}>
+            de los cuales han sido escaneados {this.props.packages.packages.length} paquetes.
+        </Text>
+
       </View>
     );
   }
@@ -301,10 +210,11 @@ const mapStateToProps = state => {
   console.log("thepackages",state)
   return {
     // remitos: state.remitos.remitos,
-    packages: state.packages.packages,
+    packages: state.packages,
     fetching: state.remitos.fetching,
-    // user: state.login.payload,
+    user: state.login.account,
     // hojaruta: state.hojaruta.active,
+    ordenretiro: state.ordenretiro.active,
     // sync
     // sync: state.sync,
     // location : state.location
@@ -319,8 +229,8 @@ const mapDispatchToProps = dispatch => {
     // selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
     // attemptSync: () => dispatch(SyncActions.syncRequest()),
     adquireLocation: (location) => dispatch(LocationActions.locationAdquire()),
-    saveOrden: () => dispatch(OrdenesActions.ordenSave()),
-    updateOrden: orden => dispatch(OrdenesActions.ordenUpdate(orden)),
+    savePackage: () => dispatch(PackagesActions.packageSave()),
+    updatePackage: thispackage => dispatch(PackagesActions.packageUpdate(thispackage)),
   };
 };
 

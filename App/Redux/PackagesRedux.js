@@ -9,6 +9,7 @@ const { Types, Creators } = createActions({
   packageSave: null,
   packageUpdate: ["package"],
   packagesSuccess: ["packages"],
+  packagesSuccessLegacy: ["packages"],
   packagesFailure: null,
 });
 
@@ -25,6 +26,7 @@ export const INITIAL_STATE = Immutable({
   message: "",
   last_package: "",
   packages: [],
+  legacy: [],
   // states to reduce the calculations
   // in diferent screens
   // quantity: 0,
@@ -35,7 +37,7 @@ export const INITIAL_STATE = Immutable({
 
 // request the data from an api
 export const request = (state, action) =>
-  state.merge({ fetching: true, packages: [] });
+  state.merge({ fetching: true, packages: [], legacy: [] });
 
 export const save = (state, action) =>
   state.merge({ fetching: false });
@@ -53,6 +55,10 @@ export const rehydrate = (state, action) =>
 // request the data from an api
 export const update = (state, action) =>
   state.merge({ fetching: true, payload: null });
+
+// request the data from an api
+export const success_legacy = (state, { packages }) =>
+  state.merge({ legacy: packages });
 
 // successful api lookup
 export const success = (state, action) => {
@@ -81,9 +87,8 @@ export const failure = state =>
   state.merge({
     fetching: false,
     error: true,
-    packages: null,
+    packages: [],
     package: null,
-    quantity: null,
     updated: null
   });
 
@@ -93,6 +98,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.PACKAGES_REQUEST]: request,
   [Types.PACKAGE_SAVE]: save,
   [Types.PACKAGES_SUCCESS]: success,
+  [Types.PACKAGES_SUCCESS_LEGACY]: success_legacy,
   [Types.PACKAGES_FAILURE]: failure,
   [Types.PACKAGE_UPDATE]: update,
   [Types.PACKAGE_LAST]: last,
