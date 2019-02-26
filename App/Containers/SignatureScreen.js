@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, Platform, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, TextInput, Platform, TouchableOpacity, Vibration, } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon, Button } from 'react-native-elements'
 import SignatureCapture from 'react-native-signature-capture';
@@ -8,6 +8,9 @@ import Header from "../Components/Header";
 // Barcode
 // import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
 // import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode} from "react-native-barcode-scanner-google";
+
+const DURATION = 10000 ;
+const PATTERN = [ 1000, 2000, 3000, 4000] ;
 
 const BarcodeScanner = Platform.select({
   android: () => require('react-native-barcode-scanner-google').default,
@@ -80,6 +83,32 @@ class SignatureScreen extends Component {
 
   /////////////////////////////// PACKAGE
 
+  StartVibrationFunction=()=>{
+ 
+    // Device Will Vibrate for 10 seconds.
+    Vibration.vibrate(DURATION) ;
+ 
+    // Android Device Will Vibrate in pattern : Wait 1sec -> vibrate 2sec -> wait 3sec.
+    // iOS Device Will Vibrate in pattern : Wait 1sec -> Vibrate -> wait 2sec -> Vibrate -> wait 3sec -> Vibrate
+    
+    // Vibration.vibrate(PATTERN)
+ 
+ 
+    // Android Device Will Vibrate in above pattern Infinite Time.
+    // iOS Device Will Vibrate in above pattern Infinite Time.
+    
+    // Vibration.vibrate(PATTERN, true)
+ 
+  }
+
+  StopVibrationFunction=()=>{
+    
+    // Stop Vibration.
+    Vibration.cancel();
+
+
+  }
+
   handleChangePackage = (text) => {
     this.setState({ packageNumber: text })
   }
@@ -94,8 +123,8 @@ class SignatureScreen extends Component {
 
   scannedPackageNumber({data, type}) {
     this.setState({ packageNumber: data }, () => {
+      this.StartVibrationFunction();
       this.saveScanPackage();
-
       // Alert.alert(
       //   "Escanear otro paquete ?",
       //   `${data} agregado correctamente`,
@@ -118,6 +147,7 @@ class SignatureScreen extends Component {
   saveScanPackage = () => {
     const { navigation } = this.props;
     navigation.state.params.onPackage(this.state.packageNumber);
+    this.StopVibrationFunction();
   }
 
   /////////////////////////////// BARCODE

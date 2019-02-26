@@ -69,8 +69,13 @@ const create = (baseURL = "http://test.softsencillo.com/api/") => {
   // ordenes retiro
   const postOrdenRetiro = (token, body) => api.post("ordenretiroqr/crearorden/?token=" + token, body);
   const getOrdenRetiro = (fletero) => api.get("remitos/ListadoOrdenesRetiroQR", { fletero: fletero });
-  const getPackages = (numero_orden) => api.get("remitos/ListadoPackagesQR", { ordenRetiro: numero_orden });
+  const getPackages = (numero_orden) => api.get("remitos/ListadoRemitosQR", { ordenRetiro: numero_orden });
   
+  // consulta remitos (cantidad)
+  // localhost:55222/Remitos/ListadoRemitosQR?ordenRetiro=12345
+  // consulta packages (para hacer el cierre en deposito por id_orden_retiro_qr)
+  // localhost:55222/Remitos/ListadoPackagesQR?ordenRetiro=12345
+
 // OrdenRetiroQR/CrearOrden?
 // http://test.softsencillo.com/api/Remitos/ListadoOrdenesRetiroQR?fletero=31922
   // sp_mobile_update_status_confirmacion

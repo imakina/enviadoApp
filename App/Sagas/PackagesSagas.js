@@ -85,8 +85,8 @@ export function* savePackage(api, action) {
   const response = yield call(api.postOrdenRetiro, account.token, packages);
   if (response.ok) {
     console.log("packages ok = ", response);
-    yield put(PackagesActions.packagesSuccess(packages));
-    yield put(AlertActions.alertSuccess("packages actualizadas"));
+    yield put(PackagesActions.packagesSuccess([]));
+    yield put(AlertActions.alertSuccess("Paquetes actualizadas"));
   } else {
     // todo put the messages in a unified place
     // network error

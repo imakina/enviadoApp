@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Alert, ScrollView } from "react-native";
 import { ListItem, Button } from "react-native-elements";
 import { connect } from "react-redux";
 // import getDirections from "react-native-google-maps-directions";
 // import YourActions from '../Redux/YourRedux'
 import PackagesActions from "../Redux/PackagesRedux";
+import AlertActions from '../Redux/AlertRedux'
+
 // Styles
 import styles from "./Styles/PackagesListScreenStyle";
 import { Colors } from '../Themes'
@@ -46,26 +48,7 @@ class PackagesListScreen extends React.PureComponent {
 
   // Render a footer?
   renderFooter = () => {
-    if (this.state.dataObjects.length > 0)
-      return  (
-        <View>
 
-          <Button
-            icon={{
-              name: "check",
-              size: 30,
-              color: "white",
-              type : "font-awesome"
-            }}
-            title={"Enviar"}
-            buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
-            onPress={() => this.onSavePakages()}
-          />
-
-        </View>
-      )
-    else
-        return null
   };
 
   // Show this when data is empty
@@ -97,26 +80,26 @@ class PackagesListScreen extends React.PureComponent {
   // How many items should be kept im memory as we scroll?
   oneScreensWorth = 20;
 
-  onSearch = some => {
-    // console.tron.log(some)
-    if (some.length == 0) {
-      data = this.state.data;
-    } else {
-      data = this.state.data
-        .filter(item => item.nroRemito.indexOf(some) > 0)
-        .map(item => item);
-    }
+  // onSearch = some => {
+  //   // console.tron.log(some)
+  //   if (some.length == 0) {
+  //     data = this.state.data;
+  //   } else {
+  //     data = this.state.data
+  //       .filter(item => item.nroRemito.indexOf(some) > 0)
+  //       .map(item => item);
+  //   }
 
-    this.setState({
-      dataObjects: data
-    });
-  };
+  //   this.setState({
+  //     dataObjects: data
+  //   });
+  // };
 
-  onClearSearch = () => {
-    this.setState({
-      dataObjects: this.state.data
-    });
-  };
+  // onClearSearch = () => {
+  //   this.setState({
+  //     dataObjects: this.state.data
+  //   });
+  // };
 
   componentWillReceiveProps(newProps) {
     // console.tron.display({name: 'props', value: newProps})
@@ -147,19 +130,26 @@ class PackagesListScreen extends React.PureComponent {
   onCapturePackage = packagescanned => {
     //console.log(packagescanned);
     let newStateArray = this.state.dataObjects.slice();
-    newStateArray.push(packagescanned);
-    this.setState({dataObjects: newStateArray});
+    
+    // TODO check duplicity
+    if (newStateArray.includes(packagescanned)) {
+      console.log(packagescanned + 'is duplicated');
+    } else {
+      newStateArray.push(packagescanned);
+      this.setState({dataObjects: newStateArray});
+  
+      // build unique payload
+      let new_package = {}
+        new_package.codigoqr=packagescanned,
+        new_package.car_id=this.props.user.car_id,
+        new_package.orden_retiro=this.props.ordenretiro,
+        new_package.latitud=-34.34,
+        new_package.longitud=-54.23,
+      // end build unique
+      console.log("newpackage",new_package);
+      this.props.updatePackage(new_package);
+    }
 
-    // build unique payload
-    let new_package = {}
-      new_package.codigoqr=packagescanned,
-      new_package.car_id=this.props.user.car_id,
-      new_package.id_orden_retiro_qr=this.props.ordenretiro,
-      new_package.latitud=-34.34,
-      new_package.longitud=-54.23,
-    // end build unique
-    console.log("newpackage",new_package);
-    this.props.updatePackage(new_package);
   }
 
   onSavePakages = () => {
@@ -168,11 +158,13 @@ class PackagesListScreen extends React.PureComponent {
 
   render() {
 
+    const { alert } = this.props
+
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
 
         <Header
-          title="PAQUETES"
+          title="REMITOS."
           left={{ icon: "chevron-left", onPress: () => this.goBack() }}
           right={{ icon: "camera", onPress: () => this.onCamera() }}
         />
@@ -186,12 +178,42 @@ class PackagesListScreen extends React.PureComponent {
             keyExtractor={this.keyExtractor}
             initialNumToRender={this.oneScreensWorth}
             // ListHeaderComponent={this.renderHeader}
-            ListFooterComponent={this.renderFooter}
+            // ListFooterComponent={this.renderFooter}
             ListEmptyComponent={this.renderEmpty}
             // ItemSeparatorComponent={this.renderSeparator}
           />
 
+          {
+            (this.state.dataObjects.length > 0) &&
+              <View>
+
+                <Button
+                  icon={{
+                    name: "check",
+                    size: 30,
+                    color: "white",
+                    type : "font-awesome"
+                  }}
+                  title={"Enviar"}
+                  buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
+                  onPress={() => this.onSavePakages()}
+                />
+              </View>
+          }
+
         </View>
+
+        {
+          alert.type === 'alert-success' &&
+            Alert.alert(
+              'Paquetes',
+              alert.message,
+              [
+                {text: 'OK', onPress: () => this.props.clearAlert()},
+              ],
+              { cancelable: false }
+            )
+        }
 
         <Text style={styles.infotext}>
           esta orden contiene {this.props.packages.legacy.length} paquetes.
@@ -201,7 +223,7 @@ class PackagesListScreen extends React.PureComponent {
             de los cuales han sido escaneados {this.props.packages.packages.length} paquetes.
         </Text>
 
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -218,6 +240,7 @@ const mapStateToProps = state => {
     // sync
     // sync: state.sync,
     // location : state.location
+    alert: state.alert
   };
 };
 
@@ -231,6 +254,7 @@ const mapDispatchToProps = dispatch => {
     adquireLocation: (location) => dispatch(LocationActions.locationAdquire()),
     savePackage: () => dispatch(PackagesActions.packageSave()),
     updatePackage: thispackage => dispatch(PackagesActions.packageUpdate(thispackage)),
+    clearAlert: () => dispatch(AlertActions.alertClear())
   };
 };
 

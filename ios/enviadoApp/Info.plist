@@ -28,17 +28,12 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>desa.enviado.softsencillo.com</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
 			<key>clientes.enviado.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-			<key>test.softsencillo.com</key>
+			<key>desa.enviado.softsencillo.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
@@ -48,22 +43,29 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
+			<key>test.softsencillo.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Enciende tu camara para jugar.</string>
+	<key>NSLocalizedDescription</key>
+	<string>Se necesita acceder a tu ubicaion</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Se usa tu ubicacion para calcular las rutas</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Para poder trazar las rutas</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Para poder trazar las rutas</string>
+	<string>Se usa tu ubicacion para calcular las rutas</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Se necesita permiso para acceder al microfono</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Se necesita permiso para acceder a las Fotos</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Se necesita acceder a la Librearia</string>
-	<key>NSLocalizedDescription</key>
-	<string>Se necesita acceder a tu ubicaion</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Se necesita permiso para acceder a las Fotos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
@@ -104,9 +106,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Se usa tu ubicacion para calcular las rutas</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Se usa tu ubicacion para calcular las rutas</string>
 </dict>
 </plist>
