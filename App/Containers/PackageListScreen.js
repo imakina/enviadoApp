@@ -41,7 +41,7 @@ class PackagesListScreen extends React.PureComponent {
     if (this.props.user.deposito)
       this.props.packages.packages.map((elem) => {
         // console.log(elem.codigoqr + ' ' +  item.codigo_qr);
-        if (elem.codigoqr === item.codigo_qr)
+        if (elem.codigoqr == item.codigo_qr)
           matched = Colors.backgroundVariant;
       })
 

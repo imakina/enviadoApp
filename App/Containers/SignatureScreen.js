@@ -235,6 +235,8 @@ class SignatureScreen extends Component {
 
   render () {
 
+    const headerTitle = (this.state.step == 'package')?`SCAN   ${this.props.packages.packages.length} / ${this.props.packages.legacy.length}`:this.state.step;  
+
     return (
 
       this.state.step == "capture" ?
@@ -264,7 +266,8 @@ class SignatureScreen extends Component {
         <View style={styles.container}>
 
           <Header
-            title={this.state.step}
+            // title={this.state.step}
+            title={headerTitle}
             left={{ icon: "chevron-left", onPress: () => this.goBack() }}
           />
 
@@ -412,10 +415,10 @@ class SignatureScreen extends Component {
                     buttonStyle={{marginTop:3, backgroundColor:Colors.facebook}} 
                   />
                 </View>
-                <View>
+                <View style={{alignItems:'center'}}>
                   {/* <Text>Ultimo scan : {this.props.packages.last_package}</Text> */}
                   <Text>Ultimo scan : {this.state.packageNumber}</Text>
-                  <Text>Escaneados : {this.props.packages.packages.length} de {this.props.packages.legacy.length}  </Text>
+                  <Text style={{fontSize:30}}>Escaneados : {this.props.packages.packages.length} de {this.props.packages.legacy.length}  </Text>
                 </View>
 
               </View>
