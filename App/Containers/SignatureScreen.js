@@ -101,17 +101,10 @@ class SignatureScreen extends Component {
  
   }
 
-  StopVibrationFunction=()=>{
-    
-    // Stop Vibration.
-    Vibration.cancel();
+  // Stop Vibration.
+  StopVibrationFunction = () => Vibration.cancel();
 
-
-  }
-
-  handleChangePackage = (text) => {
-    this.setState({ packageNumber: text })
-  }
+  handleChangePackage = (text) => this.setState({ packageNumber: text });
 
   handleSavePackage = () => {
     const scanned = {
@@ -403,12 +396,12 @@ class SignatureScreen extends Component {
                 <View style={{flexDirection:'row', display:'flex', paddingBottom: 10, paddingTop: 10}}>
                   <View style={{width:'75%'}}>
                     <TextInput
-                      placeholder='Ingrese Package'
-                      keyboardType="numeric"
+                      placeholder='Ingrese numero Paquete'
+                      keyboardType="default"
                       autoCapitalize="none"
                       autoCorrect={false}
                       onChangeText={this.handleChangePackage}
-                      onSubmitEditing={()=> this.nameInput.focus()}
+                      // onSubmitEditing={()=> this.nameInput.focus()}
                     />
                   </View>
                   <Button
@@ -420,11 +413,10 @@ class SignatureScreen extends Component {
                   />
                 </View>
                 <View>
-                  <Text>Ultimo scan : {this.props.packages.last_package}</Text>
+                  {/* <Text>Ultimo scan : {this.props.packages.last_package}</Text> */}
+                  <Text>Ultimo scan : {this.state.packageNumber}</Text>
                   <Text>Escaneados : {this.props.packages.packages.length} de {this.props.packages.legacy.length}  </Text>
                 </View>
-        
-                {/* <Text style={{padding:10}}>Leido : {this.state.dni}</Text> */}
 
               </View>
 

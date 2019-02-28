@@ -4,6 +4,7 @@ import PackagesActions from "../Redux/PackagesRedux";
 import AlertActions from "../Redux/AlertRedux";
 // selector
 const selectAccount = state => state.login.account;
+const selectLogin = state => state.login;
 const selectActive = state => state.ordenretiro.active;
 const selectPackages = state => state.packages.packages;
 
@@ -11,15 +12,23 @@ export function* getPackages(api, action) {
   // account logged | hoja
   const ordenretiro = yield select(selectActive);
 
-  const response = yield call(api.getPackages, ordenretiro);
-  console.log(response);
+  const login = yield select(selectLogin);
+  const callApi = login.deposito?api.getPackagesQR:api.getRemitosQR;
+
+  const response = yield call(callApi, ordenretiro);
+  console.log("packagesaga",response);
+
   if (response.ok) {
     const { data } = response;
     // save async
     // store(data);
     // end save async
     console.log("legacy",data);
-    yield put(PackagesActions.packagesSuccessLegacy(data));
+    // if (login.deposito)
+    //   yield put(PackagesActions.packagesSuccess(data));
+    // else
+      yield put(PackagesActions.packagesSuccessLegacy(data));
+
   } else {
     // todo put the messages in a unified place
     // network error
@@ -45,18 +54,25 @@ export function* rehydrateRemitos(action) {
 }
 
 export function* updatePackage(api, action) {
-  // const { package } = action;
-  const thispackage = action.package;
+  const packageqr = action.package;
   // make the call to the api
-  // const account = yield select(selectAccount);
+  const login = yield select(selectLogin);
   const packages = yield select(selectPackages);
-  //console.log("ordenes",ordenes);
+  const ordenretiro = yield select(selectActive);
   
   // update the item
-  let item = thispackage;
+
+  // let item = packageqr;
   // item.fletero = account.car_id;
   // item.id_orden_retiro_qr = null;
-  //
+  let item = {
+    codigoqr : packageqr,
+    car_id : login.account.car_id,
+    orden_retiro : ordenretiro,
+    latitud : -34.34,
+    longitud : -54.23
+  }
+  
   let data = Object.assign([], packages);
   data.push(item);
   // end update the item
@@ -67,8 +83,7 @@ export function* updatePackage(api, action) {
 
   // messages
   yield put(PackagesActions.packagesSuccess(data));
-  yield put(PackagesActions.packageLast(thispackage.codigo_qr));
-  // yield put(AlertActions.alertSuccess("Ordenes actualizadas"));
+  yield put(PackagesActions.packageLast(packageqr));
 }
 
 // "id_orden_retiro_qr":1,

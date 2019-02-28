@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 import { Button } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-// import LoginActions from "../Redux/LoginRedux";
+import LoginActions from "../Redux/LoginRedux";
 // import SyncActions from "../Redux/SyncRedux";
 // Components
 import Header from "../Components/Header";
@@ -33,11 +33,19 @@ class WelcomeScreen extends Component {
   }
 
   handlePressHR = () => this.props.navigation.navigate("HomeScreen");
-  handlePressOR = () => this.props.navigation.navigate("OrdenRetiroScreen");
-  handlePressDE = () => this.props.navigation.navigate("DepositoScreen");
+  handlePressOR = () => {
+    // TODO replace with the login logic
+    this.props.depositoLogin(false);
+    this.props.navigation.navigate("OrdenRetiroScreen");
+  }
+  handlePressDE = () => {
+    // TODO replace with the login logic
+    this.props.depositoLogin(true);
+    // move to depositoscreen
+    this.props.navigation.navigate("OrdenRetiroScreen");
+  }
 
   onPressingLogout = () => {
-    // this.props.attemptLogout();
     this.props.navigation.goBack()
   };
 
@@ -94,7 +102,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     // attemptLogout: () => dispatch(LoginActions.loginOut()),
-    // updatePicture: img => dispatch(LoginActions.loginPicture(img)),
+    depositoLogin: (isDeposito) => dispatch(LoginActions.loginDeposito(isDeposito)),
     // attemptSync: () => dispatch(SyncActions.syncRequest())
   };
 };

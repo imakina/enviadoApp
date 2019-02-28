@@ -4,7 +4,6 @@ import Immutable from "seamless-immutable";
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  // hojaRutaRequest: ['car_id', 'estado'],
   ordenRetiroRequest: null,
   ordenRetiroSuccess: ["ordenes"],
   ordenRetiroFailure: null,

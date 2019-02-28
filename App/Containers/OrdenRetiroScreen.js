@@ -88,18 +88,23 @@ class OrdenRetiroScreen extends Component {
   keyExtractor = (item, index) => index;
 
   renderHeader = () => {
+
+    if (this.props.ordenretiro.fetching || this.state.dataObjects !== null)
+      return <Text>{""}</Text>;
+
     // console.tron.display({name: 'dataobjects', value: this.state.dataObjects})
     let text = this.state.dataObjects === null
         ? "No tiene Ordenes de Retiro disponibles"
         : "Ordenes disponibles";
-    return <Text style={styles.help}>{text}</Text>;
+      return <Text style={styles.help}>{text}</Text>;
+
   };
 
   renderRow({ item }) {
     const active = true; //this.state.active == item.NUMERO_ORDEN_RETIRO;
-    const alerta = active
-      ? "Orden de Retiro ACTIVA"
-      : "Debe descargarse para comenzar a actualizar";
+    // const alerta = active
+    //   ? "Orden de Retiro ACTIVA"
+    //   : "Debe descargarse para comenzar a actualizar";
     return (
       <View style={styles.groupHojas}>
         <View style={{ padding: 2 }}>
@@ -117,7 +122,7 @@ class OrdenRetiroScreen extends Component {
               type : "font-awesome"
             }}
             title={item.NUMERO_ORDEN_RETIRO}
-            buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
+            buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginBottom: 5}}
             onPress={() => this.onPressingPackagesPorOrdenRetiro(item, active)}
           />
         </View>
@@ -126,12 +131,16 @@ class OrdenRetiroScreen extends Component {
   }
 
   render() {
-    const { fetching } = this.props.ordenretiro.fetching;
+    // const { fetching } = this.props.ordenretiro.fetching;
     // console.tron.log("re-render", this.props.hojaruta.active);
+
+    const headerTitle = this.props.deposito ? "DEPOSITO" : "ORDEN DE RETIRO";
+
+
     return (
       <View style={styles.container}>
         <Header
-          title="ORDEN DE RETIRO"
+          title={headerTitle}
           left={{ icon: "chevron-left", onPress: () => this.goBack() }}
         />
 
@@ -145,10 +154,10 @@ class OrdenRetiroScreen extends Component {
           // ListFooterComponent={this.renderFooter}
           //ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}
-          extraData={[this.state.active, this.state.fetching]}
+          extraData={this.props.ordenretiro.fetching}
         />
 
-        <View style={styles.spinnerContainer}>{fetching && <Spinner />}</View>
+        <View style={styles.spinnerContainer}>{this.props.ordenretiro.fetching && <Spinner />}</View>
       </View>
     );
   }
@@ -158,6 +167,7 @@ const mapStateToProps = state => {
   // console.log("state",state);
   return {
     user: state.login.account,
+    deposito : state.login.deposito,
     packages: state.packages,
     ordenretiro: state.ordenretiro
   };

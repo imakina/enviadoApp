@@ -4,12 +4,15 @@ import { call, put, select } from "redux-saga/effects";
 import OrdenRetiroActions from "../Redux/OrdenRetiroRedux";
 import PackagesActions from "../Redux/PackagesRedux";
 // account
-const selectAccount = state => state.login.account;
+const selectLogin = state => state.login;
 
 export function* getOrdenRetiro(api, action) {
-  const account = yield select(selectAccount);
-  // the state is still 0 but will be changed to a value parametrized
-  const response = yield call(api.getOrdenRetiro, account.car_id);
+  const login = yield select(selectLogin);
+  // deposito profile needs to be send 0
+  const isDeposito = login.deposito?0:login.account.car_id;
+  // need to get everything ?
+  // console.log("isDeposito:",isDeposito);
+  const response = yield call(api.getOrdenRetiro, isDeposito);
   // success?
   if (response.ok) {
     // save async
@@ -22,8 +25,8 @@ export function* getOrdenRetiro(api, action) {
 }
 
 function store(ordenretiro) {
-  console.tron.display({ preview: "saved ordenretiro to async" });
-  console.log("ordenretiro store",ordenretiro);
+  // console.tron.display({ preview: "saved ordenretiro to async" });
+  // console.log("ordenretiro store",ordenretiro);
   AsyncStorage.setItem("ordenretiro", JSON.stringify(ordenretiro));
 }
 

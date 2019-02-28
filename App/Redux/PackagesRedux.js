@@ -19,18 +19,10 @@ export default Creators;
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  // data: null,
-  fetching: null,
-  // payload: null,
-  error: null,
-  message: "",
+  fetching: false,
   last_package: "",
   packages: [],
-  legacy: [],
-  // states to reduce the calculations
-  // in diferent screens
-  // quantity: 0,
-  // updated: 0
+  legacy: []
 });
 
 /* ------------- Reducers ------------- */
@@ -44,7 +36,6 @@ export const save = (state, action) =>
 
 export const last = (state, action) => {
   const {last} = action;
-  console.log(last);
   return state.merge({ fetching: false, last_package: last });
 }
 
@@ -63,33 +54,21 @@ export const success_legacy = (state, { packages }) =>
 // successful api lookup
 export const success = (state, action) => {
   const { packages } = action;
-  // const updated = remitos.filter(item => item.estado_mobile == 7).length;
-  // console.tron.display("remito sucess", remitos);
-  // console.log(action);
-  return state.merge({
-    fetching: false,
-    error: null,
-    packages: packages,
-    // remitos: remitos,
-    // updated: updated,
-    // quantity: remitos.length
-  });
+  return state.merge({ fetching: false, packages: packages});
 };
 
 // request the data from an api
 export const update_success = (state, action) => {
   // console.tron.log("updateSucessRedux");
-  return state.merge({ fetching: false, error: null });
+  return state.merge({ fetching: false });
 };
 
 // Something went wrong somewhere.
 export const failure = state =>
   state.merge({
     fetching: false,
-    error: true,
     packages: [],
     package: null,
-    updated: null
   });
 
 /* ------------- Hookup Reducers To Types ------------- */
