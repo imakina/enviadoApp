@@ -97,7 +97,11 @@ export function* savePackage(api, action) {
   const account = yield select(selectAccount);
   const packages = yield select(selectPackages);
   // make the call to the api
-  const response = yield call(api.postOrdenRetiro, account.token, packages);
+
+  const login = yield select(selectLogin);
+  const callApi = login.deposito?api.postOrdenRetiroCerrar:api.postOrdenRetiro;
+
+  const response = yield call(callApi, account.token, packages);
   if (response.ok) {
     console.log("packages ok = ", response);
     yield put(PackagesActions.packagesSuccess([]));

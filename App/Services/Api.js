@@ -68,6 +68,7 @@ const create = (baseURL = "http://test.softsencillo.com/api/") => {
   const postRemitoEstado = (token, body) => api.post("remitos/actualizaestado/?token=" + token, body);
   // ordenes retiro
   const postOrdenRetiro = (token, body) => api.post("ordenretiroqr/crearorden/?token=" + token, body);
+  const postOrdenRetiroCerrar = (token, body) => api.post("ordenretiroqr/cerrarorden/?token=" + token, body);
   const getOrdenRetiro = (fletero) => api.get("remitos/ListadoOrdenesRetiroQR", { fletero: fletero });
   const getRemitosQR = (numero_orden) => api.get("remitos/ListadoRemitosQR", { ordenRetiro: numero_orden });
   const getPackagesQR = (numero_orden) => api.get("remitos/ListadoPackagesQR", { ordenRetiro: numero_orden });
@@ -105,6 +106,7 @@ const create = (baseURL = "http://test.softsencillo.com/api/") => {
     getMotivos,
     postRemitoEstado,
     postOrdenRetiro,
+    postOrdenRetiroCerrar,
     getOrdenRetiro,
     getPackagesQR,
     getRemitosQR,
