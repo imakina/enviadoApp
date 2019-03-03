@@ -80,20 +80,19 @@ class PackagesListScreen extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () => {
-
     // if (this.state.fetching)
-      return (
-        <View>
-          <Text
-            style={[
-              styles.item,
-              { padding: 20, textAlign: "center", marginTop: 30 }
-            ]}
-          >
-            Presione el icono de la camara para comenzar a escanear
-          </Text>
-        </View>
-      );
+    return (
+      <View>
+        <Text
+          style={[
+            styles.item,
+            { padding: 20, textAlign: "center", marginTop: 30 }
+          ]}
+        >
+          Presione el icono de la camara para comenzar a escanear
+        </Text>
+      </View>
+    );
     // else return null;
   };
 
@@ -144,11 +143,6 @@ class PackagesListScreen extends React.PureComponent {
 
   }
 
-  onReload = () => {
-    console.log("didmountlegacy", this.props.packages)
-    // in deposito, the grid is filled with the data arrived
-  }
-
   // fire event
   onCamera() {
     // Camera on, param function to save producto
@@ -160,23 +154,34 @@ class PackagesListScreen extends React.PureComponent {
 
   // callback event
   onCapturePackage = package_scanned => {
+    let isduplicated = false;
     //console.log(package_scanned);
     // let newStateArray = this.state.dataObjects.toJS();
     
-    // TODO check duplicity
+    // check duplicity
     // console.log(package_scanned + 'is duplicated');
     if (this.state.dataObjects.includes(package_scanned))
-      return 
+      isduplicated = true; 
     
-    // console.log('newState',newStateArray);
-    if (this.props.user.deposito) {
+    if (this.props.user.deposito)
+      this.props.packages.packages.map((elem) => {
+        if (elem.codigoqr == package_scanned) {
+          // console.log("duplicated", package_scanned)
+          isduplicated = true;
+        }
+      });
 
-    }
-    else {
+    if (isduplicated) return;
+    // end check duplicity
+    
+    // 
+    // console.log('newState',newStateArray);
+    if (!this.props.user.deposito) {
       let newStateArray = this.state.dataObjects.slice();
       newStateArray.push(package_scanned);
       this.setState({dataObjects: newStateArray});
     }
+    // 
 
     // build unique payload
     // let new_package = {}
