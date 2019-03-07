@@ -55,6 +55,7 @@ export function* rehydrateRemitos(action) {
 
 export function* updatePackage(api, action) {
   const packageqr = action.package;
+  const deposito = action.deposito;
   // make the call to the api
   const login = yield select(selectLogin);
   const packages = yield select(selectPackages);
@@ -70,7 +71,8 @@ export function* updatePackage(api, action) {
     car_id : login.account.car_id,
     orden_retiro : ordenretiro,
     latitud : -34.34,
-    longitud : -54.23
+    longitud : -54.23,
+    id_orden_retiro_qr : deposito
   }
   
   let data = Object.assign([], packages);

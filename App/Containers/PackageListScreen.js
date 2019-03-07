@@ -155,6 +155,7 @@ class PackagesListScreen extends React.PureComponent {
   // callback event
   onCapturePackage = package_scanned => {
     let isduplicated = false;
+    let idordenretiro_qr = "";
     //console.log(package_scanned);
     // let newStateArray = this.state.dataObjects.toJS();
     
@@ -183,6 +184,14 @@ class PackagesListScreen extends React.PureComponent {
     }
     // 
 
+    if (this.props.user.deposito)
+      this.props.packages.legacy.map((elem) => {
+        if (elem.codigo_qr == package_scanned) {
+          // console.log("duplicated", package_scanned)
+          idordenretiro_qr = elem.id_orden_retiro_qr;
+        }
+      });
+
     // build unique payload
     // let new_package = {}
     //   new_package.codigoqr=package_scanned,
@@ -194,7 +203,7 @@ class PackagesListScreen extends React.PureComponent {
     
     // console.log("newpackage",new_package);
     // this.props.updatePackage(new_package);
-    this.props.updatePackage(package_scanned);
+    this.props.updatePackage(package_scanned, idordenretiro_qr);
     
   }
 
@@ -301,7 +310,7 @@ const mapDispatchToProps = dispatch => {
     // attemptSync: () => dispatch(SyncActions.syncRequest()),
     adquireLocation: (location) => dispatch(LocationActions.locationAdquire()),
     savePackage: () => dispatch(PackagesActions.packageSave()),
-    updatePackage: thispackage => dispatch(PackagesActions.packageUpdate(thispackage)),
+    updatePackage: (thispackage, deposito) => dispatch(PackagesActions.packageUpdate(thispackage, deposito)),
     clearAlert: () => dispatch(AlertActions.alertClear())
   };
 };

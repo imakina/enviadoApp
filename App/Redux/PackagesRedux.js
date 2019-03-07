@@ -7,7 +7,7 @@ const { Types, Creators } = createActions({
   packagesRequest : ["package","todos"],
   packageLast : ["last"],
   packageSave: null,
-  packageUpdate: ["package"],
+  packageUpdate: ["package", "deposito"],
   packagesSuccess: ["packages"],
   packagesSuccessLegacy: ["packages"],
   packagesFailure: null,
