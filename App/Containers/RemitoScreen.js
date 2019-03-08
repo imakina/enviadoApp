@@ -230,20 +230,20 @@ class RemitoScreen extends Component {
       });
 
     } else {*/
-      this.setState({ gpsfetching: true });
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            error: null,
-            gpsfetching: false
-          });
-          // console.tron.display({ name: "position", value: position });
-        },
-        error => this.setState({ gpserror: error.message, gpsfetching: false }),
-        { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
-      );
+      // this.setState({ gpsfetching: true });
+      // navigator.geolocation.getCurrentPosition(
+      //   position => {
+      //     this.setState({
+      //       latitude: position.coords.latitude,
+      //       longitude: position.coords.longitude,
+      //       error: null,
+      //       gpsfetching: false
+      //     });
+      //     // console.tron.display({ name: "position", value: position });
+      //   },
+      //   error => this.setState({ gpserror: error.message, gpsfetching: false }),
+      //   { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+      // );
 
     //}
   }

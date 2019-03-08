@@ -4,6 +4,9 @@ import AsyncStorage from 'AsyncStorage';
 import { is } from 'ramda'
 // import { AsyncResource } from 'async_hooks';
 import LoginActions from '../Redux/LoginRedux'
+import LocationActions from '../Redux/LocationRedux'
+
+// import { locationChangeChannel } from '../Services/Location'
 
 // exported to make available for tests
 // export const selectAvatar = (state) => state.github.avatar
@@ -38,26 +41,14 @@ export function * startup (action) {
     //   }
     // })
     console.tron.display({preview:'🔥 IGNITE 🔥'})
-  
 
-
-    // const serializedState = await AsyncStorage.getItem('account');
-    // if (serializedState !== null) {
-    //   const account = JSON.parse(serializedState)
-    //   yield put(LoginActions.loginSuccess(account))
-    // }
-    // return ;
-
-    // AsyncStorage.multiGet(['expire','username','password']).then((data) => {
-    //   console.tron.display({preview:data})
-    //   if (data[0][1]) {
-    //     console.tron.display({name:'AsyncStorage', value:data})
-    //   }
-    // })
-
+    //location
+    // locationChangeChannel();
+    // LocationSagas
   }
 
   yield put(LoginActions.loginCheck())
+  yield put(LocationActions.locationStartup())
 
   //const token = yield select(selectToken)
   // 31913 

@@ -14,6 +14,7 @@ import { MotivosTypes } from "../Redux/MotivosRedux";
 import { SyncTypes } from "../Redux/SyncRedux";
 import { PackagesTypes } from "../Redux/PackagesRedux";
 import { OrdenRetiroTypes } from "../Redux/OrdenRetiroRedux";
+import { LocationTypes, adquire } from "../Redux/LocationRedux";
 
 /* ------------- Sagas ------------- */
 
@@ -43,6 +44,13 @@ import {
   getOrdenRetiro,
   activeOrdenRetiro
 } from "./OrdenRetiroSagas";
+
+import { 
+  // adquire,
+  openLocationWatch
+} from "./LocationSagas";
+
+
 /* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -98,6 +106,10 @@ export default function* root() {
     takeLatest(MotivosTypes.MOTIVOS_REQUEST, getMotivos, api),
 
     // sync process
-    takeLatest(SyncTypes.SYNC_REQUEST, sync, api)
+    takeLatest(SyncTypes.SYNC_REQUEST, sync, api),
+
+    // location
+    // takeLatest(LocationTypes.LOCATION_ADQUIRE, adquire),
+    takeLatest(LocationTypes.LOCATION_STARTUP, openLocationWatch)
   ]);
 }

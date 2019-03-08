@@ -132,7 +132,7 @@ class PackagesListScreen extends React.PureComponent {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("nrew props",newProps);
+    // console.log("nrew props",newProps);
 
     if (this.props.user.deposito)
       this.setState({
@@ -308,7 +308,7 @@ const mapDispatchToProps = dispatch => {
     // rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
     // selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
     // attemptSync: () => dispatch(SyncActions.syncRequest()),
-    adquireLocation: (location) => dispatch(LocationActions.locationAdquire()),
+    // adquireLocation: (location) => dispatch(LocationActions.locationAdquire()),
     savePackage: () => dispatch(PackagesActions.packageSave()),
     updatePackage: (thispackage, deposito) => dispatch(PackagesActions.packageUpdate(thispackage, deposito)),
     clearAlert: () => dispatch(AlertActions.alertClear())

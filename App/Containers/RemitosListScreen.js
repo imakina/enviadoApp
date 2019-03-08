@@ -8,7 +8,7 @@ import getDirections from "react-native-google-maps-directions";
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 import RemitosActions from "../Redux/RemitosRedux";
 import SyncActions from "../Redux/SyncRedux";
-import LocationActions from "../Redux/LocationRedux";
+// import LocationActions from "../Redux/LocationRedux";
 // Styles
 import styles from "./Styles/RemitosListScreenStyle";
 // import { Colors } from '../Themes'
@@ -31,8 +31,8 @@ class RemitosListScreen extends React.PureComponent {
   
   //force unmounting 
   clearWatch = () => {
-    navigator.geolocation.clearWatch(this.watchId);
-    console.log("force umounting")
+    // navigator.geolocation.clearWatch(this.watchId);
+    // console.log("force umounting")
   }
 
   state = {
@@ -286,11 +286,11 @@ class RemitosListScreen extends React.PureComponent {
 
     //changed to promote realtime gps 
     // this.myCurrentPosition();
-    this.myWatchPosition();
+    // this.myWatchPosition();
   }
 
   componentWillUnmount() {
-    this.clearWatch();
+    // this.clearWatch();
   }
 
   // myCurrentPosition() {
@@ -310,31 +310,31 @@ class RemitosListScreen extends React.PureComponent {
   watchID = null;
 
   myWatchPosition() {
-    console.log("init myWatchPosition",this.watchID)
-    this.setState({ gpsfetch : true })
+    // console.log("init myWatchPosition",this.watchID)
+    // this.setState({ gpsfetch : true })
 
-    this.watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          gpsfetch : false,
-          error: null,
-        }, 
-          () => {
-            console.log("myWatchPosition get new position", this.state.latitude)
-            this.onAdquireLocation(position.coords.latitude, position.coords.longitude);
-            this.updateIndex(0);
-          }
-        );
-      },
-      (error) => { 
-        this.setState({ error: error.message }),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
-        console.log('error',error)
-        this.setState({ gpsfetch : false })
-      }
-    );
+    // this.watchId = navigator.geolocation.watchPosition(
+    //   (position) => {
+    //     this.setState({
+    //       latitude: position.coords.latitude,
+    //       longitude: position.coords.longitude,
+    //       gpsfetch : false,
+    //       error: null,
+    //     }, 
+    //       () => {
+    //         console.log("myWatchPosition get new position", this.state.latitude)
+    //         this.onAdquireLocation(position.coords.latitude, position.coords.longitude);
+    //         this.updateIndex(0);
+    //       }
+    //     );
+    //   },
+    //   (error) => { 
+    //     this.setState({ error: error.message }),
+    //     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+    //     console.log('error',error)
+    //     this.setState({ gpsfetch : false })
+    //   }
+    // );
   }
 
   onRequestingRemitos = todos => {
@@ -358,9 +358,9 @@ class RemitosListScreen extends React.PureComponent {
     this.props.navigation.navigate("RemitoScreen");
   };
 
-  onAdquireLocation = (latitude, longitude) => {
-    this.props.adquireLocation({latitude,longitude});
-  }
+  // onAdquireLocation = (latitude, longitude) => {
+  //   this.props.adquireLocation({latitude,longitude});
+  // }
 
   // onPressMap = (item) => {
   //   // console.log({name:'map', value:item})
@@ -525,7 +525,7 @@ const mapDispatchToProps = dispatch => {
     rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
     selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
     attemptSync: () => dispatch(SyncActions.syncRequest()),
-    adquireLocation: (location) => dispatch(LocationActions.locationAdquire())
+    // adquireLocation: (location) => dispatch(LocationActions.locationAdquire())
   };
 };
 

@@ -7,6 +7,7 @@ const selectAccount = state => state.login.account;
 const selectLogin = state => state.login;
 const selectActive = state => state.ordenretiro.active;
 const selectPackages = state => state.packages.packages;
+const selectLocation = state => state.location;
 
 export function* getPackages(api, action) {
   // account logged | hoja
@@ -16,7 +17,7 @@ export function* getPackages(api, action) {
   const callApi = login.deposito?api.getPackagesQR:api.getRemitosQR;
 
   const response = yield call(callApi, ordenretiro);
-  console.log("packagesaga",response);
+  // console.log("packagesaga",response);
 
   if (response.ok) {
     const { data } = response;
@@ -24,10 +25,7 @@ export function* getPackages(api, action) {
     // store(data);
     // end save async
     console.log("legacy",data);
-    // if (login.deposito)
-    //   yield put(PackagesActions.packagesSuccess(data));
-    // else
-      yield put(PackagesActions.packagesSuccessLegacy(data));
+    yield put(PackagesActions.packagesSuccessLegacy(data));
 
   } else {
     // todo put the messages in a unified place
@@ -35,7 +33,6 @@ export function* getPackages(api, action) {
     let { problem } = response;
     if (problem == null) problem = response.data.message;
 
-    //yield call(Alert.alert, problem)
     yield put(PackagesActions.packagesFailure({ fetching: false }));
   }
 }
@@ -48,7 +45,7 @@ function store(packages) {
 
 // rehydrate the hojas from the storage
 export function* rehydrateRemitos(action) {
-  const remitos = yield AsyncStorage.getItem("packages");
+  const pacakges = yield AsyncStorage.getItem("packages");
   // console.tron.display({ preview: "packages", value: packages });
   if (packages) yield put(PackagesActions.packagesSuccess(JSON.parse(pacakges)));
 }
@@ -60,6 +57,7 @@ export function* updatePackage(api, action) {
   const login = yield select(selectLogin);
   const packages = yield select(selectPackages);
   const ordenretiro = yield select(selectActive);
+  const location = yield select(selectLocation);
   
   // update the item
 
@@ -70,8 +68,8 @@ export function* updatePackage(api, action) {
     codigoqr : packageqr,
     car_id : login.account.car_id,
     orden_retiro : ordenretiro,
-    latitud : -34.34,
-    longitud : -54.23,
+    latitud : location.latitude,
+    longitud : location.longitude,
     id_orden_retiro_qr : deposito
   }
   
