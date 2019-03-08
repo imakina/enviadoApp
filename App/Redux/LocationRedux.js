@@ -15,8 +15,8 @@ export default Creators;
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  latitude : null,
-  longitude : null
+  latitude : 0,
+  longitude : 0
 });
 
 /* ------------- Reducers ------------- */

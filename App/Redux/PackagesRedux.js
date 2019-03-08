@@ -1,5 +1,6 @@
 import { createReducer, createActions } from "reduxsauce";
 import Immutable from "seamless-immutable";
+// import console = require("console");
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -11,6 +12,7 @@ const { Types, Creators } = createActions({
   packagesSuccess: ["packages"],
   packagesSuccessLegacy: ["packages"],
   packagesFailure: null,
+  packagesReset: null,
 });
 
 export const PackagesTypes = Types;
@@ -38,6 +40,11 @@ export const last = (state, action) => {
   const {last} = action;
   return state.merge({ fetching: false, last_package: last });
 }
+
+export const reset = (state) => {
+  console.log("reset");
+  return state.merge({ packages: [], legacy : [] })
+};
 
 // rehydrate the data from an asyncstorage
 export const rehydrate = (state, action) =>
@@ -81,6 +88,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.PACKAGES_FAILURE]: failure,
   [Types.PACKAGE_UPDATE]: update,
   [Types.PACKAGE_LAST]: last,
+  [Types.PACKAGES_RESET]: reset
   // [Types.ORDEN_UPDATE_SUCCESS]: update_success,
   // [Types.ORDEN_SELECTED]: selected,
   // [Types.ORDENES_REHYDRATE]: rehydrate

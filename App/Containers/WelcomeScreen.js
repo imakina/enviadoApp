@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { Button } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LoginActions from "../Redux/LoginRedux";
+import PackagesActions from "../Redux/PackagesRedux";
 // import SyncActions from "../Redux/SyncRedux";
 // Components
 import Header from "../Components/Header";
@@ -35,11 +36,13 @@ class WelcomeScreen extends Component {
   handlePressHR = () => this.props.navigation.navigate("HomeScreen");
   handlePressOR = () => {
     // TODO replace with the login logic
+    this.props.resetPackages();
     this.props.depositoLogin(false);
     this.props.navigation.navigate("OrdenRetiroScreen");
   }
   handlePressDE = () => {
     // TODO replace with the login logic
+    this.props.resetPackages();
     this.props.depositoLogin(true);
     // move to depositoscreen
     this.props.navigation.navigate("OrdenRetiroScreen");
@@ -103,6 +106,7 @@ const mapDispatchToProps = dispatch => {
   return {
     // attemptLogout: () => dispatch(LoginActions.loginOut()),
     depositoLogin: (isDeposito) => dispatch(LoginActions.loginDeposito(isDeposito)),
+    resetPackages: () => dispatch(PackagesActions.packagesReset()),
     // attemptSync: () => dispatch(SyncActions.syncRequest())
   };
 };

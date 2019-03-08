@@ -9,6 +9,10 @@ const selectActive = state => state.ordenretiro.active;
 const selectPackages = state => state.packages.packages;
 const selectLocation = state => state.location;
 
+export function * resetPackages(action) {
+  // yield put(PackagesActions.packagesReset());
+}
+
 export function* getPackages(api, action) {
   // account logged | hoja
   const ordenretiro = yield select(selectActive);
@@ -103,7 +107,7 @@ export function* savePackage(api, action) {
 
   const response = yield call(callApi, account.token, packages);
   if (response.ok) {
-    console.log("packages ok = ", response);
+    console.log("save packages ok = ", response);
     yield put(PackagesActions.packagesSuccess([]));
     yield put(AlertActions.alertSuccess("Paquetes actualizadas"));
   } else {
@@ -111,7 +115,7 @@ export function* savePackage(api, action) {
     // network error
     let { problem } = response;
     if (problem == null) problem = response.data.message;
-    console.log("packages failure",response);
+    console.log("save packages failure",response);
     yield put(PackagesActions.packagesFailure({ fetching: false }));
   }
 

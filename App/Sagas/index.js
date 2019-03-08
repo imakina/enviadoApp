@@ -14,7 +14,7 @@ import { MotivosTypes } from "../Redux/MotivosRedux";
 import { SyncTypes } from "../Redux/SyncRedux";
 import { PackagesTypes } from "../Redux/PackagesRedux";
 import { OrdenRetiroTypes } from "../Redux/OrdenRetiroRedux";
-import { LocationTypes, adquire } from "../Redux/LocationRedux";
+import { LocationTypes } from "../Redux/LocationRedux";
 
 /* ------------- Sagas ------------- */
 
@@ -38,7 +38,8 @@ import { sync } from "./SyncSagas";
 import {
   getPackages,
   updatePackage,
-  savePackage
+  savePackage,
+  resetPackages
 } from "./PackagesSagas";
 import {
   getOrdenRetiro,
@@ -92,6 +93,7 @@ export default function* root() {
     takeLatest(PackagesTypes.PACKAGES_REQUEST, getPackages, api),
     takeLatest(PackagesTypes.PACKAGE_UPDATE, updatePackage, api),
     takeLatest(PackagesTypes.PACKAGE_SAVE, savePackage, api),
+    takeLatest(PackagesTypes.PACKAGES_RESET, resetPackages),
     // some sagas about ordenes retiro
     takeLatest(OrdenRetiroTypes.ORDEN_RETIRO_REQUEST, getOrdenRetiro, api),
     takeLatest(OrdenRetiroTypes.ORDEN_RETIRO_ACTIVE, activeOrdenRetiro),

@@ -65,6 +65,8 @@ class PackagesListScreen extends React.PureComponent {
 
   renderRow = ({ item }) => {
 
+    // console.log(item)
+
     return (
 
       <ListItem
