@@ -1,29 +1,30 @@
-import { StyleSheet, ColorPropType } from 'react-native'
-import { ApplicationStyles, Metrics, Colors, Fonts  } from '../../Themes'
+import { StyleSheet, ColorPropType } from "react-native";
+import { ApplicationStyles, Metrics, Colors, Fonts } from "../../Themes";
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor: Colors.ricePaper,
-    paddingTop:70, 
+    backgroundColor: Colors.snow,
+    // paddingTop: 70
   },
   spinnerContainer: {
-    flex:1,
-    alignItems: 'center',
+    flex: 1,
+    alignItems: "center",
+    marginTop: 40
   },
-  itembutton : {
+  itembutton: {
     ...Fonts.style.normal
   },
-  imagem :{
-    padding:8,
-    paddingTop:24
+  imagem: {
+    padding: 8,
+    paddingTop: 24
   },
-  box :{
-    padding:5, 
+  box: {
+    padding: 5
   },
   subtitleView: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingLeft: 10,
     paddingTop: 5
   },
@@ -42,68 +43,36 @@ export default StyleSheet.create({
   //   ...Fonts.type.base
   // },
 
-  textButtonGroup : {
+  listContent : {
+    flexGrow: 1
+  },
+
+  textButtonGroup: {
     ...Fonts.style.normal,
-    alignItems: 'center',
-    justifyContent:'center', 
-    textAlign:'center',
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     padding: 6
   },
-  textButtonSelected : {
+  textButtonSelected: {
     backgroundColor: Colors.backgroundVariant,
     color: Colors.snow
   },
-  shadow: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: Colors.eggplant
+  
+  proximityCheck : {
+    borderRadius: 4,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    flexDirection: "row",
+    paddingTop: 8,
+    // paddingBottom: 3,
+    paddingRight: 10,
+  },
+  proximityCheckText : {
+    fontSize : 14,
+    color: Colors.black,
+    paddingBottom: 6,
+    paddingRight: 10,
   },
 
-  listitem: {
-    height: Metrics.screenHeight / 7,
-    width: Metrics.screenWidth - 30,
-    // alignItems: 'center',
-    backgroundColor: Colors.snow,
-    // borderBottomColor: Colors.snow,
-    flexDirection: 'column',
-    // marginRight: 5,
-    // marginLeft: 5,
-    marginTop: 20,
-    // padding: 10,
-
-    borderRadius: 10,
-    padding: 10,
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 3
-    },
-    shadowRadius: 5,
-    shadowOpacity: 1.0
-  },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    // backgroundColor: Colors.bloodOrange
-  },
-  numero: {
-    ...Fonts.style.h5,
-    marginLeft: 5,
-    // backgroundColor: Colors.charcoal
-  },
-  domicilio: {
-    ...Fonts.style.small,
-    padding: 0,
-    marginTop: 5,
-    backgroundColor: Colors.transparent
-  },
-  distance : {
-    ...Fonts.style.h5,
-    color: Colors.facebook,
-    // backgroundColor: Colors.coal,
-    alignSelf: 'flex-end'
-  },
-
-})
+});

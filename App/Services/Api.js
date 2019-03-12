@@ -2,9 +2,9 @@
 import apisauce from 'apisauce'
 
 // our "constructor"
+// const create = (baseURL = "http://clientes.enviado.com/api/") => {
+const create = (baseURL = "http://test.softsencillo.com/api/") => {
 // const create = (baseURL = 'https://api.github.com/') => {
-const create = (baseURL = 'http://clientes.enviado.com/') => {
-// const create = (baseURL = 'http://desa.enviado.softsencillo.com/') => {
   // ------
   // STEP 1
   // ------
@@ -19,15 +19,9 @@ const create = (baseURL = 'http://clientes.enviado.com/') => {
       'Cache-Control': 'no-cache'
     },
     // 10 second timeout...
-    timeout: 10000  
+    timeout: 10000
   })
 
-
-  // if (__DEV__ && console.tron) {
-  //   console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
-  //   api.addMonitor(console.tron.apisauce)
-  // }
-  
   // ------
   // STEP 2
   // ------
@@ -45,16 +39,27 @@ const create = (baseURL = 'http://clientes.enviado.com/') => {
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
-  //no fletero
-  //const postLogin = (u,p) => api.post('api/authentication/login', {username: u, password: p })
-  const postLogin = (u,p) => api.post('api/authentication/loginfletero', {username: u, password: p })
-  //remitos por hoja de ruta
-  //const getRemitos = (token) => api.get('api/remitos/ListadoRemitoRuteo', { token: token })
-  const getRemitos = (hojaruta,token) => api.get('api/remitos/ListadoRemitosHojaRuta', { hojaruta: hojaruta, token: token })
-  const getRemitosTodos = (hojaruta,token) => api.get('api/remitos/ListadoRemitosHojaRutaTodos', { hojaruta: hojaruta, token: token })
-  const getHojaRuta = (car_id, estado) => api.get('api/remitos/ListadoHojasRuta', { car_id: car_id, estado: estado })
-  const getMotivos = (token) => api.get('api/remitos/motivos', { token: token })
-  const postRemitoEstado = (token, body) => api.post('api/remitos/actualizaestado/?token=' + token, body )
+  const postLogin = (u, p) => api.post("authentication/loginfletero", { username: u, password: p });
+  const getRemitos = (hojaruta, token, t) =>
+    api.get("remitos/ListadoRemitosHojaRuta", {
+      hojaruta: hojaruta,
+      mobile: t,
+      token: token
+    });
+  const getRemitosTodos = (hojaruta, token) =>
+    api.get("remitos/ListadoRemitosHojaRutaTodos", {
+      hojaruta: hojaruta,
+      token: token
+    });
+  const getHojaRuta = (car_id, estado) => api.get("remitos/ListadoHojasRuta", { car_id: car_id, estado: estado });
+  const getMotivos = token => api.get("remitos/motivos", { token: token });
+  const postRemitoEstado = (token, body) => api.post("remitos/actualizaestado/?token=" + token, body);
+  // ordenes retiro
+  const postOrdenRetiro = (token, body) => api.post("ordenretiroqr/crearorden/?token=" + token, body);
+  const postOrdenRetiroCerrar = (token, body) => api.post("ordenretiroqr/cerrarorden/?token=" + token, body);
+  const getOrdenRetiro = (fletero) => api.get("remitos/ListadoOrdenesRetiroQR", { fletero: fletero });
+  const getRemitosQR = (numero_orden) => api.get("remitos/ListadoRemitosQR", { ordenRetiro: numero_orden });
+  const getPackagesQR = (numero_orden) => api.get("remitos/ListadoPackagesQR", { ordenRetiro: numero_orden });
   
 
   // ------
@@ -79,7 +84,12 @@ const create = (baseURL = 'http://clientes.enviado.com/') => {
     getRemitosTodos,
     getHojaRuta,
     getMotivos,
-    postRemitoEstado
+    postRemitoEstado,
+    postOrdenRetiro,
+    postOrdenRetiroCerrar,
+    getOrdenRetiro,
+    getPackagesQR,
+    getRemitosQR,
   }
 }
 

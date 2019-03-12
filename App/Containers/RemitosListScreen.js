@@ -1,365 +1,347 @@
-import React from 'react'
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import { connect } from 'react-redux'
-import { ListItem, List, Header, Icon, SearchBar, ButtonGroup } from 'react-native-elements'
-import openMap from 'react-native-open-maps';
-import getDirections from 'react-native-google-maps-directions';
+import React from "react";
+import { View, Text, FlatList } from "react-native";
+import { connect } from "react-redux";
+// import { SearchBar } from "react-native-elements";
+// import openMap from "react-native-open-maps";
+import getDirections from "react-native-google-maps-directions";
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
-import RemitosActions from '../Redux/RemitosRedux'
-
+import RemitosActions from "../Redux/RemitosRedux";
+import SyncActions from "../Redux/SyncRedux";
+// import LocationActions from "../Redux/LocationRedux";
 // Styles
-import styles from './Styles/RemitosListScreenStyle'
-import { Colors } from '../Themes'
-
-var Spinner = require('react-native-spinkit')
+import styles from "./Styles/RemitosListScreenStyle";
+// import { Colors } from '../Themes'
+// Components
+import ItemRemito from "../Components/ItemRemito";
+import HeaderRemito from "../Components/HeaderRemito";
+import Header from "../Components/Header";
+import Spinner from "../Components/Spinner";
 
 class RemitosListScreen extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.renderRow = this.renderRow.bind(this);
-    // this.state = {
-    //   hoja : props.navigation.state.params.hoja,
-    //   //car_id : props.navigation.state.params.car_id
-    // }
-    //console.tron.log({screen:'CameraScreen', value: this.state.hoja})
   }
 
-  /* ***********************************************************
-  * STEP 1
-  * This is an array of objects with the properties you desire
-  * Usually this should come from Redux mapStateToProps
-  *************************************************************/
+  goBack = () => {
+    this.clearWatch();
+    this.props.navigation.navigate("HojaRutaScreen");
+  }
+  
+  //force unmounting 
+  clearWatch = () => {
+    // navigator.geolocation.clearWatch(this.watchId);
+    // console.log("force umounting")
+  }
+
   state = {
-    fetching:false,
+    fetching: false,
+    updating : false,
     tabIndex: 0,
-    dataObjects : []
-    // dataObjects: [
-    //   {title: 'First Title', description: 'First Description'},
-    //   {title: 'Second Title', description: 'Second Description'},
-    //   {title: 'Third Title', description: 'Third Description'},
-    //   {title: 'Fourth Title', description: 'Fourth Description'},
-    //   {title: 'Fifth Title', description: 'Fifth Description'},
-    //   {title: 'Sixth Title', description: 'Sixth Description'},
-    //   {title: 'Seventh Title', description: 'Seventh Description'}
-    // ]
-  }
+    dataObjects: this.props.remitos,
+    saveproximity : false,
+    latitude : null,
+    longitude : null
+  };
 
-  /* ***********************************************************
-  * STEP 2
-  * `renderRow` function. How each cell/row should be rendered
-  * It's our best practice to place a single component here:
-  *
-  * e.g.
-    return <MyCustomCell title={item.title} description={item.description} />
-  *************************************************************/
-  renderRow ({item}) {
-
-    const nombre = item.nombreDestinatario
-      .toLowerCase()
-      .trim()
-      .split(' ')
-      .reduce((nombre, item, index) => {    
-        //console.tron.log({nombre,item,index})
-        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
-      })
-
-    const domicilio = item.domicilioDestinatario
-      .toLowerCase()
-      .trim()
-      .split(' ')
-      .reduce((nombre, item, index) => {    
-        //console.tron.log({nombre,item,index})
-        return (nombre.substring(0,1).toUpperCase() + nombre.substring(1) + ' ' + item.substring(0,1).toUpperCase() + item.substring(1))
-      })
-
-    const badge = {
-      value: `$ ${item.importe} ${item.tipoPago.trim()}` ,
-      badgeContainerStyle: { right: 10, backgroundColor: '#56579B' },
-      badgeTextStyle: { fontSize: 14, padding: 2 },
-    };
-
-    const customIconName = (item.domicilioDestinatario.indexOf("|TpoProp: CASA")===-1)?"building-o":"home"
-    // {item.nombreDestinatario.indexOf("tpoProp:casa")>0:'#BFBFBF':'red'}
-
-    const customIcon = { 
-      name: customIconName,
-      color: `${item.latitud.trim()===''?'#BFBFBF':'#27ae60'}`,
-      size:30,
-      type:'font-awesome'
-    }
-
-    const customDomicilio = domicilio.split('|')[0].substring(0,40)
-    // const customDomicilio = domicilio.replace('|tpoprop: Casa','')
-
-    const dist = this.getDistance({latitud:this.state.latitude,longitud:this.state.longitude}, {latitud:item.latitud,longitud:item.longitud})
-
-    const distance = parseFloat(Math.round(dist * 100) / 100).toFixed(2) + ' kms';
-
-    // console.log(distance);
-
+  renderRow = ({ item }) => {
     return (
+      <ItemRemito
+        // latitud={this.state.latitude}
+        // longitud={this.state.longitude}
+        onPressSingleItem={() => this.onPressSingleItem(item)}
+        onPressOpenMaps={() => this.onPressOpenMaps(item)}
+        item={item}
+      />
+    );
+  };
 
-      // <ListItem
-      //     // fontFamily="NunitoRegular"
-      //     subtitleStyle={styles.item}
-      //     textInputStyle={styles.item}
-      //     title={item.nroRemito}
-      //     subtitle={customDomicilio}
-      //     badge={badge}
-      //     containerStyle={{ backgroundColor: 'white' }}
-      //     onPress={() => this.onPressSingleItem(item)}
-      //     leftIcon={customIcon}
-      //     leftIconOnPress={() => this.onPressMap(item)}
-      //   />
-      // <TouchableOpacity style={{flex:0.7}} onPress={() => this.onPressDirection(item)}>
-      //   <Icon
-      //     name={'map'}
-      //     color={Colors.backgroundVariant}
-      //   />
-      // </TouchableOpacity>
-
-      
-
-      <View style={styles.shadow}>
-
-                  {/* <Icon
-                    name={'globe'}
-                    color={Colors.facebook}
-                    size={28}
-                    type='font-awesome'
-                  /> */}
-
-        <TouchableOpacity style={styles.listitem} onPress={() => this.onPressSingleItem(item)}>
-
-          <View style={{flexDirection:'row'}}>
-
-            <View style={{flex:0.3}}>
-
-                <TouchableOpacity  onPress={() => this.onPressOpenMaps(item)}>
-                  <Icon
-                    name={customIconName}
-                    color={item.latitud.trim() === '' ? '#BFBFBF' : '#27ae60'}
-                    size={40}
-                    type='font-awesome'
-                  />
-                </TouchableOpacity>
-
-            </View>
-
-            <View style={{flex:2}}>
-
-              <View style={{flexDirection:'column'}}>
-
-                <View >
-                  <Text style={styles.numero}>{item.nroRemito}</Text>
-                </View>
-
-                <View >
-                  <Text style={styles.distance}> {distance}</Text>
-                </View>
-
-              </View>
-
-            </View>
-
-          </View>
-
-          <View>
-            <Text style={styles.domicilio}>{customDomicilio}</Text>
-          </View>
-
-        </TouchableOpacity>
-      </View>
-
-    )
-
-}
-
-  /* ***********************************************************
-  * STEP 3
-  * Consider the configurations we've set below.  Customize them
-  * to your liking!  Each with some friendly advice.
-  *************************************************************/
-  // Render a header?
-  renderHeader = () =>
-      <View>
-
-        <View style={{flexDirection:'row', height: 40}}>
-          <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(0)}>
-            <Text style={[styles.textButtonGroup, (this.state.tabIndex == 0)?styles.textButtonSelected:'']}>Pendientes</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex:1}} onPress={() => this.updateIndex(1)}>
-            <Text style={[styles.textButtonGroup, (this.state.tabIndex == 1)?styles.textButtonSelected:'']}>Todos</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* <ButtonGroup
-          selectedBackgroundColor={Colors.backgroundVariant}
-          onPress={this.updateIndex}
-          selectedIndex={this.state.tabIndex}
-          buttons={['Todos', 'Pendientes']}
-          containerStyle={{height: 35}}
-          textStyle={styles.itembutton} 
-          selectedTextStyle={styles.itembutton} 	
-          /> */}
-
-        <SearchBar 
-          onChangeText={this.onSearch}
-          onClearText={this.onClearSearch}
-          placeholder="Escriba aqui ..." 
-          lightTheme 
-          round />
-
-      </View>
-
-  updateIndex = (index) => {
-    console.tron.log("updating index")
-    this.setState({tabIndex: index})
-    switch(index) {
-      case 0:
-        //update the list
-        this.onRequestingRemitos(false)
-        break;
-      case 1:
-        //update the list
-        this.onRequestingRemitos(true)
-        break;
-    }
+  handleSaveProximity = () => {
+    // console.log({name:'checkboxChanged', value:!this.state.saveproximity})
+    this.setState({ saveproximity: !this.state.saveproximity }, () => this.reload())
+    // reorder the grid after proximity check change
+    console.log(this.state.tabIndex);
   }
 
-  // <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+  // renderHeader = () => ( 
+  //   <HeaderRemito 
+  //     tabIndex = {this.state.tabIndex}
+  //     saveproximity = {this.state.saveproximity} 
+  //     updateIndex = {this.updateIndex} 
+  //     handleSaveProximity = {this.handleSaveProximity} 
+  //     onSearch = {() => this.onSearch} 
+  //     onClearSearch = {() => this.onClearSearch} 
+  //   /> )
+
+  //
+  // Render a header?
+  //
+  // renderHeader = () => (
+    
+  //   <View>
+  //     <View style={{ flexDirection: "row", height: 40 }}>
+
+  //       <TouchableOpacity style={{ flex: 1 }} onPress={() => this.updateIndex(0)}>
+  //         <Text
+  //           style={[styles.textButtonGroup, this.state.tabIndex == 0 ? styles.textButtonSelected : ""]}>
+  //           Pendientes
+  //         </Text>
+  //       </TouchableOpacity>
+
+  //       <TouchableOpacity style={{ flex: 1 }} onPress={() => this.updateIndex(1)}>
+  //         <Text
+  //           style={[styles.textButtonGroup,this.state.tabIndex == 1 ? styles.textButtonSelected : ""]}>
+  //           Todos
+  //         </Text>
+  //       </TouchableOpacity>
+
+  //     </View>
+
+  //     <SearchBar
+  //       onChangeText={this.onSearch}
+  //       onClearText={this.onClearSearch}
+  //       placeholder="Escriba aqui ..."
+  //       lightTheme
+  //       round
+  //     />
+
+  //     { this.state.tabIndex == 0 &&
+
+  //       <View style={styles.proximityCheck}>
+  //         <Text style={styles.proximityCheckText}>
+  //         {
+  //           this.state.saveproximity ? " Ordenado por proximidad ":" Ordenado por BackOffice "
+  //         }
+  //         </Text>
+  //         <Switch
+  //             value={this.state.saveproximity}
+  //             onValueChange={this.handleSaveProximity}
+  //             disabled={false}
+  //             onTintColor={Colors.backgroundVariant}
+  //           />
+  //       </View>
+
+  //     }
+
+  //   </View>
+  // );
+
+ 
+  //
+  // change selection
+  //
+  updateIndex = index => {
+    // if (this.state.tabIndex != index)
+    this.setState({ tabIndex: index }, () => this.reload());
+  }
+  
+  //
+  // reload the data without selecting a new
+  //
+  reload = () => {
+
+    if (!this.props.remitos) {
+      console.log('without remitos')
+      return;
+    }
+ 
+    console.tron.log("updating index");
+    console.log("updating index", this.state.tabIndex);
+    console.log("got gps", this.state.latitude + ' ' + this.state.longitude);
+
+    var dataOrdered;
+
+    switch (this.state.tabIndex) {
+    case 0:
+      // pending
+      // data = this.state.dataObjects
+      data = this.props.remitos
+        .filter(item => item.estado_mobile == 99)
+        .map(item => item);
+
+      var dataCloned = [ ...data]
+      
+      //
+      // add the calculated distance field
+      //
+      const dataCopy = dataCloned.map((item) => {
+        
+        const tempDist = this.getDistance({
+          latitud: item.latitud,
+          longitud: item.longitud
+        });
+        
+        // format distance
+        const distance = isNaN(tempDist)
+        ? tempDist
+        : parseFloat(Math.round(tempDist * 100) / 100).toFixed(2);
+        
+        // console.log("distance", distance)
+
+        return {...item, distance: distance};
+      });
+
+      // default with gps 
+      dataOrdered = dataCopy;
+
+      // order by proximity
+      if (this.state.saveproximity) 
+        dataOrdered = dataCopy.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+    
+      console.log("end order")
+
+      break;
+        
+    case 1:
+      // full list
+      // dataOrdered = this.state.dataObjects
+      dataOrdered = this.props.remitos;
+      break;
+    }
+      
+    // console.table(dataOrdered);
+    this.setState({ dataObjects: dataOrdered })
+
+  };
 
   // Render a footer?
-  renderFooter = () =>
+  renderFooter = () => (
     <Text style={[styles.label, styles.sectionHeader]}> - Footer - </Text>
+  );
 
   // Show this when data is empty
-  renderEmpty = () => { 
-  
+  renderEmpty = () => {
     if (this.state.fetching)
-      return <Text style={[styles.item, {padding:20, textAlign:'center', marginTop:30}]}> Buscando ... </Text>
-    else 
-      return null
+      return (
+        <Text
+          style={[
+            styles.item,
+            { padding: 20, textAlign: "center", marginTop: 30 }
+          ]}
+        >
+          {" "}
+          Buscando ...{" "}
+        </Text>
+      );
+    else return null;
+  };
 
-  }
-
-  renderSeparator = () =>
-    <Text style={styles.label}> - ~~~~~ - </Text>
+  renderSeparator = () => <Text style={styles.label}> - ~~~~~ - </Text>;
 
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => index
+  keyExtractor = (item, index) => index;
 
   // How many items should be kept im memory as we scroll?
-  oneScreensWorth = 20
+  oneScreensWorth = 20;
 
-  // extraData is for anything that is not indicated in data
-  // for instance, if you kept "favorites" in `this.state.favs`
-  // pass that in, so changes in favorites will cause a re-render
-  // and your renderItem will have access to change depending on state
-  // e.g. `extraData`={this.state.favs}
-
-  // Optimize your list if the height of each item can be calculated
-  // by supplying a constant height, there is no need to measure each
-  // item after it renders.  This can save significant time for lists
-  // of a size 100+
-  // e.g. itemLayout={(data, index) => (
-  //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
-  // )}
-
-  // fetching = false
-
-  onSearch = (some) => {
+  onSearch = some => {
     // console.tron.log(some)
-    if (some.length==0) {
-      data = this.state.data
+    if (some.length == 0) {
+      data = this.state.data;
     } else {
-      data=this.state.data.filter(function(item){
-          return item.nroRemito.indexOf(some) > 0;
-      }).map(function(item){
-          return item;
-      });
+      data = this.state.data
+        .filter(item => item.nroRemito.indexOf(some) > 0)
+        .map(item => item);
     }
 
-    this.setState({ 
+    this.setState({
       dataObjects: data
-    })
-  }
-
-  // distance gps
-  getDistance = (origin,destination) => {
-    console.log(origin.latitud + ' ' + destination.latitud)
-    console.log(origin.longitud + ' ' + destination.longitud)
-    const R = 6371; // Radius of the earth in km
-    const dLat = this.deg2rad(destination.latitud-origin.latitud);  // this.deg2rad below
-    const dLon = this.deg2rad(destination.longitud-origin.longitud); 
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(this.deg2rad(origin.latitud)) * Math.cos(this.deg2rad(destination.latitud)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-    ; 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    const d = R * c; // Distance in km
-    return d || 0;
-  }
-  
-  deg2rad = (deg) => { return deg * (Math.PI/180); }
-  // end distance gps
-  
+    });
+  };
 
   onClearSearch = () => {
-    this.setState({ 
+    this.setState({
       dataObjects: this.state.data
-    })
-  }
+    });
+  };
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     //console.tron.display({name: 'props', value: newProps})
-    this.setState({ 
-      dataObjects: newProps.payload,
-      data: newProps.payload,
+    this.setState({
+      sync: newProps.sync,
+      dataObjects: newProps.remitos,
+      data: newProps.remitos,
       fetching: newProps.fetching,
-    })
+    });
+
+    // console.log(newProps)
+
+    if (this.state.sync) 
+      // console.log("syncRemitos", this.props.remitos.length)
+      if (this.state.sync.syncing == false) {
+        // console.log("updateindexSync")
+        // console.log("propsremitos", this.props.remitos)
+        this.updateIndex(0)
+        // this.setState({updating:false}) 
+      }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // get remitos list
-    this.setState({tabIndex:0})
-    this.onRequestingRemitos(false)
-    this.myCurrentPosition()
+    this.setState({ tabIndex: 0 }, () => this.reload());
+    //this.updateIndex(0);
+
+    //changed to promote realtime gps 
+    // this.myCurrentPosition();
+    // this.myWatchPosition();
   }
 
-  myCurrentPosition() {
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-        });
-        // console.log("my position",position);
-        // console.log("destination",this.state.marker.latitud);
-        // this.mergeLot();
-        // let start = this.state.latitude +","+ this.state.longitude
-        // let end = this.state.marker.latitud +","+ this.state.marker.longitud
-        // this.getDirections(start, end)
-      },
-      (error) => this.setState({ error: error.message, latitude:0, longitude: 0 }),
-      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
-      // {enableHighAccuracy: true, timeout: 25000, maximumAge: 3600000} 
-    );
-
-  }
-  
-  onRequestingRemitos = (todos) => {
-    this.setState({ fetching: true })
-    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos)
+  componentWillUnmount() {
+    // this.clearWatch();
   }
 
+  // myCurrentPosition() {
+  //   navigator.geolocation.getCurrentPosition(
+  //     position => {
+  //       this.setState({
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude,
+  //         error: null
+  //       });
+  //     },
+  //     error => this.setState({ error: error.message, latitude: 0, longitude: 0 }),
+  //     { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
+  //   );
+  // }
+
+  watchID = null;
+
+  myWatchPosition() {
+    // console.log("init myWatchPosition",this.watchID)
+    // this.setState({ gpsfetch : true })
+
+    // this.watchId = navigator.geolocation.watchPosition(
+    //   (position) => {
+    //     this.setState({
+    //       latitude: position.coords.latitude,
+    //       longitude: position.coords.longitude,
+    //       gpsfetch : false,
+    //       error: null,
+    //     }, 
+    //       () => {
+    //         console.log("myWatchPosition get new position", this.state.latitude)
+    //         this.onAdquireLocation(position.coords.latitude, position.coords.longitude);
+    //         this.updateIndex(0);
+    //       }
+    //     );
+    //   },
+    //   (error) => { 
+    //     this.setState({ error: error.message }),
+    //     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+    //     console.log('error',error)
+    //     this.setState({ gpsfetch : false })
+    //   }
+    // );
+  }
+
+  onRequestingRemitos = todos => {
+    this.setState({ fetching: true });
+    this.props.requestRemitos(this.props.hojaruta.numeroHojaRuta, todos);
+  };  
+   
   componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true });
@@ -367,31 +349,37 @@ class RemitosListScreen extends React.PureComponent {
     //console.tron.log({name:info, value:error})
   }
 
-  onPressSingleItem = (item) => {
-    // console.tron.log({item:'item', value:item})
-    this.props.selectedRemitos(item)
+  onPressSingleItem = item => {
+    // console.tron.log({ item: 'item', value: item })
+    this.props.selectedRemitos(item);
+    //clearwatch
+    this.clearWatch();
     //navigation
-    this.props.navigation.navigate('RemitoScreen')
-  }
+    this.props.navigation.navigate("RemitoScreen");
+  };
 
-  onPressMap = (item) => {
-    // console.log({name:'map', value:item})
-    this.props.selectedRemitos(item)
-    //navigation
-    const markers = [].push(item)
-    // console.tron.display({name:'unequipo', value:markers})
-    this.props.navigation.navigate('MapScreen', { markers: null })
-  }
+  // onAdquireLocation = (latitude, longitude) => {
+  //   this.props.adquireLocation({latitude,longitude});
+  // }
 
-  onPressOpenMaps = (item) => {
-    console.log(item)
+  // onPressMap = (item) => {
+  //   // console.log({name:'map', value:item})
+  //   this.props.selectedRemitos(item)
+  //   //navigation
+  //   const markers = [].push(item)
+  //   // console.tron.display({name:'unequipo', value:markers})
+  //   this.props.navigation.navigate('MapScreen', { markers: null })
+  // }
+
+  onPressOpenMaps = item => {
+    console.tron.log({ name: "onPressOpenMaps", value: item });
     // openMap({ latitude: parseFloat(item.latitud), longitude: parseFloat(item.longitud)});
-    this.handleGetDirections(item)
-  }
+    this.handleGetDirections(item);
+  };
 
-  handleGetDirections = (item) => {
+  handleGetDirections = item => {
     const data = {
-       source: {
+      source: {
         latitude: this.state.latitude,
         longitude: this.state.longitude
       },
@@ -405,10 +393,10 @@ class RemitosListScreen extends React.PureComponent {
           value: "d"
         }
       ]
-    }
- 
-    getDirections(data)
-  }
+    };
+
+    getDirections(data);
+  };
 
   // onPressDirection = (item) => {
   //   console.log({name:'direction', value:item})
@@ -418,82 +406,127 @@ class RemitosListScreen extends React.PureComponent {
   //   this.props.navigation.navigate('DirectionScreen', { marker: item })
   // }
 
-  onPressMarkers = () => {
-    const markers=this.state.dataObjects.filter(
-      function(item){
-        return item.latitud !== '';
-      }).map(function(item){
-        return item;
-      }
-    );
-    this.props.navigation.navigate('MapScreen', { markers: markers})
+  onSync() {
+    this.setState({ updating:true })
+    this.props.attemptSync();
   }
 
-  render () {
+  // onPressMarkers = () => {
+  //   const markers = this.state.dataObjects
+  //     .filter(function(item) {
+  //       return item.latitud !== "";
+  //     })
+  //     .map(function(item) {
+  //       return item;
+  //     });
+  //   this.props.navigation.navigate("MapScreen", { markers: markers });
+  // };
 
-    const { fetching } = this.state;
+  // distance gps
+  getDistance = destination => {
+
+    if (!this.state.latitude) {
+      // console.log("invalid coords ", this.state.latitude)
+      return "?";
+    }
+
+    // console.log("Dest",destination);
+    // console.log("state",this.state.longitude);
+    const R = 6371; // Radius of the earth in km
+    const dLat = this.deg2rad(destination.latitud - this.state.latitude); 
+    const dLon = this.deg2rad(destination.longitud - this.state.longitude);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(this.state.latitude)) *
+        Math.cos(this.deg2rad(destination.latitud)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    
+    // console.log("d",d)
+
+    if (d > 100) return "?";
+
+    return d || "?";
+  };
+
+  deg2rad = deg => {
+    return deg * (Math.PI / 180);
+  };
   
+  // end distance gps
+
+  render() {
+    const { fetching, gpsfetch } = this.state;
+    const { syncing } = this.props.sync
+
     return (
       <View style={styles.container}>
-
         <Header
-          statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'LISTA REMITOS', style: styles.navigation }} 
-          leftComponent={{ 
-            icon: 'chevron-left',
-            color: Colors.background,
-            onPress: () => this.props.navigation.navigate('HojaRutaScreen')
-          }}
-          // rightComponent={{ 
-          //   icon: 'map', 
-          //   color: Colors.background,
-          //   onPress: () => this.onPressMarkers()
-          // }}
+          title="LISTA REMITOS"
+          left={{ icon: "chevron-left", onPress: () => this.goBack() }}
+          right={{ icon: gpsfetch ? "map-marker" : "refresh", onPress: () => this.onSync() }}
         />
-          <FlatList
-            contentContainerStyle={styles.listContent}
-            data={this.state.dataObjects}
-            renderItem={this.renderRow}
-            keyExtractor={this.keyExtractor}
-            initialNumToRender={this.oneScreensWorth}
-            ListHeaderComponent={this.renderHeader}
-            // ListFooterComponent={this.renderFooter}
-            ListEmptyComponent={this.renderEmpty}
-            // ItemSeparatorComponent={this.renderSeparator}
-          />
 
-        <View style={styles.spinnerContainer}>
-        { fetching && (
-          <Spinner
-            style={styles.spinner}
-            isVisible={true}
-            size={100}
-            type={'9CubeGrid'}
-            color={'#2ecc71'}/>
-        )}
-        </View>
+        { 
+          syncing ?
+            null
+          :
+          <View>
+
+            <HeaderRemito 
+              tabIndex = {this.state.tabIndex}
+              saveproximity = {this.state.saveproximity} 
+              updateIndex = {this.updateIndex} 
+              handleSaveProximity = {this.handleSaveProximity} 
+              onSearch = {() => this.onSearch} 
+              onClearSearch = {() => this.onClearSearch} 
+            /> 
+          
+            <FlatList
+              contentContainerStyle={styles.listContent}
+              data={this.state.dataObjects}
+              renderItem={this.renderRow}
+              keyExtractor={this.keyExtractor}
+              initialNumToRender={this.oneScreensWorth}
+              // ListHeaderComponent={this.renderHeader}
+              // ListFooterComponent={this.renderFooter}
+              ListEmptyComponent={this.renderEmpty}
+              // ItemSeparatorComponent={this.renderSeparator}
+            />
+
+          </View>
+
+        }
+
+        <View style={styles.spinnerContainer}>{ (fetching || syncing) && <Spinner />}</View>
 
       </View>
-        
-      )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  //console.tron.display({name:'statepropsremitoslist',value: state})
+const mapStateToProps = state => {
   return {
-    payload: state.remitos.payload,
+    remitos: state.remitos.remitos,
     fetching: state.remitos.fetching,
     user: state.login.payload,
-    hojaruta : state.hojaruta.selected
-  }
-}
+    hojaruta: state.hojaruta.active,
+    // sync
+    sync: state.sync,
+    location : state.location
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    requestRemitos: (hoja,todos) => dispatch(RemitosActions.remitosRequest(hoja,todos)),
-    selectedRemitos: (remito) => dispatch(RemitosActions.remitoSelected(remito))
-  }
-}
+    //requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
+    rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
+    selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
+    attemptSync: () => dispatch(SyncActions.syncRequest()),
+    // adquireLocation: (location) => dispatch(LocationActions.locationAdquire())
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemitosListScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(RemitosListScreen);

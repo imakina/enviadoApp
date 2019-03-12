@@ -1,106 +1,141 @@
-import React, { Component } from 'react'
-import { View, Text, FlatList, KeyboardAvoidingView } from 'react-native'
-import { connect } from 'react-redux'
-import { ListItem, Button, Header } from 'react-native-elements'
+import React, { Component } from "react";
+import { View, Text, FlatList, Alert } from "react-native";
+import { connect } from "react-redux";
+// import { Button } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
-import HojaRutaActions from '../Redux/HojaRutaRedux'
-
-import ButtonIcon from '../Components/ButtonIcon'
-
+import HojaRutaActions from "../Redux/HojaRutaRedux";
+// Components
+import ButtonIcon from "../Components/ButtonIcon";
+import Header from "../Components/Header";
+// import Spinner from "../Components/Spinner";
+import MaKitSpinner from '../Components/MakitSpinner'
 // Styles
-import styles from './Styles/HojaRutaScreenStyle'
-import I18n from 'react-native-i18n'
+import styles from "./Styles/HojaRutaScreenStyle";
 
-var Spinner = require('react-native-spinkit')
-
-const PENDING_STATE = '0'
+// const PENDING_STATE = "0";
 
 class HojaRutaScreen extends Component {
-  
   constructor(props) {
-    super(props)
+    super(props);
     this.renderRow = this.renderRow.bind(this);
     this.state = {
-      fetching:false,
-      dataObjects: []
-    }
+      fetching: false,
+      dataObjects: this.props.hojaruta.hojas,
+      active: this.props.hojaruta.active
+    };
   }
 
-  componentDidMount () {
-    this.setState({ fetching: true })
-    this.props.requestHojaRuta(this.props.user.car_id, PENDING_STATE)
-    this.setState({ user : this.props.user })
+  goBack = () => this.props.navigation.navigate("HomeScreen");
+
+  componentDidMount() {
+    // this.setState({ fetching: true });
+    // this.props.requestHojaRuta(this.props.user.car_id, PENDING_STATE);
+    // this.setState({ user : this.props.user })
+    // In case we dont get any hojaruta
+    // need to recover from async
+    // if (!this.props.hojas) {
+    //   this.setState({ fetching: true });
+    //   this.props.rehydrateHojaRuta();
+    // }
   }
 
-  componentWillReceiveProps (newProps) {
-    //console.tron.display({name: 'props', value: newProps})
-    this.setState({ 
-      dataObjects: newProps.payload,
-      fetching: newProps.fetching 
-    })
+  componentWillReceiveProps(newProps) {
+    // console.tron.display({ name: "newProps", value: newProps.hojaruta.active });
+    // if (newProps.hojas !== this.state.dataObjects)
+    this.setState({
+      dataObjects: newProps.hojaruta.hojas,
+      active: newProps.hojaruta.active,
+      fetching: newProps.hojaruta.fetching
+    });
   }
-  
-  onPressingRemitosPorHojaRuta = (item) => {
+
+  onPressingRemitosPorHojaRuta = (item, active) => {
     //hojarutaselected
-    this.props.selectedHojaRuta(item)
-    this.props.navigation.navigate('RemitosListScreen')
-  }
-  
+    if (active) this.props.navigation.navigate("RemitosListScreen");
+    else {
+      Alert.alert(
+        "Hoja NO Activa",
+        "Esta hoja debe descargarse para poder trabajar, si la descarga, perdera los datos que no se hayan sincronzado en la hoja activa actual, quiere descargarla de todos modos?",
+        [
+          {
+            text: "Activarla",
+            onPress: () => this.onActivateHojaRuta(item)
+          },
+          {
+            text: "No, continuo con la actual",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          }
+        ],
+        { cancelable: false }
+      );
+    }
+  };
+
+  onActivateHojaRuta = item => {
+    //hojarutaselected
+    this.setState({ fetching: true });
+    this.props.activeHojaRuta(item.numeroHojaRuta);
+  };
+
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => index
-  
+  keyExtractor = (item, index) => index;
+
   renderHeader = () => {
-    console.tron.display({name: 'dataobjects', value: this.state.dataObjects})
-    return (this.state.dataObjects === null)?
-        <Text style={styles.help}>No tiene asignadas hojas de rutas</Text>
-        :
-        <Text style={styles.help}>Estas son las hojas de ruta disponibles</Text>
-  }
+    // console.tron.display({name: 'dataobjects', value: this.state.dataObjects})
+    let text =
+      this.state.dataObjects === null
+        ? "No tiene asignadas hojas de rutas"
+        : "Hojas disponibles";
+    return <Text style={styles.help}>{text}</Text>;
+  };
 
-  //{"numeroHojaRuta":"00000045","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
-  //{"numeroHojaRuta":"00000161","car_id":"31913","fletero":"Gorosito Jose","estado":"2"},
-
-  renderRow ({item}) {
-
+  renderRow({ item }) {
+    const active = this.state.active == item.numeroHojaRuta;
+    const alerta = active
+      ? "Hoja de ruta ACTIVA"
+      : "Debe descargarse para comenzar a actualizar";
     return (
-
-        <View style={{ paddingRight: 20, paddingLeft: 20, paddingTop: 20}}>
-
+      <View style={styles.groupHojas}>
+        <View style={{ padding: 2 }}>
           <ButtonIcon
-            icon={{ name: 'map', type: 'font-awesome' }}
+            icon={{ name: "map", type: "font-awesome" }}
             text={item.numeroHojaRuta}
-            onPress={() => this.onPressingRemitosPorHojaRuta(item)} 
+            onPress={() => this.onPressingRemitosPorHojaRuta(item, active)}
+            type={active ? "" : "inactive"}
           />
-
         </View>
-
-    )
-
+        <View style={{ paddingTop: 8 }}>
+          <Text> {alerta} </Text>
+          <Text></Text>
+          {active ? (
+            <View>
+              <Text> Remitos totales : {this.props.remitos.quantity} </Text>
+              <Text> Pendientes de syncronización : {this.props.remitos.updated}</Text>
+              <Text> Distancia total : 12000 km</Text>
+              <Text>
+                {/* {" "}
+                Sin Cambios :
+                {this.props.remitos.quantity - this.props.remitos.updated} */}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+      </View>
+    );
   }
 
-  render () {
-
-    const { 
-      fetching,
-      user
-    } = this.state;
-
-  
+  render() {
+    const { fetching } = this.props;
+    // console.tron.log("re-render", this.props.hojaruta.active);
     return (
-
       <View style={styles.container}>
-
         <Header
-          statusBarProps={{ barStyle: 'light-content' }}
-          centerComponent={{ text: 'HOJAS DE RUTA', style: styles.navigation }} 
-          leftComponent={{ 
-            icon: 'chevron-left', 
-            color: '#27ae60',
-            onPress: () => this.props.navigation.navigate('HomeScreen')
-          }}
+          title="HOJAS DE RUTA"
+          left={{ icon: "chevron-left", onPress: () => this.goBack() }}
         />
 
         <FlatList
@@ -108,43 +143,42 @@ class HojaRutaScreen extends Component {
           data={this.state.dataObjects}
           renderItem={this.renderRow}
           keyExtractor={this.keyExtractor}
-          //initialNumToRender={this.oneScreensWorth}
           ListHeaderComponent={this.renderHeader}
+          //initialNumToRender={this.oneScreensWorth}
           // ListFooterComponent={this.renderFooter}
           //ListEmptyComponent={this.renderEmpty}
           // ItemSeparatorComponent={this.renderSeparator}
+          extraData={[this.state.active, this.state.fetching]}
         />
 
         <View style={styles.spinnerContainer}>
-        { fetching && (
-          <Spinner
-            style={styles.spinner}
-            isVisible={true}
-            size={100}
-            type={'9CubeGrid'}
-            color={'#2ecc71'}/>
-        )}
+            <MaKitSpinner show={fetching}/>
         </View>
 
       </View>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  // console.tron.display({name:'statepropsremitoslist',value: state})  
+const mapStateToProps = state => {
+  // console.tron.display({ name: "statepropsremitoslist", value: state });
   return {
-    payload: state.hojaruta.payload,
+    // hojas: state.hojaruta.hojas,
     fetching: state.hojaruta.fetching,
+    // active: state.hojaruta.active,
+    hojaruta: state.hojaruta,
     user: state.login.account,
-  }
-}
+    remitos: state.remitos
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    requestHojaRuta: (car_id,estado) => dispatch(HojaRutaActions.hojaRutaRequest(car_id,estado)),
-    selectedHojaRuta: (hojaruta) => dispatch(HojaRutaActions.hojaRutaSelected(hojaruta))
-  }
-}
+    // requestHojaRuta: (car_id, estado) =>
+    //   dispatch(HojaRutaActions.hojaRutaRequest(car_id, estado)),
+    rehydrateHojaRuta: () => dispatch(HojaRutaActions.hojaRutaRehydrate()),
+    activeHojaRuta: hr => dispatch(HojaRutaActions.hojaRutaActive(hr))
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(HojaRutaScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(HojaRutaScreen);

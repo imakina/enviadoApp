@@ -11,6 +11,7 @@ const { Types, Creators } = createActions({
   loginCheck: null,
   loginPicture: ['picture'],
   loginPictureSuccess: ['picture'],
+  loginDeposito: ['isdeposito']
 })
 
 export const LoginTypes = Types
@@ -20,8 +21,9 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   account: null,
-  fetching: null,
-  error: null
+  fetching: false,
+  error: null,
+  deposito: false
 })
 
 /* ------------- Reducers ------------- */
@@ -46,7 +48,7 @@ export const failure = (state) => {
 
 // Logout cleaning
 export const logout = (state) =>
-  state.merge({ fetching: false, account : null })
+  state.merge({ fetching: false, account : null, picture : null })
 
 // Check async storage for the token
 export const check = (state) =>
@@ -62,6 +64,11 @@ export const pictureSuccess = (state, data) => {
   return state.merge({ picture : picture })
 }
 
+export const loginDeposito = (state, data) => {
+  // console.log("isDep:",data.isdeposito);
+  return state.merge({ deposito: data.isdeposito })
+}
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -72,6 +79,7 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_CHECK]: check,
   [Types.LOGIN_PICTURE]: picture,
   [Types.LOGIN_PICTURE_SUCCESS]: pictureSuccess,
+  [Types.LOGIN_DEPOSITO]: loginDeposito,
 })
 
 /* ------------- Selectors ------------- */

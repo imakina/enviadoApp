@@ -1,29 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.enviadoapp"
-    android:versionCode="1"
-    android:versionName="1.0">
+    package="com.enviadoapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />                                               
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="22" />
 
     <application
       android:name=".MainApplication"
-      android:allowBackup="true"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
+      android:allowBackup="false"
       android:theme="@style/AppTheme">
-      <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyD4HEoq1Rr3UeThx1qnKOMfKfea1Eqswkw"/>
-
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -32,13 +19,9 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
-            <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>  
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-        <!-- <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD4HEoq1Rr3UeThx1qnKOMfKfea1Eqswkw" /> -->
     </application>
 
 </manifest>

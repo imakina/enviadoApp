@@ -9,7 +9,7 @@ const ApplicationStyles = {
   screen: {
     mainContainer: {
       flex: 1,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.transparent
     },
     backgroundImage: {
       position: 'absolute',
@@ -21,7 +21,7 @@ const ApplicationStyles = {
     container: {
       flex: 1,
       paddingTop: Metrics.baseMargin,
-      backgroundColor: Colors.transparent, 
+      backgroundColor: Colors.transparent
     },
     section: {
       margin: Metrics.section,
@@ -45,35 +45,6 @@ const ApplicationStyles = {
       fontSize: 14,
       color: Colors.text
     },
-    /// navigation bar
-    navigation: {
-      // borderBottomColor: 'rgba(255,255,255,0.2)',
-      // borderBottomWidth: 0.5,
-      // backgroundColor: Colors.background
-      ...Fonts.style.normal,
-      color: Colors.background
-    },
-    information :{
-      paddingBottom: 2,
-      fontSize: Fonts.size.medium,
-    },
-    // navigationStatusBar: {
-    //   style: 'light-content', 
-    //   hidden: false, 
-    //   tintColor: Colors.backgroundVariant
-    // }
-    /// bottom bar
-    // bottomBar: {
-    //   flexDirection: 'row',
-    //   padding: 20,
-    //   backgroundColor: 'black',
-    //   alignItems: 'center',
-    //   justifyContent: 'space-between',
-    // },
-    // bottomBarText: {
-    //   color: 'white',
-    //   alignItems: 'center',
-    // }
   },
   darkLabelContainer: {
     padding: Metrics.smallMargin,
@@ -103,8 +74,7 @@ const ApplicationStyles = {
     borderColor: Colors.ember,
     alignItems: 'center',
     textAlign: 'center'
-  },
-
+  }
 }
 
 export default ApplicationStyles
