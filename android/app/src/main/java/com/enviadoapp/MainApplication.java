@@ -3,6 +3,10 @@ package com.enviadoapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.ekreutz.barcodescanner.BarcodeScannerPackage;
+import com.rssignaturecapture.RSSignatureCapturePackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -27,6 +31,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFSPackage(),
+            new RNCameraPackage(),
+            new BarcodeScannerPackage(),
+            new RSSignatureCapturePackage(),
             new RNSpinkitPackage(),
             new VectorIconsPackage(),
             new RNDeviceInfo(),
