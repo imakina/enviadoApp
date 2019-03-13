@@ -8,6 +8,10 @@ export default StyleSheet.create({
     backgroundColor: Colors.snow,
     // paddingTop: 70
   },
+  formContainer: {
+    paddingLeft : 20,
+    paddingRight : 20
+  },
   spinnerContainer: {
     flex: 1,
     alignItems: "center",

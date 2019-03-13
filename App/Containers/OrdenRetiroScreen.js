@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Alert } from "react-native";
-import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 // import { Button } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import OrdenRetiroActions from "../Redux/OrdenRetiroRedux";
 // Components
-// import ButtonIcon from "../Components/ButtonIcon";
 import Header from "../Components/Header";
 import MaKitSpinner from '../Components/MakitSpinner'
+import MaKitButton from '../Components/MaKitButton'
 // import Spinner from "../Components/Spinner";
 // Styles
 import styles from "./Styles/OrdenRetiroScreenStyle";
@@ -115,7 +114,7 @@ class OrdenRetiroScreen extends Component {
             onPress={() => this.onPressingPackagesPorOrdenRetiro(item, active)}
             type={active ? "" : "inactive"}
           /> */}
-          <Button
+          {/* <Button
             icon={{
               name: "map",
               size: 30,
@@ -125,7 +124,16 @@ class OrdenRetiroScreen extends Component {
             title={item.NUMERO_ORDEN_RETIRO}
             buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginBottom: 5}}
             onPress={() => this.onPressingPackagesPorOrdenRetiro(item, active)}
+          /> */}
+
+          <MaKitButton
+            icon={{ name: "map", type : "font-awesome", color: "white" }}
+            text={item.NUMERO_ORDEN_RETIRO}
+            type={"order"}
+            onPress={() => this.onPressingPackagesPorOrdenRetiro(item, active)} 
+            style={{marginTop:10}}
           />
+
         </View>
       </View>
     );

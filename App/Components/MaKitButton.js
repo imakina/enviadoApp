@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Text, View } from "react-native";
-import styles from "./Styles/ButtonIconStyles";
+import styles from "./Styles/MaKitButtonStyles";
 import { Icon } from "react-native-elements";
 
-export default class ButtonIcon extends Component {
+export default class MaKitButton extends Component {
 
   static defaultProps = { 
   }
@@ -52,9 +52,12 @@ export default class ButtonIcon extends Component {
             {...this.props.icon}
           />
         </View>
-        { this.props.text !== '' &&
-          <Text style={styles.text}>{this.props.text}</Text>
+
+        { 
+          this.props.text !== '' &&
+            <Text style={styles.text}>{this.props.text}</Text>
         }
+        
       </TouchableOpacity>
     );
   }

@@ -7,7 +7,7 @@ import LoginActions from "../Redux/LoginRedux";
 import PackagesActions from "../Redux/PackagesRedux";
 // Components
 import Header from "../Components/Header";
-import ButtonIcon from '../Components/ButtonIcon'
+import MaKitButton from '../Components/MaKitButton'
 // Styles
 import styles from "./Styles/WelcomeScreenStyle";
 
@@ -24,7 +24,7 @@ const WelcomeButton = ({icon, title, onpress}) => (
     //   onPress={onpress} 
     // />
 
-    <ButtonIcon
+    <MaKitButton
       icon={{ name: icon, type : "font-awesome", color: "white" }}
       text={title}
       type={"order"}

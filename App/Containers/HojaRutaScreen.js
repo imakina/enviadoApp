@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 // import YourActions from '../Redux/YourRedux'
 import HojaRutaActions from "../Redux/HojaRutaRedux";
 // Components
-import ButtonIcon from "../Components/ButtonIcon";
+import MaKitButton from "../Components/MaKitButton";
 import Header from "../Components/Header";
 // import Spinner from "../Components/Spinner";
 import MaKitSpinner from '../Components/MakitSpinner'
@@ -101,7 +101,7 @@ class HojaRutaScreen extends Component {
     return (
       <View style={styles.groupHojas}>
         <View style={{ padding: 2 }}>
-          <ButtonIcon
+          <MaKitButton
             icon={{ name: "map", type: "font-awesome" }}
             text={item.numeroHojaRuta}
             onPress={() => this.onPressingRemitosPorHojaRuta(item, active)}

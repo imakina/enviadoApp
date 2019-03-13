@@ -3,7 +3,7 @@ import { View, Text, TextInput, Platform, TouchableOpacity, Vibration, } from 'r
 import { connect } from 'react-redux'
 import { Icon, Button } from 'react-native-elements'
 import SignatureCapture from 'react-native-signature-capture';
-import ButtonIcon from '../Components/ButtonIcon'
+import MaKitButton from '../Components/MaKitButton'
 import Header from "../Components/Header";
 // Barcode
 // import BarcodeScanner, {FocusMode, TorchMode, CameraFillMode, BarcodeType} from "react-native-barcode-scanner-google";
@@ -308,7 +308,7 @@ class SignatureScreen extends Component {
                       ref={(input)=> this.nameInput = input}
                     />
                   </View>
-                  <ButtonIcon
+                  <MaKitButton
                     disabled={!(this.state.partdni.length > 0 && this.state.partname.length > 0)}
                     icon={{ name: 'check', type: 'font-awesome' }}
                     text={'OK'}
@@ -359,7 +359,7 @@ class SignatureScreen extends Component {
                 <View style={{ paddingBottom: 20, paddingLeft: 20, paddingRight: 20}}>
 
                   <View style={{paddingBottom: 10}}>
-                    <ButtonIcon
+                    <MaKitButton
                       disabled={!this.state.dragged}
                       icon={{ name: 'check', type: 'font-awesome' }}
                       text={'Recibido'}
@@ -367,7 +367,7 @@ class SignatureScreen extends Component {
                     />
                   </View>
 
-                  <ButtonIcon
+                  <MaKitButton
                     type={'ko'}
                     icon={{ name: 'round-brush', type: 'entypo' }}
                     text={'Limpiar'}

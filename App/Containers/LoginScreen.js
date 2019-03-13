@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import LoginActions from '../Redux/LoginRedux'
 import AlertActions from '../Redux/AlertRedux'
 // Components
-import ButtonIcon from '../Components/ButtonIcon'
+import MaKitButton from '../Components/MaKitButton'
 import MaKitSpinner from '../Components/MakitSpinner'
 // import MaKitAlert from '../Components/MakitSpinner'
 // Styles
@@ -200,7 +200,7 @@ class LoginScreen extends Component {
 
           </View>
 
-          <ButtonIcon
+          <MaKitButton
             icon={{ name: 'sign-in', type: 'font-awesome' }}
             text="INGRESAR"
             onPress={() => this.handlePressLogin()} 

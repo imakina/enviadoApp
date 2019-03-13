@@ -9,7 +9,6 @@ import { Icon } from "react-native-elements";
 import LoginActions from "../Redux/LoginRedux";
 import SyncActions from "../Redux/SyncRedux";
 // Components
-// import ButtonIcon from "../Components/ButtonIcon";
 import Header from "../Components/Header";
 import MaKitSpinner from '../Components/MakitSpinner'
 // Styles

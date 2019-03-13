@@ -13,7 +13,7 @@ import AlertActions from "../Redux/AlertRedux";
 import styles from "./Styles/RemitoScreenStyle";
 import { Colors } from "../Themes/";
 // Components
-import ButtonIcon from "../Components/ButtonIcon";
+import MaKitButton from "../Components/MaKitButton";
 import Header from "../Components/Header";
 import MaKitSpinner from '../Components/MakitSpinner'
 
@@ -340,7 +340,7 @@ class RemitoScreen extends Component {
               
               <View style={{paddingBottom: 10, flexDirection: 'row'}}>
                 <View style={{marginRight: 5, flex: 1}}>
-                  <ButtonIcon
+                  <MaKitButton
                     icon={{ name: this.state.motivo != 0 ? "camera" : "arrow-with-circle-right", type: "entypo" }}
                     text={this.state.motivo != 0 ? "": "SIGUIENTE"}
                     onPress={() => this.onScanning()}

@@ -12,6 +12,7 @@ import styles from "./Styles/PackagesListScreenStyle";
 import { Colors } from '../Themes'
 // Components
 import Header from "../Components/Header";
+import MaKitButton from '../Components/MaKitButton'
 
 class PackagesListScreen extends React.PureComponent {
 
@@ -38,6 +39,7 @@ class PackagesListScreen extends React.PureComponent {
   getItem= (item) => {
 
     let matched = 'transparent';
+
     if (this.props.user.deposito)
       this.props.packages.packages.map((elem) => {
         // console.log(elem.codigoqr + ' ' +  item.codigo_qr);
@@ -45,10 +47,10 @@ class PackagesListScreen extends React.PureComponent {
           matched = Colors.backgroundVariant;
       })
 
-    const newItem = (this.props.user.deposito) ?
+    return (this.props.user.deposito) ?
       { 
         title : item.codigo_qr,
-        containerStyle : { backgroundColor : matched}
+        containerStyle : { backgroundColor : matched }
       }
     :
       {
@@ -56,10 +58,6 @@ class PackagesListScreen extends React.PureComponent {
         containerStyle : { }
       }
 
-    return {
-      title: newItem.title,
-      containerStyle : newItem.containerStyle
-    }
   }
                                     
 
@@ -70,7 +68,8 @@ class PackagesListScreen extends React.PureComponent {
     return (
 
       <ListItem
-        leftIcon={{ name : 'radio-button-checked'}}
+        // leftIcon={{ name : 'radio-button-checked'}}
+        leftIcon={{ name : 'radio-button-checked', color: 'gray'}}
         {...this.getItem(item)}
       />
 
@@ -98,7 +97,15 @@ class PackagesListScreen extends React.PureComponent {
     // else return null;
   };
 
-  renderSeparator = () => <Text style={styles.label}> - ~~~~~ - </Text>;
+  renderSeparator = () => 
+  <View
+    style={{
+      height: 1,
+      width: "86%",
+      backgroundColor: "#CED0CE",
+      marginLeft: "14%"
+    }}
+  />;
 
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
@@ -239,23 +246,19 @@ class PackagesListScreen extends React.PureComponent {
             // ListHeaderComponent={this.renderHeader}
             // ListFooterComponent={this.renderFooter}
             ListEmptyComponent={this.renderEmpty}
-            // ItemSeparatorComponent={this.renderSeparator}
+            ItemSeparatorComponent={this.renderSeparator}
           />
 
           {
-            (this.state.dataObjects.length > 0) &&
-              <View>
+            this.state.dataObjects.length > 0 &&
 
-                <Button
-                  icon={{
-                    name: "check",
-                    size: 30,
-                    color: "white",
-                    type : "font-awesome"
-                  }}
-                  title={"Enviar"}
-                  buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
-                  onPress={() => this.onSavePakages()}
+              <View style={styles.formContainer}>
+                <MaKitButton
+                  icon={{ name: "check", type : "font-awesome", color: "white" }}
+                  text={"ENVIAR"}
+                  type={"order"}
+                  onPress={() => this.onSavePakages()} 
+                  style={{marginTop:10, marginBottom: 10}}
                 />
               </View>
           }
