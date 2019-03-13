@@ -82,9 +82,9 @@ export default function * root () {
     
     // ===== some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
-    takeLatest(RemitosTypes.REMITO_UPDATE, updateRemito),
+    // takeLatest(RemitosTypes.REMITO_UPDATE, updateRemito),
     takeLatest(RemitosTypes.REMITOS_REHYDRATE, rehydrateRemitos),
-    // takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
+    takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
     // takeLatest(RemitosTypes.REMITO_SYNC, syncRemitos),
     // takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVATED, getRemitos, api),
     // ===== end some sagas about remitos
@@ -112,7 +112,6 @@ export default function * root () {
     takeLatest(SyncTypes.SYNC_REQUEST, sync, api),
 
     // location
-    // takeLatest(LocationTypes.LOCATION_ADQUIRE, adquire),
     takeLatest(LocationTypes.LOCATION_STARTUP, openLocationWatch)
 
   ])

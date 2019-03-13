@@ -9,7 +9,8 @@ import OrdenRetiroActions from "../Redux/OrdenRetiroRedux";
 // Components
 // import ButtonIcon from "../Components/ButtonIcon";
 import Header from "../Components/Header";
-import Spinner from "../Components/Spinner";
+import MaKitSpinner from '../Components/MakitSpinner'
+// import Spinner from "../Components/Spinner";
 // Styles
 import styles from "./Styles/OrdenRetiroScreenStyle";
 
@@ -157,7 +158,14 @@ class OrdenRetiroScreen extends Component {
           extraData={this.props.ordenretiro.fetching}
         />
 
-        <View style={styles.spinnerContainer}>{this.props.ordenretiro.fetching && <Spinner />}</View>
+        <View style={styles.spinnerContainer}>
+          <MaKitSpinner
+            show={this.props.ordenretiro.fetching}
+          />
+        </View>
+
+        {/* {this.props.ordenretiro.fetching && <Spinner />}</View> */}
+        
       </View>
     );
   }
