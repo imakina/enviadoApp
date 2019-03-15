@@ -1,22 +1,21 @@
 import React from "react";
 import { View, Text, FlatList } from "react-native";
 import { connect } from "react-redux";
-
 // import openMap from "react-native-open-maps";
 import getDirections from "react-native-google-maps-directions";
-
 // import LocationActions from "../Redux/LocationRedux";
 import RemitosActions from "../Redux/RemitosRedux";
 import SyncActions from "../Redux/SyncRedux";
-// Styles
-import styles from "./Styles/RemitosListScreenStyle";
-// import { Colors } from '../Themes'
 // Components
 import ItemRemito from "../Components/ItemRemito";
 import HeaderRemito from "../Components/HeaderRemito";
 import Header from "../Components/Header";
 // import Spinner from "../Components/Spinner";
 import MaKitSpinner from '../Components/MakitSpinner'
+// Styles
+import styles from "./Styles/RemitosListScreenStyle";
+// import { Colors } from '../Themes'
+
 
 class RemitosListScreen extends React.PureComponent {
 

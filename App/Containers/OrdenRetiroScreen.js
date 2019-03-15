@@ -12,8 +12,7 @@ import MaKitButton from '../Components/MaKitButton'
 // import Spinner from "../Components/Spinner";
 // Styles
 import styles from "./Styles/OrdenRetiroScreenStyle";
-
-import { Colors } from '../Themes'
+// import { Colors } from '../Themes'
 
 class OrdenRetiroScreen extends Component {
   constructor(props) {

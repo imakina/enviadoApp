@@ -23,7 +23,7 @@ export default class MaKitButton extends Component {
   //     return buttonText.toUpperCase()
   //   }
 
-  styles() {
+  getTypeBaseStyle() {
 
     if (this.props.disabled) return styles.disabled;
 
@@ -35,28 +35,34 @@ export default class MaKitButton extends Component {
       default:
         return styles.typeBase;
     }
+    
   }
 
   render() {
+    
     return (
+
       <TouchableOpacity
+        style={[
+          styles.base, 
+          this.getTypeBaseStyle(), 
+          this.props.style
+        ]}
         disabled={this.props.disabled}
-        style={[styles.button, this.styles(),this.props.style]}
         onPress={this.props.onPress}
       >
         <View style={styles.iconview}>
           <Icon
-            style={styles.icon}
             size={35}
+            style={styles.icon}
             iconStyle={styles.iconText}
             {...this.props.icon}
           />
         </View>
 
-        { 
-          this.props.text !== '' &&
-            <Text style={styles.text}>{this.props.text}</Text>
-        }
+        <Text style={styles.text}>
+          { this.props.text !== '' ? null : this.props.text }
+        </Text>
         
       </TouchableOpacity>
     );

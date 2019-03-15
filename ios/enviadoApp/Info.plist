@@ -25,7 +25,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>Se usa tu ubicacion para calcular las rutas</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -53,7 +53,6 @@
 			</dict>
 		</dict>
 	</dict>
-
 	<key>NSCameraUsageDescription</key>
 	<string>Enciende tu camara para jugar.</string>
 	<key>NSLocalizedDescription</key>
@@ -62,15 +61,12 @@
 	<string>Se usa tu ubicacion para calcular las rutas</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Para poder trazar las rutas</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Se usa tu ubicacion para calcular las rutas</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Se necesita permiso para acceder al microfono</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Se necesita acceder a la Librearia</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Se necesita permiso para acceder a las Fotos</string>
-
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

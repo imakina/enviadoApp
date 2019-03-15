@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, FlatList, Alert, ScrollView } from "react-native";
-import { ListItem, Button } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import { connect } from "react-redux";
 // import getDirections from "react-native-google-maps-directions";
 // import YourActions from '../Redux/YourRedux'
@@ -12,7 +12,7 @@ import styles from "./Styles/PackagesListScreenStyle";
 import { Colors } from '../Themes'
 // Components
 import Header from "../Components/Header";
-import MaKitButton from '../Components/MaKitButton'
+import MaKitButton from '../Components/MaKitButton';
 
 class PackagesListScreen extends React.PureComponent {
 
@@ -115,27 +115,6 @@ class PackagesListScreen extends React.PureComponent {
   // How many items should be kept im memory as we scroll?
   oneScreensWorth = 20;
 
-  // onSearch = some => {
-  //   // console.tron.log(some)
-  //   if (some.length == 0) {
-  //     data = this.state.data;
-  //   } else {
-  //     data = this.state.data
-  //       .filter(item => item.nroRemito.indexOf(some) > 0)
-  //       .map(item => item);
-  //   }
-
-  //   this.setState({
-  //     dataObjects: data
-  //   });
-  // };
-
-  // onClearSearch = () => {
-  //   this.setState({
-  //     dataObjects: this.state.data
-  //   });
-  // };
-
   onSpread = (arr) => {
     return arr.slice();
   }
@@ -148,9 +127,7 @@ class PackagesListScreen extends React.PureComponent {
         dataObjects: this.onSpread(newProps.packages.legacy)});
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   // fire event
   onCamera() {
@@ -165,11 +142,8 @@ class PackagesListScreen extends React.PureComponent {
   onCapturePackage = package_scanned => {
     let isduplicated = false;
     let idordenretiro_qr = "";
-    //console.log(package_scanned);
-    // let newStateArray = this.state.dataObjects.toJS();
-    
+
     // check duplicity
-    // console.log(package_scanned + 'is duplicated');
     if (this.state.dataObjects.includes(package_scanned))
       isduplicated = true; 
     
@@ -184,8 +158,7 @@ class PackagesListScreen extends React.PureComponent {
     if (isduplicated) return;
     // end check duplicity
     
-    // 
-    // console.log('newState',newStateArray);
+    // only if its not deposito
     if (!this.props.user.deposito) {
       let newStateArray = this.state.dataObjects.slice();
       newStateArray.push(package_scanned);
@@ -201,17 +174,6 @@ class PackagesListScreen extends React.PureComponent {
         }
       });
 
-    // build unique payload
-    // let new_package = {}
-    //   new_package.codigoqr=package_scanned,
-    //   new_package.car_id=this.props.user.account.car_id,
-    //   new_package.orden_retiro=this.props.ordenretiro,
-    //   new_package.latitud=-34.34,
-    //   new_package.longitud=-54.23,
-    // end build unique
-    
-    // console.log("newpackage",new_package);
-    // this.props.updatePackage(new_package);
     this.props.updatePackage(package_scanned, idordenretiro_qr);
     
   }
@@ -277,14 +239,6 @@ class PackagesListScreen extends React.PureComponent {
             )
         }
 
-        {/* <Text style={styles.infotext}>
-          esta orden contiene {this.props.packages.legacy.length} paquetes.
-        </Text>
-
-        <Text style={styles.infosubtext}>
-            de los cuales han sido escaneados {this.props.packages.packages.length} paquetes.
-        </Text> */}
-
       </ScrollView>
     );
   }
@@ -293,15 +247,10 @@ class PackagesListScreen extends React.PureComponent {
 const mapStateToProps = state => {
   // console.log("thepackages",state)
   return {
-    // remitos: state.remitos.remitos,
     packages: state.packages,
     fetching: state.remitos.fetching,
     user: state.login,
-    // hojaruta: state.hojaruta.active,
     ordenretiro: state.ordenretiro.active,
-    // sync
-    // sync: state.sync,
-    // location : state.location
     alert: state.alert
   };
 };

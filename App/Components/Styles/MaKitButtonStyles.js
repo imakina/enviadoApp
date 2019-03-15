@@ -3,7 +3,7 @@ import { Fonts, Colors, Metrics } from "../../Themes/";
 
 export default StyleSheet.create({
 
-  button: {
+  base: {
     flexDirection: "row",
     height: Metrics.screenHeight / 10,
     borderRadius: 8,
