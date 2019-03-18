@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { View } from "react-native";
 import PropTypes from "prop-types";
+import { View, Text } from "react-native";
+import { Icon, Button } from 'react-native-elements'
+import SignatureCapture from 'react-native-signature-capture';
 //Components
 import MaKitButton from '../Components/MaKitButton'
 //Styles
@@ -14,6 +16,17 @@ export default class CaptureSignature extends Component {
     onPad: PropTypes.func,
     // text: PropTypes.string,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      dni : ""
+    }
+  }
+
+  componentDidMount() {
+    this.onClean();
+  }
 
   onSigned = () => {
     console.tron.log({name:'saving'})

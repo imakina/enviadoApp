@@ -23,6 +23,28 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     margin: 30,
     paddingTop: 35
-  }
+  },
+  // signature
+  pad : {
+    borderColor: 'black',
+    borderWidth: 1.2,
+    flex: 1, 
+    backgroundColor: 'white',
+  },
+  buttonElementOK: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: Colors.background
+  },
+  buttonElementKO: {
+    marginBottom: 10,
+    backgroundColor: Colors.flame
+  },
+  padbrush : {
+    backgroundColor: 'white', 
+    flex: 1, 
+    alignContent: 'center', 
+    padding: 90
+  },
 
 });

@@ -37,7 +37,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.bloodOrange
   },
   typeKO: {
-    backgroundColor: Colors.flame
+    backgroundColor: Colors.fire
   },
   typeOrder: {
     backgroundColor: Colors.facebook

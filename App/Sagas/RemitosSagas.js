@@ -108,8 +108,9 @@ export function* updateRemito(action) {
 
 export function* postRemito(api, action) {
   const { body } = action;
+  const account = yield select(selectAccount);
   // make the call to the api
-  const response = yield call(api.postRemitoEstado, token, body);
+  const response = yield call(api.postRemitoEstado, account.token, body);
   if (response.ok) {
     yield put(RemitosActions.remitoUpdateSuccess());
     yield put(AlertActions.alertSuccess("Remito actualizado"));

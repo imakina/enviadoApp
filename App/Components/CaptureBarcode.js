@@ -18,11 +18,13 @@ export default class CaptureBarcode extends Component {
     // text: PropTypes.string,
   };
 
-  // saveScan = () => {
-  //   // save to the parent
-  //   const { navigation } = this.props;
-  //   navigation.state.params.onBarcode(this.state.dni);
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      partdni : "",
+      partname : ""
+    }
+  }
 
   // event automatic save
   scannedBarCode({data, type}) {
@@ -83,6 +85,7 @@ export default class CaptureBarcode extends Component {
         <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
           <View style={{width:'70%'}}>
             <TextInput
+              style={{fontSize: 20, padding: 4}}
               placeholder='Ingrese Numero DNI'
               keyboardType="numeric"
               autoCapitalize="none"
@@ -91,6 +94,7 @@ export default class CaptureBarcode extends Component {
               onSubmitEditing={()=> this.nameInput.focus()}
             />
             <TextInput
+              style={{fontSize: 20, padding: 4}}
               placeholder='Ingrese el nombre'
               keyboardType="default"
               autoCapitalize="none"

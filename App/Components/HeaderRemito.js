@@ -63,7 +63,8 @@ export default class HeaderRemito extends Component {
               value={this.props.saveproximity}
               onValueChange={() => this.props.handleSaveProximity()}
               disabled={false}
-              onTintColor={Colors.backgroundVariant}
+              // onTintColor={Colors.backgroundVariant}
+              trackColor={Colors.backgroundVariant}
             />
           </View>
           

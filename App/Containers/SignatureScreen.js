@@ -267,12 +267,12 @@ class SignatureScreen extends Component {
 
             { 
               this.state.step === "barcode" &&
-                <CaptureBarcode onCapture={() => this.onCapture()}></CaptureBarcode>
+                <CaptureBarcode onBarcode={() => this.onBarcodeRead()}></CaptureBarcode>
             }
 
             { 
               this.state.step === "signature" &&
-                <CaptureSignature onPad={() => this.onPad()}></CaptureSignature>
+                <CaptureSignature onPad={() => this.onPadRead()}></CaptureSignature>
             }
 
             { 

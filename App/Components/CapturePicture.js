@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TouchableOpacity, View } from "react-native";
+import { Icon } from 'react-native-elements'
 
 import PropTypes from "prop-types";
 import Camera from 'react-native-camera';

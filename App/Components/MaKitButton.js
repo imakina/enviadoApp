@@ -60,10 +60,10 @@ export default class MaKitButton extends Component {
           />
         </View>
 
-        <Text style={styles.text}>
-          { this.props.text !== '' ? null : this.props.text }
-        </Text>
-        
+        { this.props.text !== '' && 
+          <Text style={styles.text}>{this.props.text}</Text>
+        }
+
       </TouchableOpacity>
     );
   }

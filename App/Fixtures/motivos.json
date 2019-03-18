@@ -1,0 +1,19 @@
+{
+    "motivos": 
+        [{
+            "id":0,
+            "descripcion":"Entregado"
+        },
+        {
+            "id":1,
+            "descripcion":"Domicilio Erroneo"
+        },
+        {
+            "id":2,
+            "descripcion":"No habia nadie"
+        },
+        {
+            "id":3,
+            "descripcion":"Me equivoque de ciudad"
+        }]
+}
