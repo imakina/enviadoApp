@@ -12,6 +12,7 @@ import styles from "./Styles/PackagesListScreenStyle";
 import { Colors } from '../Themes'
 // Components
 import Header from "../Components/Header";
+import Spinner from "../Components/Spinner";
 
 class PackagesListScreen extends React.PureComponent {
 
@@ -215,7 +216,7 @@ class PackagesListScreen extends React.PureComponent {
 
   render() {
 
-    const { alert } = this.props
+    const { alert, fetching} = this.props
     const headerTitle = `REMITOS   ${this.props.packages.packages.length} / ${this.props.packages.legacy.length}`  
 
     return (
@@ -230,35 +231,44 @@ class PackagesListScreen extends React.PureComponent {
 
         <View>
         
-          <FlatList
-            contentContainerStyle={styles.listContent}
-            data={this.state.dataObjects}
-            renderItem={this.renderRow}
-            keyExtractor={this.keyExtractor}
-            initialNumToRender={this.oneScreensWorth}
-            // ListHeaderComponent={this.renderHeader}
-            // ListFooterComponent={this.renderFooter}
-            ListEmptyComponent={this.renderEmpty}
-            // ItemSeparatorComponent={this.renderSeparator}
-          />
+        {
+            fetching ?
+              null
+            :
+            <View>
 
-          {
-            (this.state.dataObjects.length > 0) &&
-              <View>
+              <FlatList
+                contentContainerStyle={styles.listContent}
+                data={this.state.dataObjects}
+                renderItem={this.renderRow}
+                keyExtractor={this.keyExtractor}
+                initialNumToRender={this.oneScreensWorth}
+                // ListHeaderComponent={this.renderHeader}
+                // ListFooterComponent={this.renderFooter}
+                ListEmptyComponent={this.renderEmpty}
+                // ItemSeparatorComponent={this.renderSeparator}
+              />
 
-                <Button
-                  icon={{
-                    name: "check",
-                    size: 30,
-                    color: "white",
-                    type : "font-awesome"
-                  }}
-                  title={"Enviar"}
-                  buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
-                  onPress={() => this.onSavePakages()}
-                />
-              </View>
-          }
+              {
+                (this.state.dataObjects.length > 0) &&
+                  <View>
+                    <Button
+                      icon={{
+                        name: "check",
+                        size: 30,
+                        color: "white",
+                        type : "font-awesome"
+                      }}
+                      title={"Enviar"}
+                      buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
+                      onPress={() => this.onSavePakages()}
+                    />
+                  </View>
+              }
+
+            </View>
+
+        }
 
         </View>
 
@@ -274,13 +284,7 @@ class PackagesListScreen extends React.PureComponent {
             )
         }
 
-        {/* <Text style={styles.infotext}>
-          esta orden contiene {this.props.packages.legacy.length} paquetes.
-        </Text>
-
-        <Text style={styles.infosubtext}>
-            de los cuales han sido escaneados {this.props.packages.packages.length} paquetes.
-        </Text> */}
+        <View style={styles.spinnerContainer}>{ fetching && <Spinner />}</View>
 
       </ScrollView>
     );
@@ -292,7 +296,7 @@ const mapStateToProps = state => {
   return {
     // remitos: state.remitos.remitos,
     packages: state.packages,
-    fetching: state.remitos.fetching,
+    fetching: state.packages.fetching,
     user: state.login,
     // hojaruta: state.hojaruta.active,
     ordenretiro: state.ordenretiro.active,
