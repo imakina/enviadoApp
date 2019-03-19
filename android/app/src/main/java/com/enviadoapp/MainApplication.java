@@ -4,9 +4,11 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.rnfs.RNFSPackage;
+import com.spyworldxp.barcodescanner.BarcodeScannerPackage;
 import org.reactnative.camera.RNCameraPackage;
-import com.ekreutz.barcodescanner.BarcodeScannerPackage;
+import com.zmxv.RNSound.RNSoundPackage;
+import com.rnfs.RNFSPackage;
+// import com.ekreutz.barcodescanner.BarcodeScannerPackage;
 import com.rssignaturecapture.RSSignatureCapturePackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -32,9 +34,10 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new VectorIconsPackage(),
-            new RNFSPackage(),
-            new RNCameraPackage(),
             new BarcodeScannerPackage(),
+            new RNCameraPackage(),
+            new RNSoundPackage(),
+            new RNFSPackage(),
             new RSSignatureCapturePackage(),
             new RNSpinkitPackage(),
             new RNDeviceInfo(),

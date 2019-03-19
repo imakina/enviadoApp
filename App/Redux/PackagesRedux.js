@@ -34,7 +34,7 @@ export const request = (state, action) =>
   state.merge({ fetching: true, packages: [], legacy: [] });
 
 export const save = (state, action) =>
-  state.merge({ fetching: false });
+  state.merge({ fetching: true });
 
 export const last = (state, action) => {
   const {last} = action;
@@ -56,7 +56,7 @@ export const update = (state, action) =>
 
 // request the data from an api
 export const success_legacy = (state, { packages }) =>
-  state.merge({ legacy: packages });
+  state.merge({ fetching: false, legacy: packages });
 
 // successful api lookup
 export const success = (state, action) => {

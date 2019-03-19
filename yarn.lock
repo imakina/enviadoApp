@@ -8500,9 +8500,9 @@ react-native-barcode-scanner-google@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/react-native-barcode-scanner-google/-/react-native-barcode-scanner-google-1.4.2.tgz#48b781b9c0c00847b4c3fc2d5b2b3bab1ba43ea8"
 
-react-native-camera@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-2.0.0.tgz#6cd4ac447737c0b94b244baea07853b38a096a91"
+"react-native-camera@git+https://git@github.com/react-native-community/react-native-camera.git":
+  version "2.0.1"
+  resolved "git+https://git@github.com/react-native-community/react-native-camera.git#f8269bf68144d9cb8bf2b4e16084af1a1d130f37"
   dependencies:
     prop-types "^15.6.2"
 
@@ -8585,6 +8585,10 @@ react-native-signature-capture@^0.4.9:
   resolved "https://registry.yarnpkg.com/react-native-signature-capture/-/react-native-signature-capture-0.4.9.tgz#c581cedef6cea42beea40d0f7d210173196b9d4a"
   dependencies:
     prop-types "^15.5.10"
+
+react-native-sound@^0.10.12:
+  version "0.10.12"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.12.tgz#f912d6f9d6e9e2b42b391e0226787628d940f01a"
 
 react-native-spinkit@^1.1.1:
   version "1.1.1"

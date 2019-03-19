@@ -75,4 +75,10 @@ export default StyleSheet.create({
     paddingRight: 10,
   },
 
+  spinnerContainer: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 40
+  },
+
 });

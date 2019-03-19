@@ -13,6 +13,7 @@ import { Colors } from '../Themes'
 // Components
 import Header from "../Components/Header";
 import MaKitButton from '../Components/MaKitButton';
+import MaKitSpinner from '../Components/MakitSpinner'
 
 class PackagesListScreen extends React.PureComponent {
 
@@ -184,7 +185,7 @@ class PackagesListScreen extends React.PureComponent {
 
   render() {
 
-    const { alert } = this.props
+    const { alert, fetching } = this.props
     const headerTitle = `REMITOS   ${this.props.packages.packages.length} / ${this.props.packages.legacy.length}`  
 
     return (
@@ -199,31 +200,45 @@ class PackagesListScreen extends React.PureComponent {
 
         <View>
         
-          <FlatList
-            contentContainerStyle={styles.listContent}
-            data={this.state.dataObjects}
-            renderItem={this.renderRow}
-            keyExtractor={this.keyExtractor}
-            initialNumToRender={this.oneScreensWorth}
-            // ListHeaderComponent={this.renderHeader}
-            // ListFooterComponent={this.renderFooter}
-            ListEmptyComponent={this.renderEmpty}
-            ItemSeparatorComponent={this.renderSeparator}
-          />
-
           {
-            this.state.dataObjects.length > 0 &&
+            fetching ?
+              null
+            :
+            <View>
+              <FlatList
+                contentContainerStyle={styles.listContent}
+                data={this.state.dataObjects}
+                renderItem={this.renderRow}
+                keyExtractor={this.keyExtractor}
+                initialNumToRender={this.oneScreensWorth}
+                // ListHeaderComponent={this.renderHeader}
+                // ListFooterComponent={this.renderFooter}
+                ListEmptyComponent={this.renderEmpty}
+                ItemSeparatorComponent={this.renderSeparator}
+              />
 
-              <View style={styles.formContainer}>
-                <MaKitButton
-                  icon={{ name: "check", type : "font-awesome", color: "white" }}
-                  text={"ENVIAR"}
-                  type={"order"}
-                  onPress={() => this.onSavePakages()} 
-                  style={{marginTop:10, marginBottom: 10}}
-                />
-              </View>
-          }
+              {
+                this.state.dataObjects.length > 0 &&
+
+                  <View style={styles.formContainer}>
+                    <MaKitButton
+                      icon={{ name: "check", type : "font-awesome", color: "white" }}
+                      text={"ENVIAR"}
+                      type={"order"}
+                      onPress={() => this.onSavePakages()} 
+                      style={{marginTop:10, marginBottom: 10}}
+                    />
+                  </View>
+              }
+          </View>
+        }
+
+        <View style={styles.spinnerContainer}>
+          <MaKitSpinner
+            show={fetching}
+          />
+        </View>
+
 
         </View>
 
@@ -248,7 +263,7 @@ const mapStateToProps = state => {
   // console.log("thepackages",state)
   return {
     packages: state.packages,
-    fetching: state.remitos.fetching,
+    fetching: state.packages.fetching,
     user: state.login,
     ordenretiro: state.ordenretiro.active,
     alert: state.alert
@@ -257,12 +272,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    //requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
     requestPackages: (ordenretiro) => dispatch(PackagesActions.packagesRequest(ordenretiro)),
-    // rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
-    // selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
-    // attemptSync: () => dispatch(SyncActions.syncRequest()),
-    // adquireLocation: (location) => dispatch(LocationActions.locationAdquire()),
     savePackage: () => dispatch(PackagesActions.packageSave()),
     updatePackage: (thispackage, deposito) => dispatch(PackagesActions.packageUpdate(thispackage, deposito)),
     clearAlert: () => dispatch(AlertActions.alertClear())
