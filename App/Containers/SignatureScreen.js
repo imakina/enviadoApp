@@ -218,6 +218,7 @@ class SignatureScreen extends Component {
   //barcode callback
   onBarcodeRead = (dni) => {
     // save to the parent
+    console.tron.log('onBarcodeRead',dni)
     const { navigation } = this.props;
     this.setState({ step:"signature" }, () => {
       navigation.state.params.onBarcode(dni);
@@ -227,6 +228,7 @@ class SignatureScreen extends Component {
   ///////////////////////////////// PAD
 
   onPadRead = (signature) => {
+    console.tron.log('onPadRead',signature)
     const { navigation } = this.props;
     navigation.goBack();
     navigation.state.params.onSign(signature);
@@ -235,7 +237,7 @@ class SignatureScreen extends Component {
   //////////////////////////////// PACKAGE
 
   onPackageRead = (packageNumber) => {
-    // console.tron.log('received package')
+    console.tron.log('onPackageRead', packageNumber)
     const { navigation } = this.props;
     navigation.state.params.onPackage(packageNumber);
   }
@@ -249,7 +251,8 @@ class SignatureScreen extends Component {
     return (
 
       this.state.step == "capture" ?
-        <CapturePicture onCapture={() => this.onCapture()}></CapturePicture>
+
+        <CapturePicture onCapture={this.onCapture}></CapturePicture>
  
       :
 
@@ -267,12 +270,12 @@ class SignatureScreen extends Component {
 
             { 
               this.state.step === "barcode" &&
-                <CaptureBarcode onBarcode={() => this.onBarcodeRead()}></CaptureBarcode>
+                <CaptureBarcode onBarcode={this.onBarcodeRead}></CaptureBarcode>
             }
 
             { 
               this.state.step === "signature" &&
-                <CaptureSignature onPad={() => this.onPadRead()}></CaptureSignature>
+                <CaptureSignature onPad={this.onPadRead}></CaptureSignature>
             }
 
             { 
@@ -281,7 +284,7 @@ class SignatureScreen extends Component {
                   packages={this.props.packages.packages.length}
                   legacy={this.props.packages.legacy.length}
                   last={this.props.packages.last}
-                  onPackageRead={() => this.onPackageRead()}>
+                  onPackageRead={this.onPackageRead}>
                 </CapturePackage>
             }
 

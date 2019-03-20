@@ -14,7 +14,7 @@ export default class CaptureBarcode extends Component {
   static defaultProps = { }
 
   static propTypes = {
-    onBarcode: PropTypes.func,
+    // onBarcode: PropTypes.func,
     // text: PropTypes.string,
   };
 
@@ -31,6 +31,7 @@ export default class CaptureBarcode extends Component {
     // this.setState({dni: data, step:"signature"}, () => {
     //   this.saveScan();
     // })
+    console.tron.log(data)
     this.props.onBarcode(data);
   }
 

@@ -89,7 +89,7 @@ class OrdenRetiroScreen extends Component {
   renderHeader = () => {
 
     if (this.props.ordenretiro.fetching || this.state.dataObjects !== null)
-      return <Text>{""}</Text>;
+      return <Text>{"  "}</Text>;
 
     // console.tron.display({name: 'dataobjects', value: this.state.dataObjects})
     let text = this.state.dataObjects === null
@@ -105,7 +105,7 @@ class OrdenRetiroScreen extends Component {
     //   ? "Orden de Retiro ACTIVA"
     //   : "Debe descargarse para comenzar a actualizar";
     return (
-      <View style={styles.groupHojas}>
+      <View style={styles.groupHojas} key={12}>
         <View style={{ padding: 2 }}>
           {/* <ButtonIcon
             icon={{ name: "map", type: "font-awesome" }}
@@ -156,7 +156,7 @@ class OrdenRetiroScreen extends Component {
           contentContainerStyle={styles.listContent}
           data={this.state.dataObjects}
           renderItem={this.renderRow}
-          keyExtractor={this.keyExtractor}
+          // keyExtractor={this.keyExtractor}
           ListHeaderComponent={this.renderHeader}
           //initialNumToRender={this.oneScreensWorth}
           // ListFooterComponent={this.renderFooter}

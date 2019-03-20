@@ -43,7 +43,7 @@ export function* getPackages(api, action) {
 
 function store(packages) {
   // console.tron.display({ preview: "saved packages to async" });
-  console.log("packages",packages);
+  // console.log("packages",packages);
   AsyncStorage.setItem("packages", JSON.stringify(packages));
 }
 

@@ -68,11 +68,11 @@ export default class CapturePackage extends Component {
 
   saveScanPackage = () => {
 
-    // console.tron.log('received package 1', this.state.packageNumber)
+    console.tron.log('CapturePackage', this.state.packageNumber)
     // const { navigation } = this.props;
     // navigation.state.params.onPackage(this.state.packageNumber);
 
-    this.props.onPackageRead(this.state.packageNumber);
+    this.props.onPackageRead(this.state.packageNumber, '9090');
     this.StopVibrationFunction();
 
   }
@@ -107,18 +107,18 @@ export default class CapturePackage extends Component {
     // See notes below about preloading sounds within initialization code below.
     var whoosh = new Sound('beep.mp3', Sound.MAIN_BUNDLE, (error) => {
       if (error) {
-        console.tron.log('failed to load the sound', error);
+        // console.tron.log('failed to load the sound', error);
         return;
       }
       // loaded successfully
-      console.tron.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+      // console.tron.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
 
       // Play the sound with an onEnd callback
       whoosh.play((success) => {
         if (success) {
-          console.tron.log('successfully finished playing');
+          // console.tron.log('successfully finished playing');
         } else {
-          console.tron.log('playback failed due to audio decoding errors');
+          // console.tron.log('playback failed due to audio decoding errors');
         }
       });
     });
@@ -166,7 +166,7 @@ export default class CapturePackage extends Component {
 
         <BarcodeScanner
           style={{ flex: 1 }}
-          onBarcodeRead={this.scannedPackageNumber.bind(this)}
+          onBarcodeRead={() => this.scannedPackageNumber}
           onException={() => this.handleException}
           // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
           // torchMode={TorchMode.ON /* could be the default OFF */}
