@@ -7,6 +7,8 @@ const BarcodeScanner = Platform.select({
   ios: () => require('react-native-camera').default
 })();
 
+import { CameraFillMode } from 'react-native-barcode-scanner-google';
+
 const DURATION = 10000 ;
 const PATTERN = [ 1000, 2000, 3000, 4000] ;
 
@@ -162,12 +164,13 @@ export default class CapturePackage extends Component {
   render() {
     return (
 
-      <View style={{ flexGrow: 1 }}>
+      <View style={{ flex: 1 }}>
 
         <BarcodeScanner
-          style={{ flex: 1 }}
+          style={{ flex: 1, width: '90%' }}
           onBarcodeRead={this.scannedPackageNumber.bind(this)}
           onException={() => this.handleException}
+          cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
           // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
           // torchMode={TorchMode.ON /* could be the default OFF */}
           // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}

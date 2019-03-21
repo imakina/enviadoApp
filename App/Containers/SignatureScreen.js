@@ -249,7 +249,7 @@ class SignatureScreen extends Component {
     return (
 
       this.state.step == "capture" ?
-        <CapturePicture onCapture={() => this.onCapture()}></CapturePicture>
+        <CapturePicture onCapture={this.onCapture}></CapturePicture>
  
       :
 
@@ -267,12 +267,12 @@ class SignatureScreen extends Component {
 
             { 
               this.state.step === "barcode" &&
-                <CaptureBarcode onBarcode={() => this.onBarcodeRead()}></CaptureBarcode>
+                <CaptureBarcode onBarcode={this.onBarcodeRead}></CaptureBarcode>
             }
 
             { 
               this.state.step === "signature" &&
-                <CaptureSignature onPad={() => this.onPadRead()}></CaptureSignature>
+                <CaptureSignature onPad={this.onPadRead}></CaptureSignature>
             }
 
             { 
@@ -281,7 +281,7 @@ class SignatureScreen extends Component {
                   packages={this.props.packages.packages.length}
                   legacy={this.props.packages.legacy.length}
                   last={this.props.packages.last}
-                  onPackageRead={() => this.onPackageRead()}>
+                  onPackageRead={this.onPackageRead}>
                 </CapturePackage>
             }
 
