@@ -280,7 +280,7 @@ class SignatureScreen extends Component {
                 <CapturePackage 
                   packages={this.props.packages.packages.length}
                   legacy={this.props.packages.legacy.length}
-                  last={this.props.packages.last}
+                  last={this.props.packages.last_package}
                   onPackageRead={this.onPackageRead}>
                 </CapturePackage>
             }
