@@ -11,25 +11,14 @@ import MaKitButton from '../Components/MaKitButton'
 // Styles
 import styles from "./Styles/WelcomeScreenStyle";
 
-const WelcomeButton = ({icon, title, onpress}) => (
-    // <Button
-    //   icon={{
-    //     name: icon,
-    //     size: 30,
-    //     color: "white",
-    //     type : "font-awesome"
-    //   }}
-    //   title={title}
-    //   buttonStyle={{backgroundColor:Colors.facebook, borderRadius: 5, marginTop: 10}}
-    //   onPress={onpress} 
-    // />
-
+const WelcomeButton = ({icon, title, onpress, enabled}) => (
     <MaKitButton
       icon={{ name: icon, type : "font-awesome", color: "white" }}
       text={title}
       type={"order"}
       onPress={onpress} 
       style={{marginTop:10}}
+      disabled={enabled}
     />
 )
 
@@ -44,13 +33,13 @@ class WelcomeScreen extends Component {
   handlePressOR = () => {
     // TODO replace with the login logic
     this.props.resetPackages();
-    this.props.depositoLogin(false);
+    // this.props.depositoLogin(false);
     this.props.navigation.navigate("OrdenRetiroScreen");
   }
   handlePressDE = () => {
     // TODO replace with the login logic
     this.props.resetPackages();
-    this.props.depositoLogin(true);
+    // this.props.depositoLogin(true);
     // move to depositoscreen
     this.props.navigation.navigate("OrdenRetiroScreen");
   }
@@ -62,9 +51,9 @@ class WelcomeScreen extends Component {
   render() {
 
     const buttonList = [
-      {id:1,icon: 'th-list', title: 'HOJA DE RUTA', onpress: ()=>this.handlePressHR()},
-      {id:2,icon: 'barcode', title: 'ORDEN DE RETIRO', onpress: ()=>this.handlePressOR()},
-      {id:3,icon: 'industry', title: 'DEPOSITO', onpress: ()=>this.handlePressDE()},
+      {id:1,icon: 'th-list', title: 'HOJA DE RUTA', onpress: ()=>this.handlePressHR(), enabled: this.props.login.deposito},
+      {id:2,icon: 'barcode', title: 'ORDEN DE RETIRO', onpress: ()=>this.handlePressOR(), enabled: this.props.login.deposito},
+      {id:3,icon: 'industry', title: 'DEPOSITO', onpress: ()=>this.handlePressDE(), enabled: !this.props.login.deposito},
     ];
 
     return (
@@ -84,7 +73,8 @@ class WelcomeScreen extends Component {
                 key={btn.id}
                 icon={btn.icon}
                 title={btn.title}
-                onpress={btn.onpress} 
+                onpress={btn.onpress}
+                enabled={btn.enabled}
               />
             ))
           }
@@ -97,8 +87,9 @@ class WelcomeScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.tron.display({name:'stop_home',value: state})
+  // console.tron.log({name:'welcome',value: state.login.deposito})
   return {
+    login : state.login,
   };
 };
 

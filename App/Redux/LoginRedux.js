@@ -14,6 +14,9 @@ const { Types, Creators } = createActions({
   loginDeposito: ['isdeposito']
 })
 
+// const user_deposito = 10000;
+const user_deposito = 31922;
+
 export const LoginTypes = Types
 export default Creators
 
@@ -23,7 +26,7 @@ export const INITIAL_STATE = Immutable({
   account: null,
   fetching: false,
   error: null,
-  deposito: false
+  deposito: false,
 })
 
 /* ------------- Reducers ------------- */
@@ -36,7 +39,10 @@ export const request = (state) =>
 export const success = (state, data) => {
   console.tron.log("Login succesfull", data)
   const { payload } = data
-  return state.merge({ fetching: false, error: null, account : payload })
+  // HARDCODED deposito user
+  let deposito = (payload.car_id == user_deposito)
+  // END HARCODED
+  return state.merge({ fetching: false, error: null, account : payload, deposito: deposito })
 }
 
 // Something went wrong somewhere.
