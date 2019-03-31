@@ -1,31 +1,38 @@
-import { StackNavigator } from 'react-navigation'
-import SignatureScreen from '../Containers/SignatureScreen'
-import MapScreen from '../Containers/MapScreen'
-import DirectionScreen from '../Containers/DirectionScreen'
-import RouteScreen from '../Containers/RouteScreen'
-import HojaRutaScreen from '../Containers/HojaRutaScreen'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
+// import LaunchScreen from '../Containers/LaunchScreen'
+
+import LoginScreen from '../Containers/LoginScreen'
+import WelcomeScreen from '../Containers/WelcomeScreen'
 import HomeScreen from '../Containers/HomeScreen'
-import CameraScreen from '../Containers/CameraScreen'
+import HojaRutaScreen from '../Containers/HojaRutaScreen'
 import RemitoScreen from '../Containers/RemitoScreen'
 import RemitosListScreen from '../Containers/RemitosListScreen'
-import LoginScreen from '../Containers/LoginScreen'
-import LaunchScreen from '../Containers/LaunchScreen'
+import SignatureScreen from '../Containers/SignatureScreen'
+import PackageListScreen from '../Containers/PackageListScreen'
+import OrdenRetiroScreen from '../Containers/OrdenRetiroScreen'
+// import MapScreen from '../Containers/MapScreen'
+// import DirectionScreen from '../Containers/DirectionScreen'
+// import RouteScreen from '../Containers/RouteScreen'
+// import CameraScreen from '../Containers/CameraScreen'
+// import ScanPackageScreen from '../Containers/ScanPackageScreen'
 
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
-const PrimaryNav = StackNavigator({
-  SignatureScreen: { screen: SignatureScreen },
-  MapScreen: { screen: MapScreen },
-  DirectionScreen: { screen: DirectionScreen },
-  RouteScreen: { screen: RouteScreen },
-  HojaRutaScreen: { screen: HojaRutaScreen },
+const PrimaryNav = createStackNavigator({
+  LoginScreen: { screen: LoginScreen },
+  WelcomeScreen: { screen: WelcomeScreen },
   HomeScreen: { screen: HomeScreen },
-  CameraScreen: { screen: CameraScreen },
+  HojaRutaScreen: { screen: HojaRutaScreen },
   RemitoScreen: { screen: RemitoScreen },
   RemitosListScreen: { screen: RemitosListScreen },
-  LoginScreen: { screen: LoginScreen },
-  LaunchScreen: { screen: LaunchScreen }
+  SignatureScreen: { screen: SignatureScreen },
+  PackageListScreen: { screen: PackageListScreen },
+  OrdenRetiroScreen: { screen: OrdenRetiroScreen }
+  // LaunchScreen: { screen: LaunchScreen }
+  // MapScreen: { screen: MapScreen },
+  // CameraScreen: { screen: CameraScreen },
+  // ScanPackageScreen: { screen: ScanPackageScreen },
 }, {
   // Default config for all screens
   headerMode: 'none',
@@ -35,4 +42,4 @@ const PrimaryNav = StackNavigator({
   }
 })
 
-export default PrimaryNav
+export default createAppContainer(PrimaryNav)

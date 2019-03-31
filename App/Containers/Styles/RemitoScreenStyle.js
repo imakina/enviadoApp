@@ -1,22 +1,27 @@
-import { StyleSheet } from 'react-native'
-import { ApplicationStyles, Metrics, Colors, Fonts } from '../../Themes/'
+import { StyleSheet } from "react-native";
+import { ApplicationStyles, Metrics, Colors, Fonts } from "../../Themes/";
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
     flex: 1,
-    backgroundColor : Colors.ricePaper,
-    paddingTop:70, 
+    backgroundColor: Colors.snow,
+    // paddingTop: 70
   },
   formContainer: {
     // flex: 1,
     // padding: 20,
-    backgroundColor: Colors.ricePaper,
+    backgroundColor: Colors.snow,
     paddingLeft: 10,
-    paddingRight: 10,
-
+    paddingRight: 10
   },
-  
+  outerBox: { 
+    flexGrow: 1, 
+    paddingRight: 15, 
+    paddingLeft: 15, 
+    paddingTop: 8 
+  },
+
   // buttonText: {
   //   textAlign: 'center',
   //   paddingLeft: 40,
@@ -40,10 +45,10 @@ export default StyleSheet.create({
   // },
 
   // buttonIcon: {
-  //   flexGrow: 1, 
-  //   flexDirection: 'row', 
-  //   justifyContent:'center', 
-  //   alignItems: 'center', 
+  //   flexGrow: 1,
+  //   flexDirection: 'row',
+  //   justifyContent:'center',
+  //   alignItems: 'center',
   //   padding: 8
   // },
 
@@ -54,19 +59,19 @@ export default StyleSheet.create({
 
   spinner: {
     //flex:1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
+    // alignContent: "center"
   },
 
   // information : {
   //   maxWidth: 230
   // },
 
-  // 
+  //
   buttonElement: {
-    backgroundColor: Colors.backgroundVariant, 
-    // borderRadius: 10, 
+    backgroundColor: Colors.backgroundVariant
+    // borderRadius: 10,
     // paddingRight: 70,
     // paddingLeft: 70,
     // marginBottom: 20
@@ -74,12 +79,13 @@ export default StyleSheet.create({
 
   title: {
     ...Fonts.style.normal,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: "bold"
   },
   price: {
-    ...Fonts.style.precio,
+    ...Fonts.style.precio
   },
-  subtitle : {
+  subtitle: {
     fontSize: 14,
     maxWidth: 200
   },
@@ -87,8 +93,21 @@ export default StyleSheet.create({
     fontSize: 13,
     maxWidth: 200
   },
-  description : {
-    fontSize: 11,
-  }
+  description: {
+    fontSize: 11
+  },
 
-})
+  gps: {
+    marginTop: 10,
+    alignItems: 'center'
+  },
+
+  buttonContainer : {
+    flexDirection: 'row',
+    paddingBottom: 10, 
+    justifyContent: 'space-between'
+    // paddingLeft: 10, 
+    // paddingRight: 10,
+  },
+
+});

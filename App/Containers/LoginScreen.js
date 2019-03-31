@@ -6,25 +6,23 @@ import {
   View, 
   Image, 
   TextInput, 
-  TouchableOpacity, 
   Switch, 
   Alert } from 'react-native'
 import { connect } from 'react-redux'
-// import PropTypes from 'prop-types'
-import { Button, CheckBox } from 'react-native-elements'
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
 import LoginActions from '../Redux/LoginRedux'
 import AlertActions from '../Redux/AlertRedux'
-import ButtonIcon from '../Components/ButtonIcon'
-
+// Components
+import MaKitButton from '../Components/MaKitButton'
+import MaKitSpinner from '../Components/MakitSpinner'
+// import MaKitAlert from '../Components/MakitSpinner'
 // Styles
 import styles from './Styles/LoginScreenStyle'
 import { Images, Colors } from '../Themes'
 
-import DebugConfig from '../Config/DebugConfig'
-
-var Spinner = require('react-native-spinkit')
+// import DebugConfig from '../Config/DebugConfig'
+// var Spinner = require('react-native-spinkit')
 
 class LoginScreen extends Component {
 
@@ -35,11 +33,11 @@ class LoginScreen extends Component {
     this.state = {
       username: '',
       password: '',
-      fetching: false,
-      message: '',
-      error: false,
-      authenticated : false,
-      saveasync : false,
+      // fetching: false,
+      // message: '',
+      // error: false,
+      // authenticated : false,
+      saveasync : true,
     }
     // this.isAttempting = false
   }
@@ -61,7 +59,7 @@ class LoginScreen extends Component {
   }
 
   handleSavePassword = () => {
-    console.tron.display({name:'checkboxChanged', value:this.state.saveasync})
+    // console.tron.display({name:'checkboxChanged', value:this.state.saveasync})
     this.setState({ saveasync: !this.state.saveasync })
     // whenever the user change your mind, the store need to be cleaned
     // this.onLogout()
@@ -71,61 +69,17 @@ class LoginScreen extends Component {
     //DEV
     //if (DebugConfig.useFixtures)
     //this.setState({username:'31922',password:'31922'})
-    this.setState({ authenticated : false })
-
-    // AsyncStorage.multiGet(['expire','username','password']).then((data) => {
-    //   if (data[0][1]) {
-    //     // username = data[0][1]
-    //     // password = data[0][2]
-    //     // console.tron.log("retrieve from async storage")
-    //     // console.tron.log({name:'async',value:username})
-    //     // console.tron.log({name:'async',value:password})
-    //     // this.props.attemptLogin(username, password)
-    //     console.tron.display({name:'date',value:data})
-    //     this.setState({
-    //       username : data[0][2],
-    //       password : data[0][3]
-    //     }, this.handlePressLogin())
-    //   }
-    // })
+    // this.setState({ authenticated : false })
   }
-
-  // onLogout() {
-  //   // AsyncStorage.multiRemove(['expire','username','password','account'])
-  //   this.props.logout()
-  // }
 
   componentWillReceiveProps (newProps) {
 
-    this.setState({ 
-      fetching: newProps.fetching ,
-      error: newProps.error,
-      message: newProps.message,
-      logged: newProps.account
-    })
-
-    // console.tron.log({name:'crp_login_props', value:newProps})
-    // console.tron.log({name:'crp_login_state', value:this.state})
-
-    // deprecated, moved to saga
-    // moving to home if everything is ok
-    // if (!this.state.authenticated)
-    //   if (newProps.account)
-    //       if (!newProps.error) {
-    //         // save to storage the user preference
-    //         // console.tron.log(newProps.logged)
-    //         // if (this.state.saveasync) {
-    //         //   console.tron.log("saving to async storage")
-    //         //   AsyncStorage.multiSet([
-    //         //     ['expire', Date.now().toString()],
-    //         //     ['username', newProps.logged.car_id.toString()],
-    //         //     ['password', newProps.logged.pass.toString()],
-    //         //   ])
-    //         // } 
-    //         // flag to prevent navigate to homescreen many times as vars changed
-    //         this.state.authenticated = true
-    //         this.props.navigation.navigate('HomeScreen', { onLogout : this.onLogout })
-    //       }
+    // this.setState({ 
+    //   fetching: newProps.fetching ,
+    //   error: newProps.error,
+    //   message: newProps.message,
+    //   logged: newProps.account
+    // })
 
     //TODO
     //Recuperar el alert en esta func revisando que cambia
@@ -148,8 +102,7 @@ class LoginScreen extends Component {
 
   render () {
 
-    const { alert } = this.props
-    const { fetching } = this.state
+    const { alert, fetching } = this.props
 
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.container}>
@@ -163,16 +116,23 @@ class LoginScreen extends Component {
             />
         </View>
 
-
         <View style={styles.spinnerContainer}>
-        { fetching && (
-          <Spinner
-            style={styles.spinner}
-            isVisible={true}
-            size={100}
-            type={'ChasingDots'}
-            color={'white'}/>
-        )}
+          {/* { 
+            fetching && (
+            <Spinner
+              style={styles.spinner}
+              isVisible={true}
+              size={100}
+              type={'ChasingDots'}
+              color={'white'}/>
+            )
+          } */}
+
+          <MaKitSpinner
+            show={fetching}
+            inverted={true}
+          />
+
         </View>
 
         <View style={styles.formContainer}>
@@ -217,27 +177,30 @@ class LoginScreen extends Component {
           </CheckBox> */}
           <View style={styles.rememberme}>
 
-            <Text style={styles.rememberText}> Recordarme  </Text>
+            <Text style={styles.rememberText}> Recordarme </Text>
             <View style={styles.rememberCheck}>
+              <Text style={styles.rememberCheckText}>{this.state.saveasync?" SI ":" NO "}</Text>
               <Switch
                   value={this.state.saveasync}
                   onValueChange={this.handleSavePassword}
                   disabled={false}
-                  activeText={'Yes'}
-                  inActiveText={'Off'}
-                  circleSize={30}
-                  barHeight={1}
-                  circleBorderWidth={3}
-                  backgroundActive={Colors.snow}
-                  backgroundInactive={Colors.silver}
-                  circleActiveColor={Colors.bloodOrange}
-                  circleInActiveColor={'#000000'}
+                  // activeText={'Yes'} 
+                  // inActiveText={'Off'}
+                  // circleSize={30}
+                  // barHeight={1}
+                  // circleBorderWidth={3}
+                  // backgroundActive={Colors.snow}
+                  // backgroundInactive={Colors.silver}
+                  // circleActiveColor={Colors.bloodOrange}
+                  // circleInActiveColor={'#000000'}
+                  // onTintColor={Colors.backgroundVariant}
+                  trackColor={Colors.backgroundVariant}
                 />
             </View>
 
           </View>
 
-          <ButtonIcon
+          <MaKitButton
             icon={{ name: 'sign-in', type: 'font-awesome' }}
             text="INGRESAR"
             onPress={() => this.handlePressLogin()} 
@@ -255,22 +218,12 @@ class LoginScreen extends Component {
               ],
               { cancelable: false }
             )
-        }
+        } 
 
-        {/* <View style={{ paddingTop: 15, paddingBottom: 15, paddingLeft: 5, paddingRight: 5}}>
-          <Button
-            raised
-            icon={{ name: 'sign-in', type: 'font-awesome' }}
-            buttonStyle={styles.button}
-            textStyle={{ textAlign: 'center' }}
-            title="INGRESAR"
-            onPress={() => this.handlePressLogin()} 
-          />
-        </View> */}
-
-        {/* <View style={[styles.formContainer, {marginBottom: 20}]}>
-
-        </View> */}
+        {/* <MaKitAlert
+          title="Error en autenticacion" >
+          </MaKitAlert> */}
+        
 
       </KeyboardAvoidingView>
 
@@ -291,7 +244,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     attemptLogin: (username, password, saveasync) => dispatch(LoginActions.loginRequest(username, password, saveasync)),
-    // logout: () => dispatch(LoginActions.logout()),
     clearAlert: () => dispatch(AlertActions.alertClear())
   }
 }

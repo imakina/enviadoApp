@@ -1,50 +1,53 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import { View } from 'react-native'
-// import styles from './Styles/SearchBarStyles'
+import { View } from 'react-native'
+import styles from './Styles/HeaderStyles'
 import { Colors } from '../Themes/'
-import { Header as RNE } from 'react-native-elements'
+import { Header as HeaderElement } from 'react-native-elements'
 
 export default class Header extends Component {
 
   static propTypes = {
-    onPressLeft: PropTypes.func,
-    onPressRight: PropTypes.func,
+    right: PropTypes.object,
+    left: PropTypes.object,
     title: PropTypes.string
   }
 
+
+  build = () => {
+
+    const centerTemplate = {
+      text: this.props.title, 
+      style: styles.navigation
+    }
+
+    const leftTemplate = {
+      type:'font-awesome',
+      color: Colors.background,
+      ...this.props.left
+    } 
+
+    const rightTemplate = {
+      type:'font-awesome',
+      color: Colors.background,
+      ...this.props.right
+    }
+
+    return {
+      leftComponent : leftTemplate,
+      centerComponent : centerTemplate,
+      rightComponent : rightTemplate,
+    }
+
+  }
+
   render () {
-
-    const centerComponent = {
-        text: this.props.title, 
-        style: { color: Colors.background } 
-    }
-
-    const leftComponent = {
-        icon: 'chevron-left',
-        color: Colors.background,
-        onPress: onPressRight()
-    }
-
-    const rightComponent = {
-        icon: 'refresh', 
-        color: Colors.background,
-        onPress: onPressRight()
-    }
-
     return (
-        <RNE
-          statusBarProps={{ barStyle: 'light-content' }}
-          leftComponent={{ icon: 'menu', color: '#27ae60' }}
-          centerComponent={{ text: 'ENVIADO.COM', style: { color: '#27ae60' } }} 
-          rightComponent={{ 
-            icon: 'sign-out', 
-            type: 'font-awesome', 
-            color: '#27ae60',
-            // onPress: () => this.onPressingLogout()
-          }}
-        />
+      <HeaderElement
+        statusBarProps={{ barStyle: 'light-content' }}
+        backgroundColor="transparent"
+        {...this.build()}
+      />
     )
-
   }
 }

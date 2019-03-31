@@ -6,21 +6,49 @@ import DebugConfig from '../Config/DebugConfig'
 /* ------------- Types ------------- */
 
 import { StartupTypes } from '../Redux/StartupRedux'
-//import { GithubTypes } from '../Redux/GithubRedux'
-import { LoginTypes } from '../Redux/LoginRedux'
-import { RemitosTypes } from '../Redux/RemitosRedux'
-import { HojaRutaTypes } from '../Redux/HojaRutaRedux'
-import { MotivosTypes } from '../Redux/MotivosRedux'
-
+// import { GithubTypes } from '../Redux/GithubRedux'
+import { LoginTypes } from "../Redux/LoginRedux";
+import { RemitosTypes } from "../Redux/RemitosRedux";
+import { HojaRutaTypes } from "../Redux/HojaRutaRedux";
+import { MotivosTypes } from "../Redux/MotivosRedux";
+import { SyncTypes } from "../Redux/SyncRedux";
+import { PackagesTypes } from "../Redux/PackagesRedux";
+import { OrdenRetiroTypes } from "../Redux/OrdenRetiroRedux";
+import { LocationTypes } from "../Redux/LocationRedux";
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
-//import { getUserAvatar } from './GithubSagas'
-import { login, check, logout, picture } from './LoginSagas'
-import { getRemitos } from './RemitosSagas'
-import { postRemito } from './RemitosSagas'
-import { getHojaRuta } from './HojaRutaSagas'
-import { getMotivos } from './MotivosSagas'
+// import { getUserAvatar } from './GithubSagas'
+import { login, check, logout, picture } from "./LoginSagas";
+import {
+  getRemitos,
+  updateRemito,
+  postRemito,
+  rehydrateRemitos
+} from "./RemitosSagas";
+import {
+  getHojaRuta,
+  rehydrateHojaRuta,
+  rehydrateHojaRutaActive,
+  activeHojaRuta
+} from "./HojaRutaSagas";
+import { getMotivos } from "./MotivosSagas";
+import { sync } from "./SyncSagas";
+import {
+  getPackages,
+  updatePackage,
+  savePackage,
+  resetPackages
+} from "./PackagesSagas";
+import {
+  getOrdenRetiro,
+  activeOrdenRetiro
+} from "./OrdenRetiroSagas";
+
+import { 
+  // adquire,
+  openLocationWatch
+} from "./LocationSagas";
 
 /* ------------- API ------------- */
 
@@ -36,22 +64,55 @@ export default function * root () {
     takeLatest(StartupTypes.STARTUP, startup),
 
     // some sagas receive extra parameters in addition to an action
-    //takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)
+    // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)
 
     // some sagas about login
     takeLatest(LoginTypes.LOGIN_REQUEST, login, api),
     takeLatest(LoginTypes.LOGIN_CHECK, check),
     takeLatest(LoginTypes.LOGIN_OUT, logout),
     takeLatest(LoginTypes.LOGIN_PICTURE, picture),
+    // end some sagas login
 
-    // some sagas about remitos
+    // ===== trying to rehydrate the possible
+    takeLatest(LoginTypes.LOGIN_SUCCESS, rehydrateHojaRuta),
+    takeLatest(LoginTypes.LOGIN_SUCCESS, rehydrateHojaRutaActive),
+    takeLatest(LoginTypes.LOGIN_SUCCESS, rehydrateRemitos),
+    // ===== trying to rehydrate the possible
+    takeLatest(LoginTypes.LOGIN_SUCCESS, getMotivos, api),
+    
+    // ===== some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
+    // takeLatest(RemitosTypes.REMITO_UPDATE, updateRemito),
+    takeLatest(RemitosTypes.REMITOS_REHYDRATE, rehydrateRemitos),
     takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
+    // takeLatest(RemitosTypes.REMITO_SYNC, syncRemitos),
+    // takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVATED, getRemitos, api),
+    // ===== end some sagas about remitos
 
-    // some sagas about mapaderuta
+    // some sagas about packages
+    takeLatest(PackagesTypes.PACKAGES_REQUEST, getPackages, api),
+    takeLatest(PackagesTypes.PACKAGE_UPDATE, updatePackage, api),
+    takeLatest(PackagesTypes.PACKAGE_SAVE, savePackage, api),
+    takeLatest(PackagesTypes.PACKAGES_RESET, resetPackages),
+    
+    // some sagas about ordenes retiro
+    takeLatest(OrdenRetiroTypes.ORDEN_RETIRO_REQUEST, getOrdenRetiro, api),
+    takeLatest(OrdenRetiroTypes.ORDEN_RETIRO_ACTIVE, activeOrdenRetiro),
+
+    // some sagas about hojaderuta
     takeLatest(HojaRutaTypes.HOJA_RUTA_REQUEST, getHojaRuta, api),
+    takeLatest(HojaRutaTypes.HOJA_RUTA_REHYDRATE, rehydrateHojaRuta),
+    takeLatest(HojaRutaTypes.HOJA_RUTA_SUCCESS, rehydrateHojaRutaActive),
+    takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVE, activeHojaRuta),
 
-    // some saga about motivos of delivered remitos
-    takeLatest(MotivosTypes.MOTIVOS_REQUEST, getMotivos, api)
+    // // some saga about motivos of delivered remitos
+    takeLatest(MotivosTypes.MOTIVOS_REQUEST, getMotivos, api),
+
+    // // sync process
+    takeLatest(SyncTypes.SYNC_REQUEST, sync, api),
+
+    // location
+    takeLatest(LocationTypes.LOCATION_STARTUP, openLocationWatch)
+
   ])
 }

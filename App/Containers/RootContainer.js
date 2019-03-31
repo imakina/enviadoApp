@@ -8,9 +8,6 @@ import ReduxPersist from '../Config/ReduxPersist'
 // Styles
 import styles from './Styles/RootContainerStyles'
 
-//NavBar
-import NavigationBar from 'react-native-navbar';
-
 class RootContainer extends Component {
   componentDidMount () {
     // if redux persist is not active fire startup action

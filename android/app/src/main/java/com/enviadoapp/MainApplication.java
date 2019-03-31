@@ -3,16 +3,16 @@ package com.enviadoapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.imagepicker.ImagePickerPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.rssignaturecapture.RSSignatureCapturePackage;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.spyworldxp.barcodescanner.BarcodeScannerPackage;
+import org.reactnative.camera.RNCameraPackage;
+import com.zmxv.RNSound.RNSoundPackage;
+import com.rnfs.RNFSPackage;
+// import com.ekreutz.barcodescanner.BarcodeScannerPackage;
+import com.rssignaturecapture.RSSignatureCapturePackage;
 import com.react.rnspinkit.RNSpinkitPackage;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -33,17 +33,21 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ImagePickerPackage(),
-            new RNFetchBlobPackage(),
-            new MapsPackage(),
-            new RNDeviceInfo(),
-            new RSSignatureCapturePackage(),
-            new RCTCameraPackage(),
             new VectorIconsPackage(),
+            new BarcodeScannerPackage(),
+            new RNCameraPackage(),
+            new RNSoundPackage(),
+            new RNFSPackage(),
+            new RSSignatureCapturePackage(),
             new RNSpinkitPackage(),
-            new ReactNativeConfigPackage(),
-            new ReactNativeI18n()
+            new RNDeviceInfo(),
+            new RNGestureHandlerPackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 

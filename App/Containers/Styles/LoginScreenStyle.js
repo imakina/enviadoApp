@@ -63,9 +63,18 @@ rememberCheck : {
   // fontFamily: 'HelveticaNeue-Italic',
   // color: Colors.snow,
   // backgroundColor: Colors.bloodOrange,
+  borderRadius: 4,
   alignItems: 'flex-end',
   justifyContent: 'flex-start',
-  opacity: 0.8
+  // opacity: 0.8,
+  flexDirection: "row",
+  // backgroundColor: Colors.backgroundVariant,
+},
+rememberCheckText : {
+  fontSize : 18,
+  color: Colors.snow,
+  paddingBottom: 4,
+  paddingRight: 6,
 },
 
 spinnerContainer: {
@@ -73,13 +82,13 @@ spinnerContainer: {
   alignItems: 'center'
 },
 
-button: {
-  backgroundColor: '#27ae60', 
-  // borderRadius: 5,
-  // marginBottom: 20,
-  // marginLeft: 5,
-  // marginRight: 5
-}
+// button: {
+//   backgroundColor: '#27ae60', 
+//   // borderRadius: 5,
+//   // marginBottom: 20,
+//   // marginLeft: 5,
+//   // marginRight: 5
+// }
 
 })
 

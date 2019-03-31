@@ -1,29 +1,59 @@
-/* ***********************************************************
-* A short word on how to use this automagically generated file.
-* We're often asked in the ignite gitter channel how to connect
-* to a to a third party api, so we thought we'd demonstrate - but
-* you should know you can use sagas for other flow control too.
-*
-* Other points:
-*  - You'll need to add this saga to sagas/index.js
-*  - This template uses the api declared in sagas/index.js, so
-*    you'll need to define a constant in that file.
-*************************************************************/
+import AsyncStorage from "AsyncStorage";
+import { call, put, select } from "redux-saga/effects";
+// actions
+import HojaRutaActions from "../Redux/HojaRutaRedux";
+import RemitosActions from "../Redux/RemitosRedux";
+// account
+const selectAccount = state => state.login.account;
 
-import { call, put } from 'redux-saga/effects'
-import HojaRutaActions from '../Redux/HojaRutaRedux'
-
-export function * getHojaRuta (api, action) {
-  const { car_id, estado } = action
-  // make the call to the api
-  const response = yield call(api.getHojaRuta, car_id, estado)
-
+export function* getHojaRuta(api, action) {
+  const account = yield select(selectAccount);
+  // the state is still 0 but will be changed to a value parametrized
+  const response = yield call(api.getHojaRuta, account.car_id, 0);
   // success?
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    yield put(HojaRutaActions.hojaRutaSuccess(response.data))
+    // allways save ?
+    // save hoja ruta async
+    // let hojas = response.data.map(item => {
+    //   item.active = false;
+    //   item.sync = false;
+    //   return item;
+    // });
+    // console.tron.display({ preview: 'saving hojaruta from async' })
+    // AsyncStorage.setItem("hojaruta", JSON.stringify(response.data));
+    store(response.data);
+    // end save async
+    yield put(HojaRutaActions.hojaRutaSuccess(response.data));
   } else {
-    yield put(HojaRutaActions.hojaRutaFailure())
+    yield put(HojaRutaActions.hojaRutaFailure());
   }
+}
+
+function store(hojaruta) {
+  console.tron.display({ preview: "saved hojaruta to async" });
+  AsyncStorage.setItem("hojaruta", JSON.stringify(hojaruta));
+}
+
+// rehydrate the hojas from the storage
+export function* rehydrateHojaRuta(action) {
+  const hojas = yield AsyncStorage.getItem("hojaruta");
+  // console.tron.log("rehydratehojas");
+  if (hojas) yield put(HojaRutaActions.hojaRutaSuccess(JSON.parse(hojas)));
+}
+
+// check if there is someone active
+export function* rehydrateHojaRutaActive(action) {
+  const active = yield AsyncStorage.getItem("active");
+  // console.tron.log({ preview: "rehydratehojaActive", value: active });
+  if (active) yield put(HojaRutaActions.hojaRutaActivated(JSON.parse(active)));
+}
+
+// save to storage the active hoja
+// change the state
+export function* activeHojaRuta({ active }) {
+  // console.tron.log({ preview: "ActiveHoja", value: active });
+  // get remitos
+  yield put(HojaRutaActions.hojaRutaActivated(active));
+  yield put(RemitosActions.remitosRequest());
+  yield AsyncStorage.setItem("active", JSON.stringify(active));
 }

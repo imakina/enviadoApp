@@ -24,66 +24,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>desa.enviado.softsencillo.com</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>clientes.enviado.com</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Enciende tu camara para jugar.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Para poder trazar las rutas</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Para poder trazar las rutas</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Se necesita permiso para acceder al microfono</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Se necesita permiso para acceder a las Fotos</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Se necesita acceder a la Librearia</string>
-	<key>NSLocalizedDescription</key>
-	<string>Se necesita acceder a tu ubicaion</string>
-
-	<key>UIAppFonts</key>
-	<array>
-		<string>Entypo.ttf</string>
-		<string>EvilIcons.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>Ionicons.ttf</string>
-		<string>MaterialCommunityIcons.ttf</string>
-		<string>MaterialIcons.ttf</string>
-		<string>Octicons.ttf</string>
-		<string>SimpleLineIcons.ttf</string>
-		<string>Zocial.ttf</string>
-		<string>NunitoBold.ttf</string>
-		<string>NunitoRegular.ttf</string>
-		<string>RalewayBold.ttf</string>
-		<string>RalewayRegular.ttf</string>
-		<string>Feather.ttf</string>
-	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
+	<string>Se usa tu ubicacion para calcular las rutas</string>
 	<key>UILaunchStoryboardName</key>
-	<string>Launch Screen</string>
+	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -96,5 +40,60 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>desa.enviado.softsencillo.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>test.softsencillo.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Enciende tu camara para jugar.</string>
+	<key>NSLocalizedDescription</key>
+	<string>Se necesita acceder a tu ubicaion</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Se usa tu ubicacion para calcular las rutas</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Para poder trazar las rutas</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Se necesita permiso para acceder al microfono</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Se necesita acceder a la Librearia</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Se necesita permiso para acceder a las Fotos</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
 </dict>
 </plist>
