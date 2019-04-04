@@ -7,15 +7,13 @@ const BarcodeScanner = Platform.select({
   ios: () => require('react-native-camera').default
 })();
 
-// if (Platform.OS == 'android') {
-  import { CameraFillMode } from 'react-native-barcode-scanner-google';
-// }
+import { CameraFillMode } from 'react-native-barcode-scanner-google';
 
 const DURATION = 10000 ;
 const PATTERN = [ 1000, 2000, 3000, 4000] ;
 
 import MaKitButton from '../Components/MaKitButton'
-// import { Colors } from '../Themes';
+import { Colors } from '../Themes';
 
 // Import the react-native-sound module
 var Sound = require('react-native-sound');
