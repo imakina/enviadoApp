@@ -178,9 +178,29 @@ class PackagesListScreen extends React.PureComponent {
     this.props.updatePackage(package_scanned, idordenretiro_qr);
     
   }
+ 
+  onScanned = scanned => {
+    console.tron.log({ name: "package_receive_scan", value: scanned });
+    console.log("package_receive_scan", scanned);
+    this.setState({ scan : scanned });
+    // this.onSigning()
+  };
 
+  // called from signature
+  onSignature = sign => {
+    console.tron.log({ name: "package_receive_signature", value: sign });
+    console.log("package_receive_signature", sign)
+    this.setState({ signature: sign }, function() {
+      this.props.savePackage()
+    });
+  };
+  
   onSavePakages = () => {
-    this.props.savePackage();
+    this.props.navigation.navigate("SignatureScreen", {
+      onBarcode: this.onScanned,
+      onSign: this.onSignature,
+      step: "barcode"
+    });
   }
 
   render() {

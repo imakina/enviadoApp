@@ -3,6 +3,7 @@ package com.enviadoapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.corbt.keepawake.KCKeepAwakePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.spyworldxp.barcodescanner.BarcodeScannerPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new KCKeepAwakePackage(),
             new VectorIconsPackage(),
             new BarcodeScannerPackage(),
             new RNCameraPackage(),

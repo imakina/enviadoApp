@@ -1,8 +1,11 @@
 {
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining"
+  ],
   "presets": ["react-native"],
   "env": {
     "production": {
-      "plugins": ["ignite-ignore-reactotron"]
+      "plugins": ["@babel/plugin-proposal-optional-chaining","ignite-ignore-reactotron"]
     }
   }
 }

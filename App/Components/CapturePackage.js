@@ -8,7 +8,7 @@ const BarcodeScanner = Platform.select({
 })();
 
 // if (Platform.OS == 'android') {
-  import { CameraFillMode } from 'react-native-barcode-scanner-google';
+  // import { CameraFillMode } from 'react-native-barcode-scanner-google';
 // }
 
 const DURATION = 10000 ;
@@ -19,6 +19,9 @@ import MaKitButton from '../Components/MaKitButton'
 
 // Import the react-native-sound module
 var Sound = require('react-native-sound');
+
+// keep the screen from going to sleep
+import KeepAwake from 'react-native-keep-awake';
 
 export default class CapturePackage extends Component {
 
@@ -167,6 +170,8 @@ export default class CapturePackage extends Component {
     return (
 
       <View style={{ flex: 1 }}>
+
+        <KeepAwake />
 
         <BarcodeScanner
           style={{ flex: 1, width: '90%' }}
