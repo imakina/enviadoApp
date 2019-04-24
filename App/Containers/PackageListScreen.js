@@ -175,7 +175,7 @@ class PackagesListScreen extends React.PureComponent {
         }
       });
 
-    this.props.updatePackage(package_scanned, idordenretiro_qr);
+    this.props.updatePackage(package_scanned, idordenretiro_qr, this.state.scan, this.state.signature);
     
   }
  

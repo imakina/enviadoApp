@@ -57,6 +57,8 @@ export function* rehydrateRemitos(action) {
 export function* updatePackage(api, action) {
   const packageqr = action.package;
   const deposito = action.deposito;
+  const scan = action.scan;
+  const signature = aciton.signature;
   // make the call to the api
   const login = yield select(selectLogin);
   const packages = yield select(selectPackages);
@@ -74,7 +76,9 @@ export function* updatePackage(api, action) {
     orden_retiro : ordenretiro,
     latitud : location.latitude,
     longitud : location.longitude,
-    id_orden_retiro_qr : deposito
+    id_orden_retiro_qr : deposito,
+    scan: scan,
+    signature : signature
   }
   
   let data = Object.assign([], packages);
