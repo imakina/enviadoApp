@@ -5,11 +5,17 @@ import HojaRutaActions from "../Redux/HojaRutaRedux";
 import RemitosActions from "../Redux/RemitosRedux";
 // account
 const selectAccount = state => state.login.account;
+const isDeposito = state => state.login.deposito;
 
 export function* getHojaRuta(api, action) {
   const account = yield select(selectAccount);
+  const deposito = yield select(isDeposito);
+  console.tron.log("deposito",deposito)
   // the state is still 0 but will be changed to a value parametrized
-  const response = yield call(api.getHojaRuta, account.car_id, 0);
+  // const response = yield call(api.getHojaRuta, account.car_id, 0);
+  // TODO quitar constante
+  const car_id = (deposito ? 0 : account.car_id);
+  const response = yield call(api.getHojaRuta, car_id, 0);
   // success?
   if (response.ok) {
     // allways save ?

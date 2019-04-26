@@ -123,3 +123,24 @@ export function* postRemito(api, action) {
     yield put(RemitosActions.remitosFailure({ fetching: false }));
   }
 }
+
+export function* postOrder(api, action) {
+
+  const { body } = action;
+  const account = yield select(selectAccount);
+  // make the call to the api
+  const response = yield call(api.postActualizaOrden, account.token, body);
+  // console.tron.log(reponse)
+  if (response.ok) {
+    // yield put(RemitosActions.remitoUpdateSuccess());
+    yield put(AlertActions.alertSuccess("Orden actualizado"));
+
+  } else {
+    // todo put the messages in a unified place
+    // network error
+    let { problem } = response;
+    if (problem == null) problem = response.data.message;
+    console.log(problem)
+    yield put(RemitosActions.remitosFailure({ fetching: false }));
+  }
+}

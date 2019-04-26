@@ -11,7 +11,8 @@ const { Types, Creators } = createActions({
   remitoUpdateSuccess: null,
   remitoSelected: ["remito"],
   // remitoNotSynced: null
-  remitosRehydrate: null
+  remitosRehydrate: null,
+  remitosOrder: ["body"],
 });
 
 export const RemitosTypes = Types;
@@ -73,6 +74,9 @@ export const selected = (state, action) => {
   return state.merge({ fetching: false, error: null, remito: remito });
 };
 
+export const order = (state, action) =>
+  state.merge({ fetching: true });
+
 // Something went wrong somewhere.
 export const failure = state =>
   state.merge({
@@ -94,5 +98,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.REMITO_UPDATE_SUCCESS]: update_success,
   [Types.REMITO_SELECTED]: selected,
   // [Types.REMITO_SYNC]: sync,
-  [Types.REMITOS_REHYDRATE]: rehydrate
+  [Types.REMITOS_REHYDRATE]: rehydrate,
+  [Types.REMITOS_ORDER]: order,
 });

@@ -195,13 +195,24 @@ class PackagesListScreen extends React.PureComponent {
     });
   };
   
+  // onSavePakages = () => {
+  //   this.props.navigation.navigate("SignatureScreen", {
+  //     onBarcode: this.onScanned,
+  //     onSign: this.onSignature,
+  //     step: "barcode"
+  //   });
+  // }
+
   onSavePakages = () => {
-    this.props.navigation.navigate("SignatureScreen", {
-      onBarcode: this.onScanned,
-      onSign: this.onSignature,
-      step: "barcode"
-    });
+    // this.props.navigation.navigate("SignatureScreen", {
+    //   onBarcode: this.onScanned,
+    //   onSign: this.onSignature,
+    //   step: "barcode"
+    // });
+    this.props.savePackage()
   }
+
+
 
   render() {
 

@@ -22,9 +22,10 @@ import { startup } from './StartupSagas'
 import { login, check, logout, picture } from "./LoginSagas";
 import {
   getRemitos,
-  updateRemito,
+  // updateRemito,
   postRemito,
-  rehydrateRemitos
+  rehydrateRemitos,
+  postOrder
 } from "./RemitosSagas";
 import {
   getHojaRuta,
@@ -87,6 +88,7 @@ export default function * root () {
     takeLatest(RemitosTypes.REMITO_UPDATE, postRemito, api),
     // takeLatest(RemitosTypes.REMITO_SYNC, syncRemitos),
     // takeLatest(HojaRutaTypes.HOJA_RUTA_ACTIVATED, getRemitos, api),
+    takeLatest(RemitosTypes.REMITOS_ORDER, postOrder, api),
     // ===== end some sagas about remitos
 
     // some sagas about packages

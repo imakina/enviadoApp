@@ -54,6 +54,8 @@ const create = (baseURL = "http://test.softsencillo.com/api/") => {
   const getHojaRuta = (car_id, estado) => api.get("remitos/ListadoHojasRuta", { car_id: car_id, estado: estado });
   const getMotivos = token => api.get("remitos/motivos", { token: token });
   const postRemitoEstado = (token, body) => api.post("remitos/actualizaestado/?token=" + token, body);
+  const postActualizaOrden = (token, body) => api.post("remitos/ActualizarOrdenRemito/?token=" + token, body);
+  // http://clientes.enviado.com/api/remitos/ActualizarOrdenRemito/?token=NGtyTmxJaDlDSHNla3BBZTVZTm12RVEybjRoVTZFdlcwYnlBMTJZQi9iMD06MA==
   // ordenes retiro
   const postOrdenRetiro = (token, body) => api.post("ordenretiroqr/crearorden/?token=" + token, body);
   const postOrdenRetiroCerrar = (token, body) => api.post("ordenretiroqr/cerrarorden/?token=" + token, body);
@@ -90,6 +92,7 @@ const create = (baseURL = "http://test.softsencillo.com/api/") => {
     getOrdenRetiro,
     getPackagesQR,
     getRemitosQR,
+    postActualizaOrden
   }
 }
 

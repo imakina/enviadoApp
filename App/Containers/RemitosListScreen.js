@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Alert } from "react-native";
 import { connect } from "react-redux";
 // import openMap from "react-native-open-maps";
 import getDirections from "react-native-google-maps-directions";
 // import LocationActions from "../Redux/LocationRedux";
 import RemitosActions from "../Redux/RemitosRedux";
 import SyncActions from "../Redux/SyncRedux";
+import AlertActions from "../Redux/AlertRedux";
 // Components
 import ItemRemito from "../Components/ItemRemito";
 import HeaderRemito from "../Components/HeaderRemito";
@@ -41,14 +42,16 @@ class RemitosListScreen extends React.PureComponent {
     dataObjects: this.props.remitos,
     saveproximity : false,
     latitude : null,
-    longitude : null
+    longitude : null,
+    alertCalled : false
   };
 
   renderRow = ({ item }) => {
+    
     return (
       <ItemRemito
-        // latitud={this.state.latitude}
-        // longitud={this.state.longitude}
+        // latitud={this.props.latitude}
+        // longitud={this.props.longitude}
         onPressSingleItem={() => this.onPressSingleItem(item)}
         onPressOpenMaps={() => this.onPressOpenMaps(item)}
         item={item}
@@ -61,6 +64,21 @@ class RemitosListScreen extends React.PureComponent {
     this.setState({ saveproximity: !this.state.saveproximity }, () => this.reload())
     // reorder the grid after proximity check change
     console.log(this.state.tabIndex);
+
+    //ask to save the values
+    // this.setState({ distanceQuestion:true})
+    if (!this.state.saveproximity ) {
+      Alert.alert(
+        'Orden',
+        'Desea guardar el orden por distancia',
+        [
+          {text: 'SI', onPress: () => this.distanceAnswerYes()},
+          {text: 'NO', onPress: () => this.distanceAnswerNo()},
+        ],
+        { cancelable: false }
+      )
+    }
+
   }
 
   // renderHeader = () => ( 
@@ -257,14 +275,34 @@ class RemitosListScreen extends React.PureComponent {
     });
   };
 
+  onPressDistance = () => {
+    //prepare the orderer array to persist
+    // console.tron.log("onpressdistance")
+    const arrOrder = this.props.remitos.map((item) => {
+      return [item.orden,item.id_detalle]
+    })
+    console.tron.log("orden",arrOrder)
+    this.props.orderRemitos(arrOrder);
+  }
+
   componentWillReceiveProps(newProps) {
-    //console.tron.display({name: 'props', value: newProps})
+    console.tron.display({name: 'props', value: newProps})
     this.setState({
       sync: newProps.sync,
       dataObjects: newProps.remitos,
       data: newProps.remitos,
       fetching: newProps.fetching,
     });
+
+    if (this.state.alertCalled == false)
+      if (newProps.alert.show) {
+        this.setState({ alertCalled : true })
+        console.tron.log('cambiado alertcalled')
+      }
+    else
+      if (!newProps.alert.show)
+        this.setState({ alertCalled : false })
+
 
     // console.log(newProps)
 
@@ -410,6 +448,15 @@ class RemitosListScreen extends React.PureComponent {
     this.props.attemptSync();
   }
 
+  distanceAnswerYes = () => {
+    this.setState({ distanceQuestion:false})
+    this.onPressDistance();
+  }
+
+  distanceAnswerNo = () => {
+    this.setState({ distanceQuestion:false})
+  }
+
   // onPressMarkers = () => {
   //   const markers = this.state.dataObjects
   //     .filter(function(item) {
@@ -424,19 +471,20 @@ class RemitosListScreen extends React.PureComponent {
   // distance gps
   getDistance = destination => {
 
-    if (!this.state.latitude) {
+    // if (!this.state.latitude) {
+    if (!this.props.location.latitude) {
       // console.log("invalid coords ", this.state.latitude)
       return "?";
     }
 
-    // console.log("Dest",destination);
-    // console.log("state",this.state.longitude);
     const R = 6371; // Radius of the earth in km
-    const dLat = this.deg2rad(destination.latitud - this.state.latitude); 
-    const dLon = this.deg2rad(destination.longitud - this.state.longitude);
+    // const dLat = this.deg2rad(destination.latitud - this.state.latitude); 
+    // const dLon = this.deg2rad(destination.longitud - this.state.longitude);
+    const dLat = this.deg2rad(destination.latitud - this.props.location.latitude); 
+    const dLon = this.deg2rad(destination.longitud - this.props.location.longitude);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.deg2rad(this.state.latitude)) *
+      Math.cos(this.deg2rad(this.props.location.latitude)) *
         Math.cos(this.deg2rad(destination.latitud)) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
@@ -459,6 +507,7 @@ class RemitosListScreen extends React.PureComponent {
   render() {
     const { fetching, gpsfetch } = this.state;
     const { syncing } = this.props.sync
+    const { alert } = this.props
 
     return (
       <View style={styles.container}>
@@ -481,6 +530,7 @@ class RemitosListScreen extends React.PureComponent {
               handleSaveProximity = {this.handleSaveProximity} 
               onSearch = {() => this.onSearch} 
               onClearSearch = {() => this.onClearSearch} 
+              onPressDistance = {this.onPressDistance}
             /> 
           
             <FlatList
@@ -506,6 +556,23 @@ class RemitosListScreen extends React.PureComponent {
           />
         </View>
 
+        {
+          this.state.alertCalled ?
+
+            alert.type === 'alert-success' &&
+            Alert.alert(
+              'Guardado por distancia',
+              alert.message,
+              [
+                {text: 'OK', onPress: () => this.props.clearAlert()},
+              ],
+              { cancelable: false }
+            )
+
+          :
+          null
+        } 
+
       </View>
     );
   }
@@ -519,7 +586,8 @@ const mapStateToProps = state => {
     hojaruta: state.hojaruta.active,
     // sync
     sync: state.sync,
-    location : state.location
+    location : state.location,
+    alert: state.alert,
   };
 };
 
@@ -528,8 +596,10 @@ const mapDispatchToProps = dispatch => {
     //requestRemitos: (hoja, todos) => dispatch(RemitosActions.remitosRequest(hoja, todos)),
     rehydrateRemitos: () => dispatch(RemitosActions.remitosRehydrate()),
     selectedRemitos: remito => dispatch(RemitosActions.remitoSelected(remito)),
+    orderRemitos: (arrOrder) => dispatch(RemitosActions.remitosOrder(arrOrder)),
     attemptSync: () => dispatch(SyncActions.syncRequest()),
     // adquireLocation: (location) => dispatch(LocationActions.locationAdquire())
+    clearAlert: () => dispatch(AlertActions.alertClear())
   };
 };
 
