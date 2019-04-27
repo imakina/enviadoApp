@@ -51,7 +51,7 @@ class WelcomeScreen extends Component {
   render() {
 
     const buttonList = [
-      {id:1,icon: 'th-list', title: 'HOJA DE RUTA', onpress: ()=>this.handlePressHR(), enabled: !this.props.login.deposito},
+      {id:1,icon: 'th-list', title: 'HOJA DE RUTA', onpress: ()=>this.handlePressHR(), enabled: false},
       {id:2,icon: 'barcode', title: 'ORDEN DE RETIRO', onpress: ()=>this.handlePressOR(), enabled: this.props.login.deposito},
       {id:3,icon: 'industry', title: 'DEPOSITO', onpress: ()=>this.handlePressDE(), enabled: !this.props.login.deposito},
     ];

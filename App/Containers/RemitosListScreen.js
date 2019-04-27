@@ -294,14 +294,38 @@ class RemitosListScreen extends React.PureComponent {
       fetching: newProps.fetching,
     });
 
-    if (this.state.alertCalled == false)
-      if (newProps.alert.show) {
-        this.setState({ alertCalled : true })
-        console.tron.log('cambiado alertcalled')
-      }
-    else
-      if (!newProps.alert.show)
-        this.setState({ alertCalled : false })
+    if (this.props.account.deposito)
+      if (this.state.alertCalled == false)
+        if (newProps.alert.show) {
+          this.setState({ alertCalled : true });
+
+            console.tron.log('cambiado alertcalled')
+          
+            // alert.type === 'alert-success' &&
+            // Alert.alert(
+            //   'Guardado por distancia',
+            //   alert.message,[ 
+            //     {text: 'OK', onPress: () => this.props.clearAlert()},
+            //   ],
+            //   { cancelable: false }
+            // )
+
+            Alert.alert(
+              'Guardado por distancia',
+              'Orden actualizado',
+              [
+                {text: 'OK', onPress: () => this.props.clearAlert()},
+              ],
+              { cancelable: false }
+            )
+              
+            console.tron.log('alert false')
+            this.setState({ alertCalled : false })
+
+        }
+      // else
+      //   if (!newProps.alert.show)
+      //     this.setState({ alertCalled : false })
 
 
     // console.log(newProps)
@@ -556,7 +580,7 @@ class RemitosListScreen extends React.PureComponent {
           />
         </View>
 
-        {
+        {/* {
           this.state.alertCalled ?
 
             alert.type === 'alert-success' &&
@@ -571,7 +595,7 @@ class RemitosListScreen extends React.PureComponent {
 
           :
           null
-        } 
+        }  */}
 
       </View>
     );
@@ -582,7 +606,7 @@ const mapStateToProps = state => {
   return {
     remitos: state.remitos.remitos,
     fetching: state.remitos.fetching,
-    user: state.login.payload,
+    account: state.login,
     hojaruta: state.hojaruta.active,
     // sync
     sync: state.sync,
