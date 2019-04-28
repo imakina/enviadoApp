@@ -130,7 +130,8 @@ export function* postOrder(api, action) {
   const account = yield select(selectAccount);
   // make the call to the api
   const response = yield call(api.postActualizaOrden, account.token, body);
-  // console.tron.log(reponse)
+  console.tron.log("postOrder", response)
+  console.log("postOrder", response)
   if (response.ok) {
     // yield put(RemitosActions.remitoUpdateSuccess());
     yield put(AlertActions.alertSuccess("Orden actualizado"));

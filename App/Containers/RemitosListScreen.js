@@ -279,7 +279,8 @@ class RemitosListScreen extends React.PureComponent {
     //prepare the orderer array to persist
     // console.tron.log("onpressdistance")
     const arrOrder = this.props.remitos.map((item) => {
-      return [item.orden,item.id_detalle]
+      //{"orden":1,"idDetalle":"201496"}
+      return { orden: parseInt(item.orden,10), idDetalle:item.id_detalle}
     })
     console.tron.log("orden",arrOrder)
     this.props.orderRemitos(arrOrder);
