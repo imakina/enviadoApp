@@ -73,11 +73,11 @@ export default class HeaderRemito extends Component {
               // onTintColor={Colors.backgroundVariant}
               trackColor={Colors.backgroundVariant}
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{ 'backgroundColor':Colors.backgroundVariant, padding:7, margin: 3 }}
               onPress={() => this.pressDistance()}>
               <Text>Guardar</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           
         :

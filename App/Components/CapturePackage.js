@@ -10,7 +10,7 @@ const BarcodeScanner = Platform.select({
 // if (Platform.OS == 'android') {
   // import { CameraFillMode } from 'react-native-barcode-scanner-google';
 // }
-import { CameraFillMode } from 'react-native-barcode-scanner-google';
+//import { CameraFillMode } from 'react-native-barcode-scanner-google';
 
 const DURATION = 10000 ;
 const PATTERN = [ 1000, 2000, 3000, 4000] ;
