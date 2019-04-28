@@ -14,14 +14,9 @@ const { Types, Creators } = createActions({
   loginDeposito: ['isdeposito']
 })
 
-<<<<<<< HEAD
 const user_deposito = 10000;
 // const user_deposito = 31922;
 //const user_deposito = 31922;
-=======
-// const user_deposito = 10000;
-const user_deposito = 31922;
->>>>>>> 7caad497ac0aa81b91107deeae444d6b7342d077
 
 export const LoginTypes = Types
 export default Creators
