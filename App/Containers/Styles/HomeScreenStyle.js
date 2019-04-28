@@ -11,10 +11,12 @@ export default StyleSheet.create({
   main: {
     alignItems: "center",
     // padding: 20,
-    flexGrow: 1,
+    // flexGrow: 1,
+    flex: 1,
     marginTop: Metrics.screenHeight / 10
   },
   formContainer: {
+    flexGrow: 1,
     padding: 20
   },
 

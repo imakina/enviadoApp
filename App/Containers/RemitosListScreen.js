@@ -24,16 +24,7 @@ class RemitosListScreen extends React.PureComponent {
     super(props);
   }
 
-  goBack = () => {
-    this.clearWatch();
-    this.props.navigation.navigate("HojaRutaScreen");
-  }
-  
-  //force unmounting 
-  clearWatch = () => {
-    // navigator.geolocation.clearWatch(this.watchId);
-    // console.log("force umounting")
-  }
+  goBack = () => this.props.navigation.navigate("HojaRutaScreen");
 
   state = {
     fetching: false,
@@ -269,6 +260,7 @@ class RemitosListScreen extends React.PureComponent {
     });
   };
 
+
   onClearSearch = () => {
     this.setState({
       dataObjects: this.state.data
@@ -278,9 +270,11 @@ class RemitosListScreen extends React.PureComponent {
   onPressDistance = () => {
     //prepare the orderer array to persist
     // console.tron.log("onpressdistance")
-    const arrOrder = this.props.remitos.map((item) => {
+    const arrOrder = this.state.dataObjects.map((item, idx) => {
       //{"orden":1,"idDetalle":"201496"}
-      return { orden: parseInt(item.orden,10), idDetalle:item.id_detalle}
+      // if (idx < 80)
+      // console.log(item);
+      return { orden: parseInt(idx,10), idDetalle:item.id_detalle}
     })
     console.tron.log("orden",arrOrder)
     this.props.orderRemitos(arrOrder);
@@ -369,9 +363,9 @@ class RemitosListScreen extends React.PureComponent {
   //   );
   // }
 
-  watchID = null;
+  // watchID = null;
 
-  myWatchPosition() {
+  // myWatchPosition() {
     // console.log("init myWatchPosition",this.watchID)
     // this.setState({ gpsfetch : true })
 
@@ -397,7 +391,7 @@ class RemitosListScreen extends React.PureComponent {
     //     this.setState({ gpsfetch : false })
     //   }
     // );
-  }
+  // }
 
   onRequestingRemitos = todos => {
     this.setState({ fetching: true });

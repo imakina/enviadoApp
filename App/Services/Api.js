@@ -2,8 +2,8 @@
 import apisauce from 'apisauce'
 
 // our "constructor"
-// const create = (baseURL = "http://clientes.enviado.com/api/") => {
-const create = (baseURL = "http://test.softsencillo.com/api/") => {
+const create = (baseURL = "http://clientes.enviado.com/api/") => {
+// const create = (baseURL = "http://test.softsencillo.com/api/") => {
 // const create = (baseURL = 'https://api.github.com/') => {
   // ------
   // STEP 1
@@ -19,7 +19,7 @@ const create = (baseURL = "http://test.softsencillo.com/api/") => {
       'Cache-Control': 'no-cache'
     },
     // 10 second timeout...
-    timeout: 0
+    timeout: 30000
   })
 
   // ------
