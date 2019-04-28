@@ -19,7 +19,7 @@ const create = (baseURL = "http://clientes.enviado.com/api/") => {
       'Cache-Control': 'no-cache'
     },
     // 10 second timeout...
-    timeout: 10000
+    timeout: 80000
   })
 
   // ------
