@@ -58,17 +58,17 @@ class RemitosListScreen extends React.PureComponent {
 
     //ask to save the values
     // this.setState({ distanceQuestion:true})
-    if (!this.state.saveproximity ) {
-      Alert.alert(
-        'Orden',
-        'Desea guardar el orden por distancia',
-        [
-          {text: 'SI', onPress: () => this.distanceAnswerYes()},
-          {text: 'NO', onPress: () => this.distanceAnswerNo()},
-        ],
-        { cancelable: false }
-      )
-    }
+    // if (!this.state.saveproximity ) {
+    //   Alert.alert(
+    //     'Orden',
+    //     'Desea guardar el orden por distancia',
+    //     [
+    //       {text: 'SI', onPress: () => this.distanceAnswerYes()},
+    //       {text: 'NO', onPress: () => this.distanceAnswerNo()},
+    //     ],
+    //     { cancelable: false }
+    //   )
+    // }
 
   }
 
