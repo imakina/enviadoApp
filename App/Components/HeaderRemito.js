@@ -19,7 +19,7 @@ export default class HeaderRemito extends Component {
     handleSaveProximity : PropTypes.func,
     onSearch : PropTypes.func,
     onClearSearch : PropTypes.func,
-    onPressDistance : PropTypes.func
+    onPressDistance : PropTypes.func,
   };
 
   onChangeTab = newIndex => {
@@ -73,11 +73,16 @@ export default class HeaderRemito extends Component {
               // onTintColor={Colors.backgroundVariant}
               trackColor={Colors.backgroundVariant}
             />
-            <TouchableOpacity
-              style={{ 'backgroundColor':Colors.backgroundVariant, padding:7, margin: 3 }}
-              onPress={() => this.pressDistance()}>
-              <Text>Guardar</Text>
-            </TouchableOpacity>
+
+            { this.props.saveproximity &&
+              <TouchableOpacity
+                style={{ 'backgroundColor':Colors.backgroundVariant, padding:7, margin: 3 }}
+                onPress={() => this.pressDistance()}
+                >
+                <Text>Guardar</Text>
+              </TouchableOpacity>
+            }
+            
           </View>
           
         :
