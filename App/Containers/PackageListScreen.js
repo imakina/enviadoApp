@@ -111,7 +111,7 @@ class PackagesListScreen extends React.PureComponent {
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => index;
+  keyExtractor = (item, index) => index.toString();
 
   // How many items should be kept im memory as we scroll?
   oneScreensWorth = 20;
@@ -143,6 +143,8 @@ class PackagesListScreen extends React.PureComponent {
   onCapturePackage = package_scanned => {
     let isduplicated = false;
     let idordenretiro_qr = "";
+    const numberList = '0123456789';
+    const charList = 'abcdefghijklmnopqrstuvwxyz';
 
     // check duplicity
     if (this.state.dataObjects.includes(package_scanned))
@@ -155,6 +157,10 @@ class PackagesListScreen extends React.PureComponent {
           isduplicated = true;
         }
       });
+
+    // if (charList.indexOf(package_scanned.toLowerCase()) > -1 && 
+    // numberList.indexOf(package_scanned) > -1)
+    //   isduplicated = true;
 
     if (isduplicated) return;
     // end check duplicity

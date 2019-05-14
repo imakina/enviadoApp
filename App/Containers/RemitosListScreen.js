@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, Alert } from "react-native";
+import { View, Text, FlatList, Alert, ScrollView } from "react-native";
 import { connect } from "react-redux";
 // import openMap from "react-native-open-maps";
 import getDirections from "react-native-google-maps-directions";
@@ -240,7 +240,7 @@ class RemitosListScreen extends React.PureComponent {
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => index;
+  keyExtractor = (item, index) => index.toString();
 
   // How many items should be kept im memory as we scroll?
   oneScreensWorth = 20;
@@ -409,7 +409,7 @@ class RemitosListScreen extends React.PureComponent {
     // console.tron.log({ item: 'item', value: item })
     this.props.selectedRemitos(item);
     //clearwatch
-    this.clearWatch();
+    // this.clearWatch();
     //navigation
     this.props.navigation.navigate("RemitoScreen");
   };
@@ -530,6 +530,7 @@ class RemitosListScreen extends React.PureComponent {
 
     return (
       <View style={styles.container}>
+        
         <Header
           title="LISTA REMITOS"
           left={{ icon: "chevron-left", onPress: () => this.goBack() }}
@@ -538,9 +539,12 @@ class RemitosListScreen extends React.PureComponent {
 
         { 
           syncing ?
-            null
+
+          null
+
           :
-          <View>
+
+          <ScrollView>
 
             <HeaderRemito 
               tabIndex = {this.state.tabIndex}
@@ -551,46 +555,28 @@ class RemitosListScreen extends React.PureComponent {
               onClearSearch = {() => this.onClearSearch} 
               onPressDistance = {this.onPressDistance}
             /> 
-          
-            <FlatList
-              contentContainerStyle={styles.listContent}
-              data={this.state.dataObjects}
-              renderItem={this.renderRow}
-              keyExtractor={this.keyExtractor}
-              initialNumToRender={this.oneScreensWorth}
-              // ListHeaderComponent={this.renderHeader}
-              // ListFooterComponent={this.renderFooter}
-              ListEmptyComponent={this.renderEmpty}
-              // ItemSeparatorComponent={this.renderSeparator}
-            />
 
-          </View>
+              <FlatList
+                contentContainerStyle={styles.listContent}
+                data={this.state.dataObjects}
+                renderItem={this.renderRow}
+                keyExtractor={this.keyExtractor}
+                initialNumToRender={this.oneScreensWorth}
+                // ListHeaderComponent={this.renderHeader}
+                // ListFooterComponent={this.renderFooter}
+                ListEmptyComponent={this.renderEmpty}
+                // ItemSeparatorComponent={this.renderSeparator}
+              />
+
+          </ScrollView>
 
         }
 
-        {/* <View style={styles.spinnerContainer}>{ (fetching || syncing) && <Spinner />}</View> */}
         <View style={styles.spinnerContainer}>
           <MaKitSpinner
             show={fetching || syncing}
           />
         </View>
-
-        {/* {
-          this.state.alertCalled ?
-
-            alert.type === 'alert-success' &&
-            Alert.alert(
-              'Guardado por distancia',
-              alert.message,
-              [
-                {text: 'OK', onPress: () => this.props.clearAlert()},
-              ],
-              { cancelable: false }
-            )
-
-          :
-          null
-        }  */}
 
       </View>
     );
