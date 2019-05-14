@@ -82,7 +82,7 @@ class HojaRutaScreen extends Component {
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => index;
+  keyExtractor = (item, index) => index.toString();
 
   renderHeader = () => {
     // console.tron.display({name: 'dataobjects', value: this.state.dataObjects})

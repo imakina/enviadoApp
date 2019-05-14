@@ -111,7 +111,7 @@ class PackagesListScreen extends React.PureComponent {
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
   // item reordering.  Otherwise index is fine
-  keyExtractor = (item, index) => index;
+  keyExtractor = (item, index) => index.toString();
 
   // How many items should be kept im memory as we scroll?
   oneScreensWorth = 20;
@@ -141,23 +141,29 @@ class PackagesListScreen extends React.PureComponent {
 
   // callback event
   onCapturePackage = package_scanned => {
-    let isduplicated = false;
+    let isinvalid = false;
     let idordenretiro_qr = "";
+    const numberList = '0123456789';
+    const charList = 'abcdefghijklmnopqrstuvwxyz';
 
-    // check duplicity
+    // check duplicity or malformed data
     if (this.state.dataObjects.includes(package_scanned))
-      isduplicated = true; 
+      isinvalid = true; 
     
     if (this.props.user.deposito)
       this.props.packages.packages.map((elem) => {
         if (elem.codigoqr == package_scanned) {
           // console.log("duplicated", package_scanned)
-          isduplicated = true;
+          isinvalid = true;
         }
       });
 
-    if (isduplicated) return;
-    // end check duplicity
+    // malformed
+    if (charList.indexOf(package_scanned.toLowerCase()) === -1 || numberList.indexOf(package_scanned) === -1)
+      isinvalid = true;
+
+    if (isinvalid) return;
+    // end check duplicity or malformed
     
     // only if its not deposito
     if (!this.props.user.deposito) {

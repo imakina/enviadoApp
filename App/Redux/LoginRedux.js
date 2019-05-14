@@ -16,7 +16,6 @@ const { Types, Creators } = createActions({
 
 const user_deposito = 10000;
 // const user_deposito = 31922;
-//const user_deposito = 31922;
 
 export const LoginTypes = Types
 export default Creators
