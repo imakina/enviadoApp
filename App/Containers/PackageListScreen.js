@@ -29,7 +29,8 @@ class PackagesListScreen extends React.PureComponent {
   }
 
   goBack = () => {
-    this.props.navigation.navigate("OrdenRetiroScreen");
+    // this.props.navigation.navigate("OrdenRetiroScreen");
+    this.props.navigation.navigate("WelcomeScreen");
   }
 
   // subtitle={new Date().toLocaleString('es-EN', { hour12: true, 

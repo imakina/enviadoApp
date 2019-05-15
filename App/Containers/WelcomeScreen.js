@@ -5,6 +5,7 @@ import { View } from "react-native";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LoginActions from "../Redux/LoginRedux";
 import PackagesActions from "../Redux/PackagesRedux";
+import OrdenRetiroActions from "../Redux/OrdenRetiroRedux";
 // Components
 import Header from "../Components/Header";
 import MaKitButton from '../Components/MaKitButton'
@@ -33,15 +34,21 @@ class WelcomeScreen extends Component {
   handlePressOR = () => {
     // TODO replace with the login logic
     this.props.resetPackages();
-    // this.props.depositoLogin(false);
-    this.props.navigation.navigate("OrdenRetiroScreen");
+    // deprectaed
+    // this.props.navigation.navigate("OrdenRetiroScreen");
+    // deprectaed
+    // this.props.activeOrdenRetiro(0);
+    this.props.navigation.navigate("PackageListScreen");
   }
   handlePressDE = () => {
     // TODO replace with the login logic
     this.props.resetPackages();
-    // this.props.depositoLogin(true);
     // move to depositoscreen
-    this.props.navigation.navigate("OrdenRetiroScreen");
+    // deprecated 
+    // this.props.navigation.navigate("OrdenRetiroScreen");
+    // deprecated
+    this.props.activeOrdenRetiro(0);
+    this.props.navigation.navigate("PackageListScreen");
   }
 
   onPressingLogout = () => {
@@ -97,6 +104,7 @@ const mapDispatchToProps = dispatch => {
   return {
     depositoLogin: (isDeposito) => dispatch(LoginActions.loginDeposito(isDeposito)),
     resetPackages: () => dispatch(PackagesActions.packagesReset()),
+    activeOrdenRetiro: hr => dispatch(OrdenRetiroActions.ordenRetiroActive(hr)),
   };
 };
 
