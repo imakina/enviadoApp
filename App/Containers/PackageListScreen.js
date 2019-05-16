@@ -144,8 +144,8 @@ class PackagesListScreen extends React.PureComponent {
   onCapturePackage = package_scanned => {
     let isinvalid = false;
     let idordenretiro_qr = "";
-    const numberList = '0123456789';
-    const charList = 'abcdefghijklmnopqrstuvwxyz';
+    // const numberList = '0123456789';
+    // const charList = 'abcdefghijklmnopqrstuvwxyz';`
 
     // check duplicity or malformed data
     if (this.state.dataObjects.includes(package_scanned))
@@ -160,6 +160,15 @@ class PackagesListScreen extends React.PureComponent {
       });
 
     // malformed
+    // console.log("char " + charList.indexOf(package_scanned.toLowerCase()))
+    // console.log("number " + numberList.indexOf(package_scanned))
+
+    const letterNumber = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
+    if(text.match(letterNumber))
+      isinvalid = false;
+    else
+      isinvalid = true;
+
     // if (charList.indexOf(package_scanned.toLowerCase()) === -1 || numberList.indexOf(package_scanned) === -1)
     //   isinvalid = true;
 

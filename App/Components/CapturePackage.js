@@ -29,7 +29,9 @@ export default class CapturePackage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      packageNumber : ''
+      packageNumber : '',
+      errorChar : 'A',
+      errorNumber : '9',
     }
   }
 
@@ -56,7 +58,31 @@ export default class CapturePackage extends Component {
   // Stop Vibration.
   StopVibrationFunction = () => Vibration.cancel();
 
-  handleChangePackage = (text) => this.setState({ packageNumber: text });
+  handleChangePackage = (text) => { 
+
+    // const numberList = '0123456789';
+    // const charList = 'abcdefghijklmnopqrstuvwxyz';
+    // console.log("char " + charList.indexOf(package_scanned.toLowerCase()))
+    // console.log("number " + numberList.indexOf(package_scanned))
+    // if (charList.indexOf(text.toLowerCase()) === -1 && numberList.indexOf(text) === -1)
+    //   this.setState({ errorChar: "invalid"})
+
+    // const letterNumber = /(?=.*?[0-9])(?=.*?[A-Za-z])(?=.*[^0-9A-Za-z]).+/;
+    // if(text.match(letterNumber))
+    //   this.setState({ errorChar: "valid"})
+    //   else
+    //   this.setState({ errorChar: "Invlid"})
+    // const letterNumber = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
+    // if(text.match(letterNumber))
+    // this.setState({ errorChar: "valid"})
+    // else
+    // this.setState({ errorChar: "Invlid"})      
+
+    // this.setState({ errorChar: charList.indexOf(text.toLowerCase()) })
+    // this.setState({ errorNumber: numberList.indexOf(text) })
+
+    this.setState({ packageNumber: text });
+  }
 
   handleSavePackage = () => {
     const scanned = {
@@ -67,6 +93,9 @@ export default class CapturePackage extends Component {
   }
 
   scannedPackageNumber({data, type}) {
+
+
+
     this.setState({ packageNumber: data }, () => {
       this.StartVibrationFunction();
       this.StartSound();
@@ -211,7 +240,8 @@ export default class CapturePackage extends Component {
         <View>
 
           <View style={{alignItems:'center'}}>
-            <Text>Ultimo scan : {this.props.last}</Text>
+            {/* <Text>Ultimo scan : {this.props.last}</Text> */}
+            <Text>Ultimo scan : {this.state.errorChar} aaa {this.state.errorNumber} </Text>
             <Text style={{fontSize:30}}>Escaneados : {this.props.packages} de {this.props.legacy} </Text>
           </View>
           
