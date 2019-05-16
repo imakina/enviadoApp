@@ -164,7 +164,7 @@ class PackagesListScreen extends React.PureComponent {
     // console.log("number " + numberList.indexOf(package_scanned))
 
     const letterNumber = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
-    if(text.match(letterNumber))
+    if(package_scanned.match(letterNumber))
       isinvalid = false;
     else
       isinvalid = true;

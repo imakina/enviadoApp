@@ -12,7 +12,8 @@ const BarcodeScanner = Platform.select({
 // }
 import { CameraFillMode } from 'react-native-barcode-scanner-google';
 
-const DURATION = 10000 ;
+// const DURATION = 10000 ;
+const DURATION = 2000 ;
 const PATTERN = [ 1000, 2000, 3000, 4000] ;
 
 import MaKitButton from '../Components/MaKitButton'
@@ -30,8 +31,8 @@ export default class CapturePackage extends Component {
     super(props);
     this.state = {
       packageNumber : '',
-      errorChar : 'A',
-      errorNumber : '9',
+      // errorChar : 'A',
+      // errorNumber : '9',
     }
   }
 
@@ -93,8 +94,6 @@ export default class CapturePackage extends Component {
   }
 
   scannedPackageNumber({data, type}) {
-
-
 
     this.setState({ packageNumber: data }, () => {
       this.StartVibrationFunction();
@@ -240,8 +239,8 @@ export default class CapturePackage extends Component {
         <View>
 
           <View style={{alignItems:'center'}}>
-            {/* <Text>Ultimo scan : {this.props.last}</Text> */}
-            <Text>Ultimo scan : {this.state.errorChar} aaa {this.state.errorNumber} </Text>
+            <Text>Ultimo scan : {this.props.last}</Text>
+            {/* <Text>Ultimo scan : {this.state.errorChar} aaa {this.state.errorNumber} </Text> */}
             <Text style={{fontSize:30}}>Escaneados : {this.props.packages} de {this.props.legacy} </Text>
           </View>
           
