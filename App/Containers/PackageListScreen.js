@@ -160,8 +160,8 @@ class PackagesListScreen extends React.PureComponent {
       });
 
     // malformed
-    if (charList.indexOf(package_scanned.toLowerCase()) === -1 || numberList.indexOf(package_scanned) === -1)
-      isinvalid = true;
+    // if (charList.indexOf(package_scanned.toLowerCase()) === -1 || numberList.indexOf(package_scanned) === -1)
+    //   isinvalid = true;
 
     if (isinvalid) return;
     // end check duplicity or malformed
