@@ -14,8 +14,8 @@ const { Types, Creators } = createActions({
   loginDeposito: ['isdeposito']
 })
 
-// const user_deposito = 10000;
-const user_deposito = 31922;
+const user_deposito = 10000;
+// const user_deposito = 31922;
 
 export const LoginTypes = Types
 export default Creators
@@ -39,7 +39,7 @@ export const request = (state) =>
 export const success = (state, data) => {
   console.tron.log("Login succesfull", data)
   const { payload } = data
-  // HARDCODED deposito user
+  // HARDCODED deposito user`
   let deposito = (payload.car_id == user_deposito)
   // END HARCODED
   return state.merge({ fetching: false, error: null, account : payload, deposito: deposito })

@@ -62,7 +62,8 @@ export function* updatePackage(api, action) {
   // make the call to the api
   const login = yield select(selectLogin);
   const packages = yield select(selectPackages);
-  const ordenretiro = yield select(selectActive);
+  // const ordenretiro = yield select(selectActive);
+  const ordenretiro = 0;
   const location = yield select(selectLocation);
   
   // update the item
@@ -120,6 +121,8 @@ export function* savePackage(api, action) {
     let { problem } = response;
     if (problem == null) problem = response.data.message;
     console.log("save packages failure",response);
+    
+    // yield put(AlertActions.alertSuccess(response.data));
     yield put(PackagesActions.packagesFailure({ fetching: false }));
   }
 

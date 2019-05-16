@@ -9,7 +9,7 @@ const selectLogin = state => state.login;
 export function* getOrdenRetiro(api, action) {
   const login = yield select(selectLogin);
   // deposito profile needs to be send 0
-  const isDeposito = login.deposito?0:login.account.car_id;
+  const isDeposito = login.deposito?10000:login.account.car_id;
   // need to get everything ?
   // console.log("isDeposito:",isDeposito);
   const response = yield call(api.getOrdenRetiro, isDeposito);
