@@ -73,7 +73,8 @@ export function* updatePackage(api, action) {
   // item.id_orden_retiro_qr = null;
   let item = {
     codigoqr : packageqr,
-    car_id : login.account.car_id,
+    // car_id : login.account.car_id,
+    fletero : login.account.car_id,
     orden_retiro : ordenretiro,
     latitud : location.latitude,
     longitud : location.longitude,
