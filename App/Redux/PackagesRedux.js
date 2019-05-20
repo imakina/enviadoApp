@@ -7,8 +7,9 @@ import Immutable from "seamless-immutable";
 const { Types, Creators } = createActions({
   packagesRequest : ["package","todos"],
   packageLast : ["last"],
+  packageNotFound : ["notfound"],
   packageSave: null,
-  packageUpdate: ["package", "deposito", "scan", "signature"],
+  packageUpdate: ["package", "deposito", "scan", "signature", "islegacy"],
   packagesSuccess: ["packages"],
   packagesSuccessLegacy: ["packages"],
   packagesFailure: null,
@@ -23,6 +24,7 @@ export default Creators;
 export const INITIAL_STATE = Immutable({
   fetching: false,
   last_package: "",
+  notfound: "",
   packages: [],
   legacy: []
 });
@@ -39,6 +41,11 @@ export const save = (state, action) =>
 export const last = (state, action) => {
   const {last} = action;
   return state.merge({ fetching: false, last_package: last });
+}
+
+export const notfound = (state, action) => {
+  const {notfound} = action;
+  return state.merge({ fetching: false, notfound: notfound });
 }
 
 export const reset = (state) => {
@@ -88,7 +95,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.PACKAGES_FAILURE]: failure,
   [Types.PACKAGE_UPDATE]: update,
   [Types.PACKAGE_LAST]: last,
-  [Types.PACKAGES_RESET]: reset
+  [Types.PACKAGE_NOT_FOUND]: notfound,
+  [Types.PACKAGES_RESET]: reset,
+
   // [Types.ORDEN_UPDATE_SUCCESS]: update_success,
   // [Types.ORDEN_SELECTED]: selected,
   // [Types.ORDENES_REHYDRATE]: rehydrate

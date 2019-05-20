@@ -8,9 +8,9 @@ const BarcodeScanner = Platform.select({
 })();
 
 // if (Platform.OS == 'android') {
-  // import { CameraFillMode } from 'react-native-barcode-scanner-google';
+//   import { CameraFillMode } from 'react-native-barcode-scanner-google';
 // }
-import { CameraFillMode } from 'react-native-barcode-scanner-google';
+// import { CameraFillMode } from 'react-native-barcode-scanner-google';
 
 // const DURATION = 10000 ;
 const DURATION = 2000 ;
@@ -42,7 +42,9 @@ export default class CapturePackage extends Component {
     onPackageRead: PropTypes.func,
     packages : PropTypes.number,
     legacy : PropTypes.number,
-    last : PropTypes.string
+    last : PropTypes.string,
+    notfound : PropTypes.string,
+    deposito: PropTypes.bool
   };
 
   // Android Device Will Vibrate in pattern : Wait 1sec -> vibrate 2sec -> wait 3sec.
@@ -206,7 +208,7 @@ export default class CapturePackage extends Component {
           style={{ flex: 1, width: '90%' }}
           onBarcodeRead={this.scannedPackageNumber.bind(this)}
           onException={() => this.handleException}
-          cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
+          // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
           // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
           // torchMode={TorchMode.ON /* could be the default OFF */}
           // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
@@ -226,21 +228,18 @@ export default class CapturePackage extends Component {
             />
           </View>
 
-          {/* <Button
-            disabled={!(this.state.packageNumber.length > 0)}
-            icon={{ name: 'check', type: 'font-awesome' }}
-            title={'OK'}
-            onPress={() => this.handleSavePackage()}
-            buttonStyle={{marginTop:3, backgroundColor:Colors.facebook}} 
-          /> */}
-
         </View>
 
         <View>
 
           <View style={{alignItems:'center'}}>
             <Text>Ultimo scan : {this.props.last}</Text>
-            {/* <Text>Ultimo scan : {this.state.errorChar} aaa {this.state.errorNumber} </Text> */}
+            { 
+              ( this.props.deposito && this.props.notfound !== "") &&
+                <Text style={{ padding: 3, fontSize:20, backgroundColor: 'red', color: 'white'}}>
+                  Atención, NO ENCONTRADO : {this.props.notfound} 
+                </Text>
+            }
             <Text style={{fontSize:30}}>Escaneados : {this.props.packages} de {this.props.legacy} </Text>
           </View>
           

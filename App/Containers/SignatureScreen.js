@@ -281,6 +281,8 @@ class SignatureScreen extends Component {
                   packages={this.props.packages.packages.length}
                   legacy={this.props.packages.legacy.length}
                   last={this.props.packages.last_package}
+                  notfound={this.props.packages.notfound}
+                  deposito={this.props.user.deposito}
                   onPackageRead={this.onPackageRead}>
                 </CapturePackage>
             }
@@ -296,6 +298,7 @@ class SignatureScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     packages: state.packages,
+    user : state.login
   }
 }
 

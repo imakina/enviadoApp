@@ -160,7 +160,6 @@ class PackagesListScreen extends React.PureComponent {
       });
 
     // malformed
-
     const letterNumber = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
     if(!package_scanned.match(letterNumber))
       isinvalid = true;
@@ -176,15 +175,27 @@ class PackagesListScreen extends React.PureComponent {
     }
     // 
 
-    if (this.props.user.deposito)
+    // get the ordenretiro from the legacy 
+    // also
+    // get if the package is in the legacy list
+    let isInLegacy = false;
+    if (this.props.user.deposito) 
       this.props.packages.legacy.map((elem) => {
         if (elem.codigo_qr == package_scanned) {
           // console.log("duplicated", package_scanned)
           idordenretiro_qr = elem.id_orden_retiro_qr;
+          isInLegacy = true;
+          console.tron.log("package_foundit ", package_scanned)
         }
       });
 
-    this.props.updatePackage(package_scanned, idordenretiro_qr, this.state.scan, this.state.signature);
+    // keep the package
+    this.props.updatePackage(
+      package_scanned, 
+      idordenretiro_qr, 
+      this.state.scan, 
+      this.state.signature,
+      isInLegacy);
     
   }
  
@@ -314,7 +325,7 @@ const mapDispatchToProps = dispatch => {
   return {
     requestPackages: (ordenretiro) => dispatch(PackagesActions.packagesRequest(ordenretiro)),
     savePackage: () => dispatch(PackagesActions.packageSave()),
-    updatePackage: (thispackage, deposito) => dispatch(PackagesActions.packageUpdate(thispackage, deposito)),
+    updatePackage: (thispackage, deposito, scan, signature, isLegacy) => dispatch(PackagesActions.packageUpdate(thispackage, deposito, scan, signature, isLegacy)),
     clearAlert: () => dispatch(AlertActions.alertClear())
   };
 };

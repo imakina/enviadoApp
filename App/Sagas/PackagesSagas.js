@@ -57,6 +57,7 @@ export function* rehydrateRemitos(action) {
 export function* updatePackage(api, action) {
   const packageqr = action.package;
   const deposito = action.deposito;
+  const isLegacy = action.islegacy;
   // const scan = action.scan;
   // const signature = aciton.signature;
   // make the call to the api
@@ -91,9 +92,14 @@ export function* updatePackage(api, action) {
   store(data);
   // end save async
 
-  // messages
+  // sagas
   yield put(PackagesActions.packagesSuccess(data));
   yield put(PackagesActions.packageLast(packageqr));
+
+  console.tron.log("legacysaga", action);
+  // if deposito and the pacakge isnotfound
+  yield put(PackagesActions.packageNotFound(isLegacy?"":packageqr));
+
 }
 
 // "id_orden_retiro_qr":1,
