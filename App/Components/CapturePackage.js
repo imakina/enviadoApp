@@ -216,19 +216,6 @@ export default class CapturePackage extends Component {
           >
         </BarcodeScanner>
       
-        <View style={{flexDirection:'row', display:'flex', paddingBottom: 10, paddingTop: 10}}>
-          
-          <View style={{width:'75%'}}>
-            <TextInput
-              placeholder='Ingrese numero Paquete'
-              keyboardType="default"
-              autoCapitalize="none"
-              autoCorrect={false}
-              onChangeText={this.handleChangePackage}
-            />
-          </View>
-
-        </View>
 
         <View>
 
@@ -242,14 +229,7 @@ export default class CapturePackage extends Component {
             }
             <Text style={{fontSize:30}}>Escaneados : {this.props.packages} de {this.props.legacy} </Text>
           </View>
-          
-          <MaKitButton
-            disabled={!(this.state.packageNumber.length > 0)}
-            icon={{ name:'check', type:"font-awesome" }}
-            text={'OK'}
-            type={"order"}
-            onPress={() => this.handleSavePackage()}
-          />
+        
 
         </View> 
 
