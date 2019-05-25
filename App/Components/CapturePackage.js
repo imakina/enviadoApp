@@ -10,14 +10,16 @@ const BarcodeScanner = Platform.select({
 // if (Platform.OS == 'android') {
 //   import { CameraFillMode } from 'react-native-barcode-scanner-google';
 // }
-// import { CameraFillMode } from 'react-native-barcode-scanner-google';
+import { CameraFillMode } from 'react-native-barcode-scanner-google';
 
 // const DURATION = 10000 ;
 const DURATION = 2000 ;
 const PATTERN = [ 1000, 2000, 3000, 4000] ;
 
-import MaKitButton from '../Components/MaKitButton'
-import { Colors } from '../Themes';
+// import MaKitButton from '../Components/MaKitButton'
+// import { Colors } from '../Themes';
+// Styles
+import styles from "./Styles/CaptureStyles";
 
 // Import the react-native-sound module
 var Sound = require('react-native-sound');
@@ -33,6 +35,7 @@ export default class CapturePackage extends Component {
       packageNumber : '',
       // errorChar : 'A',
       // errorNumber : '9',
+      alternated: false
     }
   }
 
@@ -197,6 +200,13 @@ export default class CapturePackage extends Component {
     whoosh.release();
   }
 
+  componentWillReceiveProps(newProps) {
+    // console.log("nrew props",newProps);
+
+      this.setState({
+        alternated: !this.state.alternated});
+  }
+
   render() {
     return (
 
@@ -205,10 +215,11 @@ export default class CapturePackage extends Component {
         <KeepAwake />
 
         <BarcodeScanner
-          style={{ flex: 1, width: '90%' }}
+          style={{ flex: 1 }}
           onBarcodeRead={this.scannedPackageNumber.bind(this)}
           onException={() => this.handleException}
-          // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
+          // cameraFillMode={0 /* could also be FIT */}
+          cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
           // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
           // torchMode={TorchMode.ON /* could be the default OFF */}
           // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
@@ -217,20 +228,28 @@ export default class CapturePackage extends Component {
         </BarcodeScanner>
       
 
-        <View>
+        <View style={{flex:1}}>
 
-          <View style={{alignItems:'center'}}>
-            <Text>Ultimo scan : {this.props.last}</Text>
+          <View style={{alignItems:'center', marginTop: 20}}>
+
             { 
-              ( this.props.deposito && this.props.notfound !== "") &&
-                <Text style={{ padding: 3, fontSize:20, backgroundColor: 'red', color: 'white'}}>
+              ( this.props.deposito && this.props.notfound !== "") ?
+              
+              <Text style={[styles.packageMessage, styles.packageNotFound]}>
                   Atención, NO ENCONTRADO : {this.props.notfound} 
-                </Text>
+              </Text>
+
+              :
+              
+              <Text style={[styles.packageMessage, styles.packageLast, (this.state.alternated?styles.packageAlternated:'')]}>
+                Ultimo scan : {this.props.last}
+              </Text>
+
             }
             <Text style={{fontSize:30}}>Escaneados : {this.props.packages} de {this.props.legacy} </Text>
+          
           </View>
         
-
         </View> 
 
       </View>

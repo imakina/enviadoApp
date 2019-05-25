@@ -47,4 +47,22 @@ export default StyleSheet.create({
     padding: 90
   },
 
+  // capture package
+  packageMessage: { 
+    padding: 3, 
+    fontSize:22, 
+  },
+  packageNotFound: { 
+    backgroundColor: Colors.flame, 
+    color: Colors.snow
+  },
+  packageLast: { 
+    backgroundColor: Colors.backgroundVariant, 
+    color: Colors.snow
+  },
+  packageAlternated: {
+    backgroundColor: Colors.eggplant
+  }
+
+
 });
