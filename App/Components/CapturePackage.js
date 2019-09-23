@@ -246,6 +246,11 @@ export default class CapturePackage extends Component {
               </Text>
 
             }
+
+              <Text style={[styles.packageMessage, styles.packageAlternated]}>
+                Ultimo scan : {this.props.last}
+              </Text>
+
             <Text style={{fontSize:30}}>Escaneados : {this.props.packages} de {this.props.legacy} </Text>
           
           </View>
