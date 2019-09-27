@@ -53,11 +53,7 @@ export default StyleSheet.create({
     fontSize:22, 
   },
   packageNotFound: { 
-<<<<<<< HEAD
-    backgroundColor: Colors.bloodOrange, 
-=======
     backgroundColor: Colors.fire, 
->>>>>>> 3628ffff7a54e0a710d9ed2390b37a1533d63a35
     color: Colors.snow
   },
   packageLast: { 
