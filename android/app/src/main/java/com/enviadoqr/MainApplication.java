@@ -1,11 +1,11 @@
-package com.enviadoapp;
+package com.enviadoqr;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.spyworldxp.barcodescanner.BarcodeScannerPackage;
+// import com.spyworldxp.barcodescanner.BarcodeScannerPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.rnfs.RNFSPackage;
@@ -36,7 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new KCKeepAwakePackage(),
             new VectorIconsPackage(),
-            new BarcodeScannerPackage(),
+            // new BarcodeScannerPackage(),
             new RNCameraPackage(),
             new RNSoundPackage(),
             new RNFSPackage(),

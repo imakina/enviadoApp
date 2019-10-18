@@ -98,7 +98,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.enviadoapp"
+        applicationId "com.enviadoqr"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 22
@@ -179,7 +179,7 @@ dependencies {
     //     exclude group: "com.google.android.gms"
     // }
     compile project(':react-native-vector-icons')
-    compile project(':react-native-barcode-scanner-google')
+    // compile project(':react-native-barcode-scanner-google')
     compile project(':react-native-sound')
     compile project(':react-native-fs')
     compile project(':react-native-signature-capture')

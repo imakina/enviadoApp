@@ -1,4 +1,4 @@
-package com.enviadoapp;
+package com.enviadoqr;
 
 import com.facebook.react.ReactActivity;
 
