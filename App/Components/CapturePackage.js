@@ -3,14 +3,15 @@ import { View, Platform, TextInput, Button, Text, Vibration, } from "react-nativ
 import PropTypes from "prop-types";
 
 const BarcodeScanner = Platform.select({
-  android: () => require('react-native-barcode-scanner-google').default,
-  ios: () => require('react-native-camera').default
+  // android: () => require('react-native-barcode-scanner-google').default,
+  ios: () => require('react-native-camera').default,
+  android: () => require('react-native-camera').default
 })();
 
 // if (Platform.OS == 'android') {
 //   import { CameraFillMode } from 'react-native-barcode-scanner-google';
 // }
-import { CameraFillMode } from 'react-native-barcode-scanner-google';
+// import { CameraFillMode } from 'react-native-barcode-scanner-google';
 
 // const DURATION = 10000 ;
 const DURATION = 2000 ;
@@ -216,10 +217,11 @@ export default class CapturePackage extends Component {
 
         <BarcodeScanner
           style={{ flex: 1 }}
-          onBarcodeRead={this.scannedPackageNumber.bind(this)}
-          onException={() => this.handleException}
+          // onBarcodeRead={this.scannedPackageNumber.bind(this)}
+          onGoogleVisionBarcodesDetected={this.scannedPackageNumber.bind(this)}
+          // onException={() => this.handleException}
           // cameraFillMode={0 /* could also be FIT */}
-          cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
+          // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
           // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
           // torchMode={TorchMode.ON /* could be the default OFF */}
           // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}

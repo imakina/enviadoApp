@@ -205,8 +205,8 @@ class SignatureScreen extends Component {
 
   //camera callback
   onCapture = (imageBase64) => {
-    console.log(res);
-    console.tron.log({message:'camera shot', display:res});
+    console.log(imageBase64);
+    console.tron.log({message:'camera shot', display:imageBase64});
     // return the data
     const { navigation } = this.props;
     navigation.goBack();

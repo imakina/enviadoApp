@@ -3,8 +3,9 @@ import { View, Platform, TextInput, Button, Text, Vibration, } from "react-nativ
 import PropTypes from "prop-types";
 
 const BarcodeScanner = Platform.select({
-  android: () => require('react-native-barcode-scanner-google').default,
-  ios: () => require('react-native-camera').default
+  // android: () => require('react-native-barcode-scanner-google').default,
+  ios: () => require('react-native-camera').default,
+  android: () => require('react-native-camera').default
 })();
 //Components
 import MaKitButton from './MaKitButton'
@@ -73,8 +74,9 @@ export default class CaptureBarcode extends Component {
 
         <BarcodeScanner
           style={{ flex: 1 }}
-          onBarcodeRead={this.scannedBarCode.bind(this)}
-          onException={this.handleException.bind(this)}
+          // onBarcodeRead={this.scannedBarCode.bind(this)}
+          onGoogleVisionBarcodesDetected={this.scannedBarCode.bind(this)}
+          // onException={this.handleException.bind(this)}
           // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
           // torchMode={TorchMode.ON /* could be the default OFF */}
           // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
