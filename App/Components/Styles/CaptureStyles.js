@@ -48,6 +48,9 @@ export default StyleSheet.create({
   },
 
   // capture package
+  packageContainer : {
+    flex: 1
+  },
   packageMessage: { 
     padding: 3, 
     fontSize:22, 
@@ -63,7 +66,22 @@ export default StyleSheet.create({
   packageAlternated: {
     backgroundColor: 'yellow',
     color: 'black'
+  },
+
+  // capture barcode
+  barcodeContainer : {
+    flexGrow : 1
+  },
+  barcodeInputs : {
+    fontSize: 20, 
+    padding: 4
+  },
+  barcodeMain : {
+    flexDirection:'row', 
+    display:'flex', 
+    paddingBottom: 10
   }
+  
 
 
 });

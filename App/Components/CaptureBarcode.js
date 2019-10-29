@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { View, Platform, TextInput, Button, Text, Vibration, } from "react-native";
 import PropTypes from "prop-types";
+import { RNCamera } from 'react-native-camera';
 
-const BarcodeScanner = Platform.select({
-  // android: () => require('react-native-barcode-scanner-google').default,
-  ios: () => require('react-native-camera').default,
-  android: () => require('react-native-camera').default
-})();
+// const BarcodeScanner = Platform.select({
+//   // android: () => require('react-native-barcode-scanner-google').default,
+//   ios: () => require('react-native-camera').default,
+//   android: () => require('react-native-camera').default
+// })();
+
+import styles from "./Styles/CaptureStyles";
 //Components
 import MaKitButton from './MaKitButton'
 
@@ -70,24 +73,21 @@ export default class CaptureBarcode extends Component {
 
   render() {
     return (
-      <View style={{ flexGrow: 1 }}>
+      <View style={styles.barcodeContainer}>
+        
+        <RNCamera 
+            style={styles.barcodeContainer}
+            // aspect={Camera.constants.Aspect.fit}
+            // captureQuality={Camera.constants.CaptureQuality.low}
+            onBarCodeRead={this.scannedBarCode.bind(this)}
+            ref={cam => this.camera=cam}>
+              <Text style={{color: 'white', fontSize: 18}}>{this.state.status}</Text>
+        </RNCamera>
 
-        <BarcodeScanner
-          style={{ flex: 1 }}
-          // onBarcodeRead={this.scannedBarCode.bind(this)}
-          onGoogleVisionBarcodesDetected={this.scannedBarCode.bind(this)}
-          // onException={this.handleException.bind(this)}
-          // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
-          // torchMode={TorchMode.ON /* could be the default OFF */}
-          // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
-          // barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}
-          >
-        </BarcodeScanner>
-      
-        <View style={{flexDirection:'row', display:'flex', paddingBottom: 10}}>
+        <View style={styles.barcodeMain}>
           <View style={{width:'70%'}}>
             <TextInput
-              style={{fontSize: 20, padding: 4}}
+              style={styles.barcodeInputs}
               placeholder='Ingrese Numero DNI'
               keyboardType="numeric"
               autoCapitalize="none"
@@ -96,7 +96,7 @@ export default class CaptureBarcode extends Component {
               onSubmitEditing={()=> this.nameInput.focus()}
             />
             <TextInput
-              style={{fontSize: 20, padding: 4}}
+              style={styles.barcodeInputs}
               placeholder='Ingrese el nombre'
               keyboardType="default"
               autoCapitalize="none"
@@ -105,6 +105,7 @@ export default class CaptureBarcode extends Component {
               ref={(input)=> this.nameInput = input}
             />
           </View>
+
           <MaKitButton
             disabled={!(this.state.partdni.length > 0 && this.state.partname.length > 0)}
             icon={{ name: 'check', type: 'font-awesome' }}

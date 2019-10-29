@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import { View, Platform, TextInput, Button, Text, Vibration, } from "react-native";
 import PropTypes from "prop-types";
+import { RNCamera } from 'react-native-camera';
 
-const BarcodeScanner = Platform.select({
-  // android: () => require('react-native-barcode-scanner-google').default,
-  ios: () => require('react-native-camera').default,
-  android: () => require('react-native-camera').default
-})();
-
-// if (Platform.OS == 'android') {
-//   import { CameraFillMode } from 'react-native-barcode-scanner-google';
-// }
-// import { CameraFillMode } from 'react-native-barcode-scanner-google';
+// const BarcodeScanner = Platform.select({
+//   // android: () => require('react-native-barcode-scanner-google').default,
+//   ios: () => require('react-native-camera').default,
+//   android: () => require('react-native-camera').default
+// })();
 
 // const DURATION = 10000 ;
 const DURATION = 2000 ;
@@ -211,26 +207,18 @@ export default class CapturePackage extends Component {
   render() {
     return (
 
-      <View style={{ flex: 1 }}>
+      <View style={{flexGrow:1}}>
 
         <KeepAwake />
 
-        <BarcodeScanner
-          style={{ flex: 1 }}
-          // onBarcodeRead={this.scannedPackageNumber.bind(this)}
-          onGoogleVisionBarcodesDetected={this.scannedPackageNumber.bind(this)}
-          // onException={() => this.handleException}
-          // cameraFillMode={0 /* could also be FIT */}
-          // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
-          // focusMode={FocusMode.AUTO /* could also be TAP or FIXED */}
-          // torchMode={TorchMode.ON /* could be the default OFF */}
-          // cameraFillMode={CameraFillMode.FIT /* could also be FIT */}
-          // barcodeType={BarcodeType.ALL /* replace with ALL for all alternatives */}
-          >
-        </BarcodeScanner>
+        <RNCamera 
+            style={styles.packageContainer}
+            onBarCodeRead={this.scannedPackageNumber.bind(this)}
+            ref={cam => this.camera=cam}>
+              <Text style={{color: 'white', fontSize: 18}}>{this.state.status}</Text>
+        </RNCamera>
       
-
-        <View style={{flex:1}}>
+        <View style={{flexGrow:1}}>
 
           <View style={{alignItems:'center', marginTop: 20}}>
 
@@ -249,9 +237,9 @@ export default class CapturePackage extends Component {
 
             }
 
-              <Text style={[styles.packageMessage, styles.packageAlternated]}>
+              {/* <Text style={[styles.packageMessage, styles.packageAlternated]}>
                 Ultimo scan : {this.props.last}
-              </Text>
+              </Text> */}
 
             <Text style={{fontSize:30}}>Escaneados : {this.props.packages} de {this.props.legacy} </Text>
           

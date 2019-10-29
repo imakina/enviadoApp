@@ -14,13 +14,14 @@ export default class CaptureSignature extends Component {
 
   static propTypes = {
     onPad: PropTypes.func,
+    dni: PropTypes.string
     // text: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      dni : ""
+      // dni : ""
     }
   }
 
@@ -70,7 +71,7 @@ export default class CaptureSignature extends Component {
               
         <View style={{padding: 5}}>
           <Text style={{fontSize: 17, textAlign: 'center'}}>
-            {"DNI: "}{this.state.dni}
+            {"DNI: "}{this.props.dni}
           </Text>
         </View>
 

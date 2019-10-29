@@ -218,6 +218,7 @@ class SignatureScreen extends Component {
   //barcode callback
   onBarcodeRead = (dni) => {
     // save to the parent
+    this.setState({ dni: dni});
     const { navigation } = this.props;
     this.setState({ step:"signature" }, () => {
       navigation.state.params.onBarcode(dni);
@@ -272,7 +273,10 @@ class SignatureScreen extends Component {
 
             { 
               this.state.step === "signature" &&
-                <CaptureSignature onPad={this.onPadRead}></CaptureSignature>
+                <CaptureSignature 
+                  onPad={this.onPadRead} 
+                  dni={this.state.dni}>
+                </CaptureSignature>
             }
 
             { 
