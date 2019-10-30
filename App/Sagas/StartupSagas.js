@@ -37,7 +37,7 @@ export function * startup (action) {
   }
 
   yield put(LoginActions.loginCheck())
-  yield put(LocationActions.locationStartup())
+  // yield put(LocationActions.locationStartup())
 
   // const avatar = yield select(selectAvatar)
   // // only get if we don't have it yet

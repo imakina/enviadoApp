@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
+import { View, PermissionsAndroid, Text } from "react-native";
 // import { Button } from "react-native-elements";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import LoginActions from "../Redux/LoginRedux";
@@ -23,6 +23,51 @@ const WelcomeButton = ({icon, title, onpress, enabled}) => (
     />
 )
 
+// permissions
+async function requestCameraPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      {
+        title: 'Permiso de Camara',
+        message: 'Enviado App necesita acceder a la camara ',
+        buttonNeutral: 'Luego',
+        buttonNegative: 'Cancelar',
+        buttonPositive: 'OK',
+      },
+    );
+    return (granted === PermissionsAndroid.RESULTS.GRANTED) 
+
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+async function requestLocationPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Permiso de Ubicacion',
+        message: 'Enviado App necesita acceder al GPS ',
+        buttonNeutral: 'Luego',
+        buttonNegative: 'Cancelar',
+        buttonPositive: 'OK',
+      },
+    );
+    // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //   console.log('You can use the gps');
+    // } else {
+    //   console.log('Camera permission denied');
+    // }
+    return (granted === PermissionsAndroid.RESULTS.GRANTED) 
+    
+  } catch (err) {
+    console.warn(err);
+  }
+}
+// end permissions
+
 class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -34,19 +79,12 @@ class WelcomeScreen extends Component {
   handlePressOR = () => {
     // TODO replace with the login logic
     this.props.resetPackages();
-    // deprectaed
-    // this.props.navigation.navigate("OrdenRetiroScreen");
-    // deprectaed
-    // this.props.activeOrdenRetiro(0);
     this.props.navigation.navigate("PackageListScreen");
   }
   handlePressDE = () => {
     // TODO replace with the login logic
     this.props.resetPackages();
     // move to depositoscreen
-    // deprecated 
-    // this.props.navigation.navigate("OrdenRetiroScreen");
-    // deprecated
     this.props.activeOrdenRetiro(0);
     this.props.navigation.navigate("PackageListScreen");
   }
@@ -58,10 +96,34 @@ class WelcomeScreen extends Component {
   render() {
 
     const buttonList = [
-      {id:1,icon: 'th-list', title: 'HOJA DE RUTA', onpress: ()=>this.handlePressHR(), enabled: false},
-      {id:2,icon: 'barcode', title: 'ORDEN DE RETIRO', onpress: ()=>this.handlePressOR(), enabled: this.props.login.deposito},
-      {id:3,icon: 'industry', title: 'DEPOSITO', onpress: ()=>this.handlePressDE(), enabled: !this.props.login.deposito},
-      // {id:4,icon: 'industry', title: 'PACKASAPP', onpress: ()=>this.handlePressDE(), enabled: !this.props.login.deposito},
+      {
+        id:1,
+        icon: 'th-list', 
+        title: 'HOJA DE RUTA', 
+        onpress: ()=>this.handlePressHR(), 
+        enabled: false
+      },
+      {
+        id:2,
+        icon: 'barcode', 
+        title: 'ORDEN DE RETIRO', 
+        onpress: ()=>this.handlePressOR(), 
+        enabled: this.props.login.deposito
+      },
+      {
+        id:3,
+        icon: 'industry', 
+        title: 'DEPOSITO', 
+        onpress: ()=>this.handlePressDE(), 
+        enabled: !this.props.login.deposito
+      },
+      // {
+      //   id:4,
+      //   icon: 'industry', 
+      //   title: 'PACKASAPP', 
+      //   onpress: ()=>this.handlePressDE(), 
+      //   enabled: !this.props.login.deposito
+      // },
     ];
 
     return (
@@ -73,21 +135,28 @@ class WelcomeScreen extends Component {
           title="ENVIADO.COM"
         />
 
-        <View style={[styles.formContainer]}>
-          
-          {
-            buttonList.map((btn) => (
-              <WelcomeButton
-                key={btn.id}
-                icon={btn.icon}
-                title={btn.title}
-                onpress={btn.onpress}
-                enabled={btn.enabled}
-              />
-            ))
-          }
+        { 
+          requestCameraPermission() &&
+          requestLocationPermission() ?
 
-        </View> 
+            <View style={[styles.formContainer]}>
+              
+              {
+                buttonList.map((btn) => (
+                  <WelcomeButton
+                    key={btn.id}
+                    icon={btn.icon}
+                    title={btn.title}
+                    onpress={btn.onpress}
+                    enabled={btn.enabled}
+                  />
+                ))
+              }
+
+            </View>
+        :
+            <View><Text style={{padding:30}}>{`Sin permisos`}</Text></View>
+        }
 
       </View>
     );

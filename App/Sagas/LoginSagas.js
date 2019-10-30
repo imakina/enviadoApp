@@ -25,6 +25,7 @@ export function* check() {
     //TODO evaluate date
     // console.tron.log("Alresady have a login saved");
     yield put(LoginActions.loginSuccess(account));
+    // yield put(LocationActions.locationStartup())
     // yield put(NavigationActions.navigate({ routeName: "HomeScreen" }));
     yield put(NavigationActions.navigate({ routeName: "WelcomeScreen" }));
   }
@@ -82,6 +83,7 @@ export function* login(api, action) {
 
     //yield put(LoginActions.loginSuccess(response.data.data))
     yield put(LoginActions.loginSuccess(data));
+    // yield put(LocationActions.locationStartup());
     //TODO
     //remove navigate from saga
     // yield put(NavigationActions.navigate({ routeName: "HomeScreen" }));

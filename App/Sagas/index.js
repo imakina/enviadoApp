@@ -80,6 +80,8 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_SUCCESS, rehydrateRemitos),
     // ===== trying to rehydrate the possible
     takeLatest(LoginTypes.LOGIN_SUCCESS, getMotivos, api),
+    // location
+    // takeLatest(LoginTypes.LOGIN_SUCCESS, openLocationWatch),
     
     // ===== some sagas about remitos
     takeLatest(RemitosTypes.REMITOS_REQUEST, getRemitos, api),
@@ -114,7 +116,7 @@ export default function * root () {
     takeLatest(SyncTypes.SYNC_REQUEST, sync, api),
 
     // location
-    takeLatest(LocationTypes.LOCATION_STARTUP, openLocationWatch)
+    // takeLatest(LocationTypes.LOCATION_STARTUP, openLocationWatch)
 
   ])
 }

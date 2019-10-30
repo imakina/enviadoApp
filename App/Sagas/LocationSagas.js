@@ -1,4 +1,5 @@
 
+import { PermissionsAndroid } from "react-native";
 import { all, call, put, takeEvery } from 'redux-saga/effects'
 // actions
 import LocationActions from "../Redux/LocationRedux";
@@ -6,6 +7,15 @@ import LocationActions from "../Redux/LocationRedux";
 
 // import { change } from '../Actions/Location'
 import { locationChangeChannel } from '../Services/Location'
+
+async function requestLocationPermission() {
+  try {
+    const granted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+    result (granted === true)
+  } catch (err) {
+    console.warn(err);
+  }
+}
 
 function * locationChange ({ coords }) {
   // The `latitude`, `longitude`
@@ -20,11 +30,15 @@ function * locationChange ({ coords }) {
 
 export function * openLocationWatch () {
 
+  if (requestLocationPermission() ) {
+
     console.log('openLocationWatch');
     const channel = yield call(locationChangeChannel)
     console.log('openLocationWatch',channel);
   
-  yield takeEvery(channel, locationChange)
+    yield takeEvery(channel, locationChange)
+
+  }
 }
 
 export default function * LocationSagas () {
