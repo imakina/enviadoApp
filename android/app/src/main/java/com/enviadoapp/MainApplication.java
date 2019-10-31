@@ -1,4 +1,4 @@
-package com.enviadoqr;
+package com.enviadoapp;
 
 import android.app.Application;
 
