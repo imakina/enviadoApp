@@ -21,6 +21,10 @@ export default class HeaderRemito extends Component {
     onClearSearch : PropTypes.func,
     onPressDistance : PropTypes.func,
   };
+  
+  state = {
+    search: 'Puede buscar desde aqui',
+  }
 
   onChangeTab = newIndex => {
     // console.log("changing index to ", newIndex);
@@ -36,9 +40,16 @@ export default class HeaderRemito extends Component {
     // console.tron.log('header press remito');
     this.props.onPressDistance();
   }
+
+  updateSearch = (search) => {
+    console.log('saving',search);
+    this.setState({ search });
+    this.props.onSearch(search);
+  };
   
   render() {
 
+    const { search } = this.state;
     const buttons = ['Pendientes', 'Todos']
     const proximidad = this.props.saveproximity ? " Ordenado por proximidad ":" Ordenado por BackOffice "
         
@@ -55,11 +66,12 @@ export default class HeaderRemito extends Component {
           buttons={buttons} />
 
         <SearchBar
-          onChangeText={this.props.onSearch}
-          onClearText={this.props.onClearSearch}
-          placeholder="Escriba aqui ..."
-          lightTheme
-          round
+          onChangeText={this.updateSearch}
+          //onClearText={this.props.onClearSearch}
+          value={search}
+          placeholder="Puede buscar desde aqui..."
+          // lightTheme
+          // roundoo
         />
 
         { this.props.tabIndex == 0 ?
